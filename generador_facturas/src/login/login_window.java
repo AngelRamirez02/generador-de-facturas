@@ -4,19 +4,27 @@
  */
 package login;
 
+import java.sql.*;
+import conexion.conexion;
+import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ar275
  */
 public class login_window extends javax.swing.JFrame {
 
-    /**
-     * Creates new form login_window
-     */
+    conexion cx;//variable para la conexion a la base de datos
     public login_window() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        cx = new conexion();//creacion de una nueva conexion
+        cx.conectar();//conectar a la base de datos
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,9 +37,9 @@ public class login_window extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        usuario = new javax.swing.JTextField();
+        usuario_entrada = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        password_entrada = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Iniciar Sesión");
@@ -60,19 +68,32 @@ public class login_window extends javax.swing.JFrame {
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jPanel2.setPreferredSize(new java.awt.Dimension(700, 450));
 
-        usuario.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        usuario.setToolTipText("");
-        usuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        usuario_entrada.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        usuario_entrada.setForeground(new java.awt.Color(153, 153, 153));
+        usuario_entrada.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        usuario_entrada.setText("Ingrese Usuario");
+        usuario_entrada.setToolTipText("");
+        usuario_entrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        usuario_entrada.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                usuario_entradaFocusGained(evt);
+            }
+        });
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 204));
+        jButton1.setBackground(new java.awt.Color(102, 102, 102));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Iniciar Sesión");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jPasswordField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        password_entrada.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        password_entrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        password_entrada.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -86,17 +107,17 @@ public class login_window extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(199, 199, 199)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(jPasswordField1))))
+                            .addComponent(usuario_entrada, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(password_entrada))))
                 .addContainerGap(199, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(173, Short.MAX_VALUE)
-                .addComponent(usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(usuario_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(password_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(69, 69, 69))
@@ -109,7 +130,7 @@ public class login_window extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(112, 112, 112)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
@@ -136,8 +157,43 @@ public class login_window extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            //Almacena los valores de entrada
+            String usuario = usuario_entrada.getText().trim();
+            String password = String.valueOf(password_entrada.getPassword());
+            //valida que los campos no esten vacios
+            if(usuario.isEmpty() || password.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese usuario y contraseña","Campos Vacios",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            //Creaciond de consulta segura con Prepared
+            String query = "SELECT * FROM usuario WHERE usuario = ? and password = ?";
+            //Preparar consulta
+            PreparedStatement ps =cx.conectar().prepareStatement(query);
+            ps.setString(1, usuario);
+            ps.setString(2, password);
+            //Executar consulta
+            ResultSet rs = ps.executeQuery();
+            //validar si se encontró el usuario
+            if(rs.next()){
+                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso","Datos correctos",JOptionPane.INFORMATION_MESSAGE);
+                usuario_entrada.setText("");
+                password_entrada.setText("");
+            }else{
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos","Error de autenticación",JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(login_window.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("NO SE CONECTO A LA BASE DE DATOS");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void usuario_entradaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usuario_entradaFocusGained
+         if(usuario_entrada.getText().equals("Ingrese Usuario")) {
+            usuario_entrada.setText("");
+            usuario_entrada.setForeground(Color.BLACK); // Cambiar el color del texto al original
+         }
+    }//GEN-LAST:event_usuario_entradaFocusGained
 
     /**
      * @param args the command line arguments
@@ -179,7 +235,7 @@ public class login_window extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField usuario;
+    private javax.swing.JPasswordField password_entrada;
+    private javax.swing.JTextField usuario_entrada;
     // End of variables declaration//GEN-END:variables
 }
