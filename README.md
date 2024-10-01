@@ -1,5 +1,5 @@
 # Generador-de-facturas
-sistema generador de facturas para el instituto Manuel Andrés López Obrador  
+Sistema generador de facturas para el instituto Manuel Andrés López Obrador  
 # Equipo de trabajo:
 1- De Leon Cruz Lesly Michell   21320986
 
