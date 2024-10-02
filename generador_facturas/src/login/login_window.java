@@ -33,6 +33,9 @@ public class login_window extends javax.swing.JFrame {
 
     public login_window() {
         initComponents();
+        //Modificar el teamño del logo
+        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         
         Image icon_block = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_block.png"));
         img_block.setIcon(new ImageIcon(icon_block.getScaledInstance(img_block.getWidth(), img_block.getHeight(), Image.SCALE_SMOOTH)));
@@ -97,6 +100,7 @@ public class login_window extends javax.swing.JFrame {
         img_user = new javax.swing.JLabel();
         img_block = new javax.swing.JLabel();
         mostrar_password = new javax.swing.JCheckBox();
+        logo_lb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Iniciar Sesión");
@@ -131,7 +135,7 @@ public class login_window extends javax.swing.JFrame {
         usuario_entrada.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         usuario_entrada.setToolTipText("");
         usuario_entrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        panel_login.add(usuario_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 300, 45));
+        panel_login.add(usuario_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 300, 45));
 
         iniciar_sesion.setBackground(new java.awt.Color(102, 102, 102));
         iniciar_sesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -155,7 +159,7 @@ public class login_window extends javax.swing.JFrame {
         etiqueta_usuario.setLabelFor(usuario_entrada);
         etiqueta_usuario.setText("Usuario");
         etiqueta_usuario.setAlignmentX(0.5F);
-        panel_login.add(etiqueta_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 144, 80, -1));
+        panel_login.add(etiqueta_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 160, 80, -1));
 
         etiqueta_password.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         etiqueta_password.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -175,7 +179,7 @@ public class login_window extends javax.swing.JFrame {
         img_user.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         img_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         img_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_user.png"))); // NOI18N
-        panel_login.add(img_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, 40, 50));
+        panel_login.add(img_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 180, 40, 50));
 
         img_block.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         img_block.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_block.png"))); // NOI18N
@@ -191,6 +195,9 @@ public class login_window extends javax.swing.JFrame {
             }
         });
         panel_login.add(mostrar_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, -1, 20));
+
+        logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
+        panel_login.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 190, 150));
 
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
@@ -262,9 +269,11 @@ public class login_window extends javax.swing.JFrame {
         if (mostrar_password.isSelected()) {
             // Mostrar la contraseña en texto
             password_entrada.setEchoChar((char) 0);
+            password_entrada.requestFocusInWindow();
         } else {
             // Ocultar la contraseña con el carácter por defecto (asterisco)
             password_entrada.setEchoChar('*');
+            password_entrada.requestFocusInWindow();
         }
     }//GEN-LAST:event_mostrar_passwordActionPerformed
 
@@ -313,6 +322,7 @@ public class login_window extends javax.swing.JFrame {
     private javax.swing.JLabel img_block;
     private javax.swing.JLabel img_user;
     private javax.swing.JButton iniciar_sesion;
+    private javax.swing.JLabel logo_lb;
     private javax.swing.JCheckBox mostrar_password;
     private javax.swing.JPanel panel_login;
     private javax.swing.JPasswordField password_entrada;
