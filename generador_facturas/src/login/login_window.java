@@ -7,10 +7,21 @@ package login;
 import java.sql.*;
 import conexion.conexion;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import javax.swing.Timer;
 
 /**
  *
@@ -19,12 +30,49 @@ import javax.swing.JOptionPane;
 public class login_window extends javax.swing.JFrame {
 
     conexion cx;//variable para la conexion a la base de datos
+
     public login_window() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        
+        Image icon_block = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_block.png"));
+        img_block.setIcon(new ImageIcon(icon_block.getScaledInstance(img_block.getWidth(), img_block.getHeight(), Image.SCALE_SMOOTH)));
+        //Configuracion de bordes para las entradas
+        usuario_entrada.setBorder(new CompoundBorder(
+                new LineBorder(Color.BLACK), // Borde exterior
+                new EmptyBorder(5, 10, 5, 10) // "Padding" interno
+        ));
+        password_entrada.setBorder(new CompoundBorder(
+                new LineBorder(Color.BLACK), // Borde exterior
+                new EmptyBorder(5, 10, 5, 10) // "Padding" interno
+        ));
+        
+        // Formatear la fecha en el formato "dd/MM/yyyy"
+        LocalDate fechaActual = LocalDate.now();
+        // Crear un formato con localización en español
+        DateTimeFormatter formatoEspanol = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        // Formatear la fecha en español
+        String fechaFormateada = fechaActual.format(formatoEspanol);
+        Fecha.setText(fechaFormateada);//Mostar hora
+        
         cx = new conexion();//creacion de una nueva conexion
         cx.conectar();//conectar a la base de datos
+
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Obtener la hora actual
+                LocalTime horaActual = LocalTime.now();
+                // Formatear la hora en el formato "HH:mm:ss"
+                DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm:ss a");
+                String horaFormateada = horaActual.format(formatoHora);
+                // Actualizar el JLabel con la hora actual
+                hora_lb.setText(horaFormateada);
+            }
+        });
+        timer.start();
+        this.setLocationRelativeTo(null);//La ventana aparece en el centro
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,111 +82,120 @@ public class login_window extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        fondo = new javax.swing.JPanel();
+        barra_nav = new javax.swing.JPanel();
+        Fecha = new javax.swing.JLabel();
+        hora_lb = new javax.swing.JLabel();
+        panel_login = new javax.swing.JPanel();
         usuario_entrada = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        iniciar_sesion = new javax.swing.JButton();
         password_entrada = new javax.swing.JPasswordField();
+        etiqueta_usuario = new javax.swing.JLabel();
+        etiqueta_password = new javax.swing.JLabel();
+        txt_year = new javax.swing.JLabel();
+        text_facturacion = new javax.swing.JLabel();
+        img_user = new javax.swing.JLabel();
+        img_block = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Iniciar Sesión");
         setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(900, 600));
+        fondo.setBackground(new java.awt.Color(255, 255, 255));
+        fondo.setPreferredSize(new java.awt.Dimension(900, 600));
 
-        jPanel1.setBackground(new java.awt.Color(198, 54, 55));
-        jPanel1.setName("instituo Manuel Andres Lopez Obrador - Login"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(0, 70));
+        barra_nav.setBackground(new java.awt.Color(198, 54, 55));
+        barra_nav.setName("instituo Manuel Andres Lopez Obrador - Login"); // NOI18N
+        barra_nav.setPreferredSize(new java.awt.Dimension(0, 70));
+        barra_nav.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 924, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
-        );
+        Fecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Fecha.setForeground(new java.awt.Color(255, 255, 255));
+        Fecha.setText("Fecha: ");
+        barra_nav.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 260, -1));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanel2.setPreferredSize(new java.awt.Dimension(700, 450));
+        hora_lb.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        hora_lb.setForeground(new java.awt.Color(255, 255, 255));
+        hora_lb.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        hora_lb.setText("Hora: ");
+        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 110, -1));
+
+        panel_login.setBackground(new java.awt.Color(255, 255, 255));
+        panel_login.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        panel_login.setPreferredSize(new java.awt.Dimension(700, 450));
+        panel_login.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         usuario_entrada.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        usuario_entrada.setForeground(new java.awt.Color(153, 153, 153));
         usuario_entrada.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        usuario_entrada.setText("Ingrese Usuario");
         usuario_entrada.setToolTipText("");
         usuario_entrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        usuario_entrada.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                usuario_entradaFocusGained(evt);
-            }
-        });
+        panel_login.add(usuario_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 300, 45));
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Iniciar Sesión");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        iniciar_sesion.setBackground(new java.awt.Color(102, 102, 102));
+        iniciar_sesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        iniciar_sesion.setForeground(new java.awt.Color(255, 255, 255));
+        iniciar_sesion.setText("Iniciar Sesión");
+        iniciar_sesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iniciar_sesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                iniciar_sesionActionPerformed(evt);
             }
         });
+        panel_login.add(iniciar_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 347, 168, 45));
 
         password_entrada.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         password_entrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         password_entrada.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        panel_login.add(password_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 265, 300, 45));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(253, 253, 253)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(199, 199, 199)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usuario_entrada, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(password_entrada))))
-                .addContainerGap(199, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(173, Short.MAX_VALUE)
-                .addComponent(usuario_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(password_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69))
-        );
+        etiqueta_usuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        etiqueta_usuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiqueta_usuario.setLabelFor(usuario_entrada);
+        etiqueta_usuario.setText("Usuario");
+        etiqueta_usuario.setAlignmentX(0.5F);
+        panel_login.add(etiqueta_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 144, 80, -1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(112, 112, 112)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
+        etiqueta_password.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        etiqueta_password.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiqueta_password.setLabelFor(password_entrada);
+        etiqueta_password.setText("Contraseña");
+        panel_login.add(etiqueta_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(416, 239, 84, -1));
+
+        txt_year.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
+        txt_year.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_year.setText("2024 - MTAL SOLUTIONS");
+        panel_login.add(txt_year, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 420, 110, 20));
+
+        text_facturacion.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
+        text_facturacion.setText("Facturación Electronica CFDI");
+        panel_login.add(text_facturacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 440, -1, -1));
+
+        img_user.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        img_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        img_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_user.png"))); // NOI18N
+        panel_login.add(img_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, 40, 50));
+
+        img_block.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        img_block.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_block.png"))); // NOI18N
+        panel_login.add(img_block, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 40, 40));
+
+        javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
+        fondo.setLayout(fondoLayout);
+        fondoLayout.setHorizontalGroup(
+            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(panel_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(106, Short.MAX_VALUE))
+            .addComponent(barra_nav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        fondoLayout.setVerticalGroup(
+            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addComponent(barra_nav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel_login, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 52, Short.MAX_VALUE))
         );
 
@@ -146,54 +203,47 @@ public class login_window extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
+            .addComponent(fondo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(fondo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void iniciar_sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciar_sesionActionPerformed
         try {
             //Almacena los valores de entrada
             String usuario = usuario_entrada.getText().trim();
             String password = String.valueOf(password_entrada.getPassword());
             //valida que los campos no esten vacios
-            if(usuario.isEmpty() || password.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Por favor ingrese usuario y contraseña","Campos Vacios",JOptionPane.ERROR_MESSAGE);
+            if (usuario.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese usuario y contraseña", "Campos Vacios", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             //Creaciond de consulta segura con Prepared
             String query = "SELECT * FROM usuario WHERE usuario = ? and password = ?";
             //Preparar consulta
-            PreparedStatement ps =cx.conectar().prepareStatement(query);
+            PreparedStatement ps = cx.conectar().prepareStatement(query);
             ps.setString(1, usuario);
             ps.setString(2, password);
             //Executar consulta
             ResultSet rs = ps.executeQuery();
             //validar si se encontró el usuario
-            if(rs.next()){
-                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso","Datos correctos",JOptionPane.INFORMATION_MESSAGE);
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso", "Datos correctos", JOptionPane.INFORMATION_MESSAGE);
                 usuario_entrada.setText("");
                 password_entrada.setText("");
-            }else{
-                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos","Error de autenticación",JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             //Logger.getLogger(login_window.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("NO SE CONECTO A LA BASE DE DATOS");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void usuario_entradaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usuario_entradaFocusGained
-         if(usuario_entrada.getText().equals("Ingrese Usuario")) {
-            usuario_entrada.setText("");
-            usuario_entrada.setForeground(Color.BLACK); // Cambiar el color del texto al original
-         }
-    }//GEN-LAST:event_usuario_entradaFocusGained
+    }//GEN-LAST:event_iniciar_sesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,11 +281,19 @@ public class login_window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel Fecha;
+    private javax.swing.JPanel barra_nav;
+    private javax.swing.JLabel etiqueta_password;
+    private javax.swing.JLabel etiqueta_usuario;
+    private javax.swing.JPanel fondo;
+    private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel img_block;
+    private javax.swing.JLabel img_user;
+    private javax.swing.JButton iniciar_sesion;
+    private javax.swing.JPanel panel_login;
     private javax.swing.JPasswordField password_entrada;
+    private javax.swing.JLabel text_facturacion;
+    private javax.swing.JLabel txt_year;
     private javax.swing.JTextField usuario_entrada;
     // End of variables declaration//GEN-END:variables
 }
