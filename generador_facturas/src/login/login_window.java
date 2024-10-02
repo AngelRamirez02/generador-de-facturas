@@ -96,6 +96,7 @@ public class login_window extends javax.swing.JFrame {
         text_facturacion = new javax.swing.JLabel();
         img_user = new javax.swing.JLabel();
         img_block = new javax.swing.JLabel();
+        mostrar_password = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Iniciar Sesión");
@@ -142,7 +143,7 @@ public class login_window extends javax.swing.JFrame {
                 iniciar_sesionActionPerformed(evt);
             }
         });
-        panel_login.add(iniciar_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 347, 168, 45));
+        panel_login.add(iniciar_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, 168, 45));
 
         password_entrada.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         password_entrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -179,6 +180,17 @@ public class login_window extends javax.swing.JFrame {
         img_block.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         img_block.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_block.png"))); // NOI18N
         panel_login.add(img_block, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 40, 40));
+
+        mostrar_password.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        mostrar_password.setText("   Mostrar contraseña");
+        mostrar_password.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        mostrar_password.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mostrar_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mostrar_passwordActionPerformed(evt);
+            }
+        });
+        panel_login.add(mostrar_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, -1, 20));
 
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
@@ -245,6 +257,17 @@ public class login_window extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_iniciar_sesionActionPerformed
 
+    private void mostrar_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrar_passwordActionPerformed
+        //boton para mostrar y ocultar contraseña
+        if (mostrar_password.isSelected()) {
+            // Mostrar la contraseña en texto
+            password_entrada.setEchoChar((char) 0);
+        } else {
+            // Ocultar la contraseña con el carácter por defecto (asterisco)
+            password_entrada.setEchoChar('*');
+        }
+    }//GEN-LAST:event_mostrar_passwordActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -290,6 +313,7 @@ public class login_window extends javax.swing.JFrame {
     private javax.swing.JLabel img_block;
     private javax.swing.JLabel img_user;
     private javax.swing.JButton iniciar_sesion;
+    private javax.swing.JCheckBox mostrar_password;
     private javax.swing.JPanel panel_login;
     private javax.swing.JPasswordField password_entrada;
     private javax.swing.JLabel text_facturacion;
