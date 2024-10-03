@@ -6,6 +6,7 @@ package login;
 
 import java.sql.*;
 import conexion.conexion;
+import emisor.PrimerInicio;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -17,11 +18,11 @@ import javax.swing.JOptionPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.Timer;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import javax.swing.Timer;
 
 /**
  *
@@ -36,7 +37,7 @@ public class login_window extends javax.swing.JFrame {
         //Modificar el teamño del logo
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
-        
+        this.setIconImage(logo_img);//agregar logo a ventana
         Image icon_block = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_block.png"));
         img_block.setIcon(new ImageIcon(icon_block.getScaledInstance(img_block.getWidth(), img_block.getHeight(), Image.SCALE_SMOOTH)));
         //Configuracion de bordes para las entradas
@@ -141,7 +142,9 @@ public class login_window extends javax.swing.JFrame {
         iniciar_sesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         iniciar_sesion.setForeground(new java.awt.Color(255, 255, 255));
         iniciar_sesion.setText("Iniciar Sesión");
+        iniciar_sesion.setBorderPainted(false);
         iniciar_sesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iniciar_sesion.setFocusPainted(false);
         iniciar_sesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 iniciar_sesionActionPerformed(evt);
@@ -252,9 +255,20 @@ public class login_window extends javax.swing.JFrame {
             ResultSet rs = ps.executeQuery();
             //validar si se encontró el usuario
             if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso", "Datos correctos", JOptionPane.INFORMATION_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso", "Datos correctos", JOptionPane.INFORMATION_MESSAGE);
                 usuario_entrada.setText("");
                 password_entrada.setText("");
+                //Verifica que aun no exista ningun emisor
+                String emisor_existente = "SELECT * FROM emisor";
+                Statement consult_emisor=cx.conectar().createStatement();
+                ResultSet rs_emisor = consult_emisor.executeQuery(emisor_existente);
+                if(rs_emisor.next()){//Si existe un emisor te redirije al menu principal
+                    System.out.println("Emisor existente");
+                }else{//Sino te dirije a la ventana de primir inicio
+                    PrimerInicio ventana = new PrimerInicio();
+                    ventana.setVisible(true);
+                    this.setVisible(false);
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
             }

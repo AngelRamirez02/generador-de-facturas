@@ -7,6 +7,7 @@ package emisor;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -18,13 +19,14 @@ public class PrimerInicio extends javax.swing.JFrame {
     /**
      * Creates new form PrimerInicio
      */
+    Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
     public PrimerInicio() {
         initComponents();
         //Personalizar el tamaño del logo
-        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         //Mostrar ventana en el centro
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
+        this.setIconImage(logo_img);//Agregar logo a ventana
     }
 
     /**
@@ -55,6 +57,7 @@ public class PrimerInicio extends javax.swing.JFrame {
         icon_continuar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Instituto Manuel Andres Lopez Obrador - Bienvenida");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -159,14 +162,27 @@ public class PrimerInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
+        //boton para salir del programa
+        Object[] opciones ={"Salir","Cancelar"};
         if (SwingUtilities.isLeftMouseButton(evt)) {
-            System.out.println("Se hizo clic con el boton izquierdo.");
+            //dialogo que pregunta si desea confirmar salir
+            int opcionSeleccionada = JOptionPane.showOptionDialog(null, 
+            "¿Deseas salir de la aplicación?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, 
+            null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                System.exit(0); // Salir del programa
+            } else {
+                return;
+            }
         }
     }//GEN-LAST:event_btn_salirMouseClicked
 
     private void btn_continuarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_continuarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
-            System.out.println("Se hizo clic con el boton izquierdo.");
+            AltaEmisor ventana = new AltaEmisor();
+            ventana.setVisible(true);
+            this.setVisible(false);
         }
     }//GEN-LAST:event_btn_continuarMouseClicked
 
