@@ -4,6 +4,16 @@
  */
 package emisor;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author ar275
@@ -15,7 +25,13 @@ public class AltaEmisor extends javax.swing.JFrame {
      */
     public AltaEmisor() {
         initComponents();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        this.setSize(this.getSize().width,screenSize.height);
+        this.setLocationRelativeTo(null);//La ventana aparece en el centro
+        this.setLocation(this.getLocation().x,0);
     }
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,21 +42,202 @@ public class AltaEmisor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fondo = new javax.swing.JPanel();
+        barra_nav = new javax.swing.JPanel();
+        Fecha = new javax.swing.JLabel();
+        hora_lb = new javax.swing.JLabel();
+        entrada_fechaNacimiento = new com.toedter.calendar.JDateChooser();
+        datosfiscales_titulo = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        datosPersonales_titulo = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        registrarEmisor_Titulo = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        nombres_lb = new javax.swing.JLabel();
+        entrada_nombres = new javax.swing.JTextField();
+        entrada_apellidoPaterno = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        entrada_apellidoMaterno = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        entrada_correoElectronico = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        entrada_rfc = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        btn_guardarDatos = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        entrada_regimen = new javax.swing.JComboBox<>();
+        entrada_cp = new javax.swing.JFormattedTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Instituto Manuel Andres Lopez Obrador - Alta Emisor");
+        setMinimumSize(new java.awt.Dimension(912, 600));
+
+        fondo.setBackground(new java.awt.Color(240, 240, 240));
+        fondo.setPreferredSize(new java.awt.Dimension(1043, 610));
+        fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        barra_nav.setBackground(new java.awt.Color(198, 54, 55));
+        barra_nav.setName("instituo Manuel Andres Lopez Obrador - Login"); // NOI18N
+        barra_nav.setPreferredSize(new java.awt.Dimension(0, 70));
+        barra_nav.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Fecha.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        Fecha.setForeground(new java.awt.Color(255, 255, 255));
+        Fecha.setText("Fecha: ");
+        barra_nav.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 260, -1));
+
+        hora_lb.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        hora_lb.setForeground(new java.awt.Color(255, 255, 255));
+        hora_lb.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        hora_lb.setText("Hora: ");
+        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 110, -1));
+
+        fondo.add(barra_nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1043, -1));
+
+        entrada_fechaNacimiento.setDateFormatString("dd MMM y");
+        fondo.add(entrada_fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 426, 190, -1));
+
+        datosfiscales_titulo.setBackground(new java.awt.Color(255, 255, 255));
+        datosfiscales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Teko", 1, 24)); // NOI18N
+        jLabel3.setText("Datos fiscales");
+        datosfiscales_titulo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 30));
+
+        fondo.add(datosfiscales_titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, 170, -1));
+
+        datosPersonales_titulo.setBackground(new java.awt.Color(255, 255, 255));
+        datosPersonales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Teko", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Datos personales");
+        datosPersonales_titulo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 30));
+
+        fondo.add(datosPersonales_titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 180, 200, -1));
+
+        registrarEmisor_Titulo.setBackground(new java.awt.Color(255, 255, 255));
+        registrarEmisor_Titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Teko", 1, 48)); // NOI18N
+        jLabel4.setText("Registrar emisor");
+        registrarEmisor_Titulo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 60));
+
+        fondo.add(registrarEmisor_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(181, 88, 610, 60));
+
+        nombres_lb.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        nombres_lb.setLabelFor(entrada_nombres);
+        nombres_lb.setText("Nombres");
+        fondo.add(nombres_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 110, -1));
+        fondo.add(entrada_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 237, 190, -1));
+        fondo.add(entrada_apellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 302, 190, -1));
+
+        jLabel2.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel2.setText("Apellido peterno");
+        fondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 305, 130, -1));
+
+        jLabel5.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel5.setText("Apellido Materno");
+        fondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 367, 130, -1));
+        fondo.add(entrada_apellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 364, 190, -1));
+
+        jLabel6.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel6.setText("Fecha de nacimiento");
+        fondo.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 180, 20));
+
+        jLabel7.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel7.setText("Correo electronico");
+        fondo.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 490, 170, 20));
+        fondo.add(entrada_correoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 490, 190, -1));
+
+        jLabel8.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel8.setText("RFC");
+        fondo.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 240, -1, -1));
+        fondo.add(entrada_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 240, 157, -1));
+
+        jLabel9.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel9.setText("Regimen Fiscal");
+        fondo.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 370, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel10.setText("Código postal");
+        fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 300, 120, -1));
+
+        btn_guardarDatos.setBackground(new java.awt.Color(217, 217, 217));
+        btn_guardarDatos.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btn_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_guardarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_guardarDatosMouseClicked(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Guardar datos del emisor");
+
+        javax.swing.GroupLayout btn_guardarDatosLayout = new javax.swing.GroupLayout(btn_guardarDatos);
+        btn_guardarDatos.setLayout(btn_guardarDatosLayout);
+        btn_guardarDatosLayout.setHorizontalGroup(
+            btn_guardarDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_guardarDatosLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        btn_guardarDatosLayout.setVerticalGroup(
+            btn_guardarDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        fondo.add(btn_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 550, 240, 40));
+
+        entrada_regimen.setFont(new java.awt.Font("Teko", 1, 14)); // NOI18N
+        entrada_regimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Simplificado de Confianza. ", "612  Persona Física con Actividad Empresarial", "605  Sueldos y Salarios e Ingresos Asimilados a Salarios" }));
+        entrada_regimen.setSelectedIndex(1);
+        fondo.add(entrada_regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 360, 350, 30));
+
+        try {
+            entrada_cp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        fondo.add(entrada_cp, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 300, 160, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 1043, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public boolean camposVcaios(){//Funcion que valida que ningun campo este vacio
+        return entrada_nombres.getText().isEmpty() || entrada_apellidoPaterno.getText().isEmpty()
+                || entrada_apellidoMaterno.getText().isEmpty() || entrada_fechaNacimiento.getDate()==null
+                || entrada_correoElectronico.getText().isEmpty() || entrada_rfc.getText().isEmpty()
+                || entrada_cp.getText().isEmpty();
+    }
+    private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            if(camposVcaios()){
+                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "No pueden existir campos Vacios", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            System.out.println("Muy bien");
+        }
+    }//GEN-LAST:event_btn_guardarDatosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +276,33 @@ public class AltaEmisor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Fecha;
+    private javax.swing.JPanel barra_nav;
+    private javax.swing.JPanel btn_guardarDatos;
+    private javax.swing.JPanel datosPersonales_titulo;
+    private javax.swing.JPanel datosfiscales_titulo;
+    private javax.swing.JTextField entrada_apellidoMaterno;
+    private javax.swing.JTextField entrada_apellidoPaterno;
+    private javax.swing.JTextField entrada_correoElectronico;
+    private javax.swing.JFormattedTextField entrada_cp;
+    private com.toedter.calendar.JDateChooser entrada_fechaNacimiento;
+    private javax.swing.JTextField entrada_nombres;
+    private javax.swing.JComboBox<String> entrada_regimen;
+    private javax.swing.JTextField entrada_rfc;
+    private javax.swing.JPanel fondo;
+    private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel nombres_lb;
+    private javax.swing.JPanel registrarEmisor_Titulo;
     // End of variables declaration//GEN-END:variables
 }
