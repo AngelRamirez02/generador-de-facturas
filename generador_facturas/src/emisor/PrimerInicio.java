@@ -6,9 +6,16 @@ package emisor;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 /**
  *
@@ -27,6 +34,28 @@ public class PrimerInicio extends javax.swing.JFrame {
         //Mostrar ventana en el centro
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setIconImage(logo_img);//Agregar logo a ventana
+        
+                // Formatear la fecha en el formato "dd/MM/yyyy"
+        LocalDate fechaActual = LocalDate.now();
+        // Crear un formato con localización en español
+        DateTimeFormatter formatoEspanol = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        // Formatear la fecha en español
+        String fechaFormateada = fechaActual.format(formatoEspanol);
+        Fecha.setText(fechaFormateada);//Mostar hora
+        //Mostrar la hora en tiempo real
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Obtener la hora actual
+                LocalTime horaActual = LocalTime.now();
+                // Formatear la hora en el formato "HH:mm:ss"
+                DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm:ss a");
+                String horaFormateada = horaActual.format(formatoHora);
+                // Actualizar el JLabel con la hora actual
+                hora_lb.setText(horaFormateada);
+            }
+        });
+        timer.start();
     }
 
     /**
@@ -48,9 +77,9 @@ public class PrimerInicio extends javax.swing.JFrame {
         logo_lb = new javax.swing.JLabel();
         msj_text1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        btn_salir = new javax.swing.JPanel();
+        btn_salir = new paneles.PanelRound();
         text_salir = new javax.swing.JLabel();
-        btn_continuar = new javax.swing.JPanel();
+        btn_continuar = new paneles.PanelRound();
         text_continuar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -112,7 +141,10 @@ public class PrimerInicio extends javax.swing.JFrame {
         fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, -1, -1));
 
         btn_salir.setBackground(new java.awt.Color(198, 54, 55));
-        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_salir.setRoundBottomLeft(10);
+        btn_salir.setRoundBottomRight(10);
+        btn_salir.setRoundTopLeft(10);
+        btn_salir.setRoundTopRight(10);
         btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_salirMouseClicked(evt);
@@ -124,12 +156,16 @@ public class PrimerInicio extends javax.swing.JFrame {
         text_salir.setForeground(new java.awt.Color(255, 255, 255));
         text_salir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         text_salir.setText("Salir");
+        text_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 50));
 
         fondo.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 530, 110, 50));
 
         btn_continuar.setBackground(new java.awt.Color(198, 54, 55));
-        btn_continuar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_continuar.setRoundBottomLeft(10);
+        btn_continuar.setRoundBottomRight(10);
+        btn_continuar.setRoundTopLeft(10);
+        btn_continuar.setRoundTopRight(10);
         btn_continuar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_continuarMouseClicked(evt);
@@ -141,6 +177,7 @@ public class PrimerInicio extends javax.swing.JFrame {
         text_continuar.setForeground(new java.awt.Color(255, 255, 255));
         text_continuar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         text_continuar.setText("Continuar");
+        text_continuar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_continuar.add(text_continuar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 50));
 
         fondo.add(btn_continuar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 530, 160, 50));
@@ -152,12 +189,12 @@ public class PrimerInicio extends javax.swing.JFrame {
 
     private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
         //boton para salir del programa
-        Object[] opciones ={"Salir","Cancelar"};
+        Object[] opciones = {"Salir", "Cancelar"};
         if (SwingUtilities.isLeftMouseButton(evt)) {
             //dialogo que pregunta si desea confirmar salir
-            int opcionSeleccionada = JOptionPane.showOptionDialog(null, 
-            "¿Deseas salir de la aplicación?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, 
-            null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
+                    "¿Deseas salir de la aplicación?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                    null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 System.exit(0); // Salir del programa
@@ -213,8 +250,8 @@ public class PrimerInicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
     private javax.swing.JPanel barra_nav;
-    private javax.swing.JPanel btn_continuar;
-    private javax.swing.JPanel btn_salir;
+    private paneles.PanelRound btn_continuar;
+    private paneles.PanelRound btn_salir;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel hora_lb;
     private javax.swing.JLabel jLabel1;

@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -90,6 +91,9 @@ public class login_window extends javax.swing.JFrame {
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
+        btn_salir = new javax.swing.JPanel();
+        icon_salir = new javax.swing.JLabel();
+        text_salir = new javax.swing.JLabel();
         panel_login = new javax.swing.JPanel();
         usuario_entrada = new javax.swing.JTextField();
         iniciar_sesion = new javax.swing.JButton();
@@ -102,6 +106,8 @@ public class login_window extends javax.swing.JFrame {
         img_block = new javax.swing.JLabel();
         mostrar_password = new javax.swing.JCheckBox();
         logo_lb = new javax.swing.JLabel();
+        panelRound2 = new paneles.PanelRound();
+        panelRound1 = new paneles.PanelRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Iniciar Sesión");
@@ -110,6 +116,7 @@ public class login_window extends javax.swing.JFrame {
 
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setPreferredSize(new java.awt.Dimension(900, 600));
+        fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         barra_nav.setBackground(new java.awt.Color(198, 54, 55));
         barra_nav.setName("instituo Manuel Andres Lopez Obrador - Login"); // NOI18N
@@ -127,8 +134,29 @@ public class login_window extends javax.swing.JFrame {
         hora_lb.setText("Hora: ");
         barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 110, -1));
 
-        panel_login.setBackground(new java.awt.Color(255, 255, 255));
-        panel_login.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        btn_salir.setBackground(new java.awt.Color(169, 30, 31));
+        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_salirMouseClicked(evt);
+            }
+        });
+        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
+        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
+
+        text_salir.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        text_salir.setForeground(new java.awt.Color(255, 255, 255));
+        text_salir.setText("Salir");
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 60, 50));
+
+        barra_nav.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 10, 150, 50));
+
+        fondo.add(barra_nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 924, -1));
+
+        panel_login.setBackground(new java.awt.Color(0, 0, 0));
         panel_login.setPreferredSize(new java.awt.Dimension(700, 450));
         panel_login.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -202,24 +230,24 @@ public class login_window extends javax.swing.JFrame {
         logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
         panel_login.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 190, 160));
 
-        javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
-        fondo.setLayout(fondoLayout);
-        fondoLayout.setHorizontalGroup(
-            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addComponent(panel_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(106, Short.MAX_VALUE))
-            .addComponent(barra_nav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        fondoLayout.setVerticalGroup(
-            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addComponent(barra_nav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(panel_login, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 52, Short.MAX_VALUE))
-        );
+        panelRound2.setBackground(new java.awt.Color(255, 255, 255));
+        panelRound2.setRoundBottomLeft(10);
+        panelRound2.setRoundBottomRight(10);
+        panelRound2.setRoundTopLeft(10);
+        panelRound2.setRoundTopRight(10);
+        panelRound2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panel_login.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 460));
+
+        fondo.add(panel_login, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 88, 700, 460));
+
+        panelRound1.setBackground(new java.awt.Color(0, 0, 0));
+        panelRound1.setPreferredSize(new java.awt.Dimension(708, 480));
+        panelRound1.setRoundBottomLeft(20);
+        panelRound1.setRoundBottomRight(20);
+        panelRound1.setRoundTopLeft(20);
+        panelRound1.setRoundTopRight(20);
+        panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        fondo.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 82, 715, 475));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -291,6 +319,22 @@ public class login_window extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mostrar_passwordActionPerformed
 
+    private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            //dialogo que pregunta si desea confirmar salir
+            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
+                "¿Cerrar sesión y salir?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                System.exit(0); // Salir del programa
+            } else {
+                return;
+            }
+        }
+    }//GEN-LAST:event_btn_salirMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -329,18 +373,23 @@ public class login_window extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
     private javax.swing.JPanel barra_nav;
+    private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel etiqueta_password;
     private javax.swing.JLabel etiqueta_usuario;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel img_block;
     private javax.swing.JLabel img_user;
     private javax.swing.JButton iniciar_sesion;
     private javax.swing.JLabel logo_lb;
     private javax.swing.JCheckBox mostrar_password;
+    private paneles.PanelRound panelRound1;
+    private paneles.PanelRound panelRound2;
     private javax.swing.JPanel panel_login;
     private javax.swing.JPasswordField password_entrada;
     private javax.swing.JLabel text_facturacion;
+    private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_year;
     private javax.swing.JTextField usuario_entrada;
     // End of variables declaration//GEN-END:variables

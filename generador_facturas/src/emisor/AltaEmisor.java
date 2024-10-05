@@ -4,15 +4,23 @@
  */
 package emisor;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import conexion.conexion;
+import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import login.login_window;
 
 /**
  *
@@ -23,12 +31,43 @@ public class AltaEmisor extends javax.swing.JFrame {
     /**
      * Creates new form alta_emisor
      */
+    conexion cx = new conexion();//conexion a la base de datos
+    Image menu_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/menu_icon.png"));
+    //Imagen x del menu
+    Image equis_icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/menu_iconx.png"));
+    Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/file.png"));
+
     public AltaEmisor() {
         initComponents();
+        btn_menu.setIcon(new ImageIcon(menu_img.getScaledInstance( btn_menu.getWidth(),btn_menu.getHeight(), Image.SCALE_SMOOTH)));
+        logo_nav.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_nav.getWidth(), logo_nav.getHeight(), Image.SCALE_SMOOTH)));
+        menu_salir.setVisible(false);
 //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //        this.setSize(this.getSize().width,screenSize.height);
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setLocation(this.getLocation().x,0);
+        
+        // Formatear la fecha en el formato "dd/MM/yyyy"
+        LocalDate fechaActual = LocalDate.now();
+        // Crear un formato con localización en español
+        DateTimeFormatter formatoEspanol = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        // Formatear la fecha en español
+        String fechaFormateada = fechaActual.format(formatoEspanol);
+        Fecha.setText(fechaFormateada);//Mostar hora
+        //Mostrar la hora en tiempo real
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Obtener la hora actual
+                LocalTime horaActual = LocalTime.now();
+                // Formatear la hora en el formato "HH:mm:ss"
+                DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm:ss a");
+                String horaFormateada = horaActual.format(formatoHora);
+                // Actualizar el JLabel con la hora actual
+                hora_lb.setText(horaFormateada);
+            }
+        });
+        timer.start();
     }
     
 
@@ -46,6 +85,8 @@ public class AltaEmisor extends javax.swing.JFrame {
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
+        btn_menu = new javax.swing.JLabel();
+        logo_nav = new javax.swing.JLabel();
         entrada_fechaNacimiento = new com.toedter.calendar.JDateChooser();
         datosfiscales_titulo = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -66,10 +107,22 @@ public class AltaEmisor extends javax.swing.JFrame {
         entrada_rfc = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        btn_guardarDatos = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
         entrada_regimen = new javax.swing.JComboBox<>();
         entrada_cp = new javax.swing.JFormattedTextField();
+        menu_salir = new javax.swing.JPanel();
+        btn_salir = new javax.swing.JPanel();
+        icon_salir = new javax.swing.JLabel();
+        text_salir = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        btn_cerrarSesion = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        btn_guardarDatos = new paneles.PanelRound();
+        contenero_btn = new paneles.PanelRound();
+        text_guardarDatos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Alta Emisor");
@@ -95,7 +148,17 @@ public class AltaEmisor extends javax.swing.JFrame {
         hora_lb.setText("Hora: ");
         barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 110, -1));
 
-        fondo.add(barra_nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1043, -1));
+        btn_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/menu_icon.png"))); // NOI18N
+        btn_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_menuMouseClicked(evt);
+            }
+        });
+        barra_nav.add(btn_menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 20, 50, 40));
+        barra_nav.add(logo_nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 80, 80));
+
+        fondo.add(barra_nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1043, 80));
 
         entrada_fechaNacimiento.setDateFormatString("dd MMM y");
         fondo.add(entrada_fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 426, 190, -1));
@@ -126,7 +189,7 @@ public class AltaEmisor extends javax.swing.JFrame {
         jLabel4.setText("Registrar emisor");
         registrarEmisor_Titulo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 60));
 
-        fondo.add(registrarEmisor_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(181, 88, 610, 60));
+        fondo.add(registrarEmisor_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 610, 60));
 
         nombres_lb.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
         nombres_lb.setLabelFor(entrada_nombres);
@@ -166,35 +229,6 @@ public class AltaEmisor extends javax.swing.JFrame {
         jLabel10.setText("Código postal");
         fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 300, 120, -1));
 
-        btn_guardarDatos.setBackground(new java.awt.Color(217, 217, 217));
-        btn_guardarDatos.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
-        btn_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_guardarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_guardarDatosMouseClicked(evt);
-            }
-        });
-
-        jLabel11.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Guardar datos del emisor");
-
-        javax.swing.GroupLayout btn_guardarDatosLayout = new javax.swing.GroupLayout(btn_guardarDatos);
-        btn_guardarDatos.setLayout(btn_guardarDatosLayout);
-        btn_guardarDatosLayout.setHorizontalGroup(
-            btn_guardarDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_guardarDatosLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-        btn_guardarDatosLayout.setVerticalGroup(
-            btn_guardarDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        fondo.add(btn_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 550, 240, 40));
-
         entrada_regimen.setFont(new java.awt.Font("Teko", 1, 14)); // NOI18N
         entrada_regimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Simplificado de Confianza. ", "612  Persona Física con Actividad Empresarial", "605  Sueldos y Salarios e Ingresos Asimilados a Salarios" }));
         entrada_regimen.setSelectedIndex(1);
@@ -207,34 +241,193 @@ public class AltaEmisor extends javax.swing.JFrame {
         }
         fondo.add(entrada_cp, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 300, 160, 30));
 
+        menu_salir.setBackground(new java.awt.Color(169, 30, 31));
+        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btn_salir.setBackground(new java.awt.Color(169, 30, 31));
+        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_salirMouseClicked(evt);
+            }
+        });
+        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
+        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
+
+        text_salir.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        text_salir.setForeground(new java.awt.Color(255, 255, 255));
+        text_salir.setText("Salir");
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 60, 50));
+        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 0, 140, 10));
+
+        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 150, 50));
+
+        btn_cerrarSesion.setBackground(new java.awt.Color(169, 30, 31));
+        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cerrarSesionMouseClicked(evt);
+            }
+        });
+        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel14.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Cerrar sesión");
+        btn_cerrarSesion.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, 50));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
+        btn_cerrarSesion.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 50));
+        btn_cerrarSesion.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 140, 10));
+        btn_cerrarSesion.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 47, 140, 10));
+
+        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 70, 150, 50));
+        menu_salir.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 60, 140, 10));
+
+        fondo.add(menu_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 80, 190, 130));
+
+        btn_guardarDatos.setBackground(new java.awt.Color(0, 0, 0));
+        btn_guardarDatos.setRoundBottomLeft(10);
+        btn_guardarDatos.setRoundBottomRight(10);
+        btn_guardarDatos.setRoundTopLeft(10);
+        btn_guardarDatos.setRoundTopRight(10);
+        btn_guardarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_guardarDatosMouseClicked(evt);
+            }
+        });
+        btn_guardarDatos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        contenero_btn.setBackground(new java.awt.Color(217, 217, 217));
+        contenero_btn.setRoundBottomLeft(10);
+        contenero_btn.setRoundBottomRight(10);
+        contenero_btn.setRoundTopLeft(10);
+        contenero_btn.setRoundTopRight(10);
+        contenero_btn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        text_guardarDatos.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        text_guardarDatos.setText("Guardar datos del emisor");
+        text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        contenero_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
+
+        btn_guardarDatos.add(contenero_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 240, 40));
+
+        fondo.add(btn_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 570, 245, 45));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 1043, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     public boolean camposVcaios(){//Funcion que valida que ningun campo este vacio
         return entrada_nombres.getText().isEmpty() || entrada_apellidoPaterno.getText().isEmpty()
                 || entrada_apellidoMaterno.getText().isEmpty() || entrada_fechaNacimiento.getDate()==null
                 || entrada_correoElectronico.getText().isEmpty() || entrada_rfc.getText().isEmpty()
                 || entrada_cp.getText().isEmpty();
     }
+    
+    public void altaEmisor() {
+        try {
+            int cp = Integer.parseInt(entrada_cp.getText());
+            //Obtener todos los datos de entrada
+            Date fecha_nacimiento = entrada_fechaNacimiento.getDate();
+            java.sql.Date fecha_sql = new java.sql.Date(fecha_nacimiento.getTime());
+            //Crear conexion a la base de datos
+            //Preparar consulta para insertar los datos
+            String query_alta = "INSERT INTO emisor "
+                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domiciolio_fiscal, regimen)"
+                    + "VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
+            ps.setString(1, entrada_rfc.getText());
+            ps.setString(2, entrada_nombres.getText());
+            ps.setString(3, entrada_apellidoPaterno.getText());
+            ps.setString(4, entrada_apellidoMaterno.getText());
+            ps.setDate(5, fecha_sql);
+            ps.setString(6, entrada_correoElectronico.getText());
+            ps.setInt(7, cp);
+            ps.setString(8, entrada_regimen.getSelectedItem().toString());
+            
+            //Verifica que se realizó el registro
+            int filas_insertadas = ps.executeUpdate();
+            if(filas_insertadas >0){
+                 JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                 JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);;
+        }
+    }
+    
+    private void btn_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menuMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            if(menu_salir.isVisible()){
+                menu_salir.setVisible(false);
+                btn_menu.setIcon(new ImageIcon(menu_img.getScaledInstance( btn_menu.getWidth(),btn_menu.getHeight(), Image.SCALE_SMOOTH)));
+                
+            }else{
+                menu_salir.setVisible(true);
+                btn_menu.setIcon(new ImageIcon(equis_icon.getScaledInstance( btn_menu.getWidth(),btn_menu.getHeight(), Image.SCALE_SMOOTH)));
+            }
+        }
+    }//GEN-LAST:event_btn_menuMouseClicked
+
+    private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            //dialogo que pregunta si desea confirmar salir
+            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
+                    "¿Cerrar sesión y salir?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                    null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                System.exit(0); // Salir del programa
+            } else {
+                return;
+            }
+        }
+    }//GEN-LAST:event_btn_salirMouseClicked
+
+    private void btn_cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrarSesionMouseClicked
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            //dialogo que pregunta si desea confirmar salir
+            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
+                    "¿Cerrar sesión?", "Confirmación de cerrar sesión", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                    null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                login_window ventana = new login_window();
+                ventana.setVisible(true);
+                this.setVisible(false);
+            } else {
+                return;
+            }
+        }
+    }//GEN-LAST:event_btn_cerrarSesionMouseClicked
+
     private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
             if(camposVcaios()){
                 JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "No pueden existir campos Vacios", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            altaEmisor();
             System.out.println("Muy bien");
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
@@ -278,7 +471,11 @@ public class AltaEmisor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
     private javax.swing.JPanel barra_nav;
-    private javax.swing.JPanel btn_guardarDatos;
+    private javax.swing.JPanel btn_cerrarSesion;
+    private paneles.PanelRound btn_guardarDatos;
+    private javax.swing.JLabel btn_menu;
+    private javax.swing.JPanel btn_salir;
+    private paneles.PanelRound contenero_btn;
     private javax.swing.JPanel datosPersonales_titulo;
     private javax.swing.JPanel datosfiscales_titulo;
     private javax.swing.JTextField entrada_apellidoMaterno;
@@ -291,9 +488,11 @@ public class AltaEmisor extends javax.swing.JFrame {
     private javax.swing.JTextField entrada_rfc;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -302,7 +501,15 @@ public class AltaEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JLabel logo_nav;
+    private javax.swing.JPanel menu_salir;
     private javax.swing.JLabel nombres_lb;
     private javax.swing.JPanel registrarEmisor_Titulo;
+    private javax.swing.JLabel text_guardarDatos;
+    private javax.swing.JLabel text_salir;
     // End of variables declaration//GEN-END:variables
 }
