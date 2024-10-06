@@ -246,7 +246,7 @@
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="entrada_nombres"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Nombres"/>
+            <Property name="text" type="java.lang.String" value="Nombre (s)"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

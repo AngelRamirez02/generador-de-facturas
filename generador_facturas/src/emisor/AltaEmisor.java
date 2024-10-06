@@ -5,21 +5,31 @@
 package emisor;
 
 import conexion.conexion;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.text.StyledEditorKit;
 import login.login_window;
 
 /**
@@ -193,7 +203,7 @@ public class AltaEmisor extends javax.swing.JFrame {
 
         nombres_lb.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
         nombres_lb.setLabelFor(entrada_nombres);
-        nombres_lb.setText("Nombres");
+        nombres_lb.setText("Nombre (s)");
         fondo.add(nombres_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 110, -1));
         fondo.add(entrada_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 237, 190, -1));
         fondo.add(entrada_apellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 302, 190, -1));
@@ -335,12 +345,140 @@ public class AltaEmisor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     public boolean camposVcaios(){//Funcion que valida que ningun campo este vacio
-        return entrada_nombres.getText().isEmpty() || entrada_apellidoPaterno.getText().isEmpty()
-                || entrada_apellidoMaterno.getText().isEmpty() || entrada_fechaNacimiento.getDate()==null
-                || entrada_correoElectronico.getText().isEmpty() || entrada_rfc.getText().isEmpty()
-                || entrada_cp.getText().isEmpty();
+        return entrada_nombres.getText().isEmpty() && entrada_apellidoPaterno.getText().isEmpty()
+                && entrada_apellidoMaterno.getText().isEmpty() && entrada_fechaNacimiento.getDate()==null
+                && entrada_correoElectronico.getText().isEmpty() && entrada_rfc.getText().isEmpty()
+                && entrada_cp.getText().isEmpty();
+    }
+   
+    public boolean nombresValidos(){
+        if(entrada_nombres.getText().isEmpty()){
+            //JOptionPane.showMessageDialog(null, "Ingrese nombre (s) del emisor", "No pueden existir campos Vacios", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        String regex ="^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(entrada_nombres.getText());
+        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
     }
     
+    public boolean apellidoValido(String apelido){
+        if(entrada_nombres.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese nombre (s) del emisor", "No pueden existir campos Vacios", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        String regex ="^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(apelido);
+        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
+    }
+    public boolean fechaValida(){
+        return entrada_fechaNacimiento.getDate() != null;
+    }
+    public  boolean cpValido(){
+        if(entrada_cp.getText().isEmpty()){
+            return false;
+        }
+        String regex = "^\\d{5}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(entrada_cp.getText());
+        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
+        
+    }
+    public boolean correo_valido() {//Valida correo electronicos 
+        String regex = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(entrada_correoElectronico.getText());
+        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
+    }
+
+    public boolean rfc_existente(){
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_rfc = "SELECT * FROM emisor WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
+            ps.setString(1, entrada_rfc.getText());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){//si encuentra un fila con el RFC quiere decir que ya existe
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;//Retorna falso si no encuentra el RFC
+    }
+    
+    public String crear_rfc(String homoclave){
+        Calendar fecha = Calendar.getInstance();
+        fecha.setTime(entrada_fechaNacimiento.getDate());
+
+        // Obtener día, mes y año
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int mes = fecha.get(Calendar.MONTH) + 1; // Los meses son 0-11
+        int year = fecha.get(Calendar.YEAR);
+        //Variable que almacena el RFC creado
+        StringBuilder rfc = new StringBuilder();
+        char Primerletra_apellidoPaterno   = entrada_apellidoPaterno.getText().toUpperCase().charAt(0);
+        rfc.append(Primerletra_apellidoPaterno);
+        
+        if (isVowel(Primerletra_apellidoPaterno)){//si la primera letra es una vocal
+            //agrega la siguiente letra
+            rfc.append(entrada_apellidoPaterno.getText().toUpperCase().charAt(1));
+        } else {//sino
+            //recorre el apellido hasta encontrar la vocal y la agrega al rfc
+            for (int i = 1; i <= entrada_apellidoPaterno.getText().length(); i++) {
+                char c = entrada_apellidoPaterno.getText().toUpperCase().charAt(i);
+                if (isVowel(c)) {
+                    rfc.append(c);
+                    break;
+                }
+            }
+        }
+        //obtiene la primera letra del apellido marterno
+        rfc.append(entrada_apellidoMaterno.getText().toUpperCase().charAt(0));
+        //obtener la primera letra del nombre
+        rfc.append(entrada_nombres.getText().toUpperCase().charAt(0));
+        
+        // Obtener la fecha en formato AAMMDD
+        rfc.append(String.format("%02d", year % 100)); // Últimos 2 dígitos del año
+        rfc.append(String.format("%02d", mes)); // Mes
+        rfc.append(String.format("%02d", dia)); // Día
+
+        // Agregar homoclave (se puede dejar aleatorio o como un placeholder)
+        rfc.append(homoclave);
+        
+        return rfc.toString();
+    }
+    
+    private static boolean isVowel(char c) {
+        return "AEIOU".indexOf(Character.toUpperCase(c)) >= 0;
+    }
+    
+    //Funcion para validar el RFC
+    public boolean rfc_valido(){
+        if(entrada_rfc.getText().length()!=13){
+            JOptionPane.showMessageDialog(null, "El tamaño del RFC es de 13 caracteres obligatoriamnete", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        //obtener la homoclave del RFC ingresado
+        String rfc_user = entrada_rfc.getText().toUpperCase();
+        String homoclave = "";
+        homoclave += entrada_rfc.getText().toUpperCase().charAt(10);
+        homoclave += entrada_rfc.getText().toUpperCase().charAt(11);
+        homoclave += entrada_rfc.getText().toUpperCase().charAt(12);
+        if (rfc_user.equals(crear_rfc(homoclave))) {
+            //Expresion para validar un RFC
+            String regex = "^[A-ZÑ&]{4}\\d{6}[A-Z0-9]{3}$";
+            // Compilar la expresión regular en un patrón
+            Pattern pattern = Pattern.compile(regex);
+            // Crear el matcher que validará el RFC
+            Matcher matcher = pattern.matcher(rfc_user);
+            // Retornar si coincide o no
+            return matcher.matches();
+        }
+        JOptionPane.showMessageDialog(null,"El RFC no coincide con el nombre, apellidos o con la fecha de nacimiento del emisor", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
     public void altaEmisor() {
         try {
             int cp = Integer.parseInt(entrada_cp.getText());
@@ -422,12 +560,52 @@ public class AltaEmisor extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cerrarSesionMouseClicked
 
     private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            if(camposVcaios()){
-                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "No pueden existir campos Vacios", JOptionPane.WARNING_MESSAGE);
+         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            if(!camposVcaios()){
+                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "Campos vacios", JOptionPane.WARNING_MESSAGE);
+                entrada_nombres.requestFocusInWindow();
                 return;
             }
-            altaEmisor();
+            if(!nombresValidos()){
+                JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_nombres.requestFocusInWindow();
+                return;
+            }
+            if(!apellidoValido(entrada_apellidoPaterno.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_apellidoPaterno.requestFocusInWindow();
+                return;
+            }
+            if(!apellidoValido(entrada_apellidoMaterno.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_apellidoMaterno.requestFocusInWindow();
+                return;
+            }
+            if(!fechaValida()){
+                JOptionPane.showMessageDialog(null, "Ingrese una fecha de nacimiento valida", "Fecha no valido", JOptionPane.WARNING_MESSAGE);
+               entrada_fechaNacimiento.requestFocusInWindow();
+                return;
+            }
+            if(!correo_valido()){
+                JOptionPane.showMessageDialog(null, "Ingrese un correo electronico valido", "Correo no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_correoElectronico.requestFocusInWindow();
+                return;
+            }
+             if(!rfc_valido()){
+                entrada_rfc.requestFocusInWindow();
+                return;
+            }
+            if(rfc_existente()){
+                JOptionPane.showMessageDialog(null, "El RFC ya se encuentra registrado", "RFC existente", JOptionPane.WARNING_MESSAGE);
+                entrada_rfc.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(!cpValido()){
+                JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            //altaEmisor();
             System.out.println("Muy bien");
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
