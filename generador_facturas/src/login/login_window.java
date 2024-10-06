@@ -324,7 +324,7 @@ public class login_window extends javax.swing.JFrame {
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
             //dialogo que pregunta si desea confirmar salir
             int opcionSeleccionada = JOptionPane.showOptionDialog(null,
-                "¿Cerrar sesión y salir?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                "¿Salir de la aplicación?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
                 null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {

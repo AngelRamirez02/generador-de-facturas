@@ -82,8 +82,6 @@ public class AltaEmisor extends javax.swing.JFrame {
         timer.start();
     }
     
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,6 +137,7 @@ public class AltaEmisor extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Alta Emisor");
         setMinimumSize(new java.awt.Dimension(912, 600));
+        setResizable(false);
 
         fondo.setBackground(new java.awt.Color(240, 240, 240));
         fondo.setPreferredSize(new java.awt.Dimension(1043, 610));
@@ -345,7 +344,7 @@ public class AltaEmisor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+   
 //    public boolean camposVcaios(){//Funcion que valida que ningun campo este vacio
 //        return entrada_nombres.getText().isEmpty() && entrada_apellidoPaterno.getText().isEmpty()
 //                && entrada_apellidoMaterno.getText().isEmpty() && entrada_fechaNacimiento.getDate()==null
@@ -389,12 +388,10 @@ public class AltaEmisor extends javax.swing.JFrame {
 
         // Obtener el objeto Date desde el JDateChooser
         Date fechaNacimiento = entrada_fechaNacimiento.getDate();
-
         // Crear una instancia de Calendar y asignarle la fecha
         Calendar calendarFechaNacimiento = Calendar.getInstance();
         calendarFechaNacimiento.setTime(fechaNacimiento);
-
-        // Llamar al método creando la RFC
+        //Crea RFC 
         String rfc_sistema = valida.crear_rfc(
                 entrada_nombres.getText(),
                 entrada_apellidoPaterno.getText(),
@@ -402,7 +399,7 @@ public class AltaEmisor extends javax.swing.JFrame {
                 calendarFechaNacimiento, // Pasa el objeto Calendar aquí
                 homoclave
         );
-        
+        //Verifica si coincide con el RFC del sistema
         if (rfc_user.equals(rfc_sistema)){
             //Expresion para validar un RFC
             String regex = "^[A-ZÑ&]{4}\\d{6}[A-Z0-9]{3}$";
