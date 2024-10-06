@@ -8,6 +8,10 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -54,6 +58,30 @@ public class PrimerInicio extends javax.swing.JFrame {
                 // Actualizar el JLabel con la hora actual
                 hora_lb.setText(horaFormateada);
             }
+        }); 
+                        // Añadir el listener para detectar cuando la ventana es redimensionada
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int panelWidth = contenedor.getWidth();
+                int panel_heigth = contenedor.getHeight()-barra_nav.getHeight();
+                int newX = (fondo.getWidth() - panelWidth) / 2; // Calcular la nueva posición en 
+                int newY = (fondo.getHeight() - panel_heigth)/2;
+                barra_nav.setSize(fondo.getWidth(), barra_nav.getHeight());
+                contenedor.setLocation(newX, newY);
+            }
+        });
+        
+        this.addWindowStateListener(new WindowStateListener() {
+            int panelWidth = contenedor.getWidth();
+            int panel_heigth = contenedor.getHeight()-barra_nav.getHeight();
+            int newX = (fondo.getWidth() - panelWidth) / 2; // Calcular la nueva posición en 
+            int newY = (fondo.getHeight() - panel_heigth)/2;
+            @Override
+            public void windowStateChanged(WindowEvent e) {
+                barra_nav.setSize(fondo.getWidth(), barra_nav.getHeight());
+                contenedor.setLocation(newX, newY);
+            }
         });
         timer.start();
     }
@@ -68,98 +96,38 @@ public class PrimerInicio extends javax.swing.JFrame {
     private void initComponents() {
 
         fondo = new javax.swing.JPanel();
+        contenedor = new javax.swing.JPanel();
+        text_bienvenida1 = new javax.swing.JLabel();
+        btn_continuar = new paneles.PanelRound();
+        text_continuar = new javax.swing.JLabel();
+        btn_salir = new paneles.PanelRound();
+        text_salir = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        msj_text1 = new javax.swing.JLabel();
+        logo_lb = new javax.swing.JLabel();
+        mjs_text2 = new javax.swing.JLabel();
+        text_bienvenida3 = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
-        text_bienvenida1 = new javax.swing.JLabel();
-        text_bienvenida3 = new javax.swing.JLabel();
-        mjs_text2 = new javax.swing.JLabel();
-        logo_lb = new javax.swing.JLabel();
-        msj_text1 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        btn_salir = new paneles.PanelRound();
-        text_salir = new javax.swing.JLabel();
-        btn_continuar = new paneles.PanelRound();
-        text_continuar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Bienvenida");
-        setMinimumSize(new java.awt.Dimension(910, 600));
-        setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setMinimumSize(new java.awt.Dimension(910, 650));
 
         fondo.setBackground(new java.awt.Color(255, 255, 255));
+        fondo.setMinimumSize(new java.awt.Dimension(0, 620));
         fondo.setPreferredSize(new java.awt.Dimension(924, 600));
-        fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        fondo.setLayout(null);
 
-        barra_nav.setBackground(new java.awt.Color(198, 54, 55));
-        barra_nav.setName("instituo Manuel Andres Lopez Obrador - Login"); // NOI18N
-        barra_nav.setPreferredSize(new java.awt.Dimension(0, 70));
-        barra_nav.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        Fecha.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        Fecha.setForeground(new java.awt.Color(255, 255, 255));
-        Fecha.setText("Fecha: ");
-        barra_nav.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 260, -1));
-
-        hora_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        hora_lb.setForeground(new java.awt.Color(255, 255, 255));
-        hora_lb.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        hora_lb.setText("Hora: ");
-        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 140, -1));
-
-        fondo.add(barra_nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 912, -1));
+        contenedor.setBackground(new java.awt.Color(255, 255, 255));
+        contenedor.setLayout(null);
 
         text_bienvenida1.setFont(new java.awt.Font("Roboto Light", 1, 30)); // NOI18N
         text_bienvenida1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         text_bienvenida1.setText("TE DAMOS LA BIENVENIDA AL SISTEMA DE FACTURACIÓN");
-        fondo.add(text_bienvenida1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 910, -1));
-
-        text_bienvenida3.setFont(new java.awt.Font("Roboto Light", 1, 30)); // NOI18N
-        text_bienvenida3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_bienvenida3.setText(" DEL \"INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR\"");
-        fondo.add(text_bienvenida3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, -1, -1));
-
-        mjs_text2.setFont(new java.awt.Font("Roboto Light", 1, 20)); // NOI18N
-        mjs_text2.setText("Antes de comenzar a generar facturas, necesitas registrar los datos de la persona que");
-        fondo.add(mjs_text2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 840, 30));
-
-        logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
-        logo_lb.setText("jLabel2");
-        logo_lb.setMaximumSize(new java.awt.Dimension(400, 400));
-        logo_lb.setMinimumSize(new java.awt.Dimension(400, 400));
-        logo_lb.setPreferredSize(new java.awt.Dimension(400, 600));
-        fondo.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 310, 260));
-
-        msj_text1.setFont(new java.awt.Font("Roboto Light", 1, 20)); // NOI18N
-        msj_text1.setText("emitirá las facturas, como el dueño del colegio, etc.");
-        fondo.add(msj_text1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 840, 30));
-
-        jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel1.setText("IMPORTANTE: ");
-        fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, -1, -1));
-
-        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
-        btn_salir.setRoundBottomLeft(10);
-        btn_salir.setRoundBottomRight(10);
-        btn_salir.setRoundTopLeft(10);
-        btn_salir.setRoundTopRight(10);
-        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_salirMouseClicked(evt);
-            }
-        });
-        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        text_salir.setFont(new java.awt.Font("Teko", 1, 36)); // NOI18N
-        text_salir.setForeground(new java.awt.Color(255, 255, 255));
-        text_salir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_salir.setText("Salir");
-        text_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 50));
-
-        fondo.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 530, 110, 50));
+        contenedor.add(text_bienvenida1);
+        text_bienvenida1.setBounds(0, 10, 910, 36);
 
         btn_continuar.setBackground(new java.awt.Color(198, 54, 55));
         btn_continuar.setRoundBottomLeft(10);
@@ -180,9 +148,84 @@ public class PrimerInicio extends javax.swing.JFrame {
         text_continuar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_continuar.add(text_continuar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 50));
 
-        fondo.add(btn_continuar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 530, 160, 50));
+        contenedor.add(btn_continuar);
+        btn_continuar.setBounds(680, 460, 160, 50);
 
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, -1));
+        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
+        btn_salir.setRoundBottomLeft(10);
+        btn_salir.setRoundBottomRight(10);
+        btn_salir.setRoundTopLeft(10);
+        btn_salir.setRoundTopRight(10);
+        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_salirMouseClicked(evt);
+            }
+        });
+        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        text_salir.setFont(new java.awt.Font("Teko", 1, 36)); // NOI18N
+        text_salir.setForeground(new java.awt.Color(255, 255, 255));
+        text_salir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        text_salir.setText("Salir");
+        text_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 50));
+
+        contenedor.add(btn_salir);
+        btn_salir.setBounds(90, 460, 110, 50);
+
+        jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel1.setText("IMPORTANTE: ");
+        contenedor.add(jLabel1);
+        jLabel1.setBounds(30, 370, 97, 17);
+
+        msj_text1.setFont(new java.awt.Font("Roboto Light", 1, 20)); // NOI18N
+        msj_text1.setText("emitirá las facturas, como el dueño del colegio, etc.");
+        contenedor.add(msj_text1);
+        msj_text1.setBounds(30, 420, 840, 30);
+
+        logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
+        logo_lb.setText("jLabel2");
+        logo_lb.setMaximumSize(new java.awt.Dimension(400, 400));
+        logo_lb.setMinimumSize(new java.awt.Dimension(400, 400));
+        logo_lb.setPreferredSize(new java.awt.Dimension(400, 600));
+        contenedor.add(logo_lb);
+        logo_lb.setBounds(300, 90, 310, 260);
+
+        mjs_text2.setFont(new java.awt.Font("Roboto Light", 1, 20)); // NOI18N
+        mjs_text2.setText("Antes de comenzar a generar facturas, necesitas registrar los datos de la persona que");
+        contenedor.add(mjs_text2);
+        mjs_text2.setBounds(30, 390, 840, 30);
+
+        text_bienvenida3.setFont(new java.awt.Font("Roboto Light", 1, 30)); // NOI18N
+        text_bienvenida3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        text_bienvenida3.setText(" DEL \"INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR\"");
+        contenedor.add(text_bienvenida3);
+        text_bienvenida3.setBounds(80, 50, 755, 36);
+
+        fondo.add(contenedor);
+        contenedor.setBounds(20, 70, 890, 530);
+
+        barra_nav.setBackground(new java.awt.Color(198, 54, 55));
+        barra_nav.setName("instituo Manuel Andres Lopez Obrador - Login"); // NOI18N
+        barra_nav.setPreferredSize(new java.awt.Dimension(0, 70));
+        barra_nav.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Fecha.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        Fecha.setForeground(new java.awt.Color(255, 255, 255));
+        Fecha.setText("Fecha: ");
+        barra_nav.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 260, -1));
+
+        hora_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        hora_lb.setForeground(new java.awt.Color(255, 255, 255));
+        hora_lb.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        hora_lb.setText("Hora: ");
+        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 140, -1));
+
+        fondo.add(barra_nav);
+        barra_nav.setBounds(0, 0, 912, 70);
+
+        getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -252,6 +295,7 @@ public class PrimerInicio extends javax.swing.JFrame {
     private javax.swing.JPanel barra_nav;
     private paneles.PanelRound btn_continuar;
     private paneles.PanelRound btn_salir;
+    private javax.swing.JPanel contenedor;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel hora_lb;
     private javax.swing.JLabel jLabel1;
