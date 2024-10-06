@@ -10,6 +10,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -684,7 +686,7 @@ public boolean existeInfo() {
             // Mostrar diálogo que pregunta si desea confirmar la salida
             int opcionSeleccionada = JOptionPane.showOptionDialog(
                     null,
-                    "Se perderán los datos ingresados ¿Está seguro de salir?",
+                    "Se perderán los datos ingresados, ¿Está seguro de salir?",
                     "Datos no guardados",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE,
