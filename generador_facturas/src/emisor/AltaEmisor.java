@@ -31,6 +31,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.text.StyledEditorKit;
 import login.login_window;
+import validacion.Validacion;
 
 /**
  *
@@ -42,6 +43,7 @@ public class AltaEmisor extends javax.swing.JFrame {
      * Creates new form alta_emisor
      */
     conexion cx = new conexion();//conexion a la base de datos
+    Validacion valida = new Validacion();
     Image menu_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/menu_icon.png"));
     //Imagen x del menu
     Image equis_icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/menu_iconx.png"));
@@ -344,52 +346,16 @@ public class AltaEmisor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    public boolean camposVcaios(){//Funcion que valida que ningun campo este vacio
-        return entrada_nombres.getText().isEmpty() && entrada_apellidoPaterno.getText().isEmpty()
-                && entrada_apellidoMaterno.getText().isEmpty() && entrada_fechaNacimiento.getDate()==null
-                && entrada_correoElectronico.getText().isEmpty() && entrada_rfc.getText().isEmpty()
-                && entrada_cp.getText().isEmpty();
-    }
+//    public boolean camposVcaios(){//Funcion que valida que ningun campo este vacio
+//        return entrada_nombres.getText().isEmpty() && entrada_apellidoPaterno.getText().isEmpty()
+//                && entrada_apellidoMaterno.getText().isEmpty() && entrada_fechaNacimiento.getDate()==null
+//                && entrada_correoElectronico.getText().isEmpty() && entrada_rfc.getText().isEmpty()
+//                && entrada_cp.getText().isEmpty();
+//    }
    
-    public boolean nombresValidos(){
-        if(entrada_nombres.getText().isEmpty()){
-            //JOptionPane.showMessageDialog(null, "Ingrese nombre (s) del emisor", "No pueden existir campos Vacios", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        String regex ="^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(entrada_nombres.getText());
-        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
-    }
     
-    public boolean apellidoValido(String apelido){
-        if(entrada_nombres.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Ingrese nombre (s) del emisor", "No pueden existir campos Vacios", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        String regex ="^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(apelido);
-        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
-    }
     public boolean fechaValida(){
         return entrada_fechaNacimiento.getDate() != null;
-    }
-    public  boolean cpValido(){
-        if(entrada_cp.getText().isEmpty()){
-            return false;
-        }
-        String regex = "^\\d{5}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(entrada_cp.getText());
-        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
-        
-    }
-    public boolean correo_valido() {//Valida correo electronicos 
-        String regex = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(entrada_correoElectronico.getText());
-        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
     }
 
     public boolean rfc_existente(){
@@ -408,55 +374,9 @@ public class AltaEmisor extends javax.swing.JFrame {
         return false;//Retorna falso si no encuentra el RFC
     }
     
-    public String crear_rfc(String homoclave){
-        Calendar fecha = Calendar.getInstance();
-        fecha.setTime(entrada_fechaNacimiento.getDate());
-
-        // Obtener día, mes y año
-        int dia = fecha.get(Calendar.DAY_OF_MONTH);
-        int mes = fecha.get(Calendar.MONTH) + 1; // Los meses son 0-11
-        int year = fecha.get(Calendar.YEAR);
-        //Variable que almacena el RFC creado
-        StringBuilder rfc = new StringBuilder();
-        char Primerletra_apellidoPaterno   = entrada_apellidoPaterno.getText().toUpperCase().charAt(0);
-        rfc.append(Primerletra_apellidoPaterno);
-        
-        if (isVowel(Primerletra_apellidoPaterno)){//si la primera letra es una vocal
-            //agrega la siguiente letra
-            rfc.append(entrada_apellidoPaterno.getText().toUpperCase().charAt(1));
-        } else {//sino
-            //recorre el apellido hasta encontrar la vocal y la agrega al rfc
-            for (int i = 1; i <= entrada_apellidoPaterno.getText().length(); i++) {
-                char c = entrada_apellidoPaterno.getText().toUpperCase().charAt(i);
-                if (isVowel(c)) {
-                    rfc.append(c);
-                    break;
-                }
-            }
-        }
-        //obtiene la primera letra del apellido marterno
-        rfc.append(entrada_apellidoMaterno.getText().toUpperCase().charAt(0));
-        //obtener la primera letra del nombre
-        rfc.append(entrada_nombres.getText().toUpperCase().charAt(0));
-        
-        // Obtener la fecha en formato AAMMDD
-        rfc.append(String.format("%02d", year % 100)); // Últimos 2 dígitos del año
-        rfc.append(String.format("%02d", mes)); // Mes
-        rfc.append(String.format("%02d", dia)); // Día
-
-        // Agregar homoclave (se puede dejar aleatorio o como un placeholder)
-        rfc.append(homoclave);
-        
-        return rfc.toString();
-    }
-    
-    private static boolean isVowel(char c) {
-        return "AEIOU".indexOf(Character.toUpperCase(c)) >= 0;
-    }
-    
     //Funcion para validar el RFC
-    public boolean rfc_valido(){
-        if(entrada_rfc.getText().length()!=13){
+    public boolean rfc_valido() {
+        if (entrada_rfc.getText().length() != 13) {
             JOptionPane.showMessageDialog(null, "El tamaño del RFC es de 13 caracteres obligatoriamnete", "RFC no valido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
@@ -466,7 +386,24 @@ public class AltaEmisor extends javax.swing.JFrame {
         homoclave += entrada_rfc.getText().toUpperCase().charAt(10);
         homoclave += entrada_rfc.getText().toUpperCase().charAt(11);
         homoclave += entrada_rfc.getText().toUpperCase().charAt(12);
-        if (rfc_user.equals(crear_rfc(homoclave))) {
+
+        // Obtener el objeto Date desde el JDateChooser
+        Date fechaNacimiento = entrada_fechaNacimiento.getDate();
+
+        // Crear una instancia de Calendar y asignarle la fecha
+        Calendar calendarFechaNacimiento = Calendar.getInstance();
+        calendarFechaNacimiento.setTime(fechaNacimiento);
+
+        // Llamar al método creando la RFC
+        String rfc_sistema = valida.crear_rfc(
+                entrada_nombres.getText(),
+                entrada_apellidoPaterno.getText(),
+                entrada_apellidoMaterno.getText(),
+                calendarFechaNacimiento, // Pasa el objeto Calendar aquí
+                homoclave
+        );
+        
+        if (rfc_user.equals(rfc_sistema)){
             //Expresion para validar un RFC
             String regex = "^[A-ZÑ&]{4}\\d{6}[A-Z0-9]{3}$";
             // Compilar la expresión regular en un patrón
@@ -561,22 +498,17 @@ public class AltaEmisor extends javax.swing.JFrame {
 
     private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
          if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            if(!camposVcaios()){
-                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "Campos vacios", JOptionPane.WARNING_MESSAGE);
-                entrada_nombres.requestFocusInWindow();
-                return;
-            }
-            if(!nombresValidos()){
+            if(!valida.nombresValidos(entrada_nombres.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_nombres.requestFocusInWindow();
                 return;
             }
-            if(!apellidoValido(entrada_apellidoPaterno.getText())){
+            if(!valida.apellidoValido(entrada_apellidoPaterno.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_apellidoPaterno.requestFocusInWindow();
                 return;
             }
-            if(!apellidoValido(entrada_apellidoMaterno.getText())){
+            if(!valida.apellidoValido(entrada_apellidoMaterno.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_apellidoMaterno.requestFocusInWindow();
                 return;
@@ -586,7 +518,7 @@ public class AltaEmisor extends javax.swing.JFrame {
                entrada_fechaNacimiento.requestFocusInWindow();
                 return;
             }
-            if(!correo_valido()){
+            if(!valida.correo_valido(entrada_correoElectronico.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un correo electronico valido", "Correo no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_correoElectronico.requestFocusInWindow();
                 return;
@@ -600,7 +532,7 @@ public class AltaEmisor extends javax.swing.JFrame {
                 entrada_rfc.requestFocusInWindow();    // Borde al tener foco;
                 return;
             }
-            if(!cpValido()){
+            if(!valida.cpValido(entrada_cp.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_cp.requestFocusInWindow();    // Borde al tener foco;
                 return;
