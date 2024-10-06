@@ -506,7 +506,11 @@ public boolean existeInfo() {
             // Crear el matcher que validará el RFC
             Matcher matcher = pattern.matcher(rfc_user);
             // Retornar si coincide o no
-            return matcher.matches();
+            if(matcher.matches()){
+               return true; 
+            }
+            JOptionPane.showMessageDialog(null, "Ingrese un RFC valido", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return false;
         }
         JOptionPane.showMessageDialog(null,"El RFC no coincide con el nombre, apellidos o con la fecha de nacimiento del emisor", "RFC no valido", JOptionPane.WARNING_MESSAGE);
         return false;
@@ -680,7 +684,7 @@ public boolean existeInfo() {
             // Mostrar diálogo que pregunta si desea confirmar la salida
             int opcionSeleccionada = JOptionPane.showOptionDialog(
                     null,
-                    "Se perderán los datos ingresados, ¿Está seguro de salir?",
+                    "Se perderán los datos ingresados ¿Está seguro de salir?",
                     "Datos no guardados",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE,
