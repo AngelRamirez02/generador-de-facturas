@@ -48,11 +48,20 @@ public class AltaEmisor extends javax.swing.JFrame {
     //Imagen x del menu
     Image equis_icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/menu_iconx.png"));
     Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/file.png"));
+    Image info_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_info.png"));
 
     public AltaEmisor() {
         initComponents();
+        info_nombre.setVisible(false);
+        infoFecha_lb.setVisible(false);
+        infoRFC_lb.setVisible(false);
+        infocp_lb.setVisible(false);
         btn_menu.setIcon(new ImageIcon(menu_img.getScaledInstance( btn_menu.getWidth(),btn_menu.getHeight(), Image.SCALE_SMOOTH)));
         logo_nav.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_nav.getWidth(), logo_nav.getHeight(), Image.SCALE_SMOOTH)));
+        infoIcon_lb.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));
+        infoIcon_lb2.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));
+        infoIcon_lb3.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb3.getWidth(), infoIcon_lb3.getHeight(), Image.SCALE_SMOOTH)));
+        infoIcon_lb4.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb4.getWidth(), infoIcon_lb4.getHeight(), Image.SCALE_SMOOTH)));
         menu_salir.setVisible(false);
 //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //        this.setSize(this.getSize().width,screenSize.height);
@@ -125,19 +134,35 @@ public class AltaEmisor extends javax.swing.JFrame {
         text_salir = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         btn_cerrarSesion = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        txt_cerrarSesion = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         btn_guardarDatos = new paneles.PanelRound();
         contenero_btn = new paneles.PanelRound();
         text_guardarDatos = new javax.swing.JLabel();
+        infoIcon_lb2 = new javax.swing.JLabel();
+        info_nombre = new javax.swing.JLabel();
+        infoIcon_lb = new javax.swing.JLabel();
+        infoFecha_lb = new javax.swing.JLabel();
+        infoIcon_lb3 = new javax.swing.JLabel();
+        infoRFC_lb = new javax.swing.JLabel();
+        infoIcon_lb4 = new javax.swing.JLabel();
+        infocp_lb = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Alta Emisor");
         setMinimumSize(new java.awt.Dimension(912, 600));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         fondo.setBackground(new java.awt.Color(240, 240, 240));
         fondo.setPreferredSize(new java.awt.Dimension(1043, 610));
@@ -148,16 +173,16 @@ public class AltaEmisor extends javax.swing.JFrame {
         barra_nav.setPreferredSize(new java.awt.Dimension(0, 70));
         barra_nav.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Fecha.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        Fecha.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         Fecha.setForeground(new java.awt.Color(255, 255, 255));
         Fecha.setText("Fecha: ");
         barra_nav.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 260, -1));
 
-        hora_lb.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        hora_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         hora_lb.setForeground(new java.awt.Color(255, 255, 255));
         hora_lb.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         hora_lb.setText("Hora: ");
-        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 110, -1));
+        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 130, -1));
 
         btn_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/menu_icon.png"))); // NOI18N
         btn_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -172,21 +197,24 @@ public class AltaEmisor extends javax.swing.JFrame {
         fondo.add(barra_nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1043, 80));
 
         entrada_fechaNacimiento.setDateFormatString("dd MMM y");
+        entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1735628468000L));
+        entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
         fondo.add(entrada_fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 426, 190, -1));
 
         datosfiscales_titulo.setBackground(new java.awt.Color(255, 255, 255));
         datosfiscales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Teko", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Datos fiscales");
-        datosfiscales_titulo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 30));
+        datosfiscales_titulo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 30));
 
         fondo.add(datosfiscales_titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, 170, -1));
 
         datosPersonales_titulo.setBackground(new java.awt.Color(255, 255, 255));
         datosPersonales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Teko", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Datos personales");
         datosPersonales_titulo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 30));
@@ -196,61 +224,61 @@ public class AltaEmisor extends javax.swing.JFrame {
         registrarEmisor_Titulo.setBackground(new java.awt.Color(255, 255, 255));
         registrarEmisor_Titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setFont(new java.awt.Font("Teko", 1, 48)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Roboto Light", 1, 48)); // NOI18N
         jLabel4.setText("Registrar emisor");
-        registrarEmisor_Titulo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 60));
+        registrarEmisor_Titulo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, -1, 60));
 
-        fondo.add(registrarEmisor_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 610, 60));
+        fondo.add(registrarEmisor_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 620, 60));
 
-        nombres_lb.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        nombres_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         nombres_lb.setLabelFor(entrada_nombres);
         nombres_lb.setText("Nombre (s)");
         fondo.add(nombres_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 110, -1));
         fondo.add(entrada_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 237, 190, -1));
         fondo.add(entrada_apellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 302, 190, -1));
 
-        jLabel2.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel2.setText("Apellido peterno");
-        fondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 305, 130, -1));
+        fondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 305, 140, -1));
 
-        jLabel5.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel5.setText("Apellido Materno");
-        fondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 367, 130, -1));
+        fondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 367, 150, -1));
         fondo.add(entrada_apellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 364, 190, -1));
 
-        jLabel6.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel6.setText("Fecha de nacimiento");
         fondo.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 180, 20));
 
-        jLabel7.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel7.setText("Correo electronico");
         fondo.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 490, 170, 20));
         fondo.add(entrada_correoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 490, 190, -1));
 
-        jLabel8.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel8.setText("RFC");
-        fondo.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 240, -1, -1));
+        fondo.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 240, -1, -1));
         fondo.add(entrada_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 240, 157, -1));
 
-        jLabel9.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel9.setText("Regimen Fiscal");
-        fondo.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 370, -1, -1));
+        fondo.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 370, -1, -1));
 
-        jLabel10.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel10.setText("Código postal");
-        fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 300, 120, -1));
+        fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 300, 120, -1));
 
-        entrada_regimen.setFont(new java.awt.Font("Teko", 1, 14)); // NOI18N
+        entrada_regimen.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
         entrada_regimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Simplificado de Confianza. ", "612  Persona Física con Actividad Empresarial", "605  Sueldos y Salarios e Ingresos Asimilados a Salarios" }));
         entrada_regimen.setSelectedIndex(1);
-        fondo.add(entrada_regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 360, 350, 30));
+        fondo.add(entrada_regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 360, 360, 30));
 
         try {
             entrada_cp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        fondo.add(entrada_cp, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 300, 160, 30));
+        fondo.add(entrada_cp, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 300, 160, 27));
 
         menu_salir.setBackground(new java.awt.Color(169, 30, 31));
         menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -266,15 +294,15 @@ public class AltaEmisor extends javax.swing.JFrame {
         btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
-        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
+        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, 50, 45));
 
-        text_salir.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         text_salir.setForeground(new java.awt.Color(255, 255, 255));
         text_salir.setText("Salir");
-        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 60, 50));
-        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 0, 140, 10));
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 0, 90, 50));
+        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 140, 10));
 
-        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 150, 50));
+        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 50));
 
         btn_cerrarSesion.setBackground(new java.awt.Color(169, 30, 31));
         btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -285,20 +313,20 @@ public class AltaEmisor extends javax.swing.JFrame {
         });
         btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel14.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("Cerrar sesión");
-        btn_cerrarSesion.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, 50));
-
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
-        btn_cerrarSesion.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 50));
-        btn_cerrarSesion.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 140, 10));
-        btn_cerrarSesion.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 47, 140, 10));
+        btn_cerrarSesion.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 40, 50));
 
-        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 70, 150, 50));
+        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion.setText("Cerrar sesión");
+        btn_cerrarSesion.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 0, 120, 50));
+        btn_cerrarSesion.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 0, 140, 10));
+        btn_cerrarSesion.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 47, 140, 10));
+
+        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 180, 50));
         menu_salir.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 60, 140, 10));
 
-        fondo.add(menu_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 80, 190, 130));
+        fondo.add(menu_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 80, 210, 130));
 
         btn_guardarDatos.setBackground(new java.awt.Color(0, 0, 0));
         btn_guardarDatos.setRoundBottomLeft(10);
@@ -319,7 +347,7 @@ public class AltaEmisor extends javax.swing.JFrame {
         contenero_btn.setRoundTopRight(10);
         contenero_btn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        text_guardarDatos.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         text_guardarDatos.setText("Guardar datos del emisor");
         text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -328,6 +356,73 @@ public class AltaEmisor extends javax.swing.JFrame {
         btn_guardarDatos.add(contenero_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 240, 40));
 
         fondo.add(btn_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 570, 245, 45));
+
+        infoIcon_lb2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_info.png"))); // NOI18N
+        infoIcon_lb2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lb2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lb2MouseExited(evt);
+            }
+        });
+        fondo.add(infoIcon_lb2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 427, 20, 20));
+
+        info_nombre.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        info_nombre.setText("Ingrese los nombres separados por espacio");
+        fondo.add(info_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 263, -1, 20));
+
+        infoIcon_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_info.png"))); // NOI18N
+        infoIcon_lb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lbMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lbMouseExited(evt);
+            }
+        });
+        fondo.add(infoIcon_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 240, 20, 20));
+
+        infoFecha_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        infoFecha_lb.setText("Ej: 02 dic 2003");
+        fondo.add(infoFecha_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, -1, -1));
+
+        infoIcon_lb3.setText("jLabel11");
+        infoIcon_lb3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lb3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lb3MouseExited(evt);
+            }
+        });
+        fondo.add(infoIcon_lb3, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 242, 20, 20));
+
+        infoRFC_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        infoRFC_lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoRFC_lb.setText("El RFC es de 13 digitos formado por apellidos, nombre y fecha de nacimiento");
+        infoRFC_lb.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        fondo.add(infoRFC_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 260, 430, 30));
+
+        infoIcon_lb4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_info.png"))); // NOI18N
+        infoIcon_lb4.setText("jLabel11");
+        infoIcon_lb4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lb4MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lb4MouseExited(evt);
+            }
+        });
+        fondo.add(infoIcon_lb4, new org.netbeans.lib.awtextra.AbsoluteConstraints(842, 303, 20, 20));
+
+        infocp_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        infocp_lb.setText("Un código postal debe ser de 5 números");
+        fondo.add(infocp_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 330, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -344,15 +439,18 @@ public class AltaEmisor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-   
-//    public boolean camposVcaios(){//Funcion que valida que ningun campo este vacio
-//        return entrada_nombres.getText().isEmpty() && entrada_apellidoPaterno.getText().isEmpty()
-//                && entrada_apellidoMaterno.getText().isEmpty() && entrada_fechaNacimiento.getDate()==null
-//                && entrada_correoElectronico.getText().isEmpty() && entrada_rfc.getText().isEmpty()
-//                && entrada_cp.getText().isEmpty();
-//    }
-   
-    
+
+public boolean existeInfo() {
+    // Retorna true si al menos uno de los campos tiene información que no sea solo espacios
+    return !(entrada_nombres.getText().trim().isEmpty() 
+            && entrada_apellidoPaterno.getText().trim().isEmpty()
+            && entrada_apellidoMaterno.getText().trim().isEmpty() 
+            && entrada_fechaNacimiento.getDate() == null // Verifica si no hay fecha
+            && entrada_correoElectronico.getText().trim().isEmpty() 
+            && entrada_rfc.getText().trim().isEmpty()
+            && entrada_cp.getText().trim().isEmpty());
+}
+
     public boolean fechaValida(){
         return entrada_fechaNacimiento.getDate() != null;
     }
@@ -484,9 +582,9 @@ public class AltaEmisor extends javax.swing.JFrame {
                     null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                login_window ventana = new login_window();
-                ventana.setVisible(true);
-                this.setVisible(false);
+                login_window ventanaLogin = new login_window();
+                ventanaLogin.setVisible(true);
+                this.dispose();
             } else {
                 return;
             }
@@ -534,10 +632,75 @@ public class AltaEmisor extends javax.swing.JFrame {
                 entrada_cp.requestFocusInWindow();    // Borde al tener foco;
                 return;
             }
-            //altaEmisor();
+            altaEmisor();
             System.out.println("Muy bien");
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
+
+    private void infoIcon_lb2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseEntered
+       infoFecha_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb2MouseEntered
+
+    private void infoIcon_lb2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseExited
+        infoFecha_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb2MouseExited
+
+    private void infoIcon_lbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseEntered
+         info_nombre.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lbMouseEntered
+
+    private void infoIcon_lbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseExited
+        info_nombre.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lbMouseExited
+
+    private void infoIcon_lb3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseEntered
+        infoRFC_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb3MouseEntered
+
+    private void infoIcon_lb3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseExited
+        infoRFC_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb3MouseExited
+
+    private void infoIcon_lb4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb4MouseEntered
+       infocp_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb4MouseEntered
+
+    private void infoIcon_lb4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb4MouseExited
+        infocp_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb4MouseExited
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
+        if (existeInfo()) {
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "Se perderán los datos ingresados, ¿Está seguro de salir?",
+                    "Datos no guardados",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                // Cerrar la aplicación
+                this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+            } else {
+                // Evitar que la ventana se cierre
+                this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
+            }
+        } else {
+            // Si no hay información importante, permitir el cierre
+            this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -596,9 +759,16 @@ public class AltaEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel hora_lb;
     private javax.swing.JLabel icon_salir;
+    private javax.swing.JLabel infoFecha_lb;
+    private javax.swing.JLabel infoIcon_lb;
+    private javax.swing.JLabel infoIcon_lb2;
+    private javax.swing.JLabel infoIcon_lb3;
+    private javax.swing.JLabel infoIcon_lb4;
+    private javax.swing.JLabel infoRFC_lb;
+    private javax.swing.JLabel info_nombre;
+    private javax.swing.JLabel infocp_lb;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -618,5 +788,6 @@ public class AltaEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel registrarEmisor_Titulo;
     private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
+    private javax.swing.JLabel txt_cerrarSesion;
     // End of variables declaration//GEN-END:variables
 }

@@ -97,30 +97,30 @@ public class PrimerInicio extends javax.swing.JFrame {
         barra_nav.setPreferredSize(new java.awt.Dimension(0, 70));
         barra_nav.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Fecha.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        Fecha.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         Fecha.setForeground(new java.awt.Color(255, 255, 255));
         Fecha.setText("Fecha: ");
         barra_nav.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 260, -1));
 
-        hora_lb.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        hora_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         hora_lb.setForeground(new java.awt.Color(255, 255, 255));
         hora_lb.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         hora_lb.setText("Hora: ");
-        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 110, -1));
+        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 140, -1));
 
         fondo.add(barra_nav, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 912, -1));
 
-        text_bienvenida1.setFont(new java.awt.Font("Teko", 1, 36)); // NOI18N
+        text_bienvenida1.setFont(new java.awt.Font("Roboto Light", 1, 30)); // NOI18N
         text_bienvenida1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         text_bienvenida1.setText("TE DAMOS LA BIENVENIDA AL SISTEMA DE FACTURACIÓN");
-        fondo.add(text_bienvenida1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, -1));
+        fondo.add(text_bienvenida1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 910, -1));
 
-        text_bienvenida3.setFont(new java.awt.Font("Teko", 1, 36)); // NOI18N
+        text_bienvenida3.setFont(new java.awt.Font("Roboto Light", 1, 30)); // NOI18N
         text_bienvenida3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         text_bienvenida3.setText(" DEL \"INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR\"");
-        fondo.add(text_bienvenida3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, -1, -1));
+        fondo.add(text_bienvenida3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, -1, -1));
 
-        mjs_text2.setFont(new java.awt.Font("Teko", 1, 24)); // NOI18N
+        mjs_text2.setFont(new java.awt.Font("Roboto Light", 1, 20)); // NOI18N
         mjs_text2.setText("Antes de comenzar a generar facturas, necesitas registrar los datos de la persona que");
         fondo.add(mjs_text2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 840, 30));
 
@@ -131,14 +131,14 @@ public class PrimerInicio extends javax.swing.JFrame {
         logo_lb.setPreferredSize(new java.awt.Dimension(400, 600));
         fondo.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 310, 260));
 
-        msj_text1.setFont(new java.awt.Font("Teko", 1, 24)); // NOI18N
+        msj_text1.setFont(new java.awt.Font("Roboto Light", 1, 20)); // NOI18N
         msj_text1.setText("emitirá las facturas, como el dueño del colegio, etc.");
         fondo.add(msj_text1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 840, 30));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));
         jLabel1.setText("IMPORTANTE: ");
-        fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, -1, -1));
+        fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, -1, -1));
 
         btn_salir.setBackground(new java.awt.Color(198, 54, 55));
         btn_salir.setRoundBottomLeft(10);

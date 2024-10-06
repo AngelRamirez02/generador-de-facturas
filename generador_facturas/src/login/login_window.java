@@ -123,16 +123,16 @@ public class login_window extends javax.swing.JFrame {
         barra_nav.setPreferredSize(new java.awt.Dimension(0, 70));
         barra_nav.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Fecha.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        Fecha.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         Fecha.setForeground(new java.awt.Color(255, 255, 255));
         Fecha.setText("Fecha: ");
         barra_nav.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 260, -1));
 
-        hora_lb.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        hora_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         hora_lb.setForeground(new java.awt.Color(255, 255, 255));
         hora_lb.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         hora_lb.setText("Hora: ");
-        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 110, -1));
+        barra_nav.add(hora_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 150, -1));
 
         btn_salir.setBackground(new java.awt.Color(169, 30, 31));
         btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
@@ -147,7 +147,7 @@ public class login_window extends javax.swing.JFrame {
         icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
         btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
 
-        text_salir.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         text_salir.setForeground(new java.awt.Color(255, 255, 255));
         text_salir.setText("Salir");
         btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 60, 50));
@@ -167,7 +167,7 @@ public class login_window extends javax.swing.JFrame {
         panel_login.add(usuario_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 300, 45));
 
         iniciar_sesion.setBackground(new java.awt.Color(102, 102, 102));
-        iniciar_sesion.setFont(new java.awt.Font("Teko", 1, 24)); // NOI18N
+        iniciar_sesion.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
         iniciar_sesion.setForeground(new java.awt.Color(255, 255, 255));
         iniciar_sesion.setText("Iniciar Sesión");
         iniciar_sesion.setBorderPainted(false);
@@ -185,18 +185,18 @@ public class login_window extends javax.swing.JFrame {
         password_entrada.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         panel_login.add(password_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 265, 300, 45));
 
-        etiqueta_usuario.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        etiqueta_usuario.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         etiqueta_usuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiqueta_usuario.setLabelFor(usuario_entrada);
         etiqueta_usuario.setText("Usuario");
         etiqueta_usuario.setAlignmentX(0.5F);
         panel_login.add(etiqueta_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 80, 30));
 
-        etiqueta_password.setFont(new java.awt.Font("Teko", 1, 18)); // NOI18N
+        etiqueta_password.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         etiqueta_password.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiqueta_password.setLabelFor(password_entrada);
         etiqueta_password.setText("Contraseña");
-        panel_login.add(etiqueta_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(416, 239, 84, -1));
+        panel_login.add(etiqueta_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 239, 100, -1));
 
         txt_year.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
         txt_year.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -216,7 +216,7 @@ public class login_window extends javax.swing.JFrame {
         img_block.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_block.png"))); // NOI18N
         panel_login.add(img_block, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 40, 40));
 
-        mostrar_password.setFont(new java.awt.Font("Teko", 1, 12)); // NOI18N
+        mostrar_password.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
         mostrar_password.setText("   Mostrar contraseña");
         mostrar_password.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         mostrar_password.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -225,7 +225,7 @@ public class login_window extends javax.swing.JFrame {
                 mostrar_passwordActionPerformed(evt);
             }
         });
-        panel_login.add(mostrar_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, -1, 20));
+        panel_login.add(mostrar_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 160, 20));
 
         logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
         panel_login.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 190, 160));

@@ -72,7 +72,7 @@
             <Component class="javax.swing.JLabel" name="Fecha">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Teko" size="18" style="1"/>
+                  <Font name="Roboto Light" size="18" style="1"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -88,7 +88,7 @@
             <Component class="javax.swing.JLabel" name="hora_lb">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Teko" size="18" style="1"/>
+                  <Font name="Roboto Light" size="18" style="1"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -98,7 +98,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="40" width="110" height="-1"/>
+                  <AbsoluteConstraints x="40" y="40" width="140" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -107,35 +107,35 @@
         <Component class="javax.swing.JLabel" name="text_bienvenida1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Teko" size="36" style="1"/>
+              <Font name="Roboto Light" size="30" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="TE DAMOS LA BIENVENIDA AL SISTEMA DE FACTURACI&#xd3;N"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="100" y="80" width="-1" height="-1"/>
+              <AbsoluteConstraints x="0" y="90" width="910" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="text_bienvenida3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Teko" size="36" style="1"/>
+              <Font name="Roboto Light" size="30" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value=" DEL &quot;INSTITUTO ANDR&#xc9;S MANUEL L&#xd3;PEZ OBRADOR&quot;"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="130" y="130" width="-1" height="-1"/>
+              <AbsoluteConstraints x="80" y="130" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="mjs_text2">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Teko" size="24" style="1"/>
+              <Font name="Roboto Light" size="20" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Antes de comenzar a generar facturas, necesitas registrar los datos de la persona que"/>
           </Properties>
@@ -170,7 +170,7 @@
         <Component class="javax.swing.JLabel" name="msj_text1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Teko" size="24" style="1"/>
+              <Font name="Roboto Light" size="20" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="emitir&#xe1; las facturas, como el due&#xf1;o del colegio, etc."/>
           </Properties>
@@ -183,7 +183,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="1"/>
+              <Font name="Roboto Light" size="14" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="ff" type="rgb"/>
@@ -192,7 +192,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="40" y="430" width="-1" height="-1"/>
+              <AbsoluteConstraints x="30" y="430" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
