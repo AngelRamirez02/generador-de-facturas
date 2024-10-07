@@ -46,7 +46,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         //Menus ocultos por defecto
         menu_padres.setVisible(false);
         menu_alumnos.setVisible(false);
-        
+        menu_factura.setVisible(false);
+        menu_estadisticas.setVisible(false);
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
@@ -81,8 +82,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 contenedor_menu.setLocation(menu_user.getLocation().x-650, contenedor_menu.getLocation().y); //contenedor centrado
                 menu_salir.setLocation(barra_nav.getWidth() - menu_salir.getWidth(), menu_salir.getLocation().y);//menu salir responsive
                 //alinear submenus 
-                menu_padres.setLocation(contenedor_menu.getLocation().x, menu_alumnos.getLocation().y);
+                menu_padres.setLocation(contenedor_menu.getLocation().x, menu_padres.getLocation().y);
                 menu_alumnos.setLocation(menu_padres.getLocation().x+120, menu_alumnos.getLocation().y);
+                menu_factura.setLocation(menu_alumnos.getLocation().x+120, menu_factura.getLocation().y);
+                menu_estadisticas.setLocation(menu_factura.getLocation().x+120, menu_estadisticas.getLocation().y);
             }
         });
         //Cuando el usuario extiende por completo la pantalla
@@ -100,6 +103,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 menu_salir.setLocation(barra_nav.getWidth()-menu_salir.getWidth(), menu_salir.getLocation().y);//menu salir responsive
                 //alinear submenus 
                 menu_padres.setLocation(contenedor_menu.getLocation().x, menu_alumnos.getLocation().y);
+                 menu_alumnos.setLocation(menu_padres.getLocation().x+120, menu_alumnos.getLocation().y);
+                menu_factura.setLocation(menu_alumnos.getLocation().x+120, menu_factura.getLocation().y);
             }
         });
         Timer timer = new Timer(1000, new ActionListener() {
@@ -181,6 +186,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_modificarPadres = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
         txt_eliminarPadres = new javax.swing.JLabel();
+        menu_factura = new javax.swing.JPanel();
+        txt_generarFcatura = new javax.swing.JLabel();
+        jSeparator11 = new javax.swing.JSeparator();
+        txt_consultarAlmnos1 = new javax.swing.JLabel();
+        jSeparator12 = new javax.swing.JSeparator();
+        txt_modificarAlumnos1 = new javax.swing.JLabel();
+        jSeparator13 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
+        menu_estadisticas = new javax.swing.JPanel();
+        txt_facturasGeneradas = new javax.swing.JLabel();
+        txt_ingresos = new javax.swing.JLabel();
+        jSeparator15 = new javax.swing.JSeparator();
         contenedor = new javax.swing.JPanel();
         logo_lb = new javax.swing.JLabel();
         txt_facturacion = new javax.swing.JLabel();
@@ -260,7 +277,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btn_padres.setBounds(0, 37, 83, 30);
 
         btn_facturas.setBackground(new java.awt.Color(201, 69, 69));
+        btn_facturas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_facturas.setVerifyInputWhenFocusTarget(false);
+        btn_facturas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_facturasMouseClicked(evt);
+            }
+        });
         btn_facturas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_factura.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
@@ -276,7 +299,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btn_facturas.setBounds(252, 37, 83, 30);
 
         btn_estadisticas.setBackground(new java.awt.Color(201, 69, 69));
+        btn_estadisticas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_estadisticas.setVerifyInputWhenFocusTarget(false);
+        btn_estadisticas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_estadisticasMouseClicked(evt);
+            }
+        });
         btn_estadisticas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_estadisticas.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
@@ -292,6 +321,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btn_estadisticas.setBounds(375, 37, 120, 30);
 
         btn_emisor.setBackground(new java.awt.Color(201, 69, 69));
+        btn_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_emisor.setVerifyInputWhenFocusTarget(false);
         btn_emisor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -484,6 +514,64 @@ public class MenuPrincipal extends javax.swing.JFrame {
         fondo.add(menu_padres);
         menu_padres.setBounds(0, 100, 200, 160);
 
+        menu_factura.setBackground(new java.awt.Color(198, 54, 55));
+        menu_factura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txt_generarFcatura.setBackground(new java.awt.Color(255, 255, 255));
+        txt_generarFcatura.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_generarFcatura.setForeground(new java.awt.Color(255, 255, 255));
+        txt_generarFcatura.setText("Generar factura");
+        txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_factura.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+
+        txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
+        txt_consultarAlmnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_consultarAlmnos1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_consultarAlmnos1.setText("Opcion");
+        txt_consultarAlmnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.add(txt_consultarAlmnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+        menu_factura.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+
+        txt_modificarAlumnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_modificarAlumnos1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_modificarAlumnos1.setText("Opcion");
+        txt_modificarAlumnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.add(txt_modificarAlumnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_factura.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Opcion");
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+
+        fondo.add(menu_factura);
+        menu_factura.setBounds(400, 100, 200, 160);
+
+        menu_estadisticas.setBackground(new java.awt.Color(198, 54, 55));
+        menu_estadisticas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_estadisticas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txt_facturasGeneradas.setBackground(new java.awt.Color(255, 255, 255));
+        txt_facturasGeneradas.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_facturasGeneradas.setForeground(new java.awt.Color(255, 255, 255));
+        txt_facturasGeneradas.setText("Facturas generadas");
+        txt_facturasGeneradas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_estadisticas.add(txt_facturasGeneradas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+
+        txt_ingresos.setBackground(new java.awt.Color(255, 255, 255));
+        txt_ingresos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_ingresos.setForeground(new java.awt.Color(255, 255, 255));
+        txt_ingresos.setText("Ingresos");
+        txt_ingresos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_estadisticas.add(txt_ingresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+        menu_estadisticas.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+
+        fondo.add(menu_estadisticas);
+        menu_estadisticas.setBounds(600, 100, 200, 90);
+
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -593,6 +681,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 menu_padres.setVisible(false);  
                 btn_padres.setBackground(colorbtnNoSeleccionado);
                 icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu facturas
+                menu_factura.setVisible(false);  
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu estadisticas
+                menu_estadisticas.setVisible(false);  
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
             }  
         }
     }//GEN-LAST:event_btn_alumnosMouseClicked
@@ -614,12 +710,79 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 icon_item2.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
                 btn_padres.setBackground(colorbtnSeleccionado);
                 //Oculta el resto de menus y cambia sus fonos e iconos
+                //Ocultar menu alumnos
                 menu_alumnos.setVisible(false);  
                 btn_alumnos.setBackground(colorbtnNoSeleccionado);
                 icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu facturas
+                menu_factura.setVisible(false);  
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu estadisticas
+                menu_estadisticas.setVisible(false);  
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
             }  
         }
     }//GEN-LAST:event_btn_padresMouseClicked
+
+    private void btn_facturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_facturasMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+          if(menu_factura.isVisible()){//si es visible el menu
+              //Oculta el menu y cambia el fondo e icos
+                menu_factura.setVisible(false);  
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }else{
+              //Muestra el menu y cambia el color de fondo e icono
+                menu_factura.setVisible(true);
+                icon_item3.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_facturas.setBackground(colorbtnSeleccionado);
+                //Oculta el resto de menus y cambia sus fonos e iconos
+                //Ocultar menu padres
+                menu_padres.setVisible(false);  
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu alumnos
+                menu_alumnos.setVisible(false);  
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu estadisticas
+                menu_estadisticas.setVisible(false);  
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }  
+        }
+    }//GEN-LAST:event_btn_facturasMouseClicked
+
+    private void btn_estadisticasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_estadisticasMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+          if(menu_estadisticas.isVisible()){//si es visible el menu
+              //Oculta el menu y cambia el fondo e icos
+                menu_estadisticas.setVisible(false);  
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }else{
+              //Muestra el menu y cambia el color de fondo e icono
+                menu_estadisticas.setVisible(true);
+                icon_item4.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_estadisticas.setBackground(colorbtnSeleccionado);
+                //Oculta el resto de menus y cambia sus fonos e iconos
+                //Ocultar menu padres
+                menu_padres.setVisible(false);  
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu alumnos
+                menu_alumnos.setVisible(false);  
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu facturas
+                menu_factura.setVisible(false);  
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }  
+        }
+    }//GEN-LAST:event_btn_estadisticasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -679,8 +842,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -691,6 +859,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel logo_lb;
     private javax.swing.JPanel menu_alumnos;
+    private javax.swing.JPanel menu_estadisticas;
+    private javax.swing.JPanel menu_factura;
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
@@ -701,6 +871,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel txt_alumnos;
     private javax.swing.JLabel txt_cerrarSesion;
     private javax.swing.JLabel txt_consultarAlmnos;
+    private javax.swing.JLabel txt_consultarAlmnos1;
     private javax.swing.JLabel txt_consultarPadres;
     private javax.swing.JLabel txt_del;
     private javax.swing.JLabel txt_eliminarPadres;
@@ -708,8 +879,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel txt_estadisticas;
     private javax.swing.JLabel txt_factura;
     private javax.swing.JLabel txt_facturacion;
+    private javax.swing.JLabel txt_facturasGeneradas;
+    private javax.swing.JLabel txt_generarFcatura;
+    private javax.swing.JLabel txt_ingresos;
     private javax.swing.JLabel txt_instituto;
     private javax.swing.JLabel txt_modificarAlumnos;
+    private javax.swing.JLabel txt_modificarAlumnos1;
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
