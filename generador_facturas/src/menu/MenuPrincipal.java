@@ -43,6 +43,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public MenuPrincipal() {
         initComponents();
         
+        //Menus ocultos por defecto
+        menu_padres.setVisible(false);
+        menu_alumnos.setVisible(false);
+        
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
@@ -77,7 +81,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 contenedor_menu.setLocation(menu_user.getLocation().x-650, contenedor_menu.getLocation().y); //contenedor centrado
                 menu_salir.setLocation(barra_nav.getWidth() - menu_salir.getWidth(), menu_salir.getLocation().y);//menu salir responsive
                 //alinear submenus 
-                menu_alumno.setLocation(contenedor_menu.getLocation().x, menu_alumno.getLocation().y);
+                menu_padres.setLocation(contenedor_menu.getLocation().x, menu_alumnos.getLocation().y);
+                menu_alumnos.setLocation(menu_padres.getLocation().x+120, menu_alumnos.getLocation().y);
             }
         });
         //Cuando el usuario extiende por completo la pantalla
@@ -94,7 +99,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 contenedor_menu.setLocation(menu_user.getLocation().x-650, contenedor_menu.getLocation().y); //contenedor centrado
                 menu_salir.setLocation(barra_nav.getWidth()-menu_salir.getWidth(), menu_salir.getLocation().y);//menu salir responsive
                 //alinear submenus 
-                menu_alumno.setLocation(contenedor_menu.getLocation().x, menu_alumno.getLocation().y);
+                menu_padres.setLocation(contenedor_menu.getLocation().x, menu_alumnos.getLocation().y);
             }
         });
         Timer timer = new Timer(1000, new ActionListener() {
@@ -145,7 +150,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         icon_item5 = new javax.swing.JLabel();
         menu_user = new javax.swing.JPanel();
         user_menuIcon = new javax.swing.JLabel();
-        menu_alumno = new javax.swing.JPanel();
+        menu_alumnos = new javax.swing.JPanel();
         txt_altaAlumnos = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         txt_consultarAlmnos = new javax.swing.JLabel();
@@ -168,6 +173,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_cerrarSesion = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
+        menu_padres = new javax.swing.JPanel();
+        txt_altaPadres = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
+        txt_consultarPadres = new javax.swing.JLabel();
+        jSeparator9 = new javax.swing.JSeparator();
+        txt_modificarPadres = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        txt_eliminarPadres = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
         logo_lb = new javax.swing.JLabel();
         txt_facturacion = new javax.swing.JLabel();
@@ -222,10 +235,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btn_alumnos.add(icon_item, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 8, 18, 15));
 
         contenedor_menu.add(btn_alumnos);
-        btn_alumnos.setBounds(0, 37, 83, 30);
+        btn_alumnos.setBounds(127, 37, 83, 30);
 
         btn_padres.setBackground(new java.awt.Color(201, 69, 69));
+        btn_padres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_padres.setVerifyInputWhenFocusTarget(false);
+        btn_padres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_padresMouseClicked(evt);
+            }
+        });
         btn_padres.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_padres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
@@ -238,7 +257,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btn_padres.add(icon_item2, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 8, 18, 15));
 
         contenedor_menu.add(btn_padres);
-        btn_padres.setBounds(125, 37, 83, 30);
+        btn_padres.setBounds(0, 37, 83, 30);
 
         btn_facturas.setBackground(new java.awt.Color(201, 69, 69));
         btn_facturas.setVerifyInputWhenFocusTarget(false);
@@ -311,40 +330,40 @@ public class MenuPrincipal extends javax.swing.JFrame {
         fondo.add(barra_nav);
         barra_nav.setBounds(0, 0, 1050, 100);
 
-        menu_alumno.setBackground(new java.awt.Color(198, 54, 55));
-        menu_alumno.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
+        menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_altaAlumnos.setBackground(new java.awt.Color(255, 255, 255));
         txt_altaAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_altaAlumnos.setForeground(new java.awt.Color(255, 255, 255));
         txt_altaAlumnos.setText("Dar de alta Alumnos");
         txt_altaAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_alumno.add(txt_altaAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_alumno.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+        menu_alumnos.add(txt_altaAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_alumnos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
         txt_consultarAlmnos.setBackground(new java.awt.Color(255, 255, 255));
         txt_consultarAlmnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_consultarAlmnos.setForeground(new java.awt.Color(255, 255, 255));
         txt_consultarAlmnos.setText("Consultar Alumnos");
         txt_consultarAlmnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_alumno.add(txt_consultarAlmnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
-        menu_alumno.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+        menu_alumnos.add(txt_consultarAlmnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+        menu_alumnos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
         txt_modificarAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_modificarAlumnos.setForeground(new java.awt.Color(255, 255, 255));
         txt_modificarAlumnos.setText("Modificar Alumnos");
         txt_modificarAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_alumno.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_alumno.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+        menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
 
         jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Eliminar Alumnos");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_alumno.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+        menu_alumnos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
 
-        fondo.add(menu_alumno);
-        menu_alumno.setBounds(0, 100, 200, 160);
+        fondo.add(menu_alumnos);
+        menu_alumnos.setBounds(200, 100, 200, 160);
 
         menu_salir.setBackground(new java.awt.Color(198, 54, 55));
         menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -425,6 +444,46 @@ public class MenuPrincipal extends javax.swing.JFrame {
         fondo.add(menu_salir);
         menu_salir.setBounds(870, 100, 180, 190);
 
+        menu_padres.setBackground(new java.awt.Color(198, 54, 55));
+        menu_padres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menu_padresMouseClicked(evt);
+            }
+        });
+        menu_padres.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txt_altaPadres.setBackground(new java.awt.Color(255, 255, 255));
+        txt_altaPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_altaPadres.setForeground(new java.awt.Color(255, 255, 255));
+        txt_altaPadres.setText("Dar de alta padres");
+        txt_altaPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_padres.add(txt_altaPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_padres.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+
+        txt_consultarPadres.setBackground(new java.awt.Color(255, 255, 255));
+        txt_consultarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_consultarPadres.setForeground(new java.awt.Color(255, 255, 255));
+        txt_consultarPadres.setText("Consultar Padres");
+        txt_consultarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_padres.add(txt_consultarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+        menu_padres.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+
+        txt_modificarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_modificarPadres.setForeground(new java.awt.Color(255, 255, 255));
+        txt_modificarPadres.setText("Modificar Padres");
+        txt_modificarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_padres.add(txt_modificarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_padres.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        txt_eliminarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_eliminarPadres.setForeground(new java.awt.Color(255, 255, 255));
+        txt_eliminarPadres.setText("Eliminar Padres");
+        txt_eliminarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_padres.add(txt_eliminarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+
+        fondo.add(menu_padres);
+        menu_padres.setBounds(0, 100, 200, 160);
+
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -459,10 +518,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void menu_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_userMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
-            if(menu_salir.isVisible()){//hacer click en el menu de salir
+            if(menu_salir.isVisible()){//si es visible el menu de salir
+                //lo oculta y cambia el color del btn
                 menu_salir.setVisible(false);  
                 menu_user.setBackground(colorbtnNoSeleccionado);
             }else{
+                //Lo muestra y cambia el color del btn
                 menu_salir.setVisible(true);
                 menu_user.setBackground(colorbtnSeleccionado);
             }
@@ -470,7 +531,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menu_userMouseClicked
 
     private void cerrar_iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrar_iconMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
+        if(SwingUtilities.isLeftMouseButton(evt)){//cerrar el menu de salir
             menu_salir.setVisible(false);  
             menu_user.setBackground(colorbtnNoSeleccionado);
         }
@@ -516,17 +577,49 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void btn_alumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alumnosMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-          if(menu_alumno.isVisible()){//hacer click en el menu de salir
-                menu_alumno.setVisible(false);  
+          if(menu_alumnos.isVisible()){//si es visible el menu
+              //Oculta el menu, cambia el color del btn y cambia el icono
+                menu_alumnos.setVisible(false);  
                 btn_alumnos.setBackground(colorbtnNoSeleccionado);
                 icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
             }else{
-                menu_alumno.setVisible(true);
+                //Muestra el menu, cambia el color del btn y cambia el icono
+                menu_alumnos.setVisible(true);
                 icon_item.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
                 btn_alumnos.setBackground(colorbtnSeleccionado);
+                //Oculta los demas menus y cambia el color e iconos
+                //Ocultar menu padres
+                menu_padres.setVisible(false);
+                menu_padres.setVisible(false);  
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
             }  
         }
     }//GEN-LAST:event_btn_alumnosMouseClicked
+
+    private void menu_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_padresMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menu_padresMouseClicked
+
+    private void btn_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_padresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+          if(menu_padres.isVisible()){//si es visible el menu
+              //Oculta el menu y cambia el fondo e icos
+                menu_padres.setVisible(false);  
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }else{
+              //Muestra el menu y cambia el color de fondo e icono
+                menu_padres.setVisible(true);
+                icon_item2.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_padres.setBackground(colorbtnSeleccionado);
+                //Oculta el resto de menus y cambia sus fonos e iconos
+                menu_alumnos.setVisible(false);  
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }  
+        }
+    }//GEN-LAST:event_btn_padresMouseClicked
 
     /**
      * @param args the command line arguments
@@ -587,29 +680,37 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel logo_lb;
-    private javax.swing.JPanel menu_alumno;
+    private javax.swing.JPanel menu_alumnos;
+    private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
+    private javax.swing.JLabel txt_altaPadres;
     private javax.swing.JLabel txt_alumnos;
     private javax.swing.JLabel txt_cerrarSesion;
     private javax.swing.JLabel txt_consultarAlmnos;
+    private javax.swing.JLabel txt_consultarPadres;
     private javax.swing.JLabel txt_del;
+    private javax.swing.JLabel txt_eliminarPadres;
     private javax.swing.JLabel txt_emisor;
     private javax.swing.JLabel txt_estadisticas;
     private javax.swing.JLabel txt_factura;
     private javax.swing.JLabel txt_facturacion;
     private javax.swing.JLabel txt_instituto;
     private javax.swing.JLabel txt_modificarAlumnos;
+    private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
     private javax.swing.JLabel user_menuIcon;
