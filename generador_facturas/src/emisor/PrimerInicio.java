@@ -26,7 +26,8 @@ import javax.swing.Timer;
  * @author ar275
  */
 public class PrimerInicio extends javax.swing.JFrame {
-
+    
+    private String usuario;
     /**
      * Creates new form PrimerInicio
      */
@@ -35,11 +36,8 @@ public class PrimerInicio extends javax.swing.JFrame {
         //Personalizar el tamaño del logo
          Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
-        //Mostrar ventana en el centro
-        this.setLocationRelativeTo(null);//La ventana aparece en el centro
-        this.setIconImage(logo_img);//Agregar logo a ventana
         
-                // Formatear la fecha en el formato "dd/MM/yyyy"
+         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
         // Crear un formato con localización en español
         DateTimeFormatter formatoEspanol = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
@@ -84,6 +82,11 @@ public class PrimerInicio extends javax.swing.JFrame {
             }
         });
         timer.start();
+        
+        //Mostrar ventana en el centro
+        this.setLocationRelativeTo(null);//La ventana aparece en el centro
+        this.setIconImage(logo_img);//Agregar logo a ventana;
+        this.setLocationRelativeTo(null);//La ventana aparece en el centro
     }
 
     /**
@@ -114,6 +117,11 @@ public class PrimerInicio extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Bienvenida");
         setMinimumSize(new java.awt.Dimension(910, 650));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(0, 620));
@@ -229,7 +237,11 @@ public class PrimerInicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    public void setUsuario(String usuario){
+        this.usuario=usuario;
+    }
+    
     private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
         //boton para salir del programa
         Object[] opciones = {"Salir", "Cancelar"};
@@ -247,13 +259,39 @@ public class PrimerInicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_salirMouseClicked
 
+    
     private void btn_continuarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_continuarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
-            AltaEmisor ventana = new AltaEmisor();
+            AltaEmisorPrim ventana = new AltaEmisorPrim();
+            ventana.setUsuario(usuario);
             ventana.setVisible(true);
             this.setVisible(false);
         }
     }//GEN-LAST:event_btn_continuarMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
+        // Mostrar diálogo que pregunta si desea confirmar la salida
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "¿Desea salir de la apliación?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+        // Manejar las opciones seleccionadas
+        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            // Cerrar la aplicación
+            this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        } else {
+            // Evitar que la ventana se cierre
+            this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

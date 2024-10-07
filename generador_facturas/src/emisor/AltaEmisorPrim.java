@@ -35,14 +35,15 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.text.StyledEditorKit;
 import login.login_window;
+import menu.MenuPrincipal;
 import validacion.Validacion;
 
 /**
  *
  * @author ar275
  */
-public class AltaEmisor extends javax.swing.JFrame {
-
+public class AltaEmisorPrim extends javax.swing.JFrame {
+    private String usuario;
     /**
      * Creates new form alta_emisor
      */
@@ -54,7 +55,7 @@ public class AltaEmisor extends javax.swing.JFrame {
     Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/file.png"));
     Image info_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_info.png"));
 
-    public AltaEmisor() {
+    public AltaEmisorPrim() {
         initComponents();
         info_nombre.setVisible(false);
         infoFecha_lb.setVisible(false);
@@ -67,10 +68,6 @@ public class AltaEmisor extends javax.swing.JFrame {
         infoIcon_lb3.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb3.getWidth(), infoIcon_lb3.getHeight(), Image.SCALE_SMOOTH)));
         infoIcon_lb4.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb4.getWidth(), infoIcon_lb4.getHeight(), Image.SCALE_SMOOTH)));
         menu_salir.setVisible(false);
-//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//        this.setSize(this.getSize().width,screenSize.height);
-        this.setLocationRelativeTo(null);//La ventana aparece en el centro
-        this.setLocation(this.getLocation().x,0);
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -124,8 +121,10 @@ public class AltaEmisor extends javax.swing.JFrame {
                 menu_salir.setLocation(barra_nav.getWidth()-200, menu_salir.getLocation().y);
             }
         });
-
         timer.start();
+        this.setIconImage(logo_img);//Agregar logo a ventana;
+        this.setLocationRelativeTo(null);//La ventana aparece en el centro
+        this.setExtendedState(this.MAXIMIZED_BOTH);//ocupa toda la ventana
     }
     
     /**
@@ -479,16 +478,20 @@ public class AltaEmisor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-public boolean existeInfo() {
-    // Retorna true si al menos uno de los campos tiene información que no sea solo espacios
-    return !(entrada_nombres.getText().trim().isEmpty() 
-            && entrada_apellidoPaterno.getText().trim().isEmpty()
-            && entrada_apellidoMaterno.getText().trim().isEmpty() 
-            && entrada_fechaNacimiento.getDate() == null // Verifica si no hay fecha
-            && entrada_correoElectronico.getText().trim().isEmpty() 
-            && entrada_rfc.getText().trim().isEmpty()
-            && entrada_cp.getText().trim().isEmpty());
-}
+   public void setUsuario(String usuario){
+       this.usuario=usuario;
+   }
+    
+    public boolean existeInfo() {
+        // Retorna true si al menos uno de los campos tiene información que no sea solo espacios
+        return !(entrada_nombres.getText().trim().isEmpty()
+                && entrada_apellidoPaterno.getText().trim().isEmpty()
+                && entrada_apellidoMaterno.getText().trim().isEmpty()
+                && entrada_fechaNacimiento.getDate() == null // Verifica si no hay fecha
+                && entrada_correoElectronico.getText().trim().isEmpty()
+                && entrada_rfc.getText().trim().isEmpty()
+                && entrada_cp.getText().trim().isEmpty());
+    }
 
     public boolean fechaValida(){
         return entrada_fechaNacimiento.getDate() != null;
@@ -505,7 +508,7 @@ public boolean existeInfo() {
                 return true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AltaEmisor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;//Retorna falso si no encuentra el RFC
     }
@@ -578,7 +581,11 @@ public boolean existeInfo() {
             //Verifica que se realizó el registro
             int filas_insertadas = ps.executeUpdate();
             if(filas_insertadas >0){
-                 JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
+                MenuPrincipal ventana = new MenuPrincipal();
+                ventana.setUsuario(usuario);
+                ventana.setVisible(true);
+                this.setVisible(false);
             }else{
                  JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);
             }
@@ -680,7 +687,6 @@ public boolean existeInfo() {
                 return;
             }
             altaEmisor();
-            System.out.println("Muy bien");
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
 
@@ -723,29 +729,24 @@ public boolean existeInfo() {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
-        if (existeInfo()) {
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "Se perderán los datos ingresados, ¿Está seguro de salir?",
-                    "Datos no guardados",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+        // Mostrar diálogo que pregunta si desea confirmar la salida
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "Se perderán los datos ingresados, ¿Está seguro de salir?",
+                "Datos no guardados",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
 
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                // Cerrar la aplicación
-                this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-            } else {
-                // Evitar que la ventana se cierre
-                this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
-            }
-        } else {
-            // Si no hay información importante, permitir el cierre
+        // Manejar las opciones seleccionadas
+        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            // Cerrar la aplicación
             this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        } else {
+            // Evitar que la ventana se cierre
+            this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         }
     }//GEN-LAST:event_formWindowClosing
 
@@ -766,21 +767,23 @@ public boolean existeInfo() {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AltaEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisorPrim.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AltaEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisorPrim.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AltaEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisorPrim.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AltaEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisorPrim.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AltaEmisor().setVisible(true);
+                new AltaEmisorPrim().setVisible(true);
             }
         });
     }

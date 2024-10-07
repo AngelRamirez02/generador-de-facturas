@@ -33,6 +33,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      * Creates new form MenuPrincipal
      * 
      */
+    private String usuario;//Nombre del usuario que inicia sesión
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -123,8 +124,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         timer.start();
+        txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
+        this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
+        this.setExtendedState(this.MAXIMIZED_BOTH);
     }
 
     /**
@@ -213,10 +217,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_del = new javax.swing.JLabel();
         txt_instituto = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(1050, 650));
@@ -428,8 +437,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
-        txt_nombreUser.setText("User");
-        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 80, 50));
+        txt_nombreUser.setText("Administrador");
+        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
 
         cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
         cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -438,9 +447,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 cerrar_iconMouseClicked(evt);
             }
         });
-        nombre_user.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, 30));
+        nombre_user.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 30));
 
-        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, -1));
+        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
 
         btn_salir.setBackground(new java.awt.Color(198, 54, 55));
         btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
@@ -486,7 +495,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 135, 180, 50));
 
         fondo.add(menu_salir);
-        menu_salir.setBounds(870, 100, 180, 190);
+        menu_salir.setBounds(840, 100, 210, 190);
 
         menu_padres.setBackground(new java.awt.Color(198, 54, 55));
         menu_padres.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -647,6 +656,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setUsuario(String usuario){
+        this.usuario=usuario;
+        txt_nombreUser.setText(usuario);
+    }
+    
     private void menu_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_userMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
             if(menu_salir.isVisible()){//si es visible el menu de salir
@@ -908,6 +922,30 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }  
         }
     }//GEN-LAST:event_btn_emisorMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
+        // Mostrar diálogo que pregunta si desea confirmar la salida
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "¿Desea salir de la apliación?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+        // Manejar las opciones seleccionadas
+        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            // Cerrar la aplicación
+            this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        } else {
+            // Evitar que la ventana se cierre
+            this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
