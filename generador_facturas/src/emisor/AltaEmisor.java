@@ -636,7 +636,11 @@ public boolean existeInfo() {
 
     private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
          if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            if(!valida.nombresValidos(entrada_nombres.getText())){
+            if(!existeInfo()){
+                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+             if(!valida.nombresValidos(entrada_nombres.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_nombres.requestFocusInWindow();
                 return;
