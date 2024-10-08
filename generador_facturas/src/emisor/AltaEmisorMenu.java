@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package menu;
+package emisor;
 
-import emisor.AltaEmisorMenu;
+import conexion.conexion;
+import menu.*;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -14,36 +15,64 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import login.login_window;
+import validacion.Validacion;
 
 /**
  *
  * @author ar275
  */
-public class MenuPrincipal extends javax.swing.JFrame {
+public class AltaEmisorMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form MenuPrincipal
      * 
      */
+    conexion cx = new conexion();
     private String usuario;//Nombre del usuario que inicia sesión
+    Validacion valida = new Validacion();//objeto para valdicar los datos
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
     Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
      //Imagen para menu selccionado
-     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-    public MenuPrincipal() {
+    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
+    Image info_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_info.png"));
+    
+    Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
+    
+     public AltaEmisorMenu() {
         initComponents();
+        
+        info_nombre.setVisible(false);
+        infoFecha_lb.setVisible(false);
+        infoRFC_lb.setVisible(false);
+        infocp_lb.setVisible(false);
+        
+        infoIcon_lb.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));
+        infoIcon_lb2.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));
+        infoIcon_lb3.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb3.getWidth(), infoIcon_lb3.getHeight(), Image.SCALE_SMOOTH)));
+        infoIcon_lb4.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb4.getWidth(), infoIcon_lb4.getHeight(), Image.SCALE_SMOOTH)));
+        
+        icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
         
         //Menus ocultos por defecto
         menu_padres.setVisible(false);
@@ -53,7 +82,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
-        logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
        
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -90,6 +118,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 menu_factura.setLocation(menu_alumnos.getLocation().x+120, menu_factura.getLocation().y);
                 menu_estadisticas.setLocation(menu_factura.getLocation().x+120, menu_estadisticas.getLocation().y);
                 menu_emisor.setLocation(menu_estadisticas.getLocation().x+120, menu_emisor.getLocation().y);
+                icon_regresarlb.setLocation(30, icon_regresarlb.getLocation().y);
             }
         });
         //Cuando el usuario extiende por completo la pantalla
@@ -142,6 +171,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         fondo = new javax.swing.JPanel();
+        icon_regresarlb = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
@@ -196,8 +226,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_eliminarPadres = new javax.swing.JLabel();
         menu_factura = new javax.swing.JPanel();
         txt_generarFcatura = new javax.swing.JLabel();
+        jSeparator11 = new javax.swing.JSeparator();
         txt_consultarAlmnos1 = new javax.swing.JLabel();
         jSeparator12 = new javax.swing.JSeparator();
+        txt_modificarAlumnos1 = new javax.swing.JLabel();
+        jSeparator13 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
         menu_estadisticas = new javax.swing.JPanel();
         txt_facturasGeneradas = new javax.swing.JLabel();
         txt_ingresos = new javax.swing.JLabel();
@@ -209,10 +243,39 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jSeparator16 = new javax.swing.JSeparator();
         txt_eliminarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
-        logo_lb = new javax.swing.JLabel();
-        txt_facturacion = new javax.swing.JLabel();
-        txt_del = new javax.swing.JLabel();
-        txt_instituto = new javax.swing.JLabel();
+        infoIcon_lb4 = new javax.swing.JLabel();
+        infocp_lb = new javax.swing.JLabel();
+        infoRFC_lb = new javax.swing.JLabel();
+        infoIcon_lb3 = new javax.swing.JLabel();
+        infoFecha_lb = new javax.swing.JLabel();
+        infoIcon_lb = new javax.swing.JLabel();
+        info_nombre = new javax.swing.JLabel();
+        infoIcon_lb2 = new javax.swing.JLabel();
+        btn_guardarDatos = new paneles.PanelRound();
+        contenedor_btn = new paneles.PanelRound();
+        text_guardarDatos = new javax.swing.JLabel();
+        entrada_cp = new javax.swing.JFormattedTextField();
+        entrada_regimen = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        entrada_rfc = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        entrada_correoElectronico = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        entrada_apellidoMaterno = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        entrada_apellidoPaterno = new javax.swing.JTextField();
+        entrada_nombres = new javax.swing.JTextField();
+        nombres_lb = new javax.swing.JLabel();
+        registrarEmisor_Titulo = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        datosPersonales_titulo = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        datosfiscales_titulo = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        entrada_fechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
@@ -227,6 +290,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(1050, 650));
         fondo.setLayout(null);
+
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        fondo.add(icon_regresarlb);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         barra_nav.setBackground(new java.awt.Color(201, 69, 69));
         barra_nav.setLayout(null);
@@ -386,7 +460,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_altaAlumnos.setBackground(new java.awt.Color(255, 255, 255));
         txt_altaAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_altaAlumnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_altaAlumnos.setText("Dar de alta Alumno");
+        txt_altaAlumnos.setText("Dar de alta Alumnos");
         txt_altaAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_alumnos.add(txt_altaAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
         menu_alumnos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
@@ -394,21 +468,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_consultarAlmnos.setBackground(new java.awt.Color(255, 255, 255));
         txt_consultarAlmnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_consultarAlmnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos.setText("Consultar Alumno");
+        txt_consultarAlmnos.setText("Consultar Alumnos");
         txt_consultarAlmnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_alumnos.add(txt_consultarAlmnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
         menu_alumnos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
         txt_modificarAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_modificarAlumnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_modificarAlumnos.setText("Modificar Alumno");
+        txt_modificarAlumnos.setText("Modificar Alumnos");
         txt_modificarAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
         menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
 
         jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Eliminar Alumno");
+        jLabel1.setText("Eliminar Alumnos");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_alumnos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
 
@@ -505,7 +579,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_altaPadres.setBackground(new java.awt.Color(255, 255, 255));
         txt_altaPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_altaPadres.setForeground(new java.awt.Color(255, 255, 255));
-        txt_altaPadres.setText("Dar de alta padre");
+        txt_altaPadres.setText("Dar de alta padres");
         txt_altaPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_padres.add(txt_altaPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
         menu_padres.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
@@ -513,21 +587,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_consultarPadres.setBackground(new java.awt.Color(255, 255, 255));
         txt_consultarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_consultarPadres.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarPadres.setText("Consultar Padre");
+        txt_consultarPadres.setText("Consultar Padres");
         txt_consultarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_padres.add(txt_consultarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
         menu_padres.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
         txt_modificarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_modificarPadres.setForeground(new java.awt.Color(255, 255, 255));
-        txt_modificarPadres.setText("Modificar Padre");
+        txt_modificarPadres.setText("Modificar Padres");
         txt_modificarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_padres.add(txt_modificarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
         menu_padres.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
 
         txt_eliminarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_eliminarPadres.setForeground(new java.awt.Color(255, 255, 255));
-        txt_eliminarPadres.setText("Eliminar Padre");
+        txt_eliminarPadres.setText("Eliminar Padres");
         txt_eliminarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_padres.add(txt_eliminarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
 
@@ -544,17 +618,31 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_generarFcatura.setText("Generar factura");
         txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_factura.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
         txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
         txt_consultarAlmnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_consultarAlmnos1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos1.setText("Consultar facturas");
+        txt_consultarAlmnos1.setText("Opcion");
         txt_consultarAlmnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_factura.add(txt_consultarAlmnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
         menu_factura.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
+        txt_modificarAlumnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_modificarAlumnos1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_modificarAlumnos1.setText("Opcion");
+        txt_modificarAlumnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.add(txt_modificarAlumnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_factura.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Opcion");
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+
         fondo.add(menu_factura);
-        menu_factura.setBounds(400, 100, 200, 90);
+        menu_factura.setBounds(400, 100, 200, 160);
 
         menu_estadisticas.setBackground(new java.awt.Color(198, 54, 55));
         menu_estadisticas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -613,31 +701,217 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menu_emisor.setBounds(800, 100, 200, 130);
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
-        contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        contenedor.setLayout(null);
 
-        logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
-        logo_lb.setText("jLabel2");
-        logo_lb.setMaximumSize(new java.awt.Dimension(400, 400));
-        logo_lb.setMinimumSize(new java.awt.Dimension(400, 400));
-        logo_lb.setPreferredSize(new java.awt.Dimension(400, 600));
-        contenedor.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, 370, 360));
+        infoIcon_lb4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_info.png"))); // NOI18N
+        infoIcon_lb4.setText("jLabel11");
+        infoIcon_lb4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lb4MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lb4MouseExited(evt);
+            }
+        });
+        contenedor.add(infoIcon_lb4);
+        infoIcon_lb4.setBounds(842, 303, 20, 20);
 
-        txt_facturacion.setFont(new java.awt.Font("Teko", 1, 40)); // NOI18N
-        txt_facturacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_facturacion.setText("SISTEMA DE FACTURACIÓN");
-        contenedor.add(txt_facturacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 570, 60));
+        infocp_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        infocp_lb.setText("Un código postal debe ser de 5 números");
+        contenedor.add(infocp_lb);
+        infocp_lb.setBounds(670, 330, 216, 15);
 
-        txt_del.setFont(new java.awt.Font("Teko", 1, 40)); // NOI18N
-        txt_del.setText("DEL");
-        contenedor.add(txt_del, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, -1, -1));
+        infoRFC_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        infoRFC_lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoRFC_lb.setText("El RFC es de 13 digitos formado por apellidos, nombre y fecha de nacimiento");
+        infoRFC_lb.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        contenedor.add(infoRFC_lb);
+        infoRFC_lb.setBounds(570, 260, 430, 30);
 
-        txt_instituto.setFont(new java.awt.Font("Teko", 1, 36)); // NOI18N
-        txt_instituto.setForeground(new java.awt.Color(198, 54, 55));
-        txt_instituto.setText("“INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR”");
-        contenedor.add(txt_instituto, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 660, -1));
+        infoIcon_lb3.setText("jLabel11");
+        infoIcon_lb3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lb3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lb3MouseExited(evt);
+            }
+        });
+        contenedor.add(infoIcon_lb3);
+        infoIcon_lb3.setBounds(840, 242, 20, 20);
+
+        infoFecha_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        infoFecha_lb.setText("Ej: 02 dic 2003");
+        contenedor.add(infoFecha_lb);
+        infoFecha_lb.setBounds(400, 460, 80, 15);
+
+        infoIcon_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_info.png"))); // NOI18N
+        infoIcon_lb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lbMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lbMouseExited(evt);
+            }
+        });
+        contenedor.add(infoIcon_lb);
+        infoIcon_lb.setBounds(450, 240, 20, 20);
+
+        info_nombre.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        info_nombre.setText("Ingrese los nombres separados por espacio");
+        contenedor.add(info_nombre);
+        info_nombre.setBounds(240, 263, 232, 20);
+
+        infoIcon_lb2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_info.png"))); // NOI18N
+        infoIcon_lb2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lb2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lb2MouseExited(evt);
+            }
+        });
+        contenedor.add(infoIcon_lb2);
+        infoIcon_lb2.setBounds(450, 427, 20, 20);
+
+        btn_guardarDatos.setBackground(new java.awt.Color(0, 0, 0));
+        btn_guardarDatos.setRoundBottomLeft(10);
+        btn_guardarDatos.setRoundBottomRight(10);
+        btn_guardarDatos.setRoundTopLeft(10);
+        btn_guardarDatos.setRoundTopRight(10);
+        btn_guardarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_guardarDatosMouseClicked(evt);
+            }
+        });
+        btn_guardarDatos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        contenedor_btn.setBackground(new java.awt.Color(217, 217, 217));
+        contenedor_btn.setRoundBottomLeft(10);
+        contenedor_btn.setRoundBottomRight(10);
+        contenedor_btn.setRoundTopLeft(10);
+        contenedor_btn.setRoundTopRight(10);
+        contenedor_btn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        text_guardarDatos.setText("Guardar datos del emisor");
+        text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
+
+        btn_guardarDatos.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 240, 40));
+
+        contenedor.add(btn_guardarDatos);
+        btn_guardarDatos.setBounds(400, 550, 245, 45);
+
+        try {
+            entrada_cp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        contenedor.add(entrada_cp);
+        entrada_cp.setBounds(680, 300, 160, 27);
+
+        entrada_regimen.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        entrada_regimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Simplificado de Confianza. ", "612  Persona Física con Actividad Empresarial", "605  Sueldos y Salarios e Ingresos Asimilados a Salarios" }));
+        entrada_regimen.setSelectedIndex(1);
+        contenedor.add(entrada_regimen);
+        entrada_regimen.setBounds(680, 360, 360, 30);
+
+        jLabel10.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel10.setText("Código postal");
+        contenedor.add(jLabel10);
+        jLabel10.setBounds(540, 300, 120, 22);
+        contenedor.add(entrada_rfc);
+        entrada_rfc.setBounds(680, 240, 157, 22);
+
+        jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel9.setText("Regimen Fiscal");
+        contenedor.add(jLabel9);
+        jLabel9.setBounds(540, 370, 126, 22);
+
+        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel8.setText("RFC");
+        contenedor.add(jLabel8);
+        jLabel8.setBounds(540, 240, 35, 22);
+        contenedor.add(entrada_correoElectronico);
+        entrada_correoElectronico.setBounds(260, 490, 190, 22);
+
+        jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel7.setText("Correo electronico");
+        contenedor.add(jLabel7);
+        jLabel7.setBounds(70, 490, 170, 20);
+
+        jLabel6.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel6.setText("Fecha de nacimiento");
+        contenedor.add(jLabel6);
+        jLabel6.setBounds(70, 430, 180, 20);
+        contenedor.add(entrada_apellidoMaterno);
+        entrada_apellidoMaterno.setBounds(258, 364, 190, 22);
+
+        jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel5.setText("Apellido Materno");
+        contenedor.add(jLabel5);
+        jLabel5.setBounds(70, 367, 150, 22);
+
+        jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel3.setText("Apellido peterno");
+        contenedor.add(jLabel3);
+        jLabel3.setBounds(70, 305, 140, 22);
+        contenedor.add(entrada_apellidoPaterno);
+        entrada_apellidoPaterno.setBounds(258, 302, 190, 22);
+        contenedor.add(entrada_nombres);
+        entrada_nombres.setBounds(258, 237, 190, 22);
+
+        nombres_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        nombres_lb.setText("Nombre (s)");
+        contenedor.add(nombres_lb);
+        nombres_lb.setBounds(70, 240, 110, 22);
+
+        registrarEmisor_Titulo.setBackground(new java.awt.Color(255, 255, 255));
+        registrarEmisor_Titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Roboto Light", 1, 48)); // NOI18N
+        jLabel4.setText("Registrar emisor");
+        registrarEmisor_Titulo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, -1, 60));
+
+        contenedor.add(registrarEmisor_Titulo);
+        registrarEmisor_Titulo.setBounds(200, 60, 620, 60);
+
+        datosPersonales_titulo.setBackground(new java.awt.Color(255, 255, 255));
+        datosPersonales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Datos personales");
+        datosPersonales_titulo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 30));
+
+        contenedor.add(datosPersonales_titulo);
+        datosPersonales_titulo.setBounds(115, 180, 200, 30);
+
+        datosfiscales_titulo.setBackground(new java.awt.Color(255, 255, 255));
+        datosfiscales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Datos fiscales");
+        datosfiscales_titulo.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 30));
+
+        contenedor.add(datosfiscales_titulo);
+        datosfiscales_titulo.setBounds(640, 180, 170, 30);
+
+        entrada_fechaNacimiento.setDateFormatString("dd MMM y");
+        entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1735628468000L));
+        entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
+        contenedor.add(entrada_fechaNacimiento);
+        entrada_fechaNacimiento.setBounds(258, 426, 190, 22);
 
         fondo.add(contenedor);
-        contenedor.setBounds(30, 150, 990, 510);
+        contenedor.setBounds(0, 0, 1050, 650);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -935,14 +1209,230 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void infoIcon_lb4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb4MouseEntered
+        infocp_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb4MouseEntered
+
+    private void infoIcon_lb4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb4MouseExited
+        infocp_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb4MouseExited
+
+    private void infoIcon_lb3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseEntered
+        infoRFC_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb3MouseEntered
+
+    private void infoIcon_lb3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseExited
+        infoRFC_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb3MouseExited
+
+    private void infoIcon_lbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseEntered
+        info_nombre.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lbMouseEntered
+
+    private void infoIcon_lbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseExited
+        info_nombre.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lbMouseExited
+
+    private void infoIcon_lb2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseEntered
+        infoFecha_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb2MouseEntered
+
+    private void infoIcon_lb2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseExited
+        infoFecha_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb2MouseExited
+
+    public boolean existeInfo() {
+        // Retorna true si al menos uno de los campos tiene información que no sea solo espacios
+        return !(entrada_nombres.getText().trim().isEmpty()
+                && entrada_apellidoPaterno.getText().trim().isEmpty()
+                && entrada_apellidoMaterno.getText().trim().isEmpty()
+                && entrada_fechaNacimiento.getDate() == null // Verifica si no hay fecha
+                && entrada_correoElectronico.getText().trim().isEmpty()
+                && entrada_rfc.getText().trim().isEmpty()
+                && entrada_cp.getText().trim().isEmpty());
+    }
+
+    public boolean fechaValida(){
+        return entrada_fechaNacimiento.getDate() != null;
+    }
+
+    public boolean rfc_existente(){
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_rfc = "SELECT * FROM emisor WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
+            ps.setString(1, entrada_rfc.getText());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){//si encuentra un fila con el RFC quiere decir que ya existe
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;//Retorna falso si no encuentra el RFC
+    }
+    
+    //Funcion para validar el RFC
+    public boolean rfc_valido() {
+        if (entrada_rfc.getText().length() != 13) {
+            JOptionPane.showMessageDialog(null, "El tamaño del RFC es de 13 caracteres obligatoriamnete", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        //obtener la homoclave del RFC ingresado
+        String rfc_user = entrada_rfc.getText().toUpperCase();
+        String homoclave = "";
+        homoclave += entrada_rfc.getText().toUpperCase().charAt(10);
+        homoclave += entrada_rfc.getText().toUpperCase().charAt(11);
+        homoclave += entrada_rfc.getText().toUpperCase().charAt(12);
+
+        // Obtener el objeto Date desde el JDateChooser
+        Date fechaNacimiento = entrada_fechaNacimiento.getDate();
+        // Crear una instancia de Calendar y asignarle la fecha
+        Calendar calendarFechaNacimiento = Calendar.getInstance();
+        calendarFechaNacimiento.setTime(fechaNacimiento);
+        //Crea RFC 
+        String rfc_sistema = valida.crear_rfc(
+                entrada_nombres.getText(),
+                entrada_apellidoPaterno.getText(),
+                entrada_apellidoMaterno.getText(),
+                calendarFechaNacimiento, // Pasa el objeto Calendar aquí
+                homoclave
+        );
+        //Verifica si coincide con el RFC del sistema
+        if (rfc_user.equals(rfc_sistema)){
+            //Expresion para validar un RFC
+            String regex = "^[A-ZÑ&]{4}\\d{6}[A-Z0-9]{3}$";
+            // Compilar la expresión regular en un patrón
+            Pattern pattern = Pattern.compile(regex);
+            // Crear el matcher que validará el RFC
+            Matcher matcher = pattern.matcher(rfc_user);
+            // Retornar si coincide o no
+            if(matcher.matches()){
+               return true; 
+            }
+            JOptionPane.showMessageDialog(null, "Ingrese un RFC valido", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        JOptionPane.showMessageDialog(null,"El RFC no coincide con el nombre, apellidos o con la fecha de nacimiento del emisor", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    public void altaEmisor() {
+        try {
+            int cp = Integer.parseInt(entrada_cp.getText());
+            //Obtener todos los datos de entrada
+            Date fecha_nacimiento = entrada_fechaNacimiento.getDate();
+            java.sql.Date fecha_sql = new java.sql.Date(fecha_nacimiento.getTime());
+            //Crear conexion a la base de datos
+            //Preparar consulta para insertar los datos
+            String query_alta = "INSERT INTO emisor "
+                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domiciolio_fiscal, regimen)"
+                    + "VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
+            ps.setString(1, entrada_rfc.getText().toUpperCase());
+            ps.setString(2, entrada_nombres.getText());
+            ps.setString(3, entrada_apellidoPaterno.getText());
+            ps.setString(4, entrada_apellidoMaterno.getText());
+            ps.setDate(5, fecha_sql);
+            ps.setString(6, entrada_correoElectronico.getText());
+            ps.setInt(7, cp);
+            ps.setString(8, entrada_regimen.getSelectedItem().toString());
+            
+            //Verifica que se realizó el registro
+            int filas_insertadas = ps.executeUpdate();
+            if(filas_insertadas >0){
+                JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }else{
+                 JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);;
+        }
+    }
+    
+    private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            if(!existeInfo()){
+                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(!valida.nombresValidos(entrada_nombres.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_nombres.requestFocusInWindow();
+                return;
+            }
+            if(!valida.apellidoValido(entrada_apellidoPaterno.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_apellidoPaterno.requestFocusInWindow();
+                return;
+            }
+            if(!valida.apellidoValido(entrada_apellidoMaterno.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_apellidoMaterno.requestFocusInWindow();
+                return;
+            }
+            if(!fechaValida()){
+                JOptionPane.showMessageDialog(null, "Ingrese una fecha de nacimiento valida", "Fecha no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_fechaNacimiento.requestFocusInWindow();
+                return;
+            }
+            if(!valida.correo_valido(entrada_correoElectronico.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un correo electronico valido", "Correo no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_correoElectronico.requestFocusInWindow();
+                return;
+            }
+            if(!rfc_valido()){
+                entrada_rfc.requestFocusInWindow();
+                return;
+            }
+            if(rfc_existente()){
+                JOptionPane.showMessageDialog(null, "El RFC ya se encuentra registrado", "RFC existente", JOptionPane.WARNING_MESSAGE);
+                entrada_rfc.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(!valida.cpValido(entrada_cp.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            altaEmisor();
+        }
+    }//GEN-LAST:event_btn_guardarDatosMouseClicked
+
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
-       if (SwingUtilities.isLeftMouseButton(evt)){
-           AltaEmisorMenu ventana = new AltaEmisorMenu();
+        if (SwingUtilities.isLeftMouseButton(evt)){
+            
+        }
+    }//GEN-LAST:event_txt_altaEmisorMouseClicked
+
+    private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
+        // Mostrar diálogo que pregunta si desea confirmar la salida
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "¿Regresar a la pantalla de inicio?",
+                "Confirmación de volver",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+        // Manejar las opciones seleccionadas
+        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            //Regresa al menu principal
+           MenuPrincipal ventana = new MenuPrincipal();
            ventana.setUsuario(usuario);
            ventana.setVisible(true);
            this.setVisible(false);
+        } else {
+            // Evitar que la ventana se cierre
+            return;
+        } 
         }
-    }//GEN-LAST:event_txt_altaEmisorMouseClicked
+    }//GEN-LAST:event_icon_regresarlbMouseClicked
 
     /**
      * @param args the command line arguments
@@ -961,20 +1451,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipal().setVisible(true);
+                new AltaEmisorMenu().setVisible(true);
             }
         });
     }
@@ -987,11 +1478,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
+    private paneles.PanelRound btn_guardarDatos;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
     private javax.swing.JPanel contenedor;
+    private paneles.PanelRound contenedor_btn;
     private javax.swing.JPanel contenedor_menu;
+    private javax.swing.JPanel datosPersonales_titulo;
+    private javax.swing.JPanel datosfiscales_titulo;
+    private javax.swing.JTextField entrada_apellidoMaterno;
+    private javax.swing.JTextField entrada_apellidoPaterno;
+    private javax.swing.JTextField entrada_correoElectronico;
+    private javax.swing.JFormattedTextField entrada_cp;
+    private com.toedter.calendar.JDateChooser entrada_fechaNacimiento;
+    private javax.swing.JTextField entrada_nombres;
+    private javax.swing.JComboBox<String> entrada_regimen;
+    private javax.swing.JTextField entrada_rfc;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel hora_lb;
     private javax.swing.JLabel icon_item;
@@ -999,12 +1502,34 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item3;
     private javax.swing.JLabel icon_item4;
     private javax.swing.JLabel icon_item5;
+    private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
+    private javax.swing.JLabel infoFecha_lb;
+    private javax.swing.JLabel infoIcon_lb;
+    private javax.swing.JLabel infoIcon_lb2;
+    private javax.swing.JLabel infoIcon_lb3;
+    private javax.swing.JLabel infoIcon_lb4;
+    private javax.swing.JLabel infoRFC_lb;
+    private javax.swing.JLabel info_nombre;
+    private javax.swing.JLabel infocp_lb;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
@@ -1016,7 +1541,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JLabel logo_lb;
     private javax.swing.JPanel menu_alumnos;
     private javax.swing.JPanel menu_emisor;
     private javax.swing.JPanel menu_estadisticas;
@@ -1025,6 +1549,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
+    private javax.swing.JLabel nombres_lb;
+    private javax.swing.JPanel registrarEmisor_Titulo;
+    private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;
@@ -1034,19 +1561,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel txt_consultarAlmnos;
     private javax.swing.JLabel txt_consultarAlmnos1;
     private javax.swing.JLabel txt_consultarPadres;
-    private javax.swing.JLabel txt_del;
     private javax.swing.JLabel txt_editarEmisor;
     private javax.swing.JLabel txt_eliminarEmisor;
     private javax.swing.JLabel txt_eliminarPadres;
     private javax.swing.JLabel txt_emisor;
     private javax.swing.JLabel txt_estadisticas;
     private javax.swing.JLabel txt_factura;
-    private javax.swing.JLabel txt_facturacion;
     private javax.swing.JLabel txt_facturasGeneradas;
     private javax.swing.JLabel txt_generarFcatura;
     private javax.swing.JLabel txt_ingresos;
-    private javax.swing.JLabel txt_instituto;
     private javax.swing.JLabel txt_modificarAlumnos;
+    private javax.swing.JLabel txt_modificarAlumnos1;
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;

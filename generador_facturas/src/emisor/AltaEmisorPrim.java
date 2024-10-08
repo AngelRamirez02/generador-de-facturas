@@ -223,6 +223,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         barra_nav.add(hora_lb);
         hora_lb.setBounds(40, 40, 130, 22);
 
+        btn_menu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btn_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/menu_icon.png"))); // NOI18N
         btn_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_menu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -569,7 +570,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                     + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domiciolio_fiscal, regimen)"
                     + "VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
-            ps.setString(1, entrada_rfc.getText());
+            ps.setString(1, entrada_rfc.getText().toUpperCase());
             ps.setString(2, entrada_nombres.getText());
             ps.setString(3, entrada_apellidoPaterno.getText());
             ps.setString(4, entrada_apellidoMaterno.getText());
