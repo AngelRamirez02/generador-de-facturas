@@ -1437,6 +1437,7 @@ public class ModificarPadre extends javax.swing.JFrame {
                 actualizarEmisor();
                 //volver a la lista de los emisores
                 ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+                ventana.setUsuario(usuario);
                 ventana.setVisible(true);
                 this.dispose();
             } else {
@@ -1492,7 +1493,7 @@ public class ModificarPadre extends javax.swing.JFrame {
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 //Regresa al menu principal
-                ConsultarEmisor ventana = new ConsultarEmisor();
+                ConsultarPadresEdit ventana = new ConsultarPadresEdit();
                 ventana.setUsuario(usuario);
                 ventana.setVisible(true);
                 this.dispose();

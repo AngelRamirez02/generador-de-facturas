@@ -87,6 +87,7 @@ public class PrimerInicio extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
+        this.setExtendedState(this.MAXIMIZED_BOTH);
     }
 
     /**

@@ -1437,6 +1437,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
                 actualizarEmisor();
                 //volver a la lista de los emisores
                 ConsultarEmisor ventana = new ConsultarEmisor();
+                ventana.setUsuario(usuario);
                 ventana.setVisible(true);
                 this.dispose();
             } else {
