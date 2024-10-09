@@ -81,7 +81,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         
-       
+       //boton acatulizar oculto por defecto
+       btn_actualizar.setVisible(false);
+        
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -248,7 +250,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         tabla_emisor = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        btn_guardarDatos = new paneles.PanelRound();
+        btn_actualizar = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
         text_guardarDatos = new javax.swing.JLabel();
 
@@ -696,17 +698,17 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         jLabel2.setText("Seleccione el emisor a editar");
         contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 520, 50));
 
-        btn_guardarDatos.setBackground(new java.awt.Color(0, 0, 0));
-        btn_guardarDatos.setRoundBottomLeft(10);
-        btn_guardarDatos.setRoundBottomRight(10);
-        btn_guardarDatos.setRoundTopLeft(10);
-        btn_guardarDatos.setRoundTopRight(10);
-        btn_guardarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_actualizar.setBackground(new java.awt.Color(0, 0, 0));
+        btn_actualizar.setRoundBottomLeft(10);
+        btn_actualizar.setRoundBottomRight(10);
+        btn_actualizar.setRoundTopLeft(10);
+        btn_actualizar.setRoundTopRight(10);
+        btn_actualizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_guardarDatosMouseClicked(evt);
+                btn_actualizarMouseClicked(evt);
             }
         });
-        btn_guardarDatos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        btn_actualizar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         contenedor_btn.setBackground(new java.awt.Color(217, 217, 217));
         contenedor_btn.setRoundBottomLeft(10);
@@ -721,9 +723,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 40));
 
-        btn_guardarDatos.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
+        btn_actualizar.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
 
-        contenedor.add(btn_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
+        contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
 
         fondo.add(contenedor);
         contenedor.setBounds(30, 150, 990, 510);
@@ -1059,15 +1061,19 @@ public class ConsultarEmisor extends javax.swing.JFrame {
            AltaEmisorMenu ventana = new AltaEmisorMenu();
            ventana.setUsuario(usuario);
            ventana.setVisible(true);
-           this.setVisible(false);
+           this.dispose();
         }
     }//GEN-LAST:event_txt_altaEmisorMouseClicked
 
-    private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
+    private void btn_actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_actualizarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
-            System.out.println(fecha_nacimiento);
+            ModificarEmisor ventana = new ModificarEmisor();
+            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp);
+            ventana.setUsuario(usuario);
+            ventana.setVisible(true);
+            this.dispose();
         }
-    }//GEN-LAST:event_btn_guardarDatosMouseClicked
+    }//GEN-LAST:event_btn_actualizarMouseClicked
 
     private void tabla_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_emisorMouseClicked
         int fila = tabla_emisor.getSelectedRow();
@@ -1085,7 +1091,11 @@ public class ConsultarEmisor extends javax.swing.JFrame {
             correo_electronico = (String) tabla_emisor.getValueAt(fila, 5);
             cp = (int) tabla_emisor.getValueAt(fila, 6);
             regimen = (String) tabla_emisor.getValueAt(fila, 7);
-
+            if(!btn_actualizar.isVisible()){
+                btn_actualizar.setVisible(true);
+            }
+        }else{
+            btn_actualizar.setVisible(false);
         }
     }//GEN-LAST:event_tabla_emisorMouseClicked
 
@@ -1128,12 +1138,12 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
     private javax.swing.JPanel barra_nav;
+    private paneles.PanelRound btn_actualizar;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
-    private paneles.PanelRound btn_guardarDatos;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;

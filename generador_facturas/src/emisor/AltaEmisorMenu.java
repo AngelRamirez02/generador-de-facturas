@@ -675,6 +675,11 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         txt_editarEmisor.setForeground(new java.awt.Color(255, 255, 255));
         txt_editarEmisor.setText("Editar emisor");
         txt_editarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_editarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_editarEmisorMouseClicked(evt);
+            }
+        });
         menu_emisor.add(txt_editarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
         menu_emisor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
@@ -827,7 +832,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         contenedor.add(jLabel10);
         jLabel10.setBounds(540, 300, 120, 22);
         contenedor.add(entrada_rfc);
-        entrada_rfc.setBounds(680, 240, 157, 22);
+        entrada_rfc.setBounds(680, 232, 157, 30);
 
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel9.setText("Regimen Fiscal");
@@ -839,7 +844,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         contenedor.add(jLabel8);
         jLabel8.setBounds(540, 240, 35, 22);
         contenedor.add(entrada_correoElectronico);
-        entrada_correoElectronico.setBounds(260, 490, 190, 22);
+        entrada_correoElectronico.setBounds(260, 490, 190, 30);
 
         jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel7.setText("Correo electronico");
@@ -851,7 +856,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         contenedor.add(jLabel6);
         jLabel6.setBounds(70, 430, 180, 20);
         contenedor.add(entrada_apellidoMaterno);
-        entrada_apellidoMaterno.setBounds(258, 364, 190, 22);
+        entrada_apellidoMaterno.setBounds(260, 360, 190, 30);
 
         jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel5.setText("Apellido Materno");
@@ -863,9 +868,9 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         contenedor.add(jLabel3);
         jLabel3.setBounds(70, 305, 140, 22);
         contenedor.add(entrada_apellidoPaterno);
-        entrada_apellidoPaterno.setBounds(258, 302, 190, 22);
+        entrada_apellidoPaterno.setBounds(260, 300, 190, 30);
         contenedor.add(entrada_nombres);
-        entrada_nombres.setBounds(258, 237, 190, 22);
+        entrada_nombres.setBounds(258, 229, 190, 30);
 
         nombres_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         nombres_lb.setText("Nombre (s)");
@@ -908,7 +913,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1735628468000L));
         entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
         contenedor.add(entrada_fechaNacimiento);
-        entrada_fechaNacimiento.setBounds(258, 426, 190, 22);
+        entrada_fechaNacimiento.setBounds(260, 420, 190, 30);
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 0, 1050, 650);
@@ -1325,7 +1330,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
             //Crear conexion a la base de datos
             //Preparar consulta para insertar los datos
             String query_alta = "INSERT INTO emisor "
-                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domiciolio_fiscal, regimen)"
+                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domicilio_fiscal, regimen)"
                     + "VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
             ps.setString(1, entrada_rfc.getText().toUpperCase());
@@ -1433,6 +1438,35 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         } 
         }
     }//GEN-LAST:event_icon_regresarlbMouseClicked
+
+    private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "Se perderan los datos ingresados, ¿Abandonar pantalla de registro?",
+                    "Confirmación de volver",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                //Regresa al menu principal
+                ConsultarEmisor ventana = new ConsultarEmisor();
+                ventana.setUsuario(usuario);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
+        }
+    }//GEN-LAST:event_txt_editarEmisorMouseClicked
 
     /**
      * @param args the command line arguments

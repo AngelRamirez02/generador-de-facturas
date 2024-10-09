@@ -567,7 +567,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
             //Crear conexion a la base de datos
             //Preparar consulta para insertar los datos
             String query_alta = "INSERT INTO emisor "
-                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domiciolio_fiscal, regimen)"
+                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domicilio_fiscal, regimen)"
                     + "VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
             ps.setString(1, entrada_rfc.getText().toUpperCase());

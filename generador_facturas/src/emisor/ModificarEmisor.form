@@ -1155,9 +1155,6 @@
                   <Color id="Hand Cursor"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txt_editarEmisorMouseClicked"/>
-              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="10" y="0" width="190" height="40"/>
@@ -1550,7 +1547,7 @@
             <Component class="javax.swing.JTextField" name="entrada_apellidoMaterno">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="260" y="360" width="190" height="30"/>
+                  <AbsoluteConstraints x="258" y="364" width="190" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -1583,7 +1580,7 @@
             <Component class="javax.swing.JTextField" name="entrada_apellidoPaterno">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="260" y="300" width="190" height="30"/>
+                  <AbsoluteConstraints x="258" y="302" width="190" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -1623,12 +1620,12 @@
                 <Property name="useNullLayout" type="boolean" value="false"/>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel4">
+                <Component class="javax.swing.JLabel" name="txt_modificarEmisor">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Roboto Light" size="48" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Registrar emisor"/>
+                    <Property name="text" type="java.lang.String" value="Modificar emisor"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1714,7 +1711,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="260" y="420" width="190" height="30"/>
+                  <AbsoluteConstraints x="258" y="426" width="190" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
