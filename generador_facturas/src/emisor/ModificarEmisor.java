@@ -225,12 +225,8 @@ public class ModificarEmisor extends javax.swing.JFrame {
         txt_eliminarPadres = new javax.swing.JLabel();
         menu_factura = new javax.swing.JPanel();
         txt_generarFcatura = new javax.swing.JLabel();
-        jSeparator11 = new javax.swing.JSeparator();
         txt_consultarAlmnos1 = new javax.swing.JLabel();
         jSeparator12 = new javax.swing.JSeparator();
-        txt_modificarAlumnos1 = new javax.swing.JLabel();
-        jSeparator13 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
         menu_estadisticas = new javax.swing.JPanel();
         txt_facturasGeneradas = new javax.swing.JLabel();
         txt_ingresos = new javax.swing.JLabel();
@@ -399,7 +395,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
         txt_estadisticas.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_estadisticas.setForeground(new java.awt.Color(255, 255, 255));
         txt_estadisticas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_estadisticas.setText("Estadisticas");
+        txt_estadisticas.setText("Estadísticas");
         btn_estadisticas.add(txt_estadisticas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
         icon_item4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_itemMenu.png"))); // NOI18N
@@ -617,31 +613,17 @@ public class ModificarEmisor extends javax.swing.JFrame {
         txt_generarFcatura.setText("Generar factura");
         txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_factura.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
         txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
         txt_consultarAlmnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_consultarAlmnos1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos1.setText("Opcion");
+        txt_consultarAlmnos1.setText("Consultar facturas");
         txt_consultarAlmnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_factura.add(txt_consultarAlmnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
         menu_factura.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
-        txt_modificarAlumnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_modificarAlumnos1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_modificarAlumnos1.setText("Opcion");
-        txt_modificarAlumnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_factura.add(txt_modificarAlumnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_factura.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
-
-        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Opcion");
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_factura.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
-
         fondo.add(menu_factura);
-        menu_factura.setBounds(400, 100, 200, 160);
+        menu_factura.setBounds(400, 100, 200, 90);
 
         menu_estadisticas.setBackground(new java.awt.Color(198, 54, 55));
         menu_estadisticas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -728,7 +710,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
 
         infoRFC_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
         infoRFC_lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoRFC_lb.setText("El RFC es de 13 digitos formado por apellidos, nombre y fecha de nacimiento");
+        infoRFC_lb.setText("El RFC es de 13 dígitos formado por apellidos, nombre y fecha de nacimiento");
         infoRFC_lb.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         contenedor.add(infoRFC_lb);
         infoRFC_lb.setBounds(570, 260, 430, 30);
@@ -834,7 +816,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
         entrada_rfc.setBounds(680, 232, 157, 30);
 
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel9.setText("Regimen Fiscal");
+        jLabel9.setText("Régimen Fiscal");
         contenedor.add(jLabel9);
         jLabel9.setBounds(540, 370, 126, 22);
 
@@ -846,7 +828,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
         entrada_correoElectronico.setBounds(260, 490, 190, 30);
 
         jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel7.setText("Correo electronico");
+        jLabel7.setText("Correo electrónico");
         contenedor.add(jLabel7);
         jLabel7.setBounds(70, 490, 170, 20);
 
@@ -1635,7 +1617,6 @@ public class ModificarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1644,9 +1625,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
-    private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
-    private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
@@ -1688,7 +1667,6 @@ public class ModificarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel txt_generarFcatura;
     private javax.swing.JLabel txt_ingresos;
     private javax.swing.JLabel txt_modificarAlumnos;
-    private javax.swing.JLabel txt_modificarAlumnos1;
     private javax.swing.JLabel txt_modificarEmisor;
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;

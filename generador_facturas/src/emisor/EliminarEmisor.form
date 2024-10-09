@@ -311,7 +311,7 @@
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
-                        <Property name="text" type="java.lang.String" value="Estadisticas"/>
+                        <Property name="text" type="java.lang.String" value="Estad&#xed;sticas"/>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1187,9 +1187,9 @@
                         <Column editable="false" title="Apellido paterno" type="java.lang.Object"/>
                         <Column editable="false" title="Apellido materno" type="java.lang.Object"/>
                         <Column editable="false" title="Fecha de nacimiento" type="java.lang.Object"/>
-                        <Column editable="false" title="Correo electronico" type="java.lang.Object"/>
+                        <Column editable="false" title="Correo electr&#xf3;nico" type="java.lang.Object"/>
                         <Column editable="false" title="Domicilio Fiscal" type="java.lang.Object"/>
-                        <Column editable="false" title="Regimen Fiscal" type="java.lang.Object"/>
+                        <Column editable="false" title="R&#xe9;gimen Fiscal" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="fillsViewportHeight" type="boolean" value="true"/>

@@ -366,7 +366,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         txt_estadisticas.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_estadisticas.setForeground(new java.awt.Color(255, 255, 255));
         txt_estadisticas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_estadisticas.setText("Estadisticas");
+        txt_estadisticas.setText("Estadísticas");
         btn_estadisticas.add(txt_estadisticas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
         icon_item4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_itemMenu.png"))); // NOI18N
@@ -666,7 +666,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electronico", "Domicilio Fiscal", "Regimen Fiscal"
+                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Régimen Fiscal"
             }
         ) {
             boolean[] canEdit = new boolean [] {

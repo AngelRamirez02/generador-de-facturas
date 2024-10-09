@@ -171,7 +171,6 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         fondo = new javax.swing.JPanel();
-        icon_regresarlb = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
@@ -193,6 +192,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         icon_item5 = new javax.swing.JLabel();
         menu_user = new javax.swing.JPanel();
         user_menuIcon = new javax.swing.JLabel();
+        icon_regresarlb = new javax.swing.JLabel();
         menu_alumnos = new javax.swing.JPanel();
         txt_altaAlumnos = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -226,12 +226,8 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         txt_eliminarPadres = new javax.swing.JLabel();
         menu_factura = new javax.swing.JPanel();
         txt_generarFcatura = new javax.swing.JLabel();
-        jSeparator11 = new javax.swing.JSeparator();
         txt_consultarAlmnos1 = new javax.swing.JLabel();
         jSeparator12 = new javax.swing.JSeparator();
-        txt_modificarAlumnos1 = new javax.swing.JLabel();
-        jSeparator13 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
         menu_estadisticas = new javax.swing.JPanel();
         txt_facturasGeneradas = new javax.swing.JLabel();
         txt_ingresos = new javax.swing.JLabel();
@@ -290,17 +286,6 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(1050, 650));
         fondo.setLayout(null);
-
-        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
-        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_regresarlbMouseClicked(evt);
-            }
-        });
-        fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         barra_nav.setBackground(new java.awt.Color(201, 69, 69));
         barra_nav.setLayout(null);
@@ -400,7 +385,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         txt_estadisticas.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_estadisticas.setForeground(new java.awt.Color(255, 255, 255));
         txt_estadisticas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_estadisticas.setText("Estadisticas");
+        txt_estadisticas.setText("Estadísticas");
         btn_estadisticas.add(txt_estadisticas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
         icon_item4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_itemMenu.png"))); // NOI18N
@@ -453,6 +438,17 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
 
         fondo.add(barra_nav);
         barra_nav.setBounds(0, 0, 1050, 100);
+
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        fondo.add(icon_regresarlb);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
         menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -618,31 +614,17 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         txt_generarFcatura.setText("Generar factura");
         txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_factura.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
         txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
         txt_consultarAlmnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_consultarAlmnos1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos1.setText("Opcion");
+        txt_consultarAlmnos1.setText("Consultar facturas");
         txt_consultarAlmnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menu_factura.add(txt_consultarAlmnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
         menu_factura.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
-        txt_modificarAlumnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_modificarAlumnos1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_modificarAlumnos1.setText("Opcion");
-        txt_modificarAlumnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_factura.add(txt_modificarAlumnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_factura.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
-
-        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Opcion");
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_factura.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
-
         fondo.add(menu_factura);
-        menu_factura.setBounds(400, 100, 200, 160);
+        menu_factura.setBounds(400, 100, 200, 90);
 
         menu_estadisticas.setBackground(new java.awt.Color(198, 54, 55));
         menu_estadisticas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -734,7 +716,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
 
         infoRFC_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
         infoRFC_lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoRFC_lb.setText("El RFC es de 13 digitos formado por apellidos, nombre y fecha de nacimiento");
+        infoRFC_lb.setText("El RFC es de 13 dígitos formado por apellidos, nombre y fecha de nacimiento");
         infoRFC_lb.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         contenedor.add(infoRFC_lb);
         infoRFC_lb.setBounds(570, 260, 430, 30);
@@ -840,7 +822,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         entrada_rfc.setBounds(680, 232, 157, 30);
 
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel9.setText("Regimen Fiscal");
+        jLabel9.setText("Régimen Fiscal");
         contenedor.add(jLabel9);
         jLabel9.setBounds(540, 370, 126, 22);
 
@@ -852,7 +834,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         entrada_correoElectronico.setBounds(260, 490, 190, 30);
 
         jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel7.setText("Correo electronico");
+        jLabel7.setText("Correo electrónico");
         contenedor.add(jLabel7);
         jLabel7.setBounds(70, 490, 170, 20);
 
@@ -933,38 +915,6 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         txt_nombreUser.setText(usuario);
     }
     
-    private void menu_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_userMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {
-            if(menu_salir.isVisible()){//si es visible el menu de salir
-                //lo oculta y cambia el color del btn
-                menu_salir.setVisible(false);  
-                menu_user.setBackground(colorbtnNoSeleccionado);
-            } else {
-                //Lo muestra y cambia el color del btn
-                menu_salir.setVisible(true);
-                menu_user.setBackground(colorbtnSeleccionado);
-                //Oculta los demas menus
-                menu_padres.setVisible(false);
-                menu_alumnos.setVisible(false);
-                menu_factura.setVisible(false);
-                menu_estadisticas.setVisible(false);
-                menu_emisor.setVisible(false);
-                menu_emisor.setVisible(false);
-                //Botones en modo no seleccionados
-                btn_padres.setBackground(colorbtnNoSeleccionado);
-                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_alumnos.setBackground(colorbtnNoSeleccionado);
-                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_facturas.setBackground(colorbtnNoSeleccionado);
-                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
-                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_emisor.setBackground(colorbtnNoSeleccionado);
-                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-            }
-        }
-    }//GEN-LAST:event_menu_userMouseClicked
-
     private void cerrar_iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrar_iconMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//cerrar el menu de salir
             menu_salir.setVisible(false);  
@@ -1010,190 +960,9 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_nombre_userMouseClicked
 
-    private void btn_alumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alumnosMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-          if(menu_alumnos.isVisible()){//si es visible el menu
-              //Oculta el menu, cambia el color del btn y cambia el icono
-                menu_alumnos.setVisible(false);  
-                btn_alumnos.setBackground(colorbtnNoSeleccionado);
-                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-            }else{
-                //Muestra el menu, cambia el color del btn y cambia el icono
-                menu_alumnos.setVisible(true);
-                icon_item.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_alumnos.setBackground(colorbtnSeleccionado);
-                //Oculta los demas menus y cambia el color e iconos
-                //Ocultar menu padres
-                menu_padres.setVisible(false);
-                menu_padres.setVisible(false);  
-                btn_padres.setBackground(colorbtnNoSeleccionado);
-                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu facturas
-                menu_factura.setVisible(false);  
-                btn_facturas.setBackground(colorbtnNoSeleccionado);
-                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu estadisticas
-                menu_estadisticas.setVisible(false);  
-                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
-                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu emisor
-                menu_emisor.setVisible(false);  
-                btn_emisor.setBackground(colorbtnNoSeleccionado);
-                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //oculta el menu de usuario
-                menu_salir.setVisible(false);  
-                menu_user.setBackground(colorbtnNoSeleccionado);
-            }  
-        }
-    }//GEN-LAST:event_btn_alumnosMouseClicked
-
     private void menu_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_padresMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_menu_padresMouseClicked
-
-    private void btn_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_padresMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-          if(menu_padres.isVisible()){//si es visible el menu
-              //Oculta el menu y cambia el fondo e icos
-                menu_padres.setVisible(false);  
-                btn_padres.setBackground(colorbtnNoSeleccionado);
-                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-            }else{
-              //Muestra el menu y cambia el color de fondo e icono
-                menu_padres.setVisible(true);
-                icon_item2.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_padres.setBackground(colorbtnSeleccionado);
-                //Oculta el resto de menus y cambia sus fonos e iconos
-                //Ocultar menu alumnos
-                menu_alumnos.setVisible(false);  
-                btn_alumnos.setBackground(colorbtnNoSeleccionado);
-                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu facturas
-                menu_factura.setVisible(false);  
-                btn_facturas.setBackground(colorbtnNoSeleccionado);
-                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu estadisticas
-                menu_estadisticas.setVisible(false);  
-                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
-                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu emisor
-                menu_emisor.setVisible(false);  
-                btn_emisor.setBackground(colorbtnNoSeleccionado);
-                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //oculta el menu de usuario
-                menu_salir.setVisible(false);  
-                menu_user.setBackground(colorbtnNoSeleccionado);
-            }  
-        }
-    }//GEN-LAST:event_btn_padresMouseClicked
-
-    private void btn_facturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_facturasMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-          if(menu_factura.isVisible()){//si es visible el menu
-              //Oculta el menu y cambia el fondo e icos
-                menu_factura.setVisible(false);  
-                btn_facturas.setBackground(colorbtnNoSeleccionado);
-                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-            }else{
-              //Muestra el menu y cambia el color de fondo e icono
-                menu_factura.setVisible(true);
-                icon_item3.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_facturas.setBackground(colorbtnSeleccionado);
-                //Oculta el resto de menus y cambia sus fonos e iconos
-                //Ocultar menu padres
-                menu_padres.setVisible(false);  
-                btn_padres.setBackground(colorbtnNoSeleccionado);
-                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu alumnos
-                menu_alumnos.setVisible(false);  
-                btn_alumnos.setBackground(colorbtnNoSeleccionado);
-                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu estadisticas
-                menu_estadisticas.setVisible(false);  
-                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
-                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu emisor
-                menu_emisor.setVisible(false);  
-                btn_emisor.setBackground(colorbtnNoSeleccionado);
-                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //oculta el menu de usuario
-                menu_salir.setVisible(false);  
-                menu_user.setBackground(colorbtnNoSeleccionado);
-            }  
-        }
-    }//GEN-LAST:event_btn_facturasMouseClicked
-
-    private void btn_estadisticasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_estadisticasMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-          if(menu_estadisticas.isVisible()){//si es visible el menu
-              //Oculta el menu y cambia el fondo e icos
-                menu_estadisticas.setVisible(false);  
-                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
-                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-            }else{
-              //Muestra el menu y cambia el color de fondo e icono
-                menu_estadisticas.setVisible(true);
-                icon_item4.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_estadisticas.setBackground(colorbtnSeleccionado);
-                //Oculta el resto de menus y cambia sus fonos e iconos
-                //Ocultar menu padres
-                menu_padres.setVisible(false);  
-                btn_padres.setBackground(colorbtnNoSeleccionado);
-                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu alumnos
-                menu_alumnos.setVisible(false);  
-                btn_alumnos.setBackground(colorbtnNoSeleccionado);
-                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu facturas
-                menu_factura.setVisible(false);  
-                btn_facturas.setBackground(colorbtnNoSeleccionado);
-                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu emisor
-                menu_emisor.setVisible(false);  
-                btn_emisor.setBackground(colorbtnNoSeleccionado);
-                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //oculta el menu de usuario
-                menu_salir.setVisible(false);  
-                menu_user.setBackground(colorbtnNoSeleccionado);
-            }  
-        }
-    }//GEN-LAST:event_btn_estadisticasMouseClicked
-
-    private void btn_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_emisorMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-          if(menu_emisor.isVisible()){//si es visible el menu
-              //Oculta el menu y cambia el fondo e icos
-                menu_emisor.setVisible(false);  
-                btn_emisor.setBackground(colorbtnNoSeleccionado);
-                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-            }else{
-              //Muestra el menu y cambia el color de fondo e icono
-                menu_emisor.setVisible(true);
-                icon_item5.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                btn_emisor.setBackground(colorbtnSeleccionado);
-                //Oculta el resto de menus y cambia sus fonos e iconos
-                //Ocultar menu padres
-                menu_padres.setVisible(false);  
-                btn_padres.setBackground(colorbtnNoSeleccionado);
-                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu alumnos
-                menu_alumnos.setVisible(false);  
-                btn_alumnos.setBackground(colorbtnNoSeleccionado);
-                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Ocultar menu facturas
-                menu_factura.setVisible(false);  
-                btn_facturas.setBackground(colorbtnNoSeleccionado);
-                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //Oculta menu estadisticas
-                menu_estadisticas.setVisible(false);  
-                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
-                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-                //oculta el menu de usuario
-                menu_salir.setVisible(false);  
-                menu_user.setBackground(colorbtnNoSeleccionado);
-            }  
-        }
-    }//GEN-LAST:event_btn_emisorMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
@@ -1502,6 +1271,219 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
 
+    private void btn_alumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alumnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            if(menu_alumnos.isVisible()){//si es visible el menu
+                //Oculta el menu, cambia el color del btn y cambia el icono
+                menu_alumnos.setVisible(false);
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }else{
+                //Muestra el menu, cambia el color del btn y cambia el icono
+                menu_alumnos.setVisible(true);
+                icon_item.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_alumnos.setBackground(colorbtnSeleccionado);
+                //Oculta los demas menus y cambia el color e iconos
+                //Ocultar menu padres
+                menu_padres.setVisible(false);
+                menu_padres.setVisible(false);
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu facturas
+                menu_factura.setVisible(false);
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu estadisticas
+                menu_estadisticas.setVisible(false);
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu emisor
+                menu_emisor.setVisible(false);
+                btn_emisor.setBackground(colorbtnNoSeleccionado);
+                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //oculta el menu de usuario
+                menu_salir.setVisible(false);
+                menu_user.setBackground(colorbtnNoSeleccionado);
+            }
+        }
+    }//GEN-LAST:event_btn_alumnosMouseClicked
+
+    private void btn_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_padresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            if(menu_padres.isVisible()){//si es visible el menu
+                //Oculta el menu y cambia el fondo e icos
+                menu_padres.setVisible(false);
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }else{
+                //Muestra el menu y cambia el color de fondo e icono
+                menu_padres.setVisible(true);
+                icon_item2.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_padres.setBackground(colorbtnSeleccionado);
+                //Oculta el resto de menus y cambia sus fonos e iconos
+                //Ocultar menu alumnos
+                menu_alumnos.setVisible(false);
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu facturas
+                menu_factura.setVisible(false);
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu estadisticas
+                menu_estadisticas.setVisible(false);
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu emisor
+                menu_emisor.setVisible(false);
+                btn_emisor.setBackground(colorbtnNoSeleccionado);
+                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //oculta el menu de usuario
+                menu_salir.setVisible(false);
+                menu_user.setBackground(colorbtnNoSeleccionado);
+            }
+        }
+    }//GEN-LAST:event_btn_padresMouseClicked
+
+    private void btn_facturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_facturasMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            if(menu_factura.isVisible()){//si es visible el menu
+                //Oculta el menu y cambia el fondo e icos
+                menu_factura.setVisible(false);
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }else{
+                //Muestra el menu y cambia el color de fondo e icono
+                menu_factura.setVisible(true);
+                icon_item3.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_facturas.setBackground(colorbtnSeleccionado);
+                //Oculta el resto de menus y cambia sus fonos e iconos
+                //Ocultar menu padres
+                menu_padres.setVisible(false);
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu alumnos
+                menu_alumnos.setVisible(false);
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu estadisticas
+                menu_estadisticas.setVisible(false);
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu emisor
+                menu_emisor.setVisible(false);
+                btn_emisor.setBackground(colorbtnNoSeleccionado);
+                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //oculta el menu de usuario
+                menu_salir.setVisible(false);
+                menu_user.setBackground(colorbtnNoSeleccionado);
+            }
+        }
+    }//GEN-LAST:event_btn_facturasMouseClicked
+
+    private void btn_estadisticasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_estadisticasMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            if(menu_estadisticas.isVisible()){//si es visible el menu
+                //Oculta el menu y cambia el fondo e icos
+                menu_estadisticas.setVisible(false);
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }else{
+                //Muestra el menu y cambia el color de fondo e icono
+                menu_estadisticas.setVisible(true);
+                icon_item4.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_estadisticas.setBackground(colorbtnSeleccionado);
+                //Oculta el resto de menus y cambia sus fonos e iconos
+                //Ocultar menu padres
+                menu_padres.setVisible(false);
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu alumnos
+                menu_alumnos.setVisible(false);
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu facturas
+                menu_factura.setVisible(false);
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu emisor
+                menu_emisor.setVisible(false);
+                btn_emisor.setBackground(colorbtnNoSeleccionado);
+                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //oculta el menu de usuario
+                menu_salir.setVisible(false);
+                menu_user.setBackground(colorbtnNoSeleccionado);
+            }
+        }
+    }//GEN-LAST:event_btn_estadisticasMouseClicked
+
+    private void btn_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_emisorMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            if(menu_emisor.isVisible()){//si es visible el menu
+                //Oculta el menu y cambia el fondo e icos
+                menu_emisor.setVisible(false);
+                btn_emisor.setBackground(colorbtnNoSeleccionado);
+                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }else{
+                //Muestra el menu y cambia el color de fondo e icono
+                menu_emisor.setVisible(true);
+                icon_item5.setIcon(new ImageIcon(icon_seleccionado.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_emisor.setBackground(colorbtnSeleccionado);
+                //Oculta el resto de menus y cambia sus fonos e iconos
+                //Ocultar menu padres
+                menu_padres.setVisible(false);
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu alumnos
+                menu_alumnos.setVisible(false);
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Ocultar menu facturas
+                menu_factura.setVisible(false);
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //Oculta menu estadisticas
+                menu_estadisticas.setVisible(false);
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                //oculta el menu de usuario
+                menu_salir.setVisible(false);
+                menu_user.setBackground(colorbtnNoSeleccionado);
+            }
+        }
+    }//GEN-LAST:event_btn_emisorMouseClicked
+
+    private void menu_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_userMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            if(menu_salir.isVisible()){//si es visible el menu de salir
+                //lo oculta y cambia el color del btn
+                menu_salir.setVisible(false);
+                menu_user.setBackground(colorbtnNoSeleccionado);
+            } else {
+                //Lo muestra y cambia el color del btn
+                menu_salir.setVisible(true);
+                menu_user.setBackground(colorbtnSeleccionado);
+                //Oculta los demas menus
+                menu_padres.setVisible(false);
+                menu_alumnos.setVisible(false);
+                menu_factura.setVisible(false);
+                menu_estadisticas.setVisible(false);
+                menu_emisor.setVisible(false);
+                menu_emisor.setVisible(false);
+                //Botones en modo no seleccionados
+                btn_padres.setBackground(colorbtnNoSeleccionado);
+                icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_alumnos.setBackground(colorbtnNoSeleccionado);
+                icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_facturas.setBackground(colorbtnNoSeleccionado);
+                icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_estadisticas.setBackground(colorbtnNoSeleccionado);
+                icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+                btn_emisor.setBackground(colorbtnNoSeleccionado);
+                icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            }
+        }
+    }//GEN-LAST:event_menu_userMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1585,7 +1567,6 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1595,9 +1576,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
-    private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
-    private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
@@ -1639,7 +1618,6 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
     private javax.swing.JLabel txt_generarFcatura;
     private javax.swing.JLabel txt_ingresos;
     private javax.swing.JLabel txt_modificarAlumnos;
-    private javax.swing.JLabel txt_modificarAlumnos1;
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;

@@ -308,7 +308,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
 
         infoRFC_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
         infoRFC_lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoRFC_lb.setText("El RFC es de 13 digitos formado por apellidos, nombre y fecha de nacimiento");
+        infoRFC_lb.setText("El RFC es de 13 dígitos formado por apellidos, nombre y fecha de nacimiento");
         infoRFC_lb.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         contenedor.add(infoRFC_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 260, 430, 30));
 
@@ -403,7 +403,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         contenedor.add(entrada_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 240, 157, -1));
 
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel9.setText("Regimen Fiscal");
+        jLabel9.setText("Régimen Fiscal");
         contenedor.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 370, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
@@ -412,7 +412,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         contenedor.add(entrada_correoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 490, 190, -1));
 
         jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel7.setText("Correo electronico");
+        jLabel7.setText("Correo electrónico");
         contenedor.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 490, 170, 20));
 
         jLabel6.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N

@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package emisor;
+package padres;
 
+import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
 import conexion.conexion;
 import emisor.AltaEmisorMenu;
@@ -23,6 +24,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +34,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 import login.login_window;
 import menu.MenuPrincipal;
 
@@ -40,27 +41,33 @@ import menu.MenuPrincipal;
  *
  * @author ar275
  */
-public class EliminarEmisor extends javax.swing.JFrame {
+public class ConsultarPadresEdit extends javax.swing.JFrame {
     //Variables para los datos de las columas
     String rfc;
-
+    String nombres;
+    String apellido_paterno;
+    String apellido_materno;
+    Calendar fecha_nacimiento;
+    String correo_electronico;
+    int cp;
+    String regimen;
+    
+    
     conexion cx = new conexion();
     
     DefaultTableModel modelo;
-   
-    private String usuario;//Nombre del usuario que inicia sesión
     
+    private String usuario;//Nombre del usuario que inicia sesión
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
     Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
-     //Imagen para menu selccionado
+    //Imagen para menu selccionado
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-   
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
-     public EliminarEmisor() {
+     public ConsultarPadresEdit() {
         initComponents();
         
         //Menus ocultos por defecto
@@ -73,7 +80,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         
        //boton acatulizar oculto por defecto
-       btn_eliminarEmisor.setVisible(false);
+       btn_actualizar.setVisible(false);
         
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -243,13 +250,13 @@ public class EliminarEmisor extends javax.swing.JFrame {
         tabla_emisor = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        btn_eliminarEmisor = new paneles.PanelRound();
+        btn_actualizar = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
-        text_eliminarEmisor = new javax.swing.JLabel();
+        text_guardarDatos = new javax.swing.JLabel();
         icon_regresarlb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Eliminar emisor");
+        setTitle("Instituto Andrés Manuel López Obrador - Padres registrados");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -454,6 +461,11 @@ public class EliminarEmisor extends javax.swing.JFrame {
 
         nombre_user.setBackground(new java.awt.Color(198, 54, 55));
         nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nombre_userMouseClicked(evt);
+            }
+        });
         nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
@@ -524,6 +536,11 @@ public class EliminarEmisor extends javax.swing.JFrame {
         menu_salir.setBounds(840, 100, 210, 190);
 
         menu_padres.setBackground(new java.awt.Color(198, 54, 55));
+        menu_padres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menu_padresMouseClicked(evt);
+            }
+        });
         menu_padres.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_altaPadres.setBackground(new java.awt.Color(255, 255, 255));
@@ -611,11 +628,6 @@ public class EliminarEmisor extends javax.swing.JFrame {
         txt_editarEmisor.setForeground(new java.awt.Color(255, 255, 255));
         txt_editarEmisor.setText("Editar emisor");
         txt_editarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_editarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_editarEmisorMouseClicked(evt);
-            }
-        });
         menu_emisor.add(txt_editarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
         menu_emisor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
@@ -636,6 +648,11 @@ public class EliminarEmisor extends javax.swing.JFrame {
         txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
         txt_eliminarEmisor.setText("Eliminar emisor");
         txt_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarEmisorMouseClicked(evt);
+            }
+        });
         menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
 
         fondo.add(menu_emisor);
@@ -679,25 +696,26 @@ public class EliminarEmisor extends javax.swing.JFrame {
         contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 300));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
-        txt_emisoresRegistrados.setText("EMISORES REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 520, 50));
+        txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_emisoresRegistrados.setText("PADRES DE FAMILIA REGISTRADOS");
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
 
         jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Seleccione el emisor a eliminar");
-        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 520, 50));
+        jLabel2.setText("Seleccione el padre de familia a editar");
+        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 990, 50));
 
-        btn_eliminarEmisor.setBackground(new java.awt.Color(0, 0, 0));
-        btn_eliminarEmisor.setRoundBottomLeft(10);
-        btn_eliminarEmisor.setRoundBottomRight(10);
-        btn_eliminarEmisor.setRoundTopLeft(10);
-        btn_eliminarEmisor.setRoundTopRight(10);
-        btn_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_actualizar.setBackground(new java.awt.Color(0, 0, 0));
+        btn_actualizar.setRoundBottomLeft(10);
+        btn_actualizar.setRoundBottomRight(10);
+        btn_actualizar.setRoundTopLeft(10);
+        btn_actualizar.setRoundTopRight(10);
+        btn_actualizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_eliminarEmisorMouseClicked(evt);
+                btn_actualizarMouseClicked(evt);
             }
         });
-        btn_eliminarEmisor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        btn_actualizar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         contenedor_btn.setBackground(new java.awt.Color(217, 217, 217));
         contenedor_btn.setRoundBottomLeft(10);
@@ -706,15 +724,15 @@ public class EliminarEmisor extends javax.swing.JFrame {
         contenedor_btn.setRoundTopRight(10);
         contenedor_btn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        text_eliminarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        text_eliminarEmisor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_eliminarEmisor.setText("Eliminar emisor");
-        text_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        contenedor_btn.add(text_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 40));
+        text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        text_guardarDatos.setText("Actualizar padre");
+        text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 40));
 
-        btn_eliminarEmisor.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
+        btn_actualizar.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
 
-        contenedor.add(btn_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
+        contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
 
         fondo.add(contenedor);
         contenedor.setBounds(30, 150, 990, 510);
@@ -735,11 +753,12 @@ public class EliminarEmisor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //conuslta los datos y los agrega a la tabla
-    private void llenarTabla(){      
+    
+    void llenarTabla(){
+        
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM emisor";
+           String consulta = "SELECT * FROM padre_familia";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
@@ -760,18 +779,10 @@ public class EliminarEmisor extends javax.swing.JFrame {
            }
            tabla_emisor.setModel(modelo);
         } catch (SQLException ex) {
-            Logger.getLogger(EliminarEmisor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultarPadresEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    //limpia la tabla
-    private void limpiarTabla() {
-        int rowCount = tabla_emisor.getRowCount(); // Obtén el número de filas
-        for (int i = rowCount - 1; i >= 0; i--) { // Comienza desde la última fila
-            modelo.removeRow(i); // Elimina la fila en el índice actual
-        }
-    }
-            
     public void setUsuario(String usuario){
         this.usuario=usuario;
         txt_nombreUser.setText(usuario);
@@ -850,6 +861,10 @@ public class EliminarEmisor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_cerrarSesionMouseClicked
 
+    private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
+        
+    }//GEN-LAST:event_nombre_userMouseClicked
+
     private void btn_alumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alumnosMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
           if(menu_alumnos.isVisible()){//si es visible el menu
@@ -886,6 +901,10 @@ public class EliminarEmisor extends javax.swing.JFrame {
             }  
         }
     }//GEN-LAST:event_btn_alumnosMouseClicked
+
+    private void menu_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_padresMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menu_padresMouseClicked
 
     private void btn_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_padresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
@@ -1032,8 +1051,8 @@ public class EliminarEmisor extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_emisorMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       //cuando el usuario da click en la x de la ventana
         Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
@@ -1064,51 +1083,48 @@ public class EliminarEmisor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_altaEmisorMouseClicked
 
-    private void btn_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarEmisorMouseClicked
+    private void btn_actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_actualizarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "Se perderán los datos, ¿Desea eliminar al emisor?",
-                    "Eliminación de emisor",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                eliminarEmisor();
-                llenarTabla();
-            } else {
-                return;
-            }
+            ModificarPadre ventana = new ModificarPadre();
+            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp);
+            ventana.setUsuario(usuario);
+            ventana.setVisible(true);
+            this.dispose();
         }
-    }//GEN-LAST:event_btn_eliminarEmisorMouseClicked
+    }//GEN-LAST:event_btn_actualizarMouseClicked
 
     private void tabla_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_emisorMouseClicked
         int fila = tabla_emisor.getSelectedRow();
         if (fila != - 1) {
             rfc = (String) tabla_emisor.getValueAt(fila, 0);
-            if(!btn_eliminarEmisor.isVisible()){
-                btn_eliminarEmisor.setVisible(true);
+            nombres = (String) tabla_emisor.getValueAt(fila, 1);
+            apellido_paterno = (String) tabla_emisor.getValueAt(fila, 2);
+            apellido_materno = (String) tabla_emisor.getValueAt(fila, 3);
+            //Enviar la fecha en formato de calendario
+            java.sql.Date fechasql = (java.sql.Date) tabla_emisor.getValueAt(fila, 4); // Ajustar índice
+            Calendar fechaNacimiento = Calendar.getInstance();
+            fechaNacimiento.setTime(fechasql);
+            fecha_nacimiento = fechaNacimiento;
+            //
+            correo_electronico = (String) tabla_emisor.getValueAt(fila, 5);
+            cp = (int) tabla_emisor.getValueAt(fila, 6);
+            regimen = (String) tabla_emisor.getValueAt(fila, 7);
+            if(!btn_actualizar.isVisible()){
+                btn_actualizar.setVisible(true);
             }
         }else{
-            btn_eliminarEmisor.setVisible(false);
+            btn_actualizar.setVisible(false);
         }
     }//GEN-LAST:event_tabla_emisorMouseClicked
 
-    private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
+    private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
-            ConsultarEmisor ventana = new ConsultarEmisor();
+            EliminarEmisor ventana = new EliminarEmisor();
             ventana.setUsuario(usuario);
             ventana.setVisible(true);
             this.dispose();
         }
-    }//GEN-LAST:event_txt_editarEmisorMouseClicked
+    }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
 
     private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
@@ -1120,26 +1136,6 @@ public class EliminarEmisor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_icon_regresarlbMouseClicked
 
-    void eliminarEmisor() {
-        try {
-            //consulta para eliminar
-            String sql = "DELETE FROM emisor WHERE rfc = ?";
-            PreparedStatement ps = cx.conectar().prepareStatement(sql);
-            ps.setString(1, rfc);
-            //ejecutar consulta
-            int filas_eliminadas = ps.executeUpdate();
-            //verificar si se elimaron los datos
-            if (filas_eliminadas > 0) {
-                JOptionPane.showMessageDialog(null, "Emisor eliminado exitosamente", "Eliminación exitosa", JOptionPane.INFORMATION_MESSAGE);
-                //limpia la tabla para que este actualizada
-                limpiarTabla();
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el registro con el RFC especificado", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se completó la acción", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
-        }
-    }
     /**
      * @param args the command line arguments
      */
@@ -1157,14 +1153,18 @@ public class EliminarEmisor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EliminarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarPadresEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EliminarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarPadresEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EliminarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarPadresEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EliminarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarPadresEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1173,7 +1173,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EliminarEmisor().setVisible(true);
+                new ConsultarPadresEdit().setVisible(true);
             }
         });
     }
@@ -1181,9 +1181,9 @@ public class EliminarEmisor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
     private javax.swing.JPanel barra_nav;
+    private paneles.PanelRound btn_actualizar;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
-    private paneles.PanelRound btn_eliminarEmisor;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
@@ -1229,7 +1229,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JTable tabla_emisor;
-    private javax.swing.JLabel text_eliminarEmisor;
+    private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;

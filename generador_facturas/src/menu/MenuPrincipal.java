@@ -25,6 +25,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import login.login_window;
+import padres.AltaPadres;
+import padres.ConsultarPadresEdit;
 
 /**
  *
@@ -328,7 +330,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_estadisticas.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_estadisticas.setForeground(new java.awt.Color(255, 255, 255));
         txt_estadisticas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_estadisticas.setText("Estadisticas");
+        txt_estadisticas.setText("Estadísticas");
         btn_estadisticas.add(txt_estadisticas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
         icon_item4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_itemMenu.png"))); // NOI18N
@@ -509,6 +511,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_altaPadres.setForeground(new java.awt.Color(255, 255, 255));
         txt_altaPadres.setText("Dar de alta padre");
         txt_altaPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_altaPadres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_altaPadresMouseClicked(evt);
+            }
+        });
         menu_padres.add(txt_altaPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
         menu_padres.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
@@ -524,6 +531,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_modificarPadres.setForeground(new java.awt.Color(255, 255, 255));
         txt_modificarPadres.setText("Modificar Padre");
         txt_modificarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_modificarPadres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_modificarPadresMouseClicked(evt);
+            }
+        });
         menu_padres.add(txt_modificarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
         menu_padres.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
 
@@ -531,6 +543,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_eliminarPadres.setForeground(new java.awt.Color(255, 255, 255));
         txt_eliminarPadres.setText("Eliminar Padre");
         txt_eliminarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarPadres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarPadresMouseClicked(evt);
+            }
+        });
         menu_padres.add(txt_eliminarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
 
         fondo.add(menu_padres);
@@ -973,6 +990,33 @@ public class MenuPrincipal extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
+
+    private void txt_altaPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            AltaPadres ventana = new AltaPadres();
+            ventana.setUsuario(usuario);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_altaPadresMouseClicked
+
+    private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+            ventana.setUsuario(usuario);
+            ventana.setVisible(true);
+            this.dispose();
+        }   
+    }//GEN-LAST:event_txt_modificarPadresMouseClicked
+
+    private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            EliminarEmisor ventana = new EliminarEmisor();
+            ventana.setUsuario(usuario);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_eliminarPadresMouseClicked
 
     /**
      * @param args the command line arguments
