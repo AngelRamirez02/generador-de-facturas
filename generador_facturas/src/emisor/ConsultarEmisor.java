@@ -6,11 +6,9 @@ package emisor;
 
 import TablaPersonalizada.TablaPersonalizada;
 import conexion.conexion;
-import menu.*;
 import emisor.AltaEmisorMenu;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -26,7 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,8 +33,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 import login.login_window;
+import menu.MenuPrincipal;
 
 /**
  *
@@ -65,9 +62,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
     Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
-     //Imagen para menu selccionado
+    //Imagen para menu selccionado
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-   
+    Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
      public ConsultarEmisor() {
         initComponents();
@@ -91,6 +88,8 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
+        
+         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -253,6 +252,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         btn_actualizar = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
         text_guardarDatos = new javax.swing.JLabel();
+        icon_regresarlb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
@@ -647,6 +647,11 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
         txt_eliminarEmisor.setText("Eliminar emisor");
         txt_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarEmisorMouseClicked(evt);
+            }
+        });
         menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
 
         fondo.add(menu_emisor);
@@ -729,6 +734,17 @@ public class ConsultarEmisor extends javax.swing.JFrame {
 
         fondo.add(contenedor);
         contenedor.setBounds(30, 150, 990, 510);
+
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        fondo.add(icon_regresarlb);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -1099,6 +1115,25 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabla_emisorMouseClicked
 
+    private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
+            EliminarEmisor ventana = new EliminarEmisor();
+            ventana.setUsuario(usuario);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
+
+    private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            //Regresa al menu principal
+            MenuPrincipal ventana = new MenuPrincipal();
+            ventana.setUsuario(usuario);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_icon_regresarlbMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1157,6 +1192,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item3;
     private javax.swing.JLabel icon_item4;
     private javax.swing.JLabel icon_item5;
+    private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;

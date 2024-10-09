@@ -329,6 +329,7 @@ public class login_window extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Por favor ingrese usuario y contraseña", "Campos Vacios", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
             //Creaciond de consulta segura con Prepared
             String query = "SELECT * FROM usuario WHERE usuario = ? and password = ?";
             //Preparar consulta
@@ -337,20 +338,24 @@ public class login_window extends javax.swing.JFrame {
             ps.setString(2, password);
             //Executar consulta
             ResultSet rs = ps.executeQuery();
+            
             //validar si se encontró el usuario
             if (rs.next()) {
-                //JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso", "Datos correctos", JOptionPane.INFORMATION_MESSAGE);
+              
                 usuario_entrada.setText("");
                 password_entrada.setText("");
                 //Verifica que aun no exista ningun emisor
                 String emisor_existente = "SELECT * FROM emisor";
                 Statement consult_emisor=cx.conectar().createStatement();
                 ResultSet rs_emisor = consult_emisor.executeQuery(emisor_existente);
+                
                 if(rs_emisor.next()){//Si existe un emisor te redirije al menu principal
+                    
                     MenuPrincipal ventana = new MenuPrincipal();
                     ventana.setUsuario(usuario);
                     ventana.setVisible(true);
-                    this.setVisible(false);
+                    this.dispose();
+                    
                 }else{//Sino te dirije a la ventana de primir inicio
                     PrimerInicio ventana = new PrimerInicio();
                     ventana.setUsuario(usuario);

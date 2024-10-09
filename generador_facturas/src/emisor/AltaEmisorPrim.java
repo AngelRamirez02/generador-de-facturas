@@ -5,7 +5,6 @@
 package emisor;
 
 import conexion.conexion;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -31,9 +30,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.text.StyledEditorKit;
 import login.login_window;
 import menu.MenuPrincipal;
 import validacion.Validacion;
@@ -57,10 +53,12 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
 
     public AltaEmisorPrim() {
         initComponents();
+        
         info_nombre.setVisible(false);
         infoFecha_lb.setVisible(false);
         infoRFC_lb.setVisible(false);
         infocp_lb.setVisible(false);
+        
         btn_menu.setIcon(new ImageIcon(menu_img.getScaledInstance( btn_menu.getWidth(),btn_menu.getHeight(), Image.SCALE_SMOOTH)));
         logo_nav.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_nav.getWidth(), logo_nav.getHeight(), Image.SCALE_SMOOTH)));
         infoIcon_lb.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));

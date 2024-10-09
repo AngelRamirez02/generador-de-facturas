@@ -6,6 +6,7 @@ package menu;
 
 import emisor.AltaEmisorMenu;
 import emisor.ConsultarEmisor;
+import emisor.EliminarEmisor;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -613,6 +614,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
         txt_eliminarEmisor.setText("Eliminar emisor");
         txt_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarEmisorMouseClicked(evt);
+            }
+        });
         menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
 
         fondo.add(menu_emisor);
@@ -958,6 +964,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_txt_editarEmisorMouseClicked
+
+    private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            EliminarEmisor ventana = new EliminarEmisor();
+            ventana.setUsuario(usuario);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
 
     /**
      * @param args the command line arguments

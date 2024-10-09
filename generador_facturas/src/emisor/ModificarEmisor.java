@@ -277,7 +277,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
         entrada_fechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
+        setTitle("Instituto Andrés Manuel López Obrador - Modificar emisorl");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -694,6 +694,11 @@ public class ModificarEmisor extends javax.swing.JFrame {
         txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
         txt_eliminarEmisor.setText("Eliminar emisor");
         txt_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarEmisorMouseClicked(evt);
+            }
+        });
         menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
 
         fondo.add(menu_emisor);
@@ -1488,33 +1493,62 @@ public class ModificarEmisor extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_altaEmisorMouseClicked
 
     private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-        Object[] opciones = {"Aceptar", "Cancelar"};
-        // Si existe información que no ha sido guardada
-        // Mostrar diálogo que pregunta si desea confirmar la salida
-        int opcionSeleccionada = JOptionPane.showOptionDialog(
-                null,
-                "Se perderán los cambios, ¿Desea regresar?",
-                "Confirmación de volver",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                opciones,
-                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "Se perderán los cambios, ¿Desea regresar?",
+                    "Confirmación de volver",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
 
-        // Manejar las opciones seleccionadas
-        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-            //Regresa al menu principal
-           ConsultarEmisor ventana = new ConsultarEmisor();
-           ventana.setUsuario(usuario);
-           ventana.setVisible(true);
-           this.dispose();
-        } else {
-            // Evitar que la ventana se cierre
-            return;
-        } 
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                //Regresa al menu principal
+                ConsultarEmisor ventana = new ConsultarEmisor();
+                ventana.setUsuario(usuario);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_icon_regresarlbMouseClicked
+
+    private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "Se perderán los cambios, ¿Desea regresar?",
+                    "Confirmación de volver",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                //Regresa al menu principal
+                EliminarEmisor ventana = new EliminarEmisor();
+                ventana.setUsuario(usuario);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
+        }
+    }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
 
     /**
      * @param args the command line arguments

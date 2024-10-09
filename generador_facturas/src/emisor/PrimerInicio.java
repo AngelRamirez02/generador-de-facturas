@@ -265,7 +265,7 @@ public class PrimerInicio extends javax.swing.JFrame {
             AltaEmisorPrim ventana = new AltaEmisorPrim();
             ventana.setUsuario(usuario);
             ventana.setVisible(true);
-            this.setVisible(false);
+            this.dispose();
         }
     }//GEN-LAST:event_btn_continuarMouseClicked
 
