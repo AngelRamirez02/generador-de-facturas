@@ -4,6 +4,7 @@
  */
 package padres;
 
+import alumnos.AltaAlumnos;
 import emisor.*;
 import conexion.conexion;
 import java.awt.Color;
@@ -456,6 +457,11 @@ public class ModificarPadre extends javax.swing.JFrame {
         txt_altaAlumnos.setForeground(new java.awt.Color(255, 255, 255));
         txt_altaAlumnos.setText("Dar de alta Alumnos");
         txt_altaAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_altaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_altaAlumnosMouseClicked(evt);
+            }
+        });
         menu_alumnos.add(txt_altaAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
         menu_alumnos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
@@ -1532,6 +1538,35 @@ public class ModificarPadre extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
+
+    private void txt_altaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaAlumnosMouseClicked
+                if (SwingUtilities.isLeftMouseButton(evt)) {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "Se perderan los datos ingresados, ¿Abandonar pantalla de registro?",
+                    "Confirmación de volver",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                //Regresa al menu principal
+                AltaAlumnos ventana = new AltaAlumnos();
+                ventana.setUsuario(usuario);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
+        }
+    }//GEN-LAST:event_txt_altaAlumnosMouseClicked
 
     /**
      * @param args the command line arguments

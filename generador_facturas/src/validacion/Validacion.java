@@ -5,7 +5,9 @@
 package validacion;
 
 import com.toedter.calendar.JDateChooser;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -89,4 +91,82 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
     private static boolean isVowel(char c) {
         return "AEIOU".indexOf(Character.toUpperCase(c)) >= 0;
     }
+    
+    // Método para verificar si una CURP coincide con los datos proporcionados
+    public static boolean verificarCURP(String curp, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento) {
+        // Convertir la fecha de nacimiento a formato AAAA-MM-DD
+        String fechaNacimientoStr = convertirFecha(fechaNacimiento);
+
+        // Generar la CURP esperada usando los datos proporcionados
+        String curpGenerada = generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimientoStr);
+        
+        // Comparar los primeros 10 caracteres de la CURP generada con la CURP ingresada
+        return curp.substring(0, 10).equalsIgnoreCase(curpGenerada.substring(0, 10));
+    }
+
+    // Método para convertir una fecha a formato AAAA-MM-DD
+    private static String convertirFecha(Date fecha) {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        return formato.format(fecha);
+    }
+
+    // Método para generar la CURP (basado en lo que puedes verificar)
+    private static String generarCURP(String nombre, String apellidoPaterno, String apellidoMaterno, String fechaNacimiento) {
+        // Eliminar partículas como "De", "La", "Del", etc. del apellido paterno
+        apellidoPaterno = eliminarParticulasApellido(apellidoPaterno);
+
+        // Paso 1: Primer letra del apellido paterno
+        String curp = Character.toString(apellidoPaterno.charAt(0)).toUpperCase();
+
+        // Paso 2: Primera vocal interna del apellido paterno
+        curp += obtenerPrimeraVocal(apellidoPaterno);
+
+        // Paso 3: Primera letra del apellido materno o 'X' si no tiene
+        if (!apellidoMaterno.isEmpty()) {
+            curp += Character.toString(apellidoMaterno.charAt(0)).toUpperCase();
+        } else {
+            curp += "X";
+        }
+
+        // Paso 4: Primera letra del nombre (excepto "José" o "María")
+        curp += obtenerPrimeraLetraNombre(nombre);
+
+        // Paso 5: Año, mes y día de la fecha de nacimiento en formato AAMMDD
+        curp += fechaNacimiento.substring(2, 4); // Año
+        curp += fechaNacimiento.substring(5, 7); // Mes
+        curp += fechaNacimiento.substring(8, 10); // Día
+
+        return curp;
+    }
+
+    // Método para eliminar partículas como "De", "La", "Del" en apellidos
+    private static String eliminarParticulasApellido(String apellido) {
+        String[] particulas = {"DE", "LA", "DEL", "LAS"};
+        for (String particula : particulas) {
+            apellido = apellido.toUpperCase().replaceFirst("^" + particula + " ", "");
+        }
+        return apellido;
+    }
+
+    // Método para obtener la primera vocal interna de una cadena
+    private static String obtenerPrimeraVocal(String cadena) {
+        for (int i = 1; i < cadena.length(); i++) {
+            char letra = Character.toLowerCase(cadena.charAt(i));
+            if ("aeiou".indexOf(letra) != -1) {
+                return Character.toString(cadena.charAt(i)).toUpperCase();
+            }
+        }
+        return "X";
+    }
+
+    // Método para obtener la primera letra del nombre (considerando el caso de "José" o "María")
+    private static String obtenerPrimeraLetraNombre(String nombre) {
+        String[] nombres = nombre.split(" ");
+        if (nombres[0].equalsIgnoreCase("José") || nombres[0].equalsIgnoreCase("María")) {
+            return Character.toString(nombres[1].charAt(0)).toUpperCase();
+        } else {
+            return Character.toString(nombres[0].charAt(0)).toUpperCase();
+        }
+    }
 }
+
