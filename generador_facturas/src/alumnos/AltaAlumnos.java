@@ -49,7 +49,9 @@ import padres.ModificarPadre;
  */
 public class AltaAlumnos extends javax.swing.JFrame {
 
-    private List<String> listaDatos = new ArrayList<>();
+    private String[] grados_preescolar = {"<seleccionar>","Primero","Segundo","Tercero"}; 
+    private String[] grados_primaria = {"<seleccionar>","Primero","Segundo","Tercero","Cuarto","Quinto","Sexto"}; 
+    private String[] grados_secundaria = {"<seleccionar>","Primero","Segundo","Tercero"}; 
     
     conexion cx = new conexion();
     private String usuario;//Nombre del usuario que inicia sesión
@@ -279,11 +281,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
         entrada_nivelEscolar = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        entrada_gradoEscolar = new javax.swing.JComboBox<>();
         infoIcon_lb = new javax.swing.JLabel();
         infoIcon_lb2 = new javax.swing.JLabel();
         infoIcon_lb3 = new javax.swing.JLabel();
-        rfc_padre1 = new javax.swing.JComboBox<>();
+        rfc_padre = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar alumnos");
@@ -830,6 +832,8 @@ public class AltaAlumnos extends javax.swing.JFrame {
         jLabel11.setBounds(50, 280, 200, 30);
 
         nombre_padre.setEditable(false);
+        nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
+        nombre_padre.setEnabled(false);
         contenedor.add(nombre_padre);
         nombre_padre.setBounds(300, 190, 160, 30);
 
@@ -878,6 +882,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
 
         entrada_nivelEscolar.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
         entrada_nivelEscolar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>", "Preescolar", "Primaria", "Secundaria" }));
+        entrada_nivelEscolar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entrada_nivelEscolarActionPerformed(evt);
+            }
+        });
         contenedor.add(entrada_nivelEscolar);
         entrada_nivelEscolar.setBounds(540, 460, 200, 30);
 
@@ -891,10 +900,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
         contenedor.add(jLabel10);
         jLabel10.setBounds(790, 430, 160, 30);
 
-        jComboBox2.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        contenedor.add(jComboBox2);
-        jComboBox2.setBounds(790, 460, 200, 30);
+        entrada_gradoEscolar.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        entrada_gradoEscolar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        entrada_gradoEscolar.setEnabled(false);
+        contenedor.add(entrada_gradoEscolar);
+        entrada_gradoEscolar.setBounds(790, 460, 200, 30);
 
         infoIcon_lb.setText("jLabel11");
         infoIcon_lb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -935,14 +945,15 @@ public class AltaAlumnos extends javax.swing.JFrame {
         contenedor.add(infoIcon_lb3);
         infoIcon_lb3.setBounds(250, 463, 20, 20);
 
-        rfc_padre1.setEditable(true);
-        rfc_padre1.addActionListener(new java.awt.event.ActionListener() {
+        rfc_padre.setEditable(true);
+        rfc_padre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        rfc_padre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rfc_padre1ActionPerformed(evt);
+                rfc_padreActionPerformed(evt);
             }
         });
-        contenedor.add(rfc_padre1);
-        rfc_padre1.setBounds(40, 190, 170, 30);
+        contenedor.add(rfc_padre);
+        rfc_padre.setBounds(40, 190, 170, 30);
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 0, 1050, 650);
@@ -960,7 +971,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
             ResultSet rs = ps.executeQuery();
             //Arreglo de datos
             while (rs.next()) {
-                rfc_padre1.addItem(rs.getString("rfc"));
+                rfc_padre.addItem(rs.getString("rfc"));
             }
         } catch (SQLException ex) {
             //Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
@@ -968,7 +979,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
     }
     
     private void autoCompletar(){
-        AutoCompleteDecorator.decorate(rfc_padre1);
+        AutoCompleteDecorator.decorate(rfc_padre);
     }
     public void setUsuario(String usuario){
         this.usuario=usuario;
@@ -1103,37 +1114,36 @@ public class AltaAlumnos extends javax.swing.JFrame {
     
 
     public void altaAlumno() {
-//        try {
-//            int cp = Integer.parseInt(entrada_cp.getText());
-//            //Obtener todos los datos de entrada
-//            Date fecha_nacimiento = entrada_fechaNacimiento.getDate();
-//            java.sql.Date fecha_sql = new java.sql.Date(fecha_nacimiento.getTime());
-//            //Crear conexion a la base de datos
-//            //Preparar consulta para insertar los datos
-//            String query_alta = "INSERT INTO padre_familia "
-//                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domicilio_fiscal, regimen)"
-//                    + "VALUES (?,?,?,?,?,?,?,?)";
-//            PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
-//            ps.setString(1, entrada_rfc.getText().toUpperCase());
-//            ps.setString(2, entrada_nombres.getText());
-//            ps.setString(3, entrada_apellidoPaterno.getText());
-//            ps.setString(4, entrada_apellidoMaterno.getText());
-//            ps.setDate(5, fecha_sql);
-//            ps.setString(6, entrada_correoElectronico.getText());
-//            ps.setInt(7, cp);
-//            ps.setString(8, entrada_regimen.getSelectedItem().toString());
-//            
-//            //Verifica que se realizó el registro
-//            int filas_insertadas = ps.executeUpdate();
-//            if(filas_insertadas >0){
-//                JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
-//                return;
-//            }else{
-//                 JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);
-//            }
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);;
-//        }
+        try {
+            //Obtener todos los datos de entrada
+            Date fecha_nacimiento = entrada_fechaNacimiento.getDate();
+            java.sql.Date fecha_sql = new java.sql.Date(fecha_nacimiento.getTime());
+            //Crear conexion a la base de datos
+            //Preparar consulta para insertar los datos
+            String query_alta = "INSERT INTO alumnos"
+                    + "(rfc_padre, curp, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, nivel_escolaridad, grado_escolar)"
+                    + "VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
+            ps.setString(1, rfc_padre.getSelectedItem().toString());
+            ps.setString(2, entrada_curp.getText().toUpperCase());
+            ps.setString(3, entrada_nombres.getText());
+            ps.setString(4, entrada_apellidoPaterno.getText());
+            ps.setString(5, entrada_apellidoMaterno.getText());
+            ps.setDate(6, fecha_sql);
+            ps.setString(7, entrada_nivelEscolar.getSelectedItem().toString());
+            ps.setString(8, entrada_gradoEscolar.getSelectedItem().toString());
+            
+            //Verifica que se realizó el registro
+            int filas_insertadas = ps.executeUpdate();
+            if(filas_insertadas >0){
+                JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }else{
+                 JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);;
+        }
     }
     
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
@@ -1475,6 +1485,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Ingrese todos los datos del padre de familia", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            if(!rfcPadre_existente()){
+                JOptionPane.showMessageDialog(null, "El RFC del padre no se encuentra registrado", "RFC no registrado", JOptionPane.WARNING_MESSAGE);
+                rfc_padre.requestFocusInWindow(); //hace focus al elemento
+                return;
+            }
             if(!valida.nombresValidos(entrada_nombres.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_nombres.requestFocusInWindow();
@@ -1501,15 +1516,19 @@ public class AltaAlumnos extends javax.swing.JFrame {
             }
             if(curp_existente()){
                 JOptionPane.showMessageDialog(null, "La CURP ya se encuentra registrada", "CURP existente", JOptionPane.WARNING_MESSAGE);
-                entrada_curp.requestFocusInWindow();    // Borde al tener foco;
-                return;
+                entrada_curp.requestFocusInWindow();   
             }
-            if(entrada_nivelEscolar.getSelectedIndex()==0){
+            if(entrada_nivelEscolar.getSelectedIndex()==0){ //la opcion 0 es <seleccionar>  
                 JOptionPane.showMessageDialog(null, "Selecione un nivel escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
-                entrada_nivelEscolar.requestFocusInWindow();    // Borde al tener foco;
+                entrada_nivelEscolar.requestFocusInWindow();   
                 return;
             }
-            System.out.println("Bieen");
+            if(entrada_gradoEscolar.getSelectedIndex()==0){//si no selecciona un opcion valida
+                JOptionPane.showMessageDialog(null, "Selecione un grado escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
+                entrada_gradoEscolar.requestFocusInWindow();    
+                return;
+            }
+            altaAlumno();
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
 
@@ -1541,10 +1560,10 @@ public class AltaAlumnos extends javax.swing.JFrame {
         
     }//GEN-LAST:event_infoIcon_lb3MouseExited
 
-    private void rfc_padre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padre1ActionPerformed
+    private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
         try {
             //Seleccionar los datos del emisor
-            String consulta = "SELECT * FROM padre_familia WHERE rfc = '"+rfc_padre1.getSelectedItem().toString()+"'";
+            String consulta = "SELECT * FROM padre_familia WHERE rfc = '"+rfc_padre.getSelectedItem().toString()+"'";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
             //Arreglo de datos
@@ -1557,8 +1576,24 @@ public class AltaAlumnos extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.out.println(ex);;
         }
-    }//GEN-LAST:event_rfc_padre1ActionPerformed
+    }//GEN-LAST:event_rfc_padreActionPerformed
 
+        public boolean rfcPadre_existente(){
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
+            ps.setString(1, rfc_padre.getSelectedItem().toString().toUpperCase());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){//si encuentra un fila con el RFC quiere decir que ya existe
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;//Retorna falso si no encuentra el RFC
+    }
+    
     private void txt_altaPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
            AltaPadres ventana = new AltaPadres();
@@ -1585,6 +1620,27 @@ public class AltaAlumnos extends javax.swing.JFrame {
            this.dispose();
        }
     }//GEN-LAST:event_txt_eliminarPadresMouseClicked
+
+    private void entrada_nivelEscolarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrada_nivelEscolarActionPerformed
+       //Las opciones de grado escolar solo se pueden seleccionar cuando se elige un nivel escolar
+        if(entrada_nivelEscolar.getSelectedIndex()!=0){
+            entrada_gradoEscolar.setEnabled(true);
+        }else{
+            entrada_gradoEscolar.setEnabled(false);
+        }
+        if(entrada_nivelEscolar.getSelectedIndex()==1){//selecciona preescolar
+            entrada_gradoEscolar.removeAllItems();
+            entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_preescolar));
+        }
+        if(entrada_nivelEscolar.getSelectedIndex()==2){//selecciona preescolar
+            entrada_gradoEscolar.removeAllItems();
+            entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_primaria));
+        }
+        if (entrada_nivelEscolar.getSelectedIndex() == 3) {//selecciona preescolar
+            entrada_gradoEscolar.removeAllItems();
+            entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_secundaria));
+        }
+    }//GEN-LAST:event_entrada_nivelEscolarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1649,6 +1705,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JTextField entrada_apellidoPaterno;
     private javax.swing.JTextField entrada_curp;
     private com.toedter.calendar.JDateChooser entrada_fechaNacimiento;
+    private javax.swing.JComboBox<String> entrada_gradoEscolar;
     private javax.swing.JComboBox<String> entrada_nivelEscolar;
     private javax.swing.JTextPane entrada_nombres;
     private javax.swing.JPanel fondo;
@@ -1665,7 +1722,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JLabel infoIcon_lb2;
     private javax.swing.JLabel infoIcon_lb3;
     private javax.swing.JLabel info_nombre;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1707,7 +1763,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JTextField nombre_padre;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JLabel nombres_lb;
-    private javax.swing.JComboBox<String> rfc_padre1;
+    private javax.swing.JComboBox<String> rfc_padre;
     private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
