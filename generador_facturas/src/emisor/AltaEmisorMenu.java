@@ -4,6 +4,7 @@
  */
 package emisor;
 
+import direccion.ObtenerDireccion;
 import conexion.conexion;
 import menu.*;
 import java.awt.Color;
@@ -34,6 +35,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import login.login_window;
 import validacion.Validacion;
+import direccion.ObtenerDireccion;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -41,13 +44,14 @@ import validacion.Validacion;
  */
 public class AltaEmisorMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuPrincipal
-     * 
-     */
+    
     conexion cx = new conexion();
     private String usuario;//Nombre del usuario que inicia sesión
+   
+    ObtenerDireccion direc;
+    
     Validacion valida = new Validacion();//objeto para valdicar los datos
+   
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -272,6 +276,17 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         datosfiscales_titulo = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         entrada_fechaNacimiento = new com.toedter.calendar.JDateChooser();
+        entrada_estado = new javax.swing.JComboBox<>();
+        entrada_municipio = new javax.swing.JComboBox<>();
+        txt_estado = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        entrada_colonia = new javax.swing.JComboBox<>();
+        entrada_noExterior = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        entrada_noInterior = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar emisor");
@@ -812,7 +827,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         entrada_regimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Simplificado de Confianza. ", "612  Persona Física con Actividad Empresarial", "605  Sueldos y Salarios e Ingresos Asimilados a Salarios" }));
         entrada_regimen.setSelectedIndex(1);
         contenedor.add(entrada_regimen);
-        entrada_regimen.setBounds(680, 360, 360, 30);
+        entrada_regimen.setBounds(680, 490, 360, 30);
 
         jLabel10.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel10.setText("Código postal");
@@ -824,7 +839,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel9.setText("Régimen Fiscal");
         contenedor.add(jLabel9);
-        jLabel9.setBounds(540, 370, 126, 22);
+        jLabel9.setBounds(540, 490, 126, 22);
 
         jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel8.setText("RFC");
@@ -901,6 +916,61 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
         contenedor.add(entrada_fechaNacimiento);
         entrada_fechaNacimiento.setBounds(260, 420, 190, 30);
+
+        entrada_estado.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        entrada_estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        contenedor.add(entrada_estado);
+        entrada_estado.setBounds(650, 360, 120, 30);
+
+        entrada_municipio.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        entrada_municipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        contenedor.add(entrada_municipio);
+        entrada_municipio.setBounds(910, 360, 120, 30);
+
+        txt_estado.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_estado.setText("Estado");
+        contenedor.add(txt_estado);
+        txt_estado.setBounds(540, 360, 90, 30);
+
+        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel2.setText("Municipio");
+        contenedor.add(jLabel2);
+        jLabel2.setBounds(820, 360, 100, 30);
+
+        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel13.setText("Colonia");
+        contenedor.add(jLabel13);
+        jLabel13.setBounds(550, 420, 90, 22);
+
+        entrada_colonia.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        entrada_colonia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        contenedor.add(entrada_colonia);
+        entrada_colonia.setBounds(650, 420, 180, 30);
+        contenedor.add(entrada_noExterior);
+        entrada_noExterior.setBounds(840, 420, 90, 30);
+
+        jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("N° Exterior");
+        contenedor.add(jLabel14);
+        jLabel14.setBounds(840, 450, 90, 20);
+        contenedor.add(entrada_noInterior);
+        entrada_noInterior.setBounds(940, 420, 100, 30);
+
+        jLabel16.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("N° Interior");
+        contenedor.add(jLabel16);
+        jLabel16.setBounds(940, 450, 100, 20);
+
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        contenedor.add(jButton1);
+        jButton1.setBounds(890, 300, 75, 23);
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 0, 1050, 650);
@@ -1104,8 +1174,8 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
             //Crear conexion a la base de datos
             //Preparar consulta para insertar los datos
             String query_alta = "INSERT INTO emisor "
-                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domicilio_fiscal, regimen)"
-                    + "VALUES (?,?,?,?,?,?,?,?)";
+                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domicilio_fiscal,estado, municipio,colonia,num_exterior,num_interior ,regimen)"
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
             ps.setString(1, entrada_rfc.getText().toUpperCase());
             ps.setString(2, entrada_nombres.getText());
@@ -1114,7 +1184,12 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
             ps.setDate(5, fecha_sql);
             ps.setString(6, entrada_correoElectronico.getText());
             ps.setInt(7, cp);
-            ps.setString(8, entrada_regimen.getSelectedItem().toString());
+            ps.setString(8, entrada_estado.getSelectedItem().toString());
+            ps.setString(9,entrada_municipio.getSelectedItem().toString());
+            ps.setString(10, entrada_colonia.getSelectedItem().toString());
+            ps.setString(11, entrada_noExterior.getText());
+            ps.setString(12, entrada_noInterior.getText());
+            ps.setString(13, entrada_regimen.getSelectedItem().toString());
             
             //Verifica que se realizó el registro
             int filas_insertadas = ps.executeUpdate();
@@ -1484,6 +1559,28 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menu_userMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //busca las coincidencias con el codigo postal
+        if(valida.cpValido(entrada_cp.getText())){
+            //obtener los datos del codigo postal si es valido
+            try {
+                direc = new ObtenerDireccion(entrada_cp.getText());
+                if(!direc.estado.isEmpty()){
+                    entrada_estado.removeAllItems();
+                    entrada_municipio.removeAllItems();
+                    entrada_colonia.removeAllItems();
+                    //si el estado no esta vacio quiere decir que el codigo pertenece a mexico 
+                    entrada_estado.addItem(direc.estado);
+                    entrada_municipio.addItem(direc.municipio);
+                    entrada_colonia.setModel(new DefaultComboBoxModel<>(direc.colonias));
+                    
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(AltaEmisorMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1539,9 +1636,14 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
     private javax.swing.JPanel datosfiscales_titulo;
     private javax.swing.JTextField entrada_apellidoMaterno;
     private javax.swing.JTextField entrada_apellidoPaterno;
+    private javax.swing.JComboBox<String> entrada_colonia;
     private javax.swing.JTextField entrada_correoElectronico;
     private javax.swing.JFormattedTextField entrada_cp;
+    private javax.swing.JComboBox<String> entrada_estado;
     private com.toedter.calendar.JDateChooser entrada_fechaNacimiento;
+    private javax.swing.JComboBox<String> entrada_municipio;
+    private javax.swing.JTextField entrada_noExterior;
+    private javax.swing.JTextField entrada_noInterior;
     private javax.swing.JTextField entrada_nombres;
     private javax.swing.JComboBox<String> entrada_regimen;
     private javax.swing.JTextField entrada_rfc;
@@ -1562,11 +1664,16 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
     private javax.swing.JLabel infoRFC_lb;
     private javax.swing.JLabel info_nombre;
     private javax.swing.JLabel infocp_lb;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1613,6 +1720,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
     private javax.swing.JLabel txt_eliminarPadres;
     private javax.swing.JLabel txt_emisor;
     private javax.swing.JLabel txt_estadisticas;
+    private javax.swing.JLabel txt_estado;
     private javax.swing.JLabel txt_factura;
     private javax.swing.JLabel txt_facturasGeneradas;
     private javax.swing.JLabel txt_generarFcatura;
