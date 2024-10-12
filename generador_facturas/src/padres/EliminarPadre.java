@@ -173,6 +173,7 @@ public class EliminarPadre extends javax.swing.JFrame {
     private void initComponents() {
 
         fondo = new javax.swing.JPanel();
+        icon_regresarlb = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
@@ -247,7 +248,6 @@ public class EliminarPadre extends javax.swing.JFrame {
         btn_eliminarPadre = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
         text_eliminarEmisor = new javax.swing.JLabel();
-        icon_regresarlb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Eliminar padre de familia");
@@ -262,6 +262,17 @@ public class EliminarPadre extends javax.swing.JFrame {
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(1050, 650));
         fondo.setLayout(null);
+
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        fondo.add(icon_regresarlb);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         barra_nav.setBackground(new java.awt.Color(201, 69, 69));
         barra_nav.setLayout(null);
@@ -730,17 +741,6 @@ public class EliminarPadre extends javax.swing.JFrame {
 
         fondo.add(contenedor);
         contenedor.setBounds(30, 150, 990, 510);
-
-        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
-        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_regresarlbMouseClicked(evt);
-            }
-        });
-        fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 

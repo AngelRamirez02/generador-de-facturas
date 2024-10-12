@@ -1516,7 +1516,8 @@ public class AltaAlumnos extends javax.swing.JFrame {
             }
             if(curp_existente()){
                 JOptionPane.showMessageDialog(null, "La CURP ya se encuentra registrada", "CURP existente", JOptionPane.WARNING_MESSAGE);
-                entrada_curp.requestFocusInWindow();   
+                entrada_curp.requestFocusInWindow();  
+                return; 
             }
             if(entrada_nivelEscolar.getSelectedIndex()==0){ //la opcion 0 es <seleccionar>  
                 JOptionPane.showMessageDialog(null, "Selecione un nivel escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);

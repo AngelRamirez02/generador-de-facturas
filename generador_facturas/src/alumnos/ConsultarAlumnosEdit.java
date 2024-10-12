@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package padres;
+package alumnos;
 
+import padres.*;
 import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
 import conexion.conexion;
@@ -41,7 +42,7 @@ import menu.MenuPrincipal;
  *
  * @author ar275
  */
-public class ConsultarPadresEdit extends javax.swing.JFrame {
+public class ConsultarAlumnosEdit extends javax.swing.JFrame {
     //Variables para los datos de las columas
     String rfc;
     String nombres;
@@ -67,7 +68,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
-     public ConsultarPadresEdit() {
+     public ConsultarAlumnosEdit() {
         initComponents();
         
         //Menus ocultos por defecto
@@ -156,7 +157,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         timer.start();
 
         //Propiedades para la tabla
-        JTableHeader header = tabla_emisor.getTableHeader();
+        JTableHeader header = tabla_alumno.getTableHeader();
         header.setDefaultRenderer(new TablaPersonalizada());
         header.setPreferredSize(new Dimension(30,50));
         
@@ -248,7 +249,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         txt_eliminarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabla_emisor = new javax.swing.JTable();
+        tabla_alumno = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btn_actualizar = new paneles.PanelRound();
@@ -256,7 +257,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         text_guardarDatos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Padres registrados");
+        setTitle("Instituto Andrés Manuel López Obrador - Alumnos registrados");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -672,48 +673,48 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
-        tabla_emisor.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_alumno.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        tabla_alumno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Régimen Fiscal"
+                "RFC del padre", "CURP", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Nivel escolar", "Grado escolar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, true, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tabla_emisor.setFillsViewportHeight(true);
-        tabla_emisor.setFocusable(false);
-        tabla_emisor.setRowHeight(40);
-        tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
-        tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabla_emisor.setShowHorizontalLines(true);
-        tabla_emisor.getTableHeader().setResizingAllowed(false);
-        tabla_emisor.getTableHeader().setReorderingAllowed(false);
-        tabla_emisor.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabla_alumno.setFillsViewportHeight(true);
+        tabla_alumno.setFocusable(false);
+        tabla_alumno.setRowHeight(40);
+        tabla_alumno.setSelectionBackground(new java.awt.Color(153, 153, 255));
+        tabla_alumno.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla_alumno.setShowHorizontalLines(true);
+        tabla_alumno.getTableHeader().setResizingAllowed(false);
+        tabla_alumno.getTableHeader().setReorderingAllowed(false);
+        tabla_alumno.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabla_emisorMouseClicked(evt);
+                tabla_alumnoMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tabla_emisor);
+        jScrollPane1.setViewportView(tabla_alumno);
 
         contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 300));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_emisoresRegistrados.setText("PADRES DE FAMILIA REGISTRADOS");
+        txt_emisoresRegistrados.setText("ALUMNOS REGISTRADOS");
         contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
 
         jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Seleccione el padre de familia a editar");
+        jLabel2.setText("Seleccione el alumno a editar");
         contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 990, 50));
 
         btn_actualizar.setBackground(new java.awt.Color(0, 0, 0));
@@ -737,7 +738,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
 
         text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_guardarDatos.setText("Actualizar padre");
+        text_guardarDatos.setText("Actualizar alumno");
         text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 40));
 
@@ -758,28 +759,28 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM padre_familia";
+           String consulta = "SELECT * FROM alumnos";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
-           Object [] emisor =new Object[8];
-           modelo = (DefaultTableModel) tabla_emisor.getModel();
+           Object [] alumno =new Object[8];
+           modelo = (DefaultTableModel) tabla_alumno.getModel();
            while(rs.next()){
                //se obtienen los datos de la tabla
-               emisor[0] = rs.getString("rfc");
-               emisor[1] = rs.getString("nombres");
-               emisor[2] = rs.getString("apellido_paterno");
-               emisor[3] = rs.getString("apellido_materno");
-               emisor[4] = rs.getDate("fecha_nacimiento");
-               emisor[5] = rs.getString("correo_electronico");
-               emisor[6] = rs.getInt("domicilio_fiscal");
-               emisor[7] = rs.getString("regimen");
+               alumno[0] = rs.getString("rfc_padre");
+               alumno[1] = rs.getString("curp");
+               alumno[2] = rs.getString("nombres");
+               alumno[3] = rs.getString("apellido_paterno");
+               alumno[4] = rs.getString("apellido_materno");
+               alumno[5] = rs.getDate("fecha_nacimiento");
+               alumno[6] = rs.getString("nivel_escolaridad");
+               alumno[7] = rs.getString("grado_escolar");
                //añade la info  la tabla
-               modelo.addRow(emisor);
+               modelo.addRow(alumno);
            }
-           tabla_emisor.setModel(modelo);
+           tabla_alumno.setModel(modelo);
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultarPadresEdit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultarAlumnosEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -1085,37 +1086,37 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
 
     private void btn_actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_actualizarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
-            ModificarPadre ventana = new ModificarPadre();
-            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp);
-            ventana.setUsuario(usuario);
-            ventana.setVisible(true);
-            this.dispose();
+//            ModificarPadre ventana = new ModificarPadre();
+//            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp);
+//            ventana.setUsuario(usuario);
+////            ventana.setVisible(true);
+//            this.dispose();
         }
     }//GEN-LAST:event_btn_actualizarMouseClicked
 
-    private void tabla_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_emisorMouseClicked
-        int fila = tabla_emisor.getSelectedRow();
+    private void tabla_alumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_alumnoMouseClicked
+        int fila = tabla_alumno.getSelectedRow();
         if (fila != - 1) {
-            rfc = (String) tabla_emisor.getValueAt(fila, 0);
-            nombres = (String) tabla_emisor.getValueAt(fila, 1);
-            apellido_paterno = (String) tabla_emisor.getValueAt(fila, 2);
-            apellido_materno = (String) tabla_emisor.getValueAt(fila, 3);
-            //Enviar la fecha en formato de calendario
-            java.sql.Date fechasql = (java.sql.Date) tabla_emisor.getValueAt(fila, 4); // Ajustar índice
-            Calendar fechaNacimiento = Calendar.getInstance();
-            fechaNacimiento.setTime(fechasql);
-            fecha_nacimiento = fechaNacimiento;
-            //
-            correo_electronico = (String) tabla_emisor.getValueAt(fila, 5);
-            cp = (int) tabla_emisor.getValueAt(fila, 6);
-            regimen = (String) tabla_emisor.getValueAt(fila, 7);
+//            rfc = (String) tabla_alumno.getValueAt(fila, 0);
+//            nombres = (String) tabla_alumno.getValueAt(fila, 1);
+//            apellido_paterno = (String) tabla_alumno.getValueAt(fila, 2);
+//            apellido_materno = (String) tabla_alumno.getValueAt(fila, 3);
+//            //Enviar la fecha en formato de calendario
+//            java.sql.Date fechasql = (java.sql.Date) tabla_alumno.getValueAt(fila, 4); // Ajustar índice
+//            Calendar fechaNacimiento = Calendar.getInstance();
+//            fechaNacimiento.setTime(fechasql);
+//            fecha_nacimiento = fechaNacimiento;
+//            //
+//            correo_electronico = (String) tabla_alumno.getValueAt(fila, 5);
+//            cp = (int) tabla_alumno.getValueAt(fila, 6);
+//            regimen = (String) tabla_alumno.getValueAt(fila, 7);
             if(!btn_actualizar.isVisible()){
                 btn_actualizar.setVisible(true);
             }
         }else{
             btn_actualizar.setVisible(false);
         }
-    }//GEN-LAST:event_tabla_emisorMouseClicked
+    }//GEN-LAST:event_tabla_alumnoMouseClicked
 
     private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
@@ -1153,14 +1154,22 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPadresEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarAlumnosEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPadresEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarAlumnosEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPadresEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarAlumnosEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPadresEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarAlumnosEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1173,7 +1182,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultarPadresEdit().setVisible(true);
+                new ConsultarAlumnosEdit().setVisible(true);
             }
         });
     }
@@ -1228,7 +1237,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JTable tabla_emisor;
+    private javax.swing.JTable tabla_alumno;
     private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;

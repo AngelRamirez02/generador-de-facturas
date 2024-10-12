@@ -5,6 +5,7 @@
 package menu;
 
 import alumnos.AltaAlumnos;
+import alumnos.ConsultarAlumnosEdit;
 import emisor.AltaEmisorMenu;
 import emisor.ConsultarEmisor;
 import emisor.EliminarEmisor;
@@ -28,6 +29,7 @@ import javax.swing.Timer;
 import login.login_window;
 import padres.AltaPadres;
 import padres.ConsultarPadresEdit;
+import padres.EliminarPadre;
 
 /**
  *
@@ -413,6 +415,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_modificarAlumnos.setForeground(new java.awt.Color(255, 255, 255));
         txt_modificarAlumnos.setText("Modificar Alumno");
         txt_modificarAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_modificarAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_modificarAlumnosMouseClicked(evt);
+            }
+        });
         menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
         menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
 
@@ -1017,7 +1024,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            EliminarEmisor ventana = new EliminarEmisor();
+            EliminarPadre ventana = new EliminarPadre();
             ventana.setUsuario(usuario);
             ventana.setVisible(true);
             this.dispose();
@@ -1032,6 +1039,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
            this.dispose();
        }
     }//GEN-LAST:event_txt_altaAlumnosMouseClicked
+
+    private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
+       if(SwingUtilities.isLeftMouseButton(evt)){
+           ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
+           ventana.setUsuario(usuario);
+           ventana.setVisible(true);
+           this.dispose();
+       }
+    }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
 
     /**
      * @param args the command line arguments
