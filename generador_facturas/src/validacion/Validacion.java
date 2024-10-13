@@ -45,6 +45,13 @@ public class Validacion {
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
     }
     
+    public boolean numInteriorExteriorValido(String num) {
+        String regex = "^[A-Za-z0-9\\s\\-\\/]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(num);
+        return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
+    }
+    
 public String crear_rfc(String nombres, String apellido_paterno, String apellido_materno, Calendar fecha_nacimiento, String homoclave) {
     // Obtener día, mes y año desde el Calendar que recibes
     int dia = fecha_nacimiento.get(Calendar.DAY_OF_MONTH);

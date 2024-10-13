@@ -4,7 +4,6 @@
  */
 package emisor;
 
-import direccion.ObtenerDireccion;
 import conexion.conexion;
 import menu.*;
 import java.awt.Color;
@@ -845,6 +844,12 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         jLabel8.setText("RFC");
         contenedor.add(jLabel8);
         jLabel8.setBounds(540, 240, 35, 22);
+
+        entrada_correoElectronico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_correoElectronicoKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_correoElectronico);
         entrada_correoElectronico.setBounds(260, 490, 190, 30);
 
@@ -857,6 +862,12 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         jLabel6.setText("Fecha de nacimiento");
         contenedor.add(jLabel6);
         jLabel6.setBounds(70, 430, 180, 20);
+
+        entrada_apellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_apellidoMaternoKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_apellidoMaterno);
         entrada_apellidoMaterno.setBounds(260, 360, 190, 30);
 
@@ -869,8 +880,20 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         jLabel3.setText("Apellido peterno");
         contenedor.add(jLabel3);
         jLabel3.setBounds(70, 305, 140, 22);
+
+        entrada_apellidoPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_apellidoPaternoKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_apellidoPaterno);
         entrada_apellidoPaterno.setBounds(260, 300, 190, 30);
+
+        entrada_nombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_nombresKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_nombres);
         entrada_nombres.setBounds(258, 229, 190, 30);
 
@@ -919,13 +942,15 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
 
         entrada_estado.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
         entrada_estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        entrada_estado.setEnabled(false);
         contenedor.add(entrada_estado);
-        entrada_estado.setBounds(650, 360, 120, 30);
+        entrada_estado.setBounds(610, 360, 140, 30);
 
         entrada_municipio.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
         entrada_municipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        entrada_municipio.setEnabled(false);
         contenedor.add(entrada_municipio);
-        entrada_municipio.setBounds(910, 360, 120, 30);
+        entrada_municipio.setBounds(850, 360, 180, 30);
 
         txt_estado.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_estado.setText("Estado");
@@ -935,17 +960,23 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel2.setText("Municipio");
         contenedor.add(jLabel2);
-        jLabel2.setBounds(820, 360, 100, 30);
+        jLabel2.setBounds(760, 360, 90, 30);
 
         jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel13.setText("Colonia");
         contenedor.add(jLabel13);
-        jLabel13.setBounds(550, 420, 90, 22);
+        jLabel13.setBounds(540, 420, 90, 22);
 
         entrada_colonia.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
         entrada_colonia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
         contenedor.add(entrada_colonia);
-        entrada_colonia.setBounds(650, 420, 180, 30);
+        entrada_colonia.setBounds(620, 420, 210, 30);
+
+        entrada_noExterior.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_noExteriorKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_noExterior);
         entrada_noExterior.setBounds(840, 420, 90, 30);
 
@@ -954,6 +985,12 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         jLabel14.setText("N° Exterior");
         contenedor.add(jLabel14);
         jLabel14.setBounds(840, 450, 90, 20);
+
+        entrada_noInterior.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_noInteriorKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_noInterior);
         entrada_noInterior.setBounds(940, 420, 100, 30);
 
@@ -970,7 +1007,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
             }
         });
         contenedor.add(jButton1);
-        jButton1.setBounds(890, 300, 75, 23);
+        jButton1.setBounds(880, 300, 75, 30);
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 0, 1050, 650);
@@ -1247,6 +1284,21 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
             if(!valida.cpValido(entrada_cp.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(entrada_colonia.getSelectedObjects().toString().equals("<seleccionar>")){
+                JOptionPane.showMessageDialog(null, "Seleccione una colonia", "Colonia no seleccionada", JOptionPane.WARNING_MESSAGE);
+                entrada_colonia.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(!valida.numInteriorExteriorValido(entrada_noExterior.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un nímero exterior valido", "Número exterior no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_noExterior.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(!valida.numInteriorExteriorValido(entrada_noInterior.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un numero exterior valido", "Numero interior no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_noInterior.requestFocusInWindow();    // Borde al tener foco;
                 return;
             }
             altaEmisor();
@@ -1573,13 +1625,57 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
                     entrada_estado.addItem(direc.estado);
                     entrada_municipio.addItem(direc.municipio);
                     entrada_colonia.setModel(new DefaultComboBoxModel<>(direc.colonias));
-                    
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ingrese un codigo postal de Mexico", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
+                    entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+                    return;
                 }
             } catch (Exception ex) {
                 Logger.getLogger(AltaEmisorMenu.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+            return;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void entrada_nombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_nombresKeyTyped
+        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_nombresKeyTyped
+
+    private void entrada_apellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoKeyTyped
+        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            evt.consume();
+        }     
+    }//GEN-LAST:event_entrada_apellidoPaternoKeyTyped
+
+    private void entrada_apellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoKeyTyped
+        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            evt.consume();
+        }  
+    }//GEN-LAST:event_entrada_apellidoMaternoKeyTyped
+
+    private void entrada_correoElectronicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_correoElectronicoKeyTyped
+        if(entrada_nombres.getText().length()>=80){//si la longitud es mayor a 80 no permite seguir escribiendo
+            evt.consume();
+        }  
+    }//GEN-LAST:event_entrada_correoElectronicoKeyTyped
+
+    private void entrada_noExteriorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_noExteriorKeyTyped
+        if(entrada_nombres.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+            evt.consume();
+        }  
+    }//GEN-LAST:event_entrada_noExteriorKeyTyped
+
+    private void entrada_noInteriorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_noInteriorKeyTyped
+        if(entrada_nombres.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+            evt.consume();
+        } 
+    }//GEN-LAST:event_entrada_noInteriorKeyTyped
 
     /**
      * @param args the command line arguments
