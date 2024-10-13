@@ -1138,6 +1138,24 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
                 && entrada_cp.getText().trim().isEmpty());
     }
 
+        public void limpiarCampos(){
+        entrada_nombres.setText("");
+        entrada_apellidoMaterno.setText("");
+        entrada_apellidoPaterno.setText("");
+        entrada_correoElectronico.setText("");
+        entrada_fechaNacimiento.setDate(null);
+        entrada_rfc.setText("");
+        entrada_cp.setText("");
+        entrada_estado.removeAllItems();
+        entrada_estado.addItem("<seleccionar>");
+        entrada_municipio.removeAllItems();
+        entrada_municipio.addItem("<seleccionar>");
+        entrada_colonia.removeAllItems();
+        entrada_colonia.addItem("<seleccionar>");
+        entrada_noExterior.setText("");
+        entrada_noInterior.setText("");
+    }
+        
     public boolean fechaValida(){
         return entrada_fechaNacimiento.getDate() != null;
     }
@@ -1232,6 +1250,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
             int filas_insertadas = ps.executeUpdate();
             if(filas_insertadas >0){
                 JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
+                limpiarCampos();
                 return;
             }else{
                  JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);
@@ -1286,7 +1305,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
                 entrada_cp.requestFocusInWindow();    // Borde al tener foco;
                 return;
             }
-            if(entrada_colonia.getSelectedObjects().toString().equals("<seleccionar>")){
+            if(entrada_colonia.getSelectedItem().toString().equals("<seleccionar>")){//sino selecciona una colonia
                 JOptionPane.showMessageDialog(null, "Seleccione una colonia", "Colonia no seleccionada", JOptionPane.WARNING_MESSAGE);
                 entrada_colonia.requestFocusInWindow();    // Borde al tener foco;
                 return;

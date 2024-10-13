@@ -7,6 +7,7 @@ package padres;
 import alumnos.AltaAlumnos;
 import emisor.*;
 import conexion.conexion;
+import direccion.ObtenerDireccion;
 import menu.*;
 import java.awt.Color;
 import java.awt.Image;
@@ -30,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -50,6 +52,9 @@ public class AltaPadres extends javax.swing.JFrame {
     conexion cx = new conexion();
     private String usuario;//Nombre del usuario que inicia sesión
     Validacion valida = new Validacion();//objeto para valdicar los datos
+    
+    ObtenerDireccion direc;//objeto para obtener la direccion ¿
+    
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -271,13 +276,24 @@ public class AltaPadres extends javax.swing.JFrame {
         entrada_apellidoPaterno = new javax.swing.JTextField();
         entrada_nombres = new javax.swing.JTextField();
         nombres_lb = new javax.swing.JLabel();
-        registrarEmisor_Titulo = new javax.swing.JPanel();
+        registrarPadre = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         datosPersonales_titulo = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         datosfiscales_titulo = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         entrada_fechaNacimiento = new com.toedter.calendar.JDateChooser();
+        entrada_estado = new javax.swing.JComboBox<>();
+        entrada_municipio = new javax.swing.JComboBox<>();
+        txt_estado = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        entrada_colonia = new javax.swing.JComboBox<>();
+        entrada_noExterior = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        entrada_noInterior = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar padre de familia");
@@ -837,7 +853,7 @@ public class AltaPadres extends javax.swing.JFrame {
         entrada_regimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Simplificado de Confianza. ", "612  Persona Física con Actividad Empresarial", "605  Sueldos y Salarios e Ingresos Asimilados a Salarios" }));
         entrada_regimen.setSelectedIndex(1);
         contenedor.add(entrada_regimen);
-        entrada_regimen.setBounds(680, 360, 360, 30);
+        entrada_regimen.setBounds(680, 490, 360, 30);
 
         jLabel10.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel10.setText("Código postal");
@@ -849,12 +865,18 @@ public class AltaPadres extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel9.setText("Régimen Fiscal");
         contenedor.add(jLabel9);
-        jLabel9.setBounds(540, 370, 126, 22);
+        jLabel9.setBounds(540, 490, 126, 22);
 
         jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel8.setText("RFC");
         contenedor.add(jLabel8);
         jLabel8.setBounds(540, 240, 35, 22);
+
+        entrada_correoElectronico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_correoElectronicoKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_correoElectronico);
         entrada_correoElectronico.setBounds(260, 490, 190, 30);
 
@@ -867,6 +889,12 @@ public class AltaPadres extends javax.swing.JFrame {
         jLabel6.setText("Fecha de nacimiento");
         contenedor.add(jLabel6);
         jLabel6.setBounds(70, 430, 180, 20);
+
+        entrada_apellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_apellidoMaternoKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_apellidoMaterno);
         entrada_apellidoMaterno.setBounds(260, 360, 190, 30);
 
@@ -879,8 +907,20 @@ public class AltaPadres extends javax.swing.JFrame {
         jLabel3.setText("Apellido peterno");
         contenedor.add(jLabel3);
         jLabel3.setBounds(70, 305, 140, 22);
+
+        entrada_apellidoPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_apellidoPaternoKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_apellidoPaterno);
         entrada_apellidoPaterno.setBounds(260, 300, 190, 30);
+
+        entrada_nombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_nombresKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_nombres);
         entrada_nombres.setBounds(258, 229, 190, 30);
 
@@ -889,16 +929,16 @@ public class AltaPadres extends javax.swing.JFrame {
         contenedor.add(nombres_lb);
         nombres_lb.setBounds(70, 240, 110, 22);
 
-        registrarEmisor_Titulo.setBackground(new java.awt.Color(255, 255, 255));
-        registrarEmisor_Titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        registrarPadre.setBackground(new java.awt.Color(255, 255, 255));
+        registrarPadre.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Roboto Light", 1, 48)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Registrar padre de familia");
-        registrarEmisor_Titulo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 60));
+        registrarPadre.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-202, 0, 1050, 60));
 
-        contenedor.add(registrarEmisor_Titulo);
-        registrarEmisor_Titulo.setBounds(200, 60, 620, 60);
+        contenedor.add(registrarPadre);
+        registrarPadre.setBounds(200, 60, 620, 60);
 
         datosPersonales_titulo.setBackground(new java.awt.Color(255, 255, 255));
         datosPersonales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -927,6 +967,75 @@ public class AltaPadres extends javax.swing.JFrame {
         entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
         contenedor.add(entrada_fechaNacimiento);
         entrada_fechaNacimiento.setBounds(260, 420, 190, 30);
+
+        entrada_estado.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        entrada_estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        entrada_estado.setEnabled(false);
+        contenedor.add(entrada_estado);
+        entrada_estado.setBounds(610, 360, 140, 30);
+
+        entrada_municipio.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        entrada_municipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        entrada_municipio.setEnabled(false);
+        contenedor.add(entrada_municipio);
+        entrada_municipio.setBounds(850, 360, 180, 30);
+
+        txt_estado.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_estado.setText("Estado");
+        contenedor.add(txt_estado);
+        txt_estado.setBounds(540, 360, 90, 30);
+
+        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel13.setText("Municipio");
+        contenedor.add(jLabel13);
+        jLabel13.setBounds(760, 360, 90, 30);
+
+        jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel14.setText("Colonia");
+        contenedor.add(jLabel14);
+        jLabel14.setBounds(540, 420, 90, 22);
+
+        entrada_colonia.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        entrada_colonia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        contenedor.add(entrada_colonia);
+        entrada_colonia.setBounds(620, 420, 210, 30);
+
+        entrada_noExterior.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_noExteriorKeyTyped(evt);
+            }
+        });
+        contenedor.add(entrada_noExterior);
+        entrada_noExterior.setBounds(840, 420, 90, 30);
+
+        jLabel16.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("N° Exterior");
+        contenedor.add(jLabel16);
+        jLabel16.setBounds(840, 450, 90, 20);
+
+        entrada_noInterior.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_noInteriorKeyTyped(evt);
+            }
+        });
+        contenedor.add(entrada_noInterior);
+        entrada_noInterior.setBounds(940, 420, 100, 30);
+
+        jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("N° Interior");
+        contenedor.add(jLabel17);
+        jLabel17.setBounds(940, 450, 100, 20);
+
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        contenedor.add(jButton1);
+        jButton1.setBounds(880, 300, 75, 30);
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 0, 1050, 650);
@@ -1014,38 +1123,6 @@ public class AltaPadres extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void infoIcon_lb4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb4MouseEntered
-        infocp_lb.setVisible(true);
-    }//GEN-LAST:event_infoIcon_lb4MouseEntered
-
-    private void infoIcon_lb4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb4MouseExited
-        infocp_lb.setVisible(false);
-    }//GEN-LAST:event_infoIcon_lb4MouseExited
-
-    private void infoIcon_lb3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseEntered
-        infoRFC_lb.setVisible(true);
-    }//GEN-LAST:event_infoIcon_lb3MouseEntered
-
-    private void infoIcon_lb3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseExited
-        infoRFC_lb.setVisible(false);
-    }//GEN-LAST:event_infoIcon_lb3MouseExited
-
-    private void infoIcon_lbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseEntered
-        info_nombre.setVisible(true);
-    }//GEN-LAST:event_infoIcon_lbMouseEntered
-
-    private void infoIcon_lbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseExited
-        info_nombre.setVisible(false);
-    }//GEN-LAST:event_infoIcon_lbMouseExited
-
-    private void infoIcon_lb2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseEntered
-        infoFecha_lb.setVisible(true);
-    }//GEN-LAST:event_infoIcon_lb2MouseEntered
-
-    private void infoIcon_lb2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseExited
-        infoFecha_lb.setVisible(false);
-    }//GEN-LAST:event_infoIcon_lb2MouseExited
-
     public boolean existeInfo() {
         // Retorna true si al menos uno de los campos tiene información que no sea solo espacios
         return !(entrada_nombres.getText().trim().isEmpty()
@@ -1055,6 +1132,24 @@ public class AltaPadres extends javax.swing.JFrame {
                 && entrada_correoElectronico.getText().trim().isEmpty()
                 && entrada_rfc.getText().trim().isEmpty()
                 && entrada_cp.getText().trim().isEmpty());
+    }
+    
+    public void limpiarCampos(){
+        entrada_nombres.setText("");
+        entrada_apellidoMaterno.setText("");
+        entrada_apellidoPaterno.setText("");
+        entrada_correoElectronico.setText("");
+        entrada_fechaNacimiento.setDate(null);
+        entrada_rfc.setText("");
+        entrada_cp.setText("");
+        entrada_estado.removeAllItems();
+        entrada_estado.addItem("<seleccionar>");
+        entrada_municipio.removeAllItems();
+        entrada_municipio.addItem("<seleccionar>");
+        entrada_colonia.removeAllItems();
+        entrada_colonia.addItem("<seleccionar>");
+        entrada_noExterior.setText("");
+        entrada_noInterior.setText("");
     }
 
     public boolean fechaValida(){
@@ -1129,9 +1224,9 @@ public class AltaPadres extends javax.swing.JFrame {
             java.sql.Date fecha_sql = new java.sql.Date(fecha_nacimiento.getTime());
             //Crear conexion a la base de datos
             //Preparar consulta para insertar los datos
-            String query_alta = "INSERT INTO padre_familia "
-                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domicilio_fiscal, regimen)"
-                    + "VALUES (?,?,?,?,?,?,?,?)";
+            String query_alta = "INSERT INTO padre_familia"
+                    + "(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, domicilio_fiscal,estado, municipio,colonia,num_exterior,num_interior ,regimen)"
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
             ps.setString(1, entrada_rfc.getText().toUpperCase());
             ps.setString(2, entrada_nombres.getText());
@@ -1140,12 +1235,18 @@ public class AltaPadres extends javax.swing.JFrame {
             ps.setDate(5, fecha_sql);
             ps.setString(6, entrada_correoElectronico.getText());
             ps.setInt(7, cp);
-            ps.setString(8, entrada_regimen.getSelectedItem().toString());
+            ps.setString(8, entrada_estado.getSelectedItem().toString());
+            ps.setString(9,entrada_municipio.getSelectedItem().toString());
+            ps.setString(10, entrada_colonia.getSelectedItem().toString());
+            ps.setString(11, entrada_noExterior.getText());
+            ps.setString(12, entrada_noInterior.getText());
+            ps.setString(13, entrada_regimen.getSelectedItem().toString());
             
             //Verifica que se realizó el registro
             int filas_insertadas = ps.executeUpdate();
             if(filas_insertadas >0){
                 JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
+                limpiarCampos();
                 return;
             }else{
                  JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);
@@ -1155,55 +1256,6 @@ public class AltaPadres extends javax.swing.JFrame {
         }
     }
     
-    private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            if(!existeInfo()){
-                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del padre de familia", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if(!valida.nombresValidos(entrada_nombres.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_nombres.requestFocusInWindow();
-                return;
-            }
-            if(!valida.apellidoValido(entrada_apellidoPaterno.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_apellidoPaterno.requestFocusInWindow();
-                return;
-            }
-            if(!valida.apellidoValido(entrada_apellidoMaterno.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_apellidoMaterno.requestFocusInWindow();
-                return;
-            }
-            if(!fechaValida()){
-                JOptionPane.showMessageDialog(null, "Ingrese una fecha de nacimiento valida", "Fecha no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_fechaNacimiento.requestFocusInWindow();
-                return;
-            }
-            if(!valida.correo_valido(entrada_correoElectronico.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un correo electronico valido", "Correo no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_correoElectronico.requestFocusInWindow();
-                return;
-            }
-            if(!rfc_valido()){
-                entrada_rfc.requestFocusInWindow();
-                return;
-            }
-            if(rfc_existente()){
-                JOptionPane.showMessageDialog(null, "El RFC ya se encuentra registrado", "RFC existente", JOptionPane.WARNING_MESSAGE);
-                entrada_rfc.requestFocusInWindow();    // Borde al tener foco;
-                return;
-            }
-            if(!valida.cpValido(entrada_cp.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_cp.requestFocusInWindow();    // Borde al tener foco;
-                return;
-            }
-            altaEmisor();
-        }
-    }//GEN-LAST:event_btn_guardarDatosMouseClicked
-
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)){
                         Object[] opciones = {"Aceptar", "Cancelar"};
@@ -1562,6 +1614,168 @@ public class AltaPadres extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_altaAlumnosMouseClicked
 
+    private void infoIcon_lb4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb4MouseEntered
+        infocp_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb4MouseEntered
+
+    private void infoIcon_lb4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb4MouseExited
+        infocp_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb4MouseExited
+
+    private void infoIcon_lb3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseEntered
+        infoRFC_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb3MouseEntered
+
+    private void infoIcon_lb3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseExited
+        infoRFC_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb3MouseExited
+
+    private void infoIcon_lbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseEntered
+        info_nombre.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lbMouseEntered
+
+    private void infoIcon_lbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseExited
+        info_nombre.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lbMouseExited
+
+    private void infoIcon_lb2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseEntered
+        infoFecha_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb2MouseEntered
+
+    private void infoIcon_lb2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseExited
+        infoFecha_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb2MouseExited
+
+    private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            if(!existeInfo()){
+                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(!valida.nombresValidos(entrada_nombres.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_nombres.requestFocusInWindow();
+                return;
+            }
+            if(!valida.apellidoValido(entrada_apellidoPaterno.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_apellidoPaterno.requestFocusInWindow();
+                return;
+            }
+            if(!valida.apellidoValido(entrada_apellidoMaterno.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_apellidoMaterno.requestFocusInWindow();
+                return;
+            }
+            if(!fechaValida()){
+                JOptionPane.showMessageDialog(null, "Ingrese una fecha de nacimiento valida", "Fecha no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_fechaNacimiento.requestFocusInWindow();
+                return;
+            }
+            if(!valida.correo_valido(entrada_correoElectronico.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un correo electronico valido", "Correo no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_correoElectronico.requestFocusInWindow();
+                return;
+            }
+            if(!rfc_valido()){
+                entrada_rfc.requestFocusInWindow();
+                return;
+            }
+            if(rfc_existente()){
+                JOptionPane.showMessageDialog(null, "El RFC ya se encuentra registrado", "RFC existente", JOptionPane.WARNING_MESSAGE);
+                entrada_rfc.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(!valida.cpValido(entrada_cp.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(entrada_colonia.getSelectedItem().toString().equals("<seleccionar>")){//sino selecciona una colonia
+                JOptionPane.showMessageDialog(null, "Seleccione una colonia", "Colonia no seleccionada", JOptionPane.WARNING_MESSAGE);
+                entrada_colonia.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(!valida.numInteriorExteriorValido(entrada_noExterior.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un nímero exterior valido", "Número exterior no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_noExterior.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            if(!valida.numInteriorExteriorValido(entrada_noInterior.getText())){
+                JOptionPane.showMessageDialog(null, "Ingrese un numero exterior valido", "Numero interior no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_noInterior.requestFocusInWindow();    // Borde al tener foco;
+                return;
+            }
+            altaEmisor();
+        }
+    }//GEN-LAST:event_btn_guardarDatosMouseClicked
+
+    private void entrada_correoElectronicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_correoElectronicoKeyTyped
+        if(entrada_nombres.getText().length()>=80){//si la longitud es mayor a 80 no permite seguir escribiendo
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_correoElectronicoKeyTyped
+
+    private void entrada_apellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoKeyTyped
+        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_apellidoMaternoKeyTyped
+
+    private void entrada_apellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoKeyTyped
+        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_apellidoPaternoKeyTyped
+
+    private void entrada_nombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_nombresKeyTyped
+        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_nombresKeyTyped
+
+    private void entrada_noExteriorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_noExteriorKeyTyped
+        if(entrada_nombres.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_noExteriorKeyTyped
+
+    private void entrada_noInteriorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_noInteriorKeyTyped
+        if(entrada_nombres.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_noInteriorKeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //busca las coincidencias con el codigo postal
+        if(valida.cpValido(entrada_cp.getText())){
+            //obtener los datos del codigo postal si es valido
+            try {
+                direc = new ObtenerDireccion(entrada_cp.getText());
+                if(!direc.estado.isEmpty()){
+                    entrada_estado.removeAllItems();
+                    entrada_municipio.removeAllItems();
+                    entrada_colonia.removeAllItems();
+                    //si el estado no esta vacio quiere decir que el codigo pertenece a mexico
+                    entrada_estado.addItem(direc.estado);
+                    entrada_municipio.addItem(direc.municipio);
+                    entrada_colonia.setModel(new DefaultComboBoxModel<>(direc.colonias));
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ingrese un codigo postal de Mexico", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
+                    entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+                    return;
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(AltaEmisorMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+            return;
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1619,9 +1833,14 @@ public class AltaPadres extends javax.swing.JFrame {
     private javax.swing.JPanel datosfiscales_titulo;
     private javax.swing.JTextField entrada_apellidoMaterno;
     private javax.swing.JTextField entrada_apellidoPaterno;
+    private javax.swing.JComboBox<String> entrada_colonia;
     private javax.swing.JTextField entrada_correoElectronico;
     private javax.swing.JFormattedTextField entrada_cp;
+    private javax.swing.JComboBox<String> entrada_estado;
     private com.toedter.calendar.JDateChooser entrada_fechaNacimiento;
+    private javax.swing.JComboBox<String> entrada_municipio;
+    private javax.swing.JTextField entrada_noExterior;
+    private javax.swing.JTextField entrada_noInterior;
     private javax.swing.JTextField entrada_nombres;
     private javax.swing.JComboBox<String> entrada_regimen;
     private javax.swing.JTextField entrada_rfc;
@@ -1642,11 +1861,16 @@ public class AltaPadres extends javax.swing.JFrame {
     private javax.swing.JLabel infoRFC_lb;
     private javax.swing.JLabel info_nombre;
     private javax.swing.JLabel infocp_lb;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1680,7 +1904,7 @@ public class AltaPadres extends javax.swing.JFrame {
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JLabel nombres_lb;
-    private javax.swing.JPanel registrarEmisor_Titulo;
+    private javax.swing.JPanel registrarPadre;
     private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
@@ -1696,6 +1920,7 @@ public class AltaPadres extends javax.swing.JFrame {
     private javax.swing.JLabel txt_eliminarPadres;
     private javax.swing.JLabel txt_emisor;
     private javax.swing.JLabel txt_estadisticas;
+    private javax.swing.JLabel txt_estado;
     private javax.swing.JLabel txt_factura;
     private javax.swing.JLabel txt_facturasGeneradas;
     private javax.swing.JLabel txt_generarFcatura;
