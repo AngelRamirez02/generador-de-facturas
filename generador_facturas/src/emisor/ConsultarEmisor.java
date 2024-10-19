@@ -33,6 +33,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import login.login_window;
 import menu.MenuPrincipal;
 
@@ -49,6 +50,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     Calendar fecha_nacimiento;
     String correo_electronico;
     int cp;
+    String colonia;
+    String num_exterior;
+    String num_interior;
     String regimen;
     
     
@@ -68,6 +72,10 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     
      public ConsultarEmisor() {
         initComponents();
+        
+        //tamaños para las columnas de las tablas
+         TableColumn columnaApellido = tabla_emisor.getColumnModel().getColumn(0);
+         columnaApellido.setPreferredWidth(115);
         
         //Menus ocultos por defecto
         menu_padres.setVisible(false);
@@ -660,30 +668,32 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
         tabla_emisor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Régimen Fiscal"
+                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Estado", "Municipio", "Colonia", "N° Exterior", "N° Interior", "Régimen Fiscal"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tabla_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tabla_emisor.setDragEnabled(true);
         tabla_emisor.setFillsViewportHeight(true);
-        tabla_emisor.setFocusable(false);
         tabla_emisor.setRowHeight(40);
+        tabla_emisor.setRowSelectionAllowed(true);
         tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
         tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabla_emisor.setShowHorizontalLines(true);
-        tabla_emisor.getTableHeader().setResizingAllowed(false);
+        tabla_emisor.setShowGrid(false);
+        tabla_emisor.setShowVerticalLines(false);
         tabla_emisor.getTableHeader().setReorderingAllowed(false);
         tabla_emisor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -692,7 +702,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabla_emisor);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 300));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 1050, 300));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setText("EMISORES REGISTRADOS");
@@ -733,7 +743,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
 
         fondo.add(contenedor);
-        contenedor.setBounds(30, 150, 990, 510);
+        contenedor.setBounds(0, 150, 1050, 510);
 
         icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
@@ -760,7 +770,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
-           Object [] emisor =new Object[8];
+           Object [] emisor =new Object[13];
            modelo = (DefaultTableModel) tabla_emisor.getModel();
            while(rs.next()){
                //se obtienen los datos de la tabla
@@ -771,7 +781,12 @@ public class ConsultarEmisor extends javax.swing.JFrame {
                emisor[4] = rs.getDate("fecha_nacimiento");
                emisor[5] = rs.getString("correo_electronico");
                emisor[6] = rs.getInt("domicilio_fiscal");
-               emisor[7] = rs.getString("regimen");
+               emisor[7] = rs.getString("estado");
+               emisor[8] = rs.getString("municipio");
+               emisor[9] = rs.getString("colonia");
+               emisor[10] = rs.getString("num_exterior");
+               emisor[11] = rs.getString("num_interior");
+               emisor[12] = rs.getString("regimen");
                //añade la info  la tabla
                modelo.addRow(emisor);
            }
@@ -1084,7 +1099,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private void btn_actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_actualizarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
             ModificarEmisor ventana = new ModificarEmisor();
-            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp);
+            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp,colonia,num_exterior,num_interior);
             ventana.setUsuario(usuario);
             ventana.setVisible(true);
             this.dispose();
@@ -1106,7 +1121,12 @@ public class ConsultarEmisor extends javax.swing.JFrame {
             //
             correo_electronico = (String) tabla_emisor.getValueAt(fila, 5);
             cp = (int) tabla_emisor.getValueAt(fila, 6);
-            regimen = (String) tabla_emisor.getValueAt(fila, 7);
+            
+            colonia = (String) tabla_emisor.getValueAt(fila, 9);
+            num_exterior = (String) tabla_emisor.getValueAt(fila, 10);
+            num_interior = (String) tabla_emisor.getValueAt(fila, 11);
+            
+            regimen = (String) tabla_emisor.getValueAt(fila, 12);
             if(!btn_actualizar.isVisible()){
                 btn_actualizar.setVisible(true);
             }

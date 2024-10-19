@@ -34,6 +34,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import login.login_window;
 import menu.MenuPrincipal;
 
@@ -50,6 +51,10 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
     Calendar fecha_nacimiento;
     String correo_electronico;
     int cp;
+
+    String colonia;
+    String num_exterior;
+    String num_interior;
     String regimen;
     
     
@@ -78,6 +83,10 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        
+                //tamaños para las columnas de las tablas
+         TableColumn columnaApellido = tabla_padres.getColumnModel().getColumn(0);
+         columnaApellido.setPreferredWidth(115);
         
        //boton acatulizar oculto por defecto
        btn_actualizar.setVisible(false);
@@ -156,7 +165,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         timer.start();
 
         //Propiedades para la tabla
-        JTableHeader header = tabla_emisor.getTableHeader();
+        JTableHeader header = tabla_padres.getTableHeader();
         header.setDefaultRenderer(new TablaPersonalizada());
         header.setPreferredSize(new Dimension(30,50));
         
@@ -247,13 +256,13 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         jSeparator16 = new javax.swing.JSeparator();
         txt_eliminarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla_emisor = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btn_actualizar = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
         text_guardarDatos = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla_padres = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Padres registrados");
@@ -672,40 +681,6 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
-        tabla_emisor.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Régimen Fiscal"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabla_emisor.setFillsViewportHeight(true);
-        tabla_emisor.setFocusable(false);
-        tabla_emisor.setRowHeight(40);
-        tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
-        tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabla_emisor.setShowHorizontalLines(true);
-        tabla_emisor.getTableHeader().setResizingAllowed(false);
-        tabla_emisor.getTableHeader().setReorderingAllowed(false);
-        tabla_emisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabla_emisorMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tabla_emisor);
-
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 300));
-
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_emisoresRegistrados.setText("PADRES DE FAMILIA REGISTRADOS");
@@ -745,8 +720,42 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
 
         contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
 
+        tabla_padres.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        tabla_padres.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Estado", "Municipio", "Colonia", "N° Exterior", "N° Interior", "Régimen Fiscal"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_padres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tabla_padres.setDragEnabled(true);
+        tabla_padres.setFillsViewportHeight(true);
+        tabla_padres.setRowHeight(40);
+        tabla_padres.setSelectionBackground(new java.awt.Color(153, 153, 255));
+        tabla_padres.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla_padres.setShowGrid(false);
+        tabla_padres.getTableHeader().setReorderingAllowed(false);
+        tabla_padres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_padresMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla_padres);
+
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1050, 300));
+
         fondo.add(contenedor);
-        contenedor.setBounds(30, 150, 990, 510);
+        contenedor.setBounds(0, 150, 1050, 510);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -762,22 +771,28 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
-           Object [] emisor =new Object[8];
-           modelo = (DefaultTableModel) tabla_emisor.getModel();
+           Object [] padre =new Object[13];
+           modelo = (DefaultTableModel) tabla_padres.getModel();
            while(rs.next()){
                //se obtienen los datos de la tabla
-               emisor[0] = rs.getString("rfc");
-               emisor[1] = rs.getString("nombres");
-               emisor[2] = rs.getString("apellido_paterno");
-               emisor[3] = rs.getString("apellido_materno");
-               emisor[4] = rs.getDate("fecha_nacimiento");
-               emisor[5] = rs.getString("correo_electronico");
-               emisor[6] = rs.getInt("domicilio_fiscal");
-               emisor[7] = rs.getString("regimen");
+               padre[0] = rs.getString("rfc");
+               padre[1] = rs.getString("nombres");
+               padre[2] = rs.getString("apellido_paterno");
+               padre[3] = rs.getString("apellido_materno");
+               padre[4] = rs.getDate("fecha_nacimiento");
+               padre[5] = rs.getString("correo_electronico");
+               padre[6] = rs.getInt("domicilio_fiscal");
+               padre[7] = rs.getString("estado");
+               padre[8] = rs.getString("municipio");
+               padre[9] = rs.getString("colonia");
+               padre[10] = rs.getString("num_exterior");
+               padre[11] = rs.getString("num_interior");
+               padre[12] = rs.getString("regimen");
                //añade la info  la tabla
-               modelo.addRow(emisor);
+               //añade la info  la tabla
+               modelo.addRow(padre);
            }
-           tabla_emisor.setModel(modelo);
+           tabla_padres.setModel(modelo);
         } catch (SQLException ex) {
             Logger.getLogger(ConsultarPadresEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1086,36 +1101,12 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
     private void btn_actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_actualizarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
             ModificarPadre ventana = new ModificarPadre();
-            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp);
+            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp,colonia,num_exterior,num_interior);
             ventana.setUsuario(usuario);
             ventana.setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_btn_actualizarMouseClicked
-
-    private void tabla_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_emisorMouseClicked
-        int fila = tabla_emisor.getSelectedRow();
-        if (fila != - 1) {
-            rfc = (String) tabla_emisor.getValueAt(fila, 0);
-            nombres = (String) tabla_emisor.getValueAt(fila, 1);
-            apellido_paterno = (String) tabla_emisor.getValueAt(fila, 2);
-            apellido_materno = (String) tabla_emisor.getValueAt(fila, 3);
-            //Enviar la fecha en formato de calendario
-            java.sql.Date fechasql = (java.sql.Date) tabla_emisor.getValueAt(fila, 4); // Ajustar índice
-            Calendar fechaNacimiento = Calendar.getInstance();
-            fechaNacimiento.setTime(fechasql);
-            fecha_nacimiento = fechaNacimiento;
-            //
-            correo_electronico = (String) tabla_emisor.getValueAt(fila, 5);
-            cp = (int) tabla_emisor.getValueAt(fila, 6);
-            regimen = (String) tabla_emisor.getValueAt(fila, 7);
-            if(!btn_actualizar.isVisible()){
-                btn_actualizar.setVisible(true);
-            }
-        }else{
-            btn_actualizar.setVisible(false);
-        }
-    }//GEN-LAST:event_tabla_emisorMouseClicked
 
     private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
@@ -1135,6 +1126,35 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_icon_regresarlbMouseClicked
+
+    private void tabla_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_padresMouseClicked
+        int fila = tabla_padres.getSelectedRow();
+        if (fila != - 1) {
+            rfc = (String) tabla_padres.getValueAt(fila, 0);
+            nombres = (String) tabla_padres.getValueAt(fila, 1);
+            apellido_paterno = (String) tabla_padres.getValueAt(fila, 2);
+            apellido_materno = (String) tabla_padres.getValueAt(fila, 3);
+            //Enviar la fecha en formato de calendario
+            java.sql.Date fechasql = (java.sql.Date) tabla_padres.getValueAt(fila, 4); // Ajustar índice
+            Calendar fechaNacimiento = Calendar.getInstance();
+            fechaNacimiento.setTime(fechasql);
+            fecha_nacimiento = fechaNacimiento;
+            //
+            correo_electronico = (String) tabla_padres.getValueAt(fila, 5);
+            cp = (int) tabla_padres.getValueAt(fila, 6);
+
+            colonia = (String) tabla_padres.getValueAt(fila, 9);
+            num_exterior = (String) tabla_padres.getValueAt(fila, 10);
+            num_interior = (String) tabla_padres.getValueAt(fila, 11);
+
+            regimen = (String) tabla_padres.getValueAt(fila, 12);
+            if(!btn_actualizar.isVisible()){
+                btn_actualizar.setVisible(true);
+            }
+        }else{
+            btn_actualizar.setVisible(false);
+        }
+    }//GEN-LAST:event_tabla_padresMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1228,7 +1248,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JTable tabla_emisor;
+    private javax.swing.JTable tabla_padres;
     private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
