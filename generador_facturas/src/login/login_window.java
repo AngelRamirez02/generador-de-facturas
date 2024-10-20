@@ -350,15 +350,16 @@ public class login_window extends javax.swing.JFrame {
                 ResultSet rs_emisor = consult_emisor.executeQuery(emisor_existente);
                 
                 if(rs_emisor.next()){//Si existe un emisor te redirije al menu principal
-                    
+                    LocalDate fechaInicioSesion = LocalDate.now();//obtener la fecha del inicio de sesion
+                    LocalTime horaInicioSesion = LocalTime.now();
                     MenuPrincipal ventana = new MenuPrincipal();
-                    ventana.setUsuario(usuario);
+                    ventana.setDatos(usuario,fechaInicioSesion,horaInicioSesion);
                     ventana.setVisible(true);
                     this.dispose();
                     
                 }else{//Sino te dirije a la ventana de primir inicio
                     PrimerInicio ventana = new PrimerInicio();
-                    ventana.setUsuario(usuario);
+                    ventana.setDatos(usuario, LocalDate.MIN, LocalTime.NOON);
                     ventana.setVisible(true);
                     this.setVisible(false);
                 }

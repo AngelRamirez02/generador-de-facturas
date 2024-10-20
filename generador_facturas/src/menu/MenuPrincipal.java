@@ -6,6 +6,7 @@ package menu;
 
 import alumnos.AltaAlumnos;
 import alumnos.ConsultarAlumnosEdit;
+import conexion.conexion;
 import emisor.AltaEmisorMenu;
 import emisor.ConsultarEmisor;
 import emisor.EliminarEmisor;
@@ -18,10 +19,14 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -30,25 +35,28 @@ import login.login_window;
 import padres.AltaPadres;
 import padres.ConsultarPadresEdit;
 import padres.EliminarPadre;
+import sesiones.HistorialSesiones;
 
 /**
  *
  * @author ar275
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-
-    /**
-     * Creates new form MenuPrincipal
-     * 
-     */
+    
+    //Datos para el historial de sesiones
     private String usuario;//Nombre del usuario que inicia sesión
+    LocalDate fechaInicioSesion;
+    LocalTime horaInicioSesion;
+    conexion cx = new conexion();
+    
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
     Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
-     //Imagen para menu selccionado
-     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
+    //Imagen para menu selccionado
+    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
+    
     public MenuPrincipal() {
         initComponents();
         
@@ -68,7 +76,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-        contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
+        contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor 
+        
+        //Imaganes para el menu del usuario
+        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
+        historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
+        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
+        icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -182,17 +196,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
         nombre_user = new javax.swing.JPanel();
         user_menuIcon1 = new javax.swing.JLabel();
         txt_nombreUser = new javax.swing.JLabel();
-        cerrar_icon = new javax.swing.JLabel();
+        btn_historialSesiones = new javax.swing.JPanel();
+        historial_lb = new javax.swing.JLabel();
+        txt_cerrarSesion = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
         btn_salir = new javax.swing.JPanel();
         icon_salir = new javax.swing.JLabel();
-        text_salir = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
+        text_salir = new javax.swing.JLabel();
         btn_cerrarSesion = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        txt_cerrarSesion = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator5 = new javax.swing.JSeparator();
+        jLabel16 = new javax.swing.JLabel();
+        txt_cerrarSesion1 = new javax.swing.JLabel();
+        jSeparator17 = new javax.swing.JSeparator();
+        cerrar_icon = new javax.swing.JLabel();
         menu_padres = new javax.swing.JPanel();
         txt_altaPadres = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
@@ -362,7 +378,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btn_emisor.add(icon_item5, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 8, 18, 15));
 
         contenedor_menu.add(btn_emisor);
-        btn_emisor.setBounds(520, 40, 90, 30);
+        btn_emisor.setBounds(520, 37, 90, 30);
 
         barra_nav.add(contenedor_menu);
         contenedor_menu.setBounds(260, 0, 610, 100);
@@ -454,16 +470,27 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_nombreUser.setText("Administrador");
         nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
 
-        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
-        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
+        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
+
+        btn_historialSesiones.setBackground(new java.awt.Color(198, 54, 55));
+        btn_historialSesiones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_historialSesiones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cerrar_iconMouseClicked(evt);
+                btn_historialSesionesMouseClicked(evt);
             }
         });
-        nombre_user.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 30));
+        btn_historialSesiones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
+        historial_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_historial.png"))); // NOI18N
+        btn_historialSesiones.add(historial_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 3, 40, 40));
+
+        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion.setText(" Historial de sesiones");
+        btn_historialSesiones.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 190, 50));
+        btn_historialSesiones.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_historialSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, 50));
 
         btn_salir.setBackground(new java.awt.Color(198, 54, 55));
         btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
@@ -476,16 +503,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
-        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, 50, 45));
+        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 50, 50));
+        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 240, 10));
 
         text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         text_salir.setForeground(new java.awt.Color(255, 255, 255));
         text_salir.setText("Salir");
-        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 0, 90, 50));
-        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 140, 10));
-        btn_salir.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 140, 10));
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 40));
 
-        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 180, 50));
+        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 250, 60));
 
         btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
         btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -496,20 +522,28 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
-        btn_cerrarSesion.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 40, 50));
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
+        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
 
-        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cerrarSesion.setText("Cerrar sesión");
-        btn_cerrarSesion.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 120, 50));
-        btn_cerrarSesion.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 140, 10));
-        btn_cerrarSesion.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 140, 10));
+        txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion1.setText("Cerrar sesión");
+        btn_cerrarSesion.add(txt_cerrarSesion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 50));
+        btn_cerrarSesion.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
 
-        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 135, 180, 50));
+        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 250, 50));
+
+        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
+        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrar_iconMouseClicked(evt);
+            }
+        });
+        menu_salir.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 40, 40));
 
         fondo.add(menu_salir);
-        menu_salir.setBounds(840, 100, 210, 190);
+        menu_salir.setBounds(790, 100, 260, 240);
 
         menu_padres.setBackground(new java.awt.Color(198, 54, 55));
         menu_padres.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -686,8 +720,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setUsuario(String usuario){
+    public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
+        this.fechaInicioSesion = fechaInicioSesion;
+        this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
     }
     
@@ -739,6 +775,28 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            
+            //Creacion de consulta para el historial de sesione
+            LocalTime horaFinSesion = LocalTime.now();//Hora de salida
+            LocalDate fecha_salida =    LocalDate.now();//Fecha de salida
+            String sql = "INSERT INTO historial_sesiones"
+                    + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
+                    + "values (?,?,?,?,?)";
+            try {
+                PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+                ps.setString(1, usuario);
+                ps.setObject(2, fechaInicioSesion);
+                ps.setObject(3, horaInicioSesion);
+                ps.setObject(4, fecha_salida);
+                ps.setObject(5, horaFinSesion);
+                // Paso 4: Ejecutar la consulta
+                int rowsInserted = ps.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Historial guardado");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 System.exit(0); // Salir del programa
             } else {
                 return;
@@ -746,23 +804,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_salirMouseClicked
 
-    private void btn_cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrarSesionMouseClicked
-        Object[] opciones = {"Aceptar", "Cancelar"};
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            //dialogo que pregunta si desea confirmar salir
-            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
-                "¿Cerrar sesión?", "Confirmación de cerrar sesión", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                login_window ventanaLogin = new login_window();
-                ventanaLogin.setVisible(true);
-                this.dispose();
-            } else {
-                return;
-            }
+    private void btn_historialSesionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historialSesionesMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            HistorialSesiones ventana = new HistorialSesiones();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
         }
-    }//GEN-LAST:event_btn_cerrarSesionMouseClicked
+    }//GEN-LAST:event_btn_historialSesionesMouseClicked
 
     private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
         
@@ -969,6 +1018,27 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         // Manejar las opciones seleccionadas
         if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            //Creacion de consulta para el historial de sesione
+            LocalTime horaFinSesion = LocalTime.now();//Hora de salida
+            LocalDate fecha_salida =    LocalDate.now();//Fecha de salida
+            String sql = "INSERT INTO historial_sesiones"
+                    + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
+                    + "values (?,?,?,?,?)";
+            try {
+                PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+                ps.setString(1, usuario);
+                ps.setObject(2, fechaInicioSesion);
+                ps.setObject(3, horaInicioSesion);
+                ps.setObject(4, fecha_salida);
+                ps.setObject(5, horaFinSesion);
+                // Paso 4: Ejecutar la consulta
+                int rowsInserted = ps.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Historial guardado");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
             // Cerrar la aplicación
             this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         } else {
@@ -980,7 +1050,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
        if (SwingUtilities.isLeftMouseButton(evt)){
            AltaEmisorMenu ventana = new AltaEmisorMenu();
-           ventana.setUsuario(usuario);
+           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
            ventana.setVisible(true);
            this.setVisible(false);
         }
@@ -989,7 +1059,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
             ConsultarEmisor ventana = new ConsultarEmisor();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
@@ -998,7 +1068,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
             EliminarEmisor ventana = new EliminarEmisor();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
@@ -1007,7 +1077,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void txt_altaPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
             AltaPadres ventana = new AltaPadres();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
@@ -1016,7 +1086,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
             ConsultarPadresEdit ventana = new ConsultarPadresEdit();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }   
@@ -1025,7 +1095,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
             EliminarPadre ventana = new EliminarPadre();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
@@ -1034,7 +1104,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void txt_altaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaAlumnosMouseClicked
        if(SwingUtilities.isLeftMouseButton(evt)){
            AltaAlumnos ventana = new AltaAlumnos();
-           ventana.setUsuario(usuario);
+           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
            ventana.setVisible(true);
            this.dispose();
        }
@@ -1043,11 +1113,51 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
        if(SwingUtilities.isLeftMouseButton(evt)){
            ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
-           ventana.setUsuario(usuario);
+           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
            ventana.setVisible(true);
            this.dispose();
        }
     }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
+
+    private void btn_cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrarSesionMouseClicked
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            //dialogo que pregunta si desea confirmar salir
+            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
+                "¿Cerrar sesión?", "Confirmación de cerrar sesión", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            //Creacion de consulta para el historial de sesione
+            LocalTime horaFinSesion = LocalTime.now();//Hora de salida
+            LocalDate fecha_salida =    LocalDate.now();//Fecha de salida
+            String sql = "INSERT INTO historial_sesiones"
+                    + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
+                    + "values (?,?,?,?,?)";
+            try {
+                PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+                ps.setString(1, usuario);
+                ps.setObject(2, fechaInicioSesion);
+                ps.setObject(3, horaInicioSesion);
+                ps.setObject(4, fecha_salida);
+                ps.setObject(5, horaFinSesion);
+                // Paso 4: Ejecutar la consulta
+                int rowsInserted = ps.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Historial guardado");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //cerrar ventana y regresar a login
+                login_window ventanaLogin = new login_window();
+                ventanaLogin.setVisible(true);
+                this.dispose();
+            } else {
+                return;
+            }
+        }
+    }//GEN-LAST:event_btn_cerrarSesionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1092,12 +1202,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
+    private javax.swing.JPanel btn_historialSesiones;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
     private javax.swing.JPanel contenedor;
     private javax.swing.JPanel contenedor_menu;
     private javax.swing.JPanel fondo;
+    private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
@@ -1106,16 +1218,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
+    private javax.swing.JSeparator jSeparator17;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
@@ -1136,6 +1247,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel txt_altaPadres;
     private javax.swing.JLabel txt_alumnos;
     private javax.swing.JLabel txt_cerrarSesion;
+    private javax.swing.JLabel txt_cerrarSesion1;
     private javax.swing.JLabel txt_consultarAlmnos;
     private javax.swing.JLabel txt_consultarAlmnos1;
     private javax.swing.JLabel txt_consultarPadres;

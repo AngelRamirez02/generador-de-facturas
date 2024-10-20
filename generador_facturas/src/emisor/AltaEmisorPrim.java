@@ -42,6 +42,8 @@ import validacion.Validacion;
  */
 public class AltaEmisorPrim extends javax.swing.JFrame {
     private String usuario;
+    LocalDate fechaInicioSesion;
+    LocalTime horaInicioSesion;
     /**
      * Creates new form alta_emisor
      */
@@ -613,9 +615,11 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   public void setUsuario(String usuario){
-       this.usuario=usuario;
-   }
+    public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
+        this.usuario=usuario;
+        this.fechaInicioSesion = fechaInicioSesion;
+        this.horaInicioSesion = horaInicioSesion;
+    }
     
     public boolean existeInfo() {
         // Retorna true si al menos uno de los campos tiene información que no sea solo espacios
@@ -723,7 +727,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
             if (filas_insertadas > 0) {
                 JOptionPane.showMessageDialog(null, "Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
                 MenuPrincipal ventana = new MenuPrincipal();
-                ventana.setUsuario(usuario);
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
             }else{

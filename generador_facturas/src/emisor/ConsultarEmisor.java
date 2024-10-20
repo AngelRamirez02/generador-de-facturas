@@ -36,6 +36,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import login.login_window;
 import menu.MenuPrincipal;
+import sesiones.HistorialSesiones;
 
 /**
  *
@@ -61,6 +62,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     DefaultTableModel modelo;
     
     private String usuario;//Nombre del usuario que inicia sesión
+    LocalDate fechaInicioSesion;
+    LocalTime horaInicioSesion;
+    
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -71,11 +75,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
      public ConsultarEmisor() {
-        initComponents();
-        
-        //tamaños para las columnas de las tablas
-         TableColumn columnaApellido = tabla_emisor.getColumnModel().getColumn(0);
-         columnaApellido.setPreferredWidth(115);
+        initComponents();      
         
         //Menus ocultos por defecto
         menu_padres.setVisible(false);
@@ -97,7 +97,13 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
         
-         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
+        icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
+        
+        //Imaganes para el menu del usuario
+        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
+        historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
+        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
+        icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -165,7 +171,10 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         //Propiedades para la tabla
         JTableHeader header = tabla_emisor.getTableHeader();
         header.setDefaultRenderer(new TablaPersonalizada());
-        header.setPreferredSize(new Dimension(30,50));
+         header.setPreferredSize(new Dimension(30, 50));
+         //tamaños para las columnas de las tablas
+         TableColumn columnaApellido = tabla_emisor.getColumnModel().getColumn(0);
+         columnaApellido.setPreferredWidth(115);
         
         llenarTabla();
         
@@ -207,6 +216,24 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         icon_item5 = new javax.swing.JLabel();
         menu_user = new javax.swing.JPanel();
         user_menuIcon = new javax.swing.JLabel();
+        menu_salir = new javax.swing.JPanel();
+        nombre_user = new javax.swing.JPanel();
+        user_menuIcon1 = new javax.swing.JLabel();
+        txt_nombreUser = new javax.swing.JLabel();
+        btn_historialSesiones = new javax.swing.JPanel();
+        historial_lb = new javax.swing.JLabel();
+        txt_cerrarSesion = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        btn_salir = new javax.swing.JPanel();
+        icon_salir = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        text_salir = new javax.swing.JLabel();
+        btn_cerrarSesion = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        txt_cerrarSesion1 = new javax.swing.JLabel();
+        jSeparator17 = new javax.swing.JSeparator();
+        cerrar_icon = new javax.swing.JLabel();
+        icon_regresarlb = new javax.swing.JLabel();
         menu_alumnos = new javax.swing.JPanel();
         txt_altaAlumnos = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -215,21 +242,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         txt_modificarAlumnos = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        menu_salir = new javax.swing.JPanel();
-        nombre_user = new javax.swing.JPanel();
-        user_menuIcon1 = new javax.swing.JLabel();
-        txt_nombreUser = new javax.swing.JLabel();
-        cerrar_icon = new javax.swing.JLabel();
-        btn_salir = new javax.swing.JPanel();
-        icon_salir = new javax.swing.JLabel();
-        text_salir = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
-        btn_cerrarSesion = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        txt_cerrarSesion = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator5 = new javax.swing.JSeparator();
         menu_padres = new javax.swing.JPanel();
         txt_altaPadres = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
@@ -260,7 +272,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         btn_actualizar = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
         text_guardarDatos = new javax.swing.JLabel();
-        icon_regresarlb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
@@ -403,7 +414,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         btn_emisor.add(icon_item5, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 8, 18, 15));
 
         contenedor_menu.add(btn_emisor);
-        btn_emisor.setBounds(520, 40, 90, 30);
+        btn_emisor.setBounds(520, 37, 90, 30);
 
         barra_nav.add(contenedor_menu);
         contenedor_menu.setBounds(260, 0, 610, 100);
@@ -427,6 +438,114 @@ public class ConsultarEmisor extends javax.swing.JFrame {
 
         fondo.add(barra_nav);
         barra_nav.setBounds(0, 0, 1050, 100);
+
+        menu_salir.setBackground(new java.awt.Color(198, 54, 55));
+        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        nombre_user.setBackground(new java.awt.Color(198, 54, 55));
+        nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nombre_userMouseClicked(evt);
+            }
+        });
+        nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
+        user_menuIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        user_menuIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_usuarioMenu.png"))); // NOI18N
+        nombre_user.add(user_menuIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
+
+        txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
+        txt_nombreUser.setText("Administrador");
+        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
+
+        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
+
+        btn_historialSesiones.setBackground(new java.awt.Color(198, 54, 55));
+        btn_historialSesiones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_historialSesiones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_historialSesionesMouseClicked(evt);
+            }
+        });
+        btn_historialSesiones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        historial_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_historial.png"))); // NOI18N
+        btn_historialSesiones.add(historial_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 3, 40, 40));
+
+        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion.setText(" Historial de sesiones");
+        btn_historialSesiones.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 190, 50));
+        btn_historialSesiones.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_historialSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, 50));
+
+        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
+        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_salirMouseClicked(evt);
+            }
+        });
+        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
+        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 50, 50));
+        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 240, 10));
+
+        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        text_salir.setForeground(new java.awt.Color(255, 255, 255));
+        text_salir.setText("Salir");
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 40));
+
+        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 250, 60));
+
+        btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
+        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cerrarSesionMouseClicked(evt);
+            }
+        });
+        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
+        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
+
+        txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion1.setText("Cerrar sesión");
+        btn_cerrarSesion.add(txt_cerrarSesion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 50));
+        btn_cerrarSesion.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 250, 50));
+
+        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
+        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrar_iconMouseClicked(evt);
+            }
+        });
+        menu_salir.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 40, 40));
+
+        fondo.add(menu_salir);
+        menu_salir.setBounds(790, 100, 260, 240);
+
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        fondo.add(icon_regresarlb);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
         menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -462,85 +581,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
 
         fondo.add(menu_alumnos);
         menu_alumnos.setBounds(200, 100, 200, 160);
-
-        menu_salir.setBackground(new java.awt.Color(198, 54, 55));
-        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        nombre_user.setBackground(new java.awt.Color(198, 54, 55));
-        nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nombre_userMouseClicked(evt);
-            }
-        });
-        nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
-        user_menuIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_menuIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_usuarioMenu.png"))); // NOI18N
-        nombre_user.add(user_menuIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
-
-        txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
-        txt_nombreUser.setText("Administrador");
-        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
-
-        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
-        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cerrar_iconMouseClicked(evt);
-            }
-        });
-        nombre_user.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 30));
-
-        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
-
-        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
-        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
-        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_salirMouseClicked(evt);
-            }
-        });
-        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
-        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, 50, 45));
-
-        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        text_salir.setForeground(new java.awt.Color(255, 255, 255));
-        text_salir.setText("Salir");
-        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 0, 90, 50));
-        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 140, 10));
-        btn_salir.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 140, 10));
-
-        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 180, 50));
-
-        btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
-        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_cerrarSesionMouseClicked(evt);
-            }
-        });
-        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
-        btn_cerrarSesion.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 40, 50));
-
-        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cerrarSesion.setText("Cerrar sesión");
-        btn_cerrarSesion.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 120, 50));
-        btn_cerrarSesion.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 140, 10));
-        btn_cerrarSesion.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 140, 10));
-
-        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 135, 180, 50));
-
-        fondo.add(menu_salir);
-        menu_salir.setBounds(840, 100, 210, 190);
 
         menu_padres.setBackground(new java.awt.Color(198, 54, 55));
         menu_padres.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -689,11 +729,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         tabla_emisor.setDragEnabled(true);
         tabla_emisor.setFillsViewportHeight(true);
         tabla_emisor.setRowHeight(40);
-        tabla_emisor.setRowSelectionAllowed(true);
         tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
         tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tabla_emisor.setShowGrid(false);
-        tabla_emisor.setShowVerticalLines(false);
         tabla_emisor.getTableHeader().setReorderingAllowed(false);
         tabla_emisor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -745,17 +783,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         fondo.add(contenedor);
         contenedor.setBounds(0, 150, 1050, 510);
 
-        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
-        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_regresarlbMouseClicked(evt);
-            }
-        });
-        fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
-
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -796,8 +823,10 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         }
     }
     
-    public void setUsuario(String usuario){
+    public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
+        this.fechaInicioSesion = fechaInicioSesion;
+        this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
     }
     
@@ -832,51 +861,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_menu_userMouseClicked
-
-    private void cerrar_iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrar_iconMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){//cerrar el menu de salir
-            menu_salir.setVisible(false);  
-            menu_user.setBackground(colorbtnNoSeleccionado);
-        }
-    }//GEN-LAST:event_cerrar_iconMouseClicked
-
-    private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
-        Object[] opciones = {"Aceptar", "Cancelar"};
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            //dialogo que pregunta si desea confirmar salir
-            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
-                "¿Cerrar sesión y salir?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                System.exit(0); // Salir del programa
-            } else {
-                return;
-            }
-        }
-    }//GEN-LAST:event_btn_salirMouseClicked
-
-    private void btn_cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrarSesionMouseClicked
-        Object[] opciones = {"Aceptar", "Cancelar"};
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            //dialogo que pregunta si desea confirmar salir
-            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
-                "¿Cerrar sesión?", "Confirmación de cerrar sesión", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                login_window ventanaLogin = new login_window();
-                ventanaLogin.setVisible(true);
-                this.dispose();
-            } else {
-                return;
-            }
-        }
-    }//GEN-LAST:event_btn_cerrarSesionMouseClicked
-
-    private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
-        
-    }//GEN-LAST:event_nombre_userMouseClicked
 
     private void btn_alumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alumnosMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
@@ -1090,7 +1074,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
        if (SwingUtilities.isLeftMouseButton(evt)){
            AltaEmisorMenu ventana = new AltaEmisorMenu();
-           ventana.setUsuario(usuario);
+           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
            ventana.setVisible(true);
            this.dispose();
         }
@@ -1100,7 +1084,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
             ModificarEmisor ventana = new ModificarEmisor();
             ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp,colonia,num_exterior,num_interior);
-            ventana.setUsuario(usuario);
+            ventana.setDatosSesion(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
@@ -1138,7 +1122,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
             EliminarEmisor ventana = new EliminarEmisor();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
@@ -1148,11 +1132,109 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         if (SwingUtilities.isLeftMouseButton(evt)) {
             //Regresa al menu principal
             MenuPrincipal ventana = new MenuPrincipal();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_icon_regresarlbMouseClicked
+
+    private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
+
+    }//GEN-LAST:event_nombre_userMouseClicked
+
+    private void btn_historialSesionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historialSesionesMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            HistorialSesiones ventana = new HistorialSesiones();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btn_historialSesionesMouseClicked
+
+    private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            //dialogo que pregunta si desea confirmar salir
+            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
+                "¿Cerrar sesión y salir?", "Confirmación de salida", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+
+                //Creacion de consulta para el historial de sesione
+                LocalTime horaFinSesion = LocalTime.now();//Hora de salida
+                LocalDate fecha_salida =    LocalDate.now();//Fecha de salida
+                String sql = "INSERT INTO historial_sesiones"
+                + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
+                + "values (?,?,?,?,?)";
+                try {
+                    PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+                    ps.setString(1, usuario);
+                    ps.setObject(2, fechaInicioSesion);
+                    ps.setObject(3, horaInicioSesion);
+                    ps.setObject(4, fecha_salida);
+                    ps.setObject(5, horaFinSesion);
+                    // Paso 4: Ejecutar la consulta
+                    int rowsInserted = ps.executeUpdate();
+                    if (rowsInserted > 0) {
+                        System.out.println("Historial guardado");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.exit(0); // Salir del programa
+            } else {
+                return;
+            }
+        }
+    }//GEN-LAST:event_btn_salirMouseClicked
+
+    private void btn_cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrarSesionMouseClicked
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            //dialogo que pregunta si desea confirmar salir
+            int opcionSeleccionada = JOptionPane.showOptionDialog(null,
+                "¿Cerrar sesión?", "Confirmación de cerrar sesión", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                //Creacion de consulta para el historial de sesione
+                LocalTime horaFinSesion = LocalTime.now();//Hora de salida
+                LocalDate fecha_salida =    LocalDate.now();//Fecha de salida
+                String sql = "INSERT INTO historial_sesiones"
+                + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
+                + "values (?,?,?,?,?)";
+                try {
+                    PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+                    ps.setString(1, usuario);
+                    ps.setObject(2, fechaInicioSesion);
+                    ps.setObject(3, horaInicioSesion);
+                    ps.setObject(4, fecha_salida);
+                    ps.setObject(5, horaFinSesion);
+                    // Paso 4: Ejecutar la consulta
+                    int rowsInserted = ps.executeUpdate();
+                    if (rowsInserted > 0) {
+                        System.out.println("Historial guardado");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                //cerrar ventana y regresar a login
+                login_window ventanaLogin = new login_window();
+                ventanaLogin.setVisible(true);
+                this.dispose();
+            } else {
+                return;
+            }
+        }
+    }//GEN-LAST:event_btn_cerrarSesionMouseClicked
+
+    private void cerrar_iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrar_iconMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){//cerrar el menu de salir
+            menu_salir.setVisible(false);
+            menu_user.setBackground(colorbtnNoSeleccionado);
+        }
+    }//GEN-LAST:event_cerrar_iconMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1199,6 +1281,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
+    private javax.swing.JPanel btn_historialSesiones;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
@@ -1206,6 +1289,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private paneles.PanelRound contenedor_btn;
     private javax.swing.JPanel contenedor_menu;
     private javax.swing.JPanel fondo;
+    private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
@@ -1215,18 +1299,17 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
+    private javax.swing.JSeparator jSeparator17;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
@@ -1248,6 +1331,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel txt_altaPadres;
     private javax.swing.JLabel txt_alumnos;
     private javax.swing.JLabel txt_cerrarSesion;
+    private javax.swing.JLabel txt_cerrarSesion1;
     private javax.swing.JLabel txt_consultarAlmnos;
     private javax.swing.JLabel txt_consultarAlmnos1;
     private javax.swing.JLabel txt_consultarPadres;

@@ -28,6 +28,8 @@ import javax.swing.Timer;
 public class PrimerInicio extends javax.swing.JFrame {
     
     private String usuario;
+    LocalDate fechaInicioSesion;
+    LocalTime horaInicioSesion;
     /**
      * Creates new form PrimerInicio
      */
@@ -239,8 +241,10 @@ public class PrimerInicio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    public void setUsuario(String usuario){
+    public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
+        this.fechaInicioSesion = fechaInicioSesion;
+        this.horaInicioSesion = horaInicioSesion;
     }
     
     private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
@@ -264,7 +268,7 @@ public class PrimerInicio extends javax.swing.JFrame {
     private void btn_continuarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_continuarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
             AltaEmisorPrim ventana = new AltaEmisorPrim();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }

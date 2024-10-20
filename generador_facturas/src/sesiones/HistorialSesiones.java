@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package emisor;
+package sesiones;
 
+import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
+import com.itextpdf.text.DocumentException;
 import conexion.conexion;
 import emisor.AltaEmisorMenu;
 import java.awt.Color;
@@ -17,21 +19,28 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import login.login_window;
 import menu.MenuPrincipal;
@@ -40,15 +49,20 @@ import menu.MenuPrincipal;
  *
  * @author ar275
  */
-public class EliminarEmisor extends javax.swing.JFrame {
+public class HistorialSesiones extends javax.swing.JFrame {
+    LocalDate fechaInicioSesion;
+    LocalTime horaInicioSesion;
+    private String usuario;//Nombre del usuario que inicia sesión
     //Variables para los datos de las columas
     String rfc;
 
-    conexion cx = new conexion();
+    conexion cx = new conexion();//variable parala conexion a la base de datos
     
-    DefaultTableModel modelo;
+    DefaultTableModel modelo;//modelo para la tabla
    
-    private String usuario;//Nombre del usuario que inicia sesión
+    Sesion x;
+    public List<Sesion> listaHistorial = new ArrayList<Sesion>();
+   
     
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
@@ -60,7 +74,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
    
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
-     public EliminarEmisor() {
+     public HistorialSesiones() {
         initComponents();
         
         //Menus ocultos por defecto
@@ -72,9 +86,6 @@ public class EliminarEmisor extends javax.swing.JFrame {
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         
-       //boton acatulizar oculto por defecto
-       btn_eliminarEmisor.setVisible(false);
-        
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -83,7 +94,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
         icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
         
-         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
+        icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -148,11 +159,16 @@ public class EliminarEmisor extends javax.swing.JFrame {
         });
         timer.start();
 
-        //Propiedades para la tabla
-        JTableHeader header = tabla_emisor.getTableHeader();
-        header.setDefaultRenderer(new TablaPersonalizada());
-        header.setPreferredSize(new Dimension(30,50));
-        
+         //Propiedades para la tabla
+         JTableHeader header = tabla_sesiones.getTableHeader();
+         header.setDefaultRenderer(new TablaPersonalizada());
+         header.setPreferredSize(new Dimension(30, 50));
+         //tamaños para las columnas de las tablas
+         TableColumn columnaID = tabla_sesiones.getColumnModel().getColumn(0);
+         columnaID.setPreferredWidth(5);
+         TableColumn columnaUsuario = tabla_sesiones.getColumnModel().getColumn(1);
+         columnaUsuario.setPreferredWidth(30);
+         
         llenarTabla();
         
         txt_nombreUser.setText(usuario);
@@ -172,6 +188,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
     private void initComponents() {
 
         fondo = new javax.swing.JPanel();
+        icon_regresarlb = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
@@ -240,16 +257,14 @@ public class EliminarEmisor extends javax.swing.JFrame {
         txt_eliminarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabla_emisor = new javax.swing.JTable();
+        tabla_sesiones = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        btn_eliminarEmisor = new paneles.PanelRound();
+        btn_imprimirHistorial = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
         text_eliminarEmisor = new javax.swing.JLabel();
-        icon_regresarlb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Eliminar emisor");
+        setTitle("Instituto Andrés Manuel López Obrador - Historial de sesiones");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -261,6 +276,17 @@ public class EliminarEmisor extends javax.swing.JFrame {
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(1050, 650));
         fondo.setLayout(null);
+
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        fondo.add(icon_regresarlb);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         barra_nav.setBackground(new java.awt.Color(201, 69, 69));
         barra_nav.setLayout(null);
@@ -389,7 +415,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
         btn_emisor.add(icon_item5, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 8, 18, 15));
 
         contenedor_menu.add(btn_emisor);
-        btn_emisor.setBounds(520, 40, 90, 30);
+        btn_emisor.setBounds(520, 37, 90, 30);
 
         barra_nav.add(contenedor_menu);
         contenedor_menu.setBounds(260, 0, 610, 100);
@@ -644,60 +670,51 @@ public class EliminarEmisor extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
-        tabla_emisor.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_sesiones.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        tabla_sesiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Régimen Fiscal"
+                "ID_sesion", "Usuario", "Fecha de ingreso", "Horario de ingreso", "Fecha de salida", "Horario de salida"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tabla_emisor.setFillsViewportHeight(true);
-        tabla_emisor.setFocusable(false);
-        tabla_emisor.setRowHeight(40);
-        tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
-        tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabla_emisor.setShowHorizontalLines(true);
-        tabla_emisor.getTableHeader().setResizingAllowed(false);
-        tabla_emisor.getTableHeader().setReorderingAllowed(false);
-        tabla_emisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabla_emisorMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tabla_emisor);
+        tabla_sesiones.setFillsViewportHeight(true);
+        tabla_sesiones.setFocusable(false);
+        tabla_sesiones.setRowHeight(40);
+        tabla_sesiones.setSelectionBackground(new java.awt.Color(153, 153, 255));
+        tabla_sesiones.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla_sesiones.setShowHorizontalLines(true);
+        tabla_sesiones.getTableHeader().setResizingAllowed(false);
+        tabla_sesiones.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabla_sesiones);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 300));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 990, 330));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
-        txt_emisoresRegistrados.setText("EMISORES REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 520, 50));
+        txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_emisoresRegistrados.setText("Historial de sesiones");
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
 
-        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 24)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Seleccione el emisor a eliminar");
-        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 520, 50));
-
-        btn_eliminarEmisor.setBackground(new java.awt.Color(0, 0, 0));
-        btn_eliminarEmisor.setRoundBottomLeft(10);
-        btn_eliminarEmisor.setRoundBottomRight(10);
-        btn_eliminarEmisor.setRoundTopLeft(10);
-        btn_eliminarEmisor.setRoundTopRight(10);
-        btn_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_imprimirHistorial.setBackground(new java.awt.Color(0, 0, 0));
+        btn_imprimirHistorial.setRoundBottomLeft(10);
+        btn_imprimirHistorial.setRoundBottomRight(10);
+        btn_imprimirHistorial.setRoundTopLeft(10);
+        btn_imprimirHistorial.setRoundTopRight(10);
+        btn_imprimirHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_eliminarEmisorMouseClicked(evt);
+                btn_imprimirHistorialMouseClicked(evt);
             }
         });
-        btn_eliminarEmisor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        btn_imprimirHistorial.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         contenedor_btn.setBackground(new java.awt.Color(217, 217, 217));
         contenedor_btn.setRoundBottomLeft(10);
@@ -708,27 +725,16 @@ public class EliminarEmisor extends javax.swing.JFrame {
 
         text_eliminarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         text_eliminarEmisor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_eliminarEmisor.setText("Eliminar emisor");
+        text_eliminarEmisor.setText("Generar PDF");
         text_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        contenedor_btn.add(text_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 40));
+        contenedor_btn.add(text_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
 
-        btn_eliminarEmisor.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
+        btn_imprimirHistorial.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
 
-        contenedor.add(btn_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
+        contenedor.add(btn_imprimirHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
 
         fondo.add(contenedor);
         contenedor.setBounds(30, 150, 990, 510);
-
-        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
-        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_regresarlbMouseClicked(evt);
-            }
-        });
-        fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -739,41 +745,44 @@ public class EliminarEmisor extends javax.swing.JFrame {
     private void llenarTabla(){      
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM emisor";
+           String consulta = "SELECT * FROM historial_sesiones";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
-           Object [] emisor =new Object[8];
-           modelo = (DefaultTableModel) tabla_emisor.getModel();
+           Object [] historial =new Object[6];
+           modelo = (DefaultTableModel) tabla_sesiones.getModel();
            while(rs.next()){
                //se obtienen los datos de la tabla
-               emisor[0] = rs.getString("rfc");
-               emisor[1] = rs.getString("nombres");
-               emisor[2] = rs.getString("apellido_paterno");
-               emisor[3] = rs.getString("apellido_materno");
-               emisor[4] = rs.getDate("fecha_nacimiento");
-               emisor[5] = rs.getString("correo_electronico");
-               emisor[6] = rs.getInt("domicilio_fiscal");
-               emisor[7] = rs.getString("regimen");
+               historial[0] = rs.getInt("id_sesion");
+               historial[1] = rs.getString("usuario");
+               historial[2] = rs.getDate("fecha_ingreso");
+               historial[3] = rs.getTime("hora_inicioSesion");
+               historial[4] = rs.getDate("fecha_salida");
+               historial[5] = rs.getTime("hora_finSesion");
                //añade la info  la tabla
-               modelo.addRow(emisor);
+               modelo.addRow(historial);
+               //añade a la lista para generar el pdf
+               x = new Sesion(historial[0].toString(),historial[1].toString(),historial[2].toString(),historial[3].toString(),historial[4].toString(),historial[5].toString());
+               listaHistorial.add(x);
            }
-           tabla_emisor.setModel(modelo);
+           tabla_sesiones.setModel(modelo);
         } catch (SQLException ex) {
-            Logger.getLogger(EliminarEmisor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     //limpia la tabla
     private void limpiarTabla() {
-        int rowCount = tabla_emisor.getRowCount(); // Obtén el número de filas
+        int rowCount = tabla_sesiones.getRowCount(); // Obtén el número de filas
         for (int i = rowCount - 1; i >= 0; i--) { // Comienza desde la última fila
             modelo.removeRow(i); // Elimina la fila en el índice actual
         }
     }
             
-    public void setUsuario(String usuario){
+    public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
+        this.fechaInicioSesion = fechaInicioSesion;
+        this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
     }
     
@@ -1058,53 +1067,42 @@ public class EliminarEmisor extends javax.swing.JFrame {
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
        if (SwingUtilities.isLeftMouseButton(evt)){
            AltaEmisorMenu ventana = new AltaEmisorMenu();
-           ventana.setUsuario(usuario);
+           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
            ventana.setVisible(true);
            this.dispose();
         }
     }//GEN-LAST:event_txt_altaEmisorMouseClicked
 
-    private void btn_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarEmisorMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "Se perderán los datos, ¿Desea eliminar al emisor?",
-                    "Eliminación de emisor",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+    
+    private void btn_imprimirHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_imprimirHistorialMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            //Mostrar interfaz para seleccionar la carpeta
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setPreferredSize(new Dimension(800, 600));//Tamño de la ventana
+            fileChooser.setDialogTitle("Seleccionar carpeta");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Solo permitir seleccionar carpetas
+            int opcion = fileChooser.showSaveDialog(null); // Mostrar el diálogo de guardar
 
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                eliminarEmisor();
-                llenarTabla();
-            } else {
-                return;
+            if (opcion == JFileChooser.APPROVE_OPTION) {
+                // Obtener la carpeta seleccionada por el usuario
+                File directorioSeleccionado = fileChooser.getSelectedFile();
+                String rutaCarpeta = directorioSeleccionado.getAbsolutePath();
+                try {
+                    x.generarPdf(listaHistorial, rutaCarpeta);
+                    JOptionPane.showMessageDialog(null,"PDF guardado correctamente", "Reporte Generado",JOptionPane.INFORMATION_MESSAGE);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
-    }//GEN-LAST:event_btn_eliminarEmisorMouseClicked
-
-    private void tabla_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_emisorMouseClicked
-        int fila = tabla_emisor.getSelectedRow();
-        if (fila != - 1) {
-            rfc = (String) tabla_emisor.getValueAt(fila, 0);
-            if(!btn_eliminarEmisor.isVisible()){
-                btn_eliminarEmisor.setVisible(true);
-            }
-        }else{
-            btn_eliminarEmisor.setVisible(false);
-        }
-    }//GEN-LAST:event_tabla_emisorMouseClicked
+    }//GEN-LAST:event_btn_imprimirHistorialMouseClicked
 
     private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
             ConsultarEmisor ventana = new ConsultarEmisor();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
@@ -1114,32 +1112,12 @@ public class EliminarEmisor extends javax.swing.JFrame {
         if (SwingUtilities.isLeftMouseButton(evt)) {
             //Regresa al menu principal
             MenuPrincipal ventana = new MenuPrincipal();
-            ventana.setUsuario(usuario);
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_icon_regresarlbMouseClicked
 
-    void eliminarEmisor() {
-        try {
-            //consulta para eliminar
-            String sql = "DELETE FROM emisor WHERE rfc = ?";
-            PreparedStatement ps = cx.conectar().prepareStatement(sql);
-            ps.setString(1, rfc);
-            //ejecutar consulta
-            int filas_eliminadas = ps.executeUpdate();
-            //verificar si se elimaron los datos
-            if (filas_eliminadas > 0) {
-                JOptionPane.showMessageDialog(null, "Emisor eliminado exitosamente", "Eliminación exitosa", JOptionPane.INFORMATION_MESSAGE);
-                //limpia la tabla para que este actualizada
-                limpiarTabla();
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el registro con el RFC especificado", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se completó la acción", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
-        }
-    }
     /**
      * @param args the command line arguments
      */
@@ -1157,14 +1135,18 @@ public class EliminarEmisor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EliminarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HistorialSesiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EliminarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HistorialSesiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EliminarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HistorialSesiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EliminarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HistorialSesiones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1173,7 +1155,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EliminarEmisor().setVisible(true);
+                new HistorialSesiones().setVisible(true);
             }
         });
     }
@@ -1183,10 +1165,10 @@ public class EliminarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
-    private paneles.PanelRound btn_eliminarEmisor;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
+    private paneles.PanelRound btn_imprimirHistorial;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
@@ -1204,7 +1186,6 @@ public class EliminarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
@@ -1228,7 +1209,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JTable tabla_emisor;
+    private javax.swing.JTable tabla_sesiones;
     private javax.swing.JLabel text_eliminarEmisor;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
