@@ -4,6 +4,7 @@
  */
 package emisor;
 
+import conexion.conexion;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -12,14 +13,19 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import menu.MenuPrincipal;
 
 /**
  *
@@ -257,6 +263,28 @@ public class PrimerInicio extends javax.swing.JFrame {
                     null, opciones, opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                //Creacion de consulta para el historial de sesione
+                LocalTime horaFinSesion = LocalTime.now();//Hora de salida
+                LocalDate fecha_salida =    LocalDate.now();//Fecha de salida
+                String sql = "INSERT INTO historial_sesiones"
+                + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
+                + "values (?,?,?,?,?)";
+                try {
+                    conexion cx = new conexion();
+                    PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+                    ps.setString(1, usuario);
+                    ps.setObject(2, fechaInicioSesion);
+                    ps.setObject(3, horaInicioSesion);
+                    ps.setObject(4, fecha_salida);
+                    ps.setObject(5, horaFinSesion);
+                    // Paso 4: Ejecutar la consulta
+                    int rowsInserted = ps.executeUpdate();
+                    if (rowsInserted > 0) {
+                        System.out.println("Historial guardado");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 System.exit(0); // Salir del programa
             } else {
                 return;
@@ -290,6 +318,28 @@ public class PrimerInicio extends javax.swing.JFrame {
 
         // Manejar las opciones seleccionadas
         if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            //Creacion de consulta para el historial de sesione
+            LocalTime horaFinSesion = LocalTime.now();//Hora de salida
+            LocalDate fecha_salida = LocalDate.now();//Fecha de salida
+            String sql = "INSERT INTO historial_sesiones"
+                    + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
+                    + "values (?,?,?,?,?)";
+            try {
+                conexion cx = new conexion();
+                PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+                ps.setString(1, usuario);
+                ps.setObject(2, fechaInicioSesion);
+                ps.setObject(3, horaInicioSesion);
+                ps.setObject(4, fecha_salida);
+                ps.setObject(5, horaFinSesion);
+                // Paso 4: Ejecutar la consulta
+                int rowsInserted = ps.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Historial guardado");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
             // Cerrar la aplicación
             this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         } else {

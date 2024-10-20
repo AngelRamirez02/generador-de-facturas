@@ -1027,7 +1027,7 @@ public class EliminarEmisor extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_emisorMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       //cuando el usuario da click en la x de la ventana
+        //cuando el usuario da click en la x de la ventana
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
@@ -1042,6 +1042,27 @@ public class EliminarEmisor extends javax.swing.JFrame {
 
         // Manejar las opciones seleccionadas
         if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            //Creacion de consulta para el historial de sesione
+            LocalTime horaFinSesion = LocalTime.now();//Hora de salida
+            LocalDate fecha_salida = LocalDate.now();//Fecha de salida
+            String sql = "INSERT INTO historial_sesiones"
+                    + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
+                    + "values (?,?,?,?,?)";
+            try {
+                PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+                ps.setString(1, usuario);
+                ps.setObject(2, fechaInicioSesion);
+                ps.setObject(3, horaInicioSesion);
+                ps.setObject(4, fecha_salida);
+                ps.setObject(5, horaFinSesion);
+                // Paso 4: Ejecutar la consulta
+                int rowsInserted = ps.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Historial guardado");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
             // Cerrar la aplicación
             this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         } else {
