@@ -358,8 +358,10 @@ public class login_window extends javax.swing.JFrame {
                     this.dispose();
                     
                 }else{//Sino te dirije a la ventana de primir inicio
+                    LocalDate fechaInicioSesion = LocalDate.now();//obtener la fecha del inicio de sesion
+                    LocalTime horaInicioSesion = LocalTime.now();
                     PrimerInicio ventana = new PrimerInicio();
-                    ventana.setDatos(usuario, LocalDate.MIN, LocalTime.NOON);
+                    ventana.setDatos(usuario, fechaInicioSesion,horaInicioSesion);
                     ventana.setVisible(true);
                     this.setVisible(false);
                 }

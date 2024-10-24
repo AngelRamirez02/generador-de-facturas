@@ -1100,7 +1100,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
                 String rutaCarpeta = directorioSeleccionado.getAbsolutePath();
                 try {
                     x.generarPdf(listaHistorial, rutaCarpeta);
-                    JOptionPane.showMessageDialog(null,"PDF guardado correctamente", "Reporte Generado",JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null,"PDF guardado correctamente", "Reporte Generado",JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (DocumentException ex) {
