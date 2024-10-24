@@ -12,6 +12,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.FontFactoryImp;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -53,7 +54,9 @@ public class Sesion{
         LocalDate fechaACtual = LocalDate.now();
         LocalTime horaActual = LocalTime.now();
         BaseColor colorCabeceraTabla = new BaseColor(201, 69, 69); // Usando RGB
-        com.itextpdf.text.Font fuenteArialBlanca = FontFactory.getFont("Arial", 12, Font.BOLD, BaseColor.WHITE);
+        BaseColor colortTitulo = new BaseColor(134, 10, 10); // Usando RGB
+        BaseColor colortLinea = new BaseColor(161, 145, 89); // Usando RGB
+        com.itextpdf.text.Font fuenteArialBlanca = FontFactory.getFont("Calibri", 12, Font.BOLD, BaseColor.WHITE);
             
         //Ruta para guardar el documento
         String rutaArchivo = ruta+File.separator+"Historial de sesiones"+fechaACtual.toString()+".pdf";
@@ -69,8 +72,8 @@ public class Sesion{
 
         // Definir el pie de página utilizando el evento `onEndPage`
         writer.setPageEvent(new PdfPageEventHelper() {
-            Font fuentePie = FontFactory.getFont("Arial", 10, Font.NORMAL, BaseColor.BLACK);
-            Font fuenteCorreos = FontFactory.getFont("Arial", 10, Font.NORMAL, BaseColor.BLUE);
+        Font fuentePie = FontFactory.getFont("Roboto", 10, Font.BOLD, BaseColor.BLACK);
+        Font fuenteCorreos = FontFactory.getFont("Roboto", 10, Font.NORMAL, BaseColor.BLUE); 
 
             @Override
             public void onEndPage(PdfWriter writer, Document document) {
@@ -104,6 +107,8 @@ public class Sesion{
 
         //Abrir documento
         documento.open();
+         // Dibujar línea de separación
+        PdfContentByte cb = writer.getDirectContent();
         PdfPTable encabezado= new PdfPTable(2);
         encabezado.setWidthPercentage(100);
         try {
@@ -120,31 +125,33 @@ public class Sesion{
             //Creacion del parrafo 
             Paragraph infoColegio = new Paragraph();
             // Añadir texto con el nombre del colegio
-            Font fuenteArial = FontFactory.getFont("Arial", 18, Font.BOLD);
-            Chunk titulo = new Chunk("INSTITUTO ANDRES MANUEL LOPEZ OBRADOR", fuenteArial);
+            Font fuenteTitutlo = FontFactory.getFont("Roboto", 16, Font.BOLD,colortTitulo);
+            Chunk titulo = new Chunk("INSTITUTO ANDRES MANUEL LOPEZ OBRADOR", fuenteTitutlo);
             infoColegio.add(titulo);
             
+            //Añade texto con el eslogan
+            Font fuentEslogan = FontFactory.getFont("Roboto Light", 14, Font.BOLD, BaseColor.BLACK);
+            Chunk eslogan = new Chunk("\n“Educando hoy, transformando el mañana.”",fuentEslogan);
+            infoColegio.add(eslogan);
+            
+             // Añadir texto con direccion
+            Font fuenteRoboto8 = FontFactory.getFont("Roboto", 8, Font.BOLD, BaseColor.BLACK);
+            Chunk direccion = new Chunk("\n\nCalzada pie de la cuesta No 12 calle vista al mar C.P. 39800 Tel 3-90-18-23, \nAcapulco, Gro.", fuenteRoboto8);
+            infoColegio.add(direccion);
+            
+            //Añadir linea
+            Font fuenteLinea = FontFactory.getFont("Arial", 11,Font.BOLD, colortLinea);
+            Chunk linea = new Chunk("\n_______________________________________________________________\n",fuenteLinea);
+            infoColegio.add(linea);
+            
             //añadir texto con texto de secciones
-            Font fuenteArial2 = FontFactory.getFont("Arial", 10, Font.NORMAL);
-            Chunk secciones = new Chunk("\n\n    SECCIÓN                       SECCIÓN                      SECCIÓN",fuenteArial2);
-            infoColegio.add(secciones);
-           
-            //Niveles escolares            
-            Chunk niveles = new Chunk("\nJARDIN DE NIÑOS                PRIMARIA                  SECUNDARIA",fuenteArial2);
+            Chunk niveles = new Chunk("\n\nSECCIÓN JARDIN DE NIÑOS           SECCIÓN PRIMARIA             SECCIÓN SECUNDARIA",fuenteRoboto8);
             infoColegio.add(niveles);
             
             //Claves de los niveles
-            Chunk claves = new Chunk("\n       CLAVE: 123456789            CLAVE: 12345678           CLAVE: 123456789",fuenteArial2);
+            Chunk claves = new Chunk("\n   CLAVE: 123456789                       CLAVE: 12345678                    CLAVE: 123456789",fuenteRoboto8);
             infoColegio.add(claves);
-            
-            //Añade texto con el eslogan
-            Chunk eslogan = new Chunk("\nAQUI DEBE IR UN ESLOGAN BIEN CHINGÓN XD",fuenteArial2);
-            infoColegio.add(eslogan);
-            
-            // Añadir texto con direccion
-            Chunk direccion = new Chunk("\nCALZADA PIE DE LA CUESTA NO 12 CALLE VISTA AL MAR C.P. 39800 TEL 3-90-18-23, ACAPULCO, GRO.", fuenteArial2);
-            infoColegio.add(direccion);
-            
+                     
             //Celda con la info del colegio
             PdfPCell celdaInfoColegio = new PdfPCell(infoColegio);
             celdaInfoColegio.setBorder(PdfPCell.NO_BORDER);
@@ -172,7 +179,7 @@ public class Sesion{
         tabla.setWidthPercentage(100);
         
         //celdas con estilo
-        PdfPCell celda_id = new PdfPCell(new Phrase("No sesión",fuenteArialBlanca));
+        PdfPCell celda_id = new PdfPCell(new Phrase("N° sesión",fuenteArialBlanca));
         celda_id.setBackgroundColor(colorCabeceraTabla);
         celda_id.setFixedHeight(20f);//Altura de las cabeceras
         //Titulo usuario
@@ -206,8 +213,6 @@ public class Sesion{
         }
         //agregar tabla al documento
         documento.add(tabla);
-        
-        //Pie de pagina para el doc
 
         //Cerrar doc
         documento.close();       
@@ -218,9 +223,19 @@ public class Sesion{
         } catch (IOException ex) {
             Logger.getLogger(Sesion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
+// Método para dibujar una línea de separación
+    private void dibujarLineaSeparacion(PdfContentByte cb, Document document) {
+        cb.setLineWidth(1f); // Grosor de la línea
+        cb.setColorStroke(BaseColor.BLACK); // Color de la línea
+        cb.moveTo(document.leftMargin(), document.getPageSize().getHeight() - document.topMargin() - 20);
+        cb.lineTo(document.rightMargin(), document.getPageSize().getHeight() - document.topMargin() - 20);
+        cb.stroke();
+    }
+
+    //Constructor de la clase
     public Sesion(String id_sesion, String usuario, String fecha_entrada, String horario_entrada, String fecha_salida, String horario_salida) {
         this.id_sesion = id_sesion;
         this.usuario = usuario;

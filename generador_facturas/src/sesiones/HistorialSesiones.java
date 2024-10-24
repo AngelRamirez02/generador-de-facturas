@@ -6,6 +6,7 @@ package sesiones;
 
 import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
 import conexion.conexion;
 import emisor.AltaEmisorMenu;
@@ -21,6 +22,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -1104,6 +1106,8 @@ public class HistorialSesiones extends javax.swing.JFrame {
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (DocumentException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
