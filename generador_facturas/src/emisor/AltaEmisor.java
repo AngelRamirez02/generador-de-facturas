@@ -42,7 +42,7 @@ import sesiones.HistorialSesiones;
  *
  * @author ar275
  */
-public class AltaEmisorMenu extends javax.swing.JFrame {
+public class AltaEmisor extends javax.swing.JFrame {
 
     
     conexion cx = new conexion();
@@ -65,7 +65,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
     
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
-     public AltaEmisorMenu() {
+     public AltaEmisor() {
         initComponents();
         
         info_nombre.setVisible(false);
@@ -1051,6 +1051,10 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
         this.fechaInicioSesion = fechaInicioSesion;
         this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
+        //solo muestra el menu de emisor si el usuario es el director
+        if(!"director".equals(this.usuario)){
+            btn_emisor.setVisible(false);
+        }
     }
     
     private void menu_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_padresMouseClicked
@@ -1384,7 +1388,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 //Regresa al menu principal
-                ConsultarEmisor ventana = new ConsultarEmisor();
+                ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1658,7 +1662,7 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
                     return;
                 }
             } catch (Exception ex) {
-                Logger.getLogger(AltaEmisorMenu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AltaEmisor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
@@ -1818,21 +1822,23 @@ public class AltaEmisorMenu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AltaEmisorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AltaEmisorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AltaEmisorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AltaEmisorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AltaEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AltaEmisorMenu().setVisible(true);
+                new AltaEmisor().setVisible(true);
             }
         });
     }

@@ -8,7 +8,7 @@ import padres.*;
 import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
 import conexion.conexion;
-import emisor.AltaEmisorMenu;
+import emisor.AltaEmisor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -45,14 +45,14 @@ import sesiones.HistorialSesiones;
  */
 public class ConsultarAlumnosEdit extends javax.swing.JFrame {
     //Variables para los datos de las columas
-    String rfc;
+    String rfc_padre;
+    String curp;
     String nombres;
     String apellido_paterno;
     String apellido_materno;
     Calendar fecha_nacimiento;
-    String correo_electronico;
-    int cp;
-    String regimen;
+    String nivelEscolar;
+    String gradoEscolar;
     
     
     conexion cx = new conexion();
@@ -818,6 +818,10 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
         this.fechaInicioSesion = fechaInicioSesion;
         this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
+        //solo muestra el menu de emisor si el usuario es el director
+        if(!"director".equals(this.usuario)){
+            btn_emisor.setVisible(false);
+        }
     }
     
     private void menu_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_userMouseClicked
@@ -1084,7 +1088,7 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
 
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
        if (SwingUtilities.isLeftMouseButton(evt)){
-           AltaEmisorMenu ventana = new AltaEmisorMenu();
+           AltaEmisor ventana = new AltaEmisor();
            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
            ventana.setVisible(true);
            this.dispose();
@@ -1093,30 +1097,29 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
 
     private void btn_actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_actualizarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
-//            ModificarPadre ventana = new ModificarPadre();
-//            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp);
-//            ventana.setUsuario(usuario);
-////            ventana.setVisible(true);
-//            this.dispose();
+            ModificarAlumno ventana = new ModificarAlumno();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setDatosAlumno(rfc_padre, curp, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, nivelEscolar, gradoEscolar);
+            ventana.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_btn_actualizarMouseClicked
 
     private void tabla_alumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_alumnoMouseClicked
         int fila = tabla_alumno.getSelectedRow();
         if (fila != - 1) {
-//            rfc = (String) tabla_alumno.getValueAt(fila, 0);
-//            nombres = (String) tabla_alumno.getValueAt(fila, 1);
-//            apellido_paterno = (String) tabla_alumno.getValueAt(fila, 2);
-//            apellido_materno = (String) tabla_alumno.getValueAt(fila, 3);
-//            //Enviar la fecha en formato de calendario
-//            java.sql.Date fechasql = (java.sql.Date) tabla_alumno.getValueAt(fila, 4); // Ajustar índice
-//            Calendar fechaNacimiento = Calendar.getInstance();
-//            fechaNacimiento.setTime(fechasql);
-//            fecha_nacimiento = fechaNacimiento;
-//            //
-//            correo_electronico = (String) tabla_alumno.getValueAt(fila, 5);
-//            cp = (int) tabla_alumno.getValueAt(fila, 6);
-//            regimen = (String) tabla_alumno.getValueAt(fila, 7);
+            rfc_padre = (String) tabla_alumno.getValueAt(fila, 0);
+            curp = (String) tabla_alumno.getValueAt(fila, 1);
+            nombres = (String) tabla_alumno.getValueAt(fila, 2);
+            apellido_paterno = (String) tabla_alumno.getValueAt(fila, 3);
+            apellido_materno = (String) tabla_alumno.getValueAt(fila, 4);
+            //Enviar la fecha en formato de calendario
+            java.sql.Date fechasql = (java.sql.Date) tabla_alumno.getValueAt(fila, 5); // Ajustar índice
+            Calendar fechaNacimiento = Calendar.getInstance();
+             fechaNacimiento.setTime(fechasql);
+            fecha_nacimiento = fechaNacimiento;
+            nivelEscolar = (String) tabla_alumno.getValueAt(fila, 6);
+            gradoEscolar = (String) tabla_alumno.getValueAt(fila, 7);
             if(!btn_actualizar.isVisible()){
                 btn_actualizar.setVisible(true);
             }

@@ -1018,8 +1018,27 @@ public class AltaAlumnos extends javax.swing.JFrame {
         this.fechaInicioSesion = fechaInicioSesion;
         this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
+        
+        //solo muestra el menu de emisor si el usuario es el director
+        if(!"director".equals(this.usuario)){
+            btn_emisor.setVisible(false);
+        }
     }
     
+    void limpiarDatos(){//limpiar todos los campos
+        entrada_nombres.setText("");
+        entrada_apellidoPaterno.setText("");
+        entrada_apellidoMaterno.setText("");
+        entrada_curp.setText("");
+        rfc_padre.setSelectedIndex(0);
+        entrada_fechaNacimiento.setDate(null);
+        entrada_nivelEscolar.setSelectedItem("<seleccionar>");
+        entrada_gradoEscolar.setSelectedItem("<seleccionar>");
+        //
+       nombre_padre.setText("");
+       apellidoPaterno_padre.setText("");
+       apellido_maternoPadre.setText("");
+    }
     private void menu_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_padresMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_menu_padresMouseClicked
@@ -1090,11 +1109,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
         }
         //Valida la curp coincide con los datos
         Date fechaNacimiento = entrada_fechaNacimiento.getDate();
-        if(valida.verificarCURP(entrada_curp.getText(), entrada_nombres.getText(), entrada_apellidoPaterno.getText(), entrada_apellidoMaterno.getText(), fechaNacimiento)){
+        if(valida.verificarCURP(entrada_curp.getText().toUpperCase(), entrada_nombres.getText(), entrada_apellidoPaterno.getText(), entrada_apellidoMaterno.getText(), fechaNacimiento)){
            //Valida que cumpla con el formato de una CURP
            String curpPattern = "^[A-Z]{4}\\d{6}[HM][A-Z]{2}[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9][0-9]$";
            Pattern pattern = Pattern.compile(curpPattern);
-           Matcher matcher = pattern.matcher(entrada_curp.getText());
+           Matcher matcher = pattern.matcher(entrada_curp.getText().toUpperCase());
             if(!matcher.matches()){//sino coincide con el formato retorna falso
                 JOptionPane.showMessageDialog(null, "Ingrese una CURP valida", "CURP no valido", JOptionPane.WARNING_MESSAGE);
                 return false;
@@ -1174,7 +1193,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 //Regresa al menu principal
-                AltaEmisorMenu ventana = new AltaEmisorMenu();
+                AltaEmisor ventana = new AltaEmisor();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1232,7 +1251,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 //Regresa al menu principal
-                ConsultarEmisor ventana = new ConsultarEmisor();
+                ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1540,6 +1559,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 return;
             }
             altaAlumno();
+            limpiarDatos();
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
 
@@ -1572,18 +1592,20 @@ public class AltaAlumnos extends javax.swing.JFrame {
     }//GEN-LAST:event_infoIcon_lb3MouseExited
 
     private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
-        try {
+        nombre_padre.setText("");
+        apellidoPaterno_padre.setText("");
+        apellido_maternoPadre.setText("");
+        try {//muestra nombre y apellidos del padre dependiendo del RFC seleccionado
             //Seleccionar los datos del emisor
-            String consulta = "SELECT * FROM padre_familia WHERE rfc = '"+rfc_padre.getSelectedItem().toString()+"'";
+            String consulta = "SELECT * FROM padre_familia WHERE rfc = '" + rfc_padre.getSelectedItem().toString() + "'";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
-            //Arreglo de datos
+            //Arreglo de datos que recibe de la consulta
             while (rs.next()) {
                 nombre_padre.setText(rs.getString("nombres"));
                 apellidoPaterno_padre.setText(rs.getString("apellido_paterno"));
                 apellido_maternoPadre.setText(rs.getString("apellido_materno"));
             }
-
         } catch (SQLException ex) {
             System.out.println(ex);;
         }

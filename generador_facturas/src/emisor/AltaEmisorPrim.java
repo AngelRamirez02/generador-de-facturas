@@ -206,6 +206,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Alta Emisor");
+        setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1050, 700));
         setPreferredSize(new java.awt.Dimension(1050, 700));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -214,7 +215,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
             }
         });
 
-        fondo.setBackground(new java.awt.Color(240, 240, 240));
+        fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setPreferredSize(new java.awt.Dimension(1043, 610));
         fondo.setLayout(null);
 
@@ -693,6 +694,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null,"El RFC no coincide con el nombre, apellidos o con la fecha de nacimiento del emisor", "RFC no valido", JOptionPane.WARNING_MESSAGE);
         return false;
     }
+    
     public void altaEmisor() {
         try {
             int cp = Integer.parseInt(entrada_cp.getText());
@@ -1023,7 +1025,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                     return;
                 }
             } catch (Exception ex) {
-                Logger.getLogger(AltaEmisorMenu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AltaEmisor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);

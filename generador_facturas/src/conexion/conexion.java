@@ -22,8 +22,7 @@ public class conexion {
     String driver = "com.mysql.cj.jdbc.Driver";
     Connection cx;
     
-    public conexion(){    
-    }
+
     public Connection conectar(){
         try {
             Class.forName(driver);
@@ -42,9 +41,5 @@ public class conexion {
             System.out.println("ERROR AL DESCONECTAR DE LA BASE DE DATOS "+bd);
             //Logger.getLogger(conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    public static void main(String[] args) {
-        conexion conection=new conexion();
-        conection.conectar();
     }
 }

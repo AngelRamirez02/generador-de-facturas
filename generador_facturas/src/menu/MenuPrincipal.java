@@ -5,10 +5,13 @@
 package menu;
 
 import alumnos.AltaAlumnos;
+import alumnos.ConsultarAlumnos;
 import alumnos.ConsultarAlumnosEdit;
+import alumnos.EliminarAlumno;
 import conexion.conexion;
-import emisor.AltaEmisorMenu;
+import emisor.AltaEmisor;
 import emisor.ConsultarEmisor;
+import emisor.ConsultarEmisorEdit;
 import emisor.EliminarEmisor;
 import java.awt.Color;
 import java.awt.Image;
@@ -33,6 +36,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import login.login_window;
 import padres.AltaPadres;
+import padres.ConsultarPadres;
 import padres.ConsultarPadresEdit;
 import padres.EliminarPadre;
 import sesiones.HistorialSesiones;
@@ -47,6 +51,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private String usuario;//Nombre del usuario que inicia sesión
     LocalDate fechaInicioSesion;
     LocalTime horaInicioSesion;
+    
+    //variable para la conexion a la bd
     conexion cx = new conexion();
     
     //Colores para los botones seleccionados y no
@@ -231,6 +237,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_altaEmisor = new javax.swing.JLabel();
         jSeparator16 = new javax.swing.JSeparator();
         txt_eliminarEmisor = new javax.swing.JLabel();
+        jSeparator18 = new javax.swing.JSeparator();
+        txt_ConsultarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
         logo_lb = new javax.swing.JLabel();
         txt_facturacion = new javax.swing.JLabel();
@@ -424,6 +432,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_consultarAlmnos.setForeground(new java.awt.Color(255, 255, 255));
         txt_consultarAlmnos.setText("Consultar Alumno");
         txt_consultarAlmnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_consultarAlmnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_consultarAlmnosMouseClicked(evt);
+            }
+        });
         menu_alumnos.add(txt_consultarAlmnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
         menu_alumnos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
@@ -443,6 +456,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Eliminar Alumno");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
         menu_alumnos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
 
         fondo.add(menu_alumnos);
@@ -571,6 +589,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_consultarPadres.setForeground(new java.awt.Color(255, 255, 255));
         txt_consultarPadres.setText("Consultar Padre");
         txt_consultarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_consultarPadres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_consultarPadresMouseClicked(evt);
+            }
+        });
         menu_padres.add(txt_consultarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
         menu_padres.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
@@ -658,8 +681,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 txt_editarEmisorMouseClicked(evt);
             }
         });
-        menu_emisor.add(txt_editarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_emisor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+        menu_emisor.add(txt_editarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_emisor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
         txt_altaEmisor.setBackground(new java.awt.Color(255, 255, 255));
         txt_altaEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
@@ -671,8 +694,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 txt_altaEmisorMouseClicked(evt);
             }
         });
-        menu_emisor.add(txt_altaEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
-        menu_emisor.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+        menu_emisor.add(txt_altaEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_emisor.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
 
         txt_eliminarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
@@ -683,10 +706,22 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 txt_eliminarEmisorMouseClicked(evt);
             }
         });
-        menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+        menu_emisor.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        txt_ConsultarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_ConsultarEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_ConsultarEmisor.setText("Consultar Emisor");
+        txt_ConsultarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_ConsultarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_ConsultarEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_ConsultarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
 
         fondo.add(menu_emisor);
-        menu_emisor.setBounds(800, 100, 200, 130);
+        menu_emisor.setBounds(800, 100, 200, 160);
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -725,6 +760,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.fechaInicioSesion = fechaInicioSesion;
         this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
+        
+        //solo muestra el menu de emisor si el usuario es el director
+        if(!"director".equals(this.usuario)){
+            btn_emisor.setVisible(false);
+        }
     }
     
     private void menu_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_userMouseClicked
@@ -1049,7 +1089,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
        if (SwingUtilities.isLeftMouseButton(evt)){
-           AltaEmisorMenu ventana = new AltaEmisorMenu();
+           AltaEmisor ventana = new AltaEmisor();
            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
            ventana.setVisible(true);
            this.setVisible(false);
@@ -1058,7 +1098,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarEmisor ventana = new ConsultarEmisor();
+            ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
             ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
@@ -1159,6 +1199,43 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_cerrarSesionMouseClicked
 
+    private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
+       if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
+           ConsultarAlumnos ventana = new ConsultarAlumnos();
+           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+           ventana.setVisible(true);
+           this.dispose();
+       }
+    }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
+
+    private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
+            ConsultarPadres ventena = new ConsultarPadres();
+            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventena.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_consultarPadresMouseClicked
+
+    private void txt_ConsultarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_ConsultarEmisorMouseClicked
+       if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
+           ConsultarEmisor ventana = new ConsultarEmisor();
+           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+           ventana.setVisible(true);
+           this.dispose();
+           
+       }
+    }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            EliminarAlumno ventena = new EliminarAlumno();
+            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);;
+            ventena.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1225,6 +1302,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
+    private javax.swing.JSeparator jSeparator18;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator5;
@@ -1242,6 +1320,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JLabel text_salir;
+    private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;
     private javax.swing.JLabel txt_altaPadres;

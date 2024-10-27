@@ -42,7 +42,20 @@ import sesiones.HistorialSesiones;
  *
  * @author ar275
  */
-public class ConsultarEmisor extends javax.swing.JFrame {  
+public class ConsultarEmisorEdit extends javax.swing.JFrame {
+    //Variables para los datos de las columas
+    String rfc;
+    String nombres;
+    String apellido_paterno;
+    String apellido_materno;
+    Calendar fecha_nacimiento;
+    String correo_electronico;
+    int cp;
+    String colonia;
+    String num_exterior;
+    String num_interior;
+    String regimen;
+    
     
     conexion cx = new conexion();
     
@@ -61,7 +74,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
-     public ConsultarEmisor() {
+     public ConsultarEmisorEdit() {
         initComponents();      
         
         //Menus ocultos por defecto
@@ -72,7 +85,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
-
+        
+       //boton acatulizar oculto por defecto
+       btn_actualizar.setVisible(false);
         
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -253,6 +268,10 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_emisor = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btn_actualizar = new paneles.PanelRound();
+        contenedor_btn = new paneles.PanelRound();
+        text_guardarDatos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
@@ -714,13 +733,52 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tabla_emisor.setShowGrid(false);
         tabla_emisor.getTableHeader().setReorderingAllowed(false);
+        tabla_emisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_emisorMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla_emisor);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1050, 450));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 1050, 300));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setText("EMISORES REGISTRADOS");
         contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 520, 50));
+
+        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Seleccione el emisor a editar");
+        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 520, 50));
+
+        btn_actualizar.setBackground(new java.awt.Color(0, 0, 0));
+        btn_actualizar.setRoundBottomLeft(10);
+        btn_actualizar.setRoundBottomRight(10);
+        btn_actualizar.setRoundTopLeft(10);
+        btn_actualizar.setRoundTopRight(10);
+        btn_actualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_actualizarMouseClicked(evt);
+            }
+        });
+        btn_actualizar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        contenedor_btn.setBackground(new java.awt.Color(217, 217, 217));
+        contenedor_btn.setRoundBottomLeft(10);
+        contenedor_btn.setRoundBottomRight(10);
+        contenedor_btn.setRoundTopLeft(10);
+        contenedor_btn.setRoundTopRight(10);
+        contenedor_btn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        text_guardarDatos.setText("Actualizar emisor");
+        text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 40));
+
+        btn_actualizar.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
+
+        contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 150, 1050, 510);
@@ -761,7 +819,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
            }
            tabla_emisor.setModel(modelo);
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultarEmisor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultarEmisorEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -1047,6 +1105,45 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_altaEmisorMouseClicked
 
+    private void btn_actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_actualizarMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
+            ModificarEmisor ventana = new ModificarEmisor();
+            ventana.setDatos(rfc, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, correo_electronico, regimen, cp,colonia,num_exterior,num_interior);
+            ventana.setDatosSesion(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btn_actualizarMouseClicked
+
+    private void tabla_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_emisorMouseClicked
+        int fila = tabla_emisor.getSelectedRow();
+        if (fila != - 1) {
+            rfc = (String) tabla_emisor.getValueAt(fila, 0);
+            nombres = (String) tabla_emisor.getValueAt(fila, 1);
+            apellido_paterno = (String) tabla_emisor.getValueAt(fila, 2);
+            apellido_materno = (String) tabla_emisor.getValueAt(fila, 3);
+            //Enviar la fecha en formato de calendario
+            java.sql.Date fechasql = (java.sql.Date) tabla_emisor.getValueAt(fila, 4); // Ajustar índice
+            Calendar fechaNacimiento = Calendar.getInstance();
+            fechaNacimiento.setTime(fechasql);
+            fecha_nacimiento = fechaNacimiento;
+            //
+            correo_electronico = (String) tabla_emisor.getValueAt(fila, 5);
+            cp = (int) tabla_emisor.getValueAt(fila, 6);
+            
+            colonia = (String) tabla_emisor.getValueAt(fila, 9);
+            num_exterior = (String) tabla_emisor.getValueAt(fila, 10);
+            num_interior = (String) tabla_emisor.getValueAt(fila, 11);
+            
+            regimen = (String) tabla_emisor.getValueAt(fila, 12);
+            if(!btn_actualizar.isVisible()){
+                btn_actualizar.setVisible(true);
+            }
+        }else{
+            btn_actualizar.setVisible(false);
+        }
+    }//GEN-LAST:event_tabla_emisorMouseClicked
+
     private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
             EliminarEmisor ventana = new EliminarEmisor();
@@ -1181,18 +1278,14 @@ public class ConsultarEmisor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarEmisorEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarEmisorEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarEmisorEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarEmisorEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1201,7 +1294,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultarEmisor().setVisible(true);
+                new ConsultarEmisorEdit().setVisible(true);
             }
         });
     }
@@ -1209,6 +1302,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
     private javax.swing.JPanel barra_nav;
+    private paneles.PanelRound btn_actualizar;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
     private javax.swing.JPanel btn_emisor;
@@ -1219,6 +1313,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
     private javax.swing.JPanel contenedor;
+    private paneles.PanelRound contenedor_btn;
     private javax.swing.JPanel contenedor_menu;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
@@ -1232,6 +1327,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
@@ -1255,6 +1351,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JTable tabla_emisor;
+    private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;

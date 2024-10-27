@@ -150,7 +150,7 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
     private static String eliminarParticulasApellido(String apellido) {
         String[] particulas = {"DE", "LA", "DEL", "LAS"};
         for (String particula : particulas) {
-            apellido = apellido.toUpperCase().replaceFirst("^" + particula + " ", "");
+            apellido = apellido.toUpperCase().replaceFirst("^" + particula + "\\s+", "");
         }
         return apellido;
     }

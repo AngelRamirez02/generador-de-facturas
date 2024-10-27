@@ -1090,6 +1090,11 @@ public class ModificarPadre extends javax.swing.JFrame {
         }else{
             entrada_regimen.setSelectedIndex(2);
         }
+        
+        //solo muestra el menu de emisor si el usuario es el director
+        if(!"director".equals(this.usuario)){
+            btn_emisor.setVisible(false);
+        }
     }
     
     public void setDatosSesion(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
@@ -1507,7 +1512,7 @@ public class ModificarPadre extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                AltaEmisorMenu ventana = new AltaEmisorMenu();
+                AltaEmisor ventana = new AltaEmisor();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1783,7 +1788,7 @@ public class ModificarPadre extends javax.swing.JFrame {
                     return;
                 }
             } catch (Exception ex) {
-                Logger.getLogger(AltaEmisorMenu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AltaEmisor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);

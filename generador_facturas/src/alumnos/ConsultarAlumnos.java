@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package emisor;
+package alumnos;
 
+import padres.*;
+import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
 import conexion.conexion;
 import emisor.AltaEmisor;
@@ -42,15 +44,15 @@ import sesiones.HistorialSesiones;
  *
  * @author ar275
  */
-public class ConsultarEmisor extends javax.swing.JFrame {  
-    
+public class ConsultarAlumnos extends javax.swing.JFrame {   
     conexion cx = new conexion();
     
-    DefaultTableModel modelo;
+    DefaultTableModel modelo;//modelo de la tabala
     
+    //Variables para el historial de registro
     private String usuario;//Nombre del usuario que inicia sesión
     LocalDate fechaInicioSesion;
-    LocalTime horaInicioSesion;
+    LocalTime horaInicioSesion;    
     
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
@@ -61,8 +63,8 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
-     public ConsultarEmisor() {
-        initComponents();      
+     public ConsultarAlumnos() {
+        initComponents();
         
         //Menus ocultos por defecto
         menu_padres.setVisible(false);
@@ -83,8 +85,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
         
         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
-        
-        //Imaganes para el menu del usuario
+         //Imaganes para el menu del usuario
         Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
         Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
@@ -154,13 +155,14 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         timer.start();
 
         //Propiedades para la tabla
-        JTableHeader header = tabla_emisor.getTableHeader();
+        JTableHeader header = tabla_alumno.getTableHeader();
         header.setDefaultRenderer(new TablaPersonalizada());
-         header.setPreferredSize(new Dimension(30, 50));
-         //tamaños para las columnas de las tablas
-         TableColumn columnaApellido = tabla_emisor.getColumnModel().getColumn(0);
-         columnaApellido.setPreferredWidth(115);
-        
+        header.setPreferredSize(new Dimension(30,50));
+        //redimensionar las columnas
+        TableColumn columnaCurp = tabla_alumno.getColumnModel().getColumn(1);
+        TableColumn columnaRfcPadre= tabla_alumno.getColumnModel().getColumn(0);
+        columnaRfcPadre.setPreferredWidth(110);
+        columnaCurp.setPreferredWidth(135); 
         llenarTabla();
         
         txt_nombreUser.setText(usuario);
@@ -180,6 +182,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private void initComponents() {
 
         fondo = new javax.swing.JPanel();
+        icon_regresarlb = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
@@ -218,7 +221,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         txt_cerrarSesion1 = new javax.swing.JLabel();
         jSeparator17 = new javax.swing.JSeparator();
         cerrar_icon = new javax.swing.JLabel();
-        icon_regresarlb = new javax.swing.JLabel();
         menu_alumnos = new javax.swing.JPanel();
         txt_altaAlumnos = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -251,11 +253,11 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         txt_eliminarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabla_emisor = new javax.swing.JTable();
+        tabla_alumno = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
+        setTitle("Instituto Andrés Manuel López Obrador - Alumnos registrados");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -267,6 +269,17 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(1050, 650));
         fondo.setLayout(null);
+
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        fondo.add(icon_regresarlb);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         barra_nav.setBackground(new java.awt.Color(201, 69, 69));
         barra_nav.setLayout(null);
@@ -517,17 +530,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         fondo.add(menu_salir);
         menu_salir.setBounds(790, 100, 260, 240);
 
-        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
-        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_regresarlbMouseClicked(evt);
-            }
-        });
-        fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
-
         menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
         menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -689,41 +691,42 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        tabla_emisor.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_alumno.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        tabla_alumno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Estado", "Municipio", "Colonia", "N° Exterior", "N° Interior", "Régimen Fiscal"
+                "RFC del padre", "CURP", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Nivel escolar", "Grado escolar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, true, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tabla_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tabla_emisor.setDragEnabled(true);
-        tabla_emisor.setFillsViewportHeight(true);
-        tabla_emisor.setRowHeight(40);
-        tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
-        tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabla_emisor.setShowGrid(false);
-        tabla_emisor.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tabla_emisor);
+        tabla_alumno.setFillsViewportHeight(true);
+        tabla_alumno.setFocusable(false);
+        tabla_alumno.setRowHeight(40);
+        tabla_alumno.setSelectionBackground(new java.awt.Color(153, 153, 255));
+        tabla_alumno.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla_alumno.setShowHorizontalLines(true);
+        tabla_alumno.getTableHeader().setResizingAllowed(false);
+        tabla_alumno.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabla_alumno);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1050, 450));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 990, 450));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
-        txt_emisoresRegistrados.setText("EMISORES REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 520, 50));
+        txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_emisoresRegistrados.setText("ALUMNOS REGISTRADOS");
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 150, 1050, 510);
+        contenedor.setBounds(30, 150, 990, 510);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -735,33 +738,28 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM emisor";
+           String consulta = "SELECT * FROM alumnos";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
-           Object [] emisor =new Object[13];
-           modelo = (DefaultTableModel) tabla_emisor.getModel();
+           Object [] alumno =new Object[8];
+           modelo = (DefaultTableModel) tabla_alumno.getModel();
            while(rs.next()){
                //se obtienen los datos de la tabla
-               emisor[0] = rs.getString("rfc");
-               emisor[1] = rs.getString("nombres");
-               emisor[2] = rs.getString("apellido_paterno");
-               emisor[3] = rs.getString("apellido_materno");
-               emisor[4] = rs.getDate("fecha_nacimiento");
-               emisor[5] = rs.getString("correo_electronico");
-               emisor[6] = rs.getInt("domicilio_fiscal");
-               emisor[7] = rs.getString("estado");
-               emisor[8] = rs.getString("municipio");
-               emisor[9] = rs.getString("colonia");
-               emisor[10] = rs.getString("num_exterior");
-               emisor[11] = rs.getString("num_interior");
-               emisor[12] = rs.getString("regimen");
+               alumno[0] = rs.getString("rfc_padre");
+               alumno[1] = rs.getString("curp");
+               alumno[2] = rs.getString("nombres");
+               alumno[3] = rs.getString("apellido_paterno");
+               alumno[4] = rs.getString("apellido_materno");
+               alumno[5] = rs.getDate("fecha_nacimiento");
+               alumno[6] = rs.getString("nivel_escolaridad");
+               alumno[7] = rs.getString("grado_escolar");
                //añade la info  la tabla
-               modelo.addRow(emisor);
+               modelo.addRow(alumno);
            }
-           tabla_emisor.setModel(modelo);
+           tabla_alumno.setModel(modelo);
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultarEmisor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -1181,14 +1179,38 @@ public class ConsultarEmisor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1201,7 +1223,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultarEmisor().setVisible(true);
+                new ConsultarAlumnos().setVisible(true);
             }
         });
     }
@@ -1254,7 +1276,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JTable tabla_emisor;
+    private javax.swing.JTable tabla_alumno;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;

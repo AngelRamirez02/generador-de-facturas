@@ -12,13 +12,11 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.FontFactoryImp;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,17 +24,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import com.itextpdf.text.Image; // Correcto
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
-import java.awt.Canvas;
 import java.awt.Desktop;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jdesktop.swingx.painter.AbstractLayoutPainter.HorizontalAlignment;
-
 
 /**
  *
@@ -51,15 +46,23 @@ public class Sesion{
     public String horario_salida;
     
     public void generarPdf(List<Sesion> listaSesiones, String ruta) throws FileNotFoundException, DocumentException, BadElementException, IOException{
-        LocalDate fechaACtual = LocalDate.now();
+        //Fecha
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formatoEspanol = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        String fechaFormateada = fechaActual.format(formatoEspanol);
+        
         LocalTime horaActual = LocalTime.now();
+         // Formatear la hora en el formato "HH:mm:ss"
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm:ss a");
+        String horaFormateada = horaActual.format(formatoHora);
+        
         BaseColor colorCabeceraTabla = new BaseColor(201, 69, 69); // Usando RGB
         BaseColor colortTitulo = new BaseColor(134, 10, 10); // Usando RGB
         BaseColor colortLinea = new BaseColor(161, 145, 89); // Usando RGB
         com.itextpdf.text.Font fuenteArialBlanca = FontFactory.getFont("Calibri", 12, Font.BOLD, BaseColor.WHITE);
             
         //Ruta para guardar el documento
-        String rutaArchivo = ruta+File.separator+"Historial de sesiones"+fechaACtual.toString()+".pdf";
+        String rutaArchivo = ruta+File.separator+"Historial de sesiones"+fechaActual.toString()+".pdf";
         //Crar documento
         Document documento = new Document();
         //Nombre del archivo
@@ -168,10 +171,13 @@ public class Sesion{
               
         //Parrafo Titulo
         Paragraph titulo = new Paragraph("\nHistorial de inicio de sesión del Sistema de facturación "
-                + "del Instituto Andres Manuel Lopez Obrador\n\n",FontFactory.getFont("arial",18,Font.BOLD,BaseColor.BLACK));
+                + "del Instituto Andres Manuel Lopez Obrador\n",FontFactory.getFont("arial",18,Font.BOLD,BaseColor.BLACK));
         titulo.setAlignment(Paragraph.ALIGN_CENTER);
         //Añadir parrafo al doc
         documento.add(titulo);
+        
+        Paragraph fechaHora = new Paragraph("\nReporte generado el "+fechaFormateada+" a las "+horaFormateada+"\n\n", FontFactory.getFont("Arial",12,Font.NORMAL,BaseColor.BLACK));
+        documento.add(fechaHora);
         
         //salto de linea al doc
         //Crear tabla y titulos de las columnas

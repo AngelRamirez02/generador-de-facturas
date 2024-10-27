@@ -54,7 +54,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
     LocalDate fechaInicioSesion;
     LocalTime horaInicioSesion;
     
-    private String rfc;//rfc que se va a modficar
+    private String rfcOriginal;//rfc que se va a modficar
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -830,7 +830,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
 
         text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_guardarDatos.setText("Guardar datos del emisor");
+        text_guardarDatos.setText("Actualizar datos del emisor");
         text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
 
@@ -1059,7 +1059,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
     }
     
     public void setDatos(String rfc, String nombres, String apellido_paterno, String apellido_materno, Calendar fecha_nacimiento, String correo, String regimen, int cp, String colonia,  String num_Exterior,String num_Interior) {
-        this.rfc=rfc;//rfc que se va a modificar
+        this.rfcOriginal=rfc;//rfc que se va a modificar
         entrada_rfc.setText(rfc);
         entrada_nombres.setText(nombres);
         entrada_apellidoPaterno.setText(apellido_paterno);
@@ -1084,6 +1084,11 @@ public class ModificarEmisor extends javax.swing.JFrame {
             entrada_regimen.setSelectedIndex(1);
         }else{
             entrada_regimen.setSelectedIndex(2);
+        }
+        
+        //solo muestra el menu de emisor si el usuario es el director
+        if(!"director".equals(this.usuario)){
+            btn_emisor.setVisible(false);
         }
     }
     
@@ -1379,7 +1384,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
             ps.setString(1, entrada_rfc.getText());
             ResultSet rs = ps.executeQuery();
             if(rs.next()){//si encuentra un fila con el RFC quiere decir que ya existe
-                if(rs.getString("rfc").equals(entrada_rfc.getText())){//es el mismo rfc que quiere actualizar
+                if(rs.getString("rfc").equals(rfcOriginal)){//es el mismo rfc que quiere actualizar
                     return false;
                 }
                 return true;
@@ -1467,7 +1472,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
             
 
             // Establecer el RFC para actualizar el registro correspondiente
-            ps.setString(14, rfc.toUpperCase());
+            ps.setString(14, rfcOriginal.toUpperCase());
 
             // Verificar si se actualizó el registro
             int filas_actualizadas = ps.executeUpdate();
@@ -1501,7 +1506,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                AltaEmisorMenu ventana = new AltaEmisorMenu();
+                AltaEmisor ventana = new AltaEmisor();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1530,7 +1535,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 //Regresa al menu principal
-                ConsultarEmisor ventana = new ConsultarEmisor();
+                ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1680,7 +1685,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
                 //actualizar datos
                 actualizarEmisor();
                 //volver a la lista de los emisores
-                ConsultarEmisor ventana = new ConsultarEmisor();
+                ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1748,7 +1753,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
                     return;
                 }
             } catch (Exception ex) {
-                Logger.getLogger(AltaEmisorMenu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AltaEmisor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);

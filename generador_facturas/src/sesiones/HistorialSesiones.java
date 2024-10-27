@@ -9,7 +9,7 @@ import TablaPersonalizada.TablaPersonalizada;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
 import conexion.conexion;
-import emisor.AltaEmisorMenu;
+import emisor.AltaEmisor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -817,6 +817,11 @@ public class HistorialSesiones extends javax.swing.JFrame {
         this.fechaInicioSesion = fechaInicioSesion;
         this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
+        
+    //solo muestra el menu de emisor si el usuario es el director
+        if(!"director".equals(this.usuario)){
+            btn_emisor.setVisible(false);
+        }
     }
     
     private void menu_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_userMouseClicked
@@ -1079,7 +1084,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
 
     private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
        if (SwingUtilities.isLeftMouseButton(evt)){
-           AltaEmisorMenu ventana = new AltaEmisorMenu();
+           AltaEmisor ventana = new AltaEmisor();
            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
            ventana.setVisible(true);
            this.dispose();
@@ -1116,7 +1121,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
 
     private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
-            ConsultarEmisor ventana = new ConsultarEmisor();
+            ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
             ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();

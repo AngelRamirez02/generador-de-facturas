@@ -1,9 +1,10 @@
-/*
+/* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package emisor;
+package padres;
 
+import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
 import conexion.conexion;
 import emisor.AltaEmisor;
@@ -42,16 +43,15 @@ import sesiones.HistorialSesiones;
  *
  * @author ar275
  */
-public class ConsultarEmisor extends javax.swing.JFrame {  
-    
+public class ConsultarPadres extends javax.swing.JFrame {
     conexion cx = new conexion();
-    
+
     DefaultTableModel modelo;
-    
+
     private String usuario;//Nombre del usuario que inicia sesión
     LocalDate fechaInicioSesion;
     LocalTime horaInicioSesion;
-    
+
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -60,10 +60,10 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     //Imagen para menu selccionado
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
-    
-     public ConsultarEmisor() {
-        initComponents();      
-        
+
+    public ConsultarPadres() {
+        initComponents();
+
         //Menus ocultos por defecto
         menu_padres.setVisible(false);
         menu_alumnos.setVisible(false);
@@ -71,7 +71,11 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         menu_estadisticas.setVisible(false);
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
-        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        Image logo_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+
+        //tamaños para las columnas de las tablas
+        TableColumn columnaApellido = tabla_padres.getColumnModel().getColumn(0);
+        columnaApellido.setPreferredWidth(115);
 
         
         //Iconos para botones de menu
@@ -154,12 +158,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         timer.start();
 
         //Propiedades para la tabla
-        JTableHeader header = tabla_emisor.getTableHeader();
+        JTableHeader header = tabla_padres.getTableHeader();
         header.setDefaultRenderer(new TablaPersonalizada());
-         header.setPreferredSize(new Dimension(30, 50));
-         //tamaños para las columnas de las tablas
-         TableColumn columnaApellido = tabla_emisor.getColumnModel().getColumn(0);
-         columnaApellido.setPreferredWidth(115);
+        header.setPreferredSize(new Dimension(30,50));
         
         llenarTabla();
         
@@ -180,6 +181,24 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private void initComponents() {
 
         fondo = new javax.swing.JPanel();
+        icon_regresarlb = new javax.swing.JLabel();
+        menu_salir = new javax.swing.JPanel();
+        nombre_user = new javax.swing.JPanel();
+        user_menuIcon1 = new javax.swing.JLabel();
+        txt_nombreUser = new javax.swing.JLabel();
+        btn_historialSesiones = new javax.swing.JPanel();
+        historial_lb = new javax.swing.JLabel();
+        txt_cerrarSesion = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        btn_salir = new javax.swing.JPanel();
+        icon_salir = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        text_salir = new javax.swing.JLabel();
+        btn_cerrarSesion = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        txt_cerrarSesion1 = new javax.swing.JLabel();
+        jSeparator17 = new javax.swing.JSeparator();
+        cerrar_icon = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
@@ -201,24 +220,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         icon_item5 = new javax.swing.JLabel();
         menu_user = new javax.swing.JPanel();
         user_menuIcon = new javax.swing.JLabel();
-        menu_salir = new javax.swing.JPanel();
-        nombre_user = new javax.swing.JPanel();
-        user_menuIcon1 = new javax.swing.JLabel();
-        txt_nombreUser = new javax.swing.JLabel();
-        btn_historialSesiones = new javax.swing.JPanel();
-        historial_lb = new javax.swing.JLabel();
-        txt_cerrarSesion = new javax.swing.JLabel();
-        jSeparator5 = new javax.swing.JSeparator();
-        btn_salir = new javax.swing.JPanel();
-        icon_salir = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        text_salir = new javax.swing.JLabel();
-        btn_cerrarSesion = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        txt_cerrarSesion1 = new javax.swing.JLabel();
-        jSeparator17 = new javax.swing.JSeparator();
-        cerrar_icon = new javax.swing.JLabel();
-        icon_regresarlb = new javax.swing.JLabel();
         menu_alumnos = new javax.swing.JPanel();
         txt_altaAlumnos = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -250,12 +251,12 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         jSeparator16 = new javax.swing.JSeparator();
         txt_eliminarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla_emisor = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla_padres = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
+        setTitle("Instituto Andrés Manuel López Obrador - Padres registrados");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -267,6 +268,114 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(1050, 650));
         fondo.setLayout(null);
+
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        fondo.add(icon_regresarlb);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
+
+        menu_salir.setBackground(new java.awt.Color(198, 54, 55));
+        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        nombre_user.setBackground(new java.awt.Color(198, 54, 55));
+        nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nombre_userMouseClicked(evt);
+            }
+        });
+        nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
+        user_menuIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        user_menuIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_usuarioMenu.png"))); // NOI18N
+        nombre_user.add(user_menuIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
+
+        txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
+        txt_nombreUser.setText("Administrador");
+        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
+
+        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
+
+        btn_historialSesiones.setBackground(new java.awt.Color(198, 54, 55));
+        btn_historialSesiones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_historialSesiones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_historialSesionesMouseClicked(evt);
+            }
+        });
+        btn_historialSesiones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        historial_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_historial.png"))); // NOI18N
+        btn_historialSesiones.add(historial_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 3, 40, 40));
+
+        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion.setText(" Historial de sesiones");
+        btn_historialSesiones.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 190, 50));
+        btn_historialSesiones.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_historialSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, 50));
+
+        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
+        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_salirMouseClicked(evt);
+            }
+        });
+        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
+        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 50, 50));
+        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 240, 10));
+
+        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        text_salir.setForeground(new java.awt.Color(255, 255, 255));
+        text_salir.setText("Salir");
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 40));
+
+        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 250, 60));
+
+        btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
+        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cerrarSesionMouseClicked(evt);
+            }
+        });
+        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
+        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
+
+        txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion1.setText("Cerrar sesión");
+        btn_cerrarSesion.add(txt_cerrarSesion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 50));
+        btn_cerrarSesion.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 250, 50));
+
+        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
+        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrar_iconMouseClicked(evt);
+            }
+        });
+        menu_salir.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 40, 40));
+
+        fondo.add(menu_salir);
+        menu_salir.setBounds(790, 100, 260, 240);
 
         barra_nav.setBackground(new java.awt.Color(201, 69, 69));
         barra_nav.setLayout(null);
@@ -419,114 +528,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
 
         fondo.add(barra_nav);
         barra_nav.setBounds(0, 0, 1050, 100);
-
-        menu_salir.setBackground(new java.awt.Color(198, 54, 55));
-        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        nombre_user.setBackground(new java.awt.Color(198, 54, 55));
-        nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nombre_userMouseClicked(evt);
-            }
-        });
-        nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
-        user_menuIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_menuIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_usuarioMenu.png"))); // NOI18N
-        nombre_user.add(user_menuIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
-
-        txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
-        txt_nombreUser.setText("Administrador");
-        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
-
-        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
-
-        btn_historialSesiones.setBackground(new java.awt.Color(198, 54, 55));
-        btn_historialSesiones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_historialSesiones.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_historialSesionesMouseClicked(evt);
-            }
-        });
-        btn_historialSesiones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        historial_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_historial.png"))); // NOI18N
-        btn_historialSesiones.add(historial_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 3, 40, 40));
-
-        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cerrarSesion.setText(" Historial de sesiones");
-        btn_historialSesiones.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 190, 50));
-        btn_historialSesiones.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
-
-        menu_salir.add(btn_historialSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, 50));
-
-        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
-        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
-        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_salirMouseClicked(evt);
-            }
-        });
-        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
-        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 50, 50));
-        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 240, 10));
-
-        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        text_salir.setForeground(new java.awt.Color(255, 255, 255));
-        text_salir.setText("Salir");
-        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 40));
-
-        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 250, 60));
-
-        btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
-        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_cerrarSesionMouseClicked(evt);
-            }
-        });
-        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
-        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
-
-        txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cerrarSesion1.setText("Cerrar sesión");
-        btn_cerrarSesion.add(txt_cerrarSesion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 50));
-        btn_cerrarSesion.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
-
-        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 250, 50));
-
-        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
-        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cerrar_iconMouseClicked(evt);
-            }
-        });
-        menu_salir.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 40, 40));
-
-        fondo.add(menu_salir);
-        menu_salir.setBounds(790, 100, 260, 240);
-
-        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
-        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_regresarlbMouseClicked(evt);
-            }
-        });
-        fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
         menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -689,8 +690,13 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        tabla_emisor.setModel(new javax.swing.table.DefaultTableModel(
+        txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
+        txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_emisoresRegistrados.setText("PADRES DE FAMILIA REGISTRADOS");
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
+
+        tabla_padres.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        tabla_padres.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -706,21 +712,17 @@ public class ConsultarEmisor extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tabla_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tabla_emisor.setDragEnabled(true);
-        tabla_emisor.setFillsViewportHeight(true);
-        tabla_emisor.setRowHeight(40);
-        tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
-        tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabla_emisor.setShowGrid(false);
-        tabla_emisor.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tabla_emisor);
+        tabla_padres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tabla_padres.setDragEnabled(true);
+        tabla_padres.setFillsViewportHeight(true);
+        tabla_padres.setRowHeight(40);
+        tabla_padres.setSelectionBackground(new java.awt.Color(153, 153, 255));
+        tabla_padres.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla_padres.setShowGrid(false);
+        tabla_padres.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabla_padres);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1050, 450));
-
-        txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
-        txt_emisoresRegistrados.setText("EMISORES REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 520, 50));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1050, 440));
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 150, 1050, 510);
@@ -735,33 +737,34 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM emisor";
+           String consulta = "SELECT * FROM padre_familia";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
-           Object [] emisor =new Object[13];
-           modelo = (DefaultTableModel) tabla_emisor.getModel();
+           Object [] padre =new Object[13];
+           modelo = (DefaultTableModel) tabla_padres.getModel();
            while(rs.next()){
                //se obtienen los datos de la tabla
-               emisor[0] = rs.getString("rfc");
-               emisor[1] = rs.getString("nombres");
-               emisor[2] = rs.getString("apellido_paterno");
-               emisor[3] = rs.getString("apellido_materno");
-               emisor[4] = rs.getDate("fecha_nacimiento");
-               emisor[5] = rs.getString("correo_electronico");
-               emisor[6] = rs.getInt("domicilio_fiscal");
-               emisor[7] = rs.getString("estado");
-               emisor[8] = rs.getString("municipio");
-               emisor[9] = rs.getString("colonia");
-               emisor[10] = rs.getString("num_exterior");
-               emisor[11] = rs.getString("num_interior");
-               emisor[12] = rs.getString("regimen");
+               padre[0] = rs.getString("rfc");
+               padre[1] = rs.getString("nombres");
+               padre[2] = rs.getString("apellido_paterno");
+               padre[3] = rs.getString("apellido_materno");
+               padre[4] = rs.getDate("fecha_nacimiento");
+               padre[5] = rs.getString("correo_electronico");
+               padre[6] = rs.getInt("domicilio_fiscal");
+               padre[7] = rs.getString("estado");
+               padre[8] = rs.getString("municipio");
+               padre[9] = rs.getString("colonia");
+               padre[10] = rs.getString("num_exterior");
+               padre[11] = rs.getString("num_interior");
+               padre[12] = rs.getString("regimen");
                //añade la info  la tabla
-               modelo.addRow(emisor);
+               //añade la info  la tabla
+               modelo.addRow(padre);
            }
-           tabla_emisor.setModel(modelo);
+           tabla_padres.setModel(modelo);
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultarEmisor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultarPadres.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -1181,14 +1184,22 @@ public class ConsultarEmisor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarPadres.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarPadres.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarPadres.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarEmisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultarPadres.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1201,7 +1212,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultarEmisor().setVisible(true);
+                new ConsultarPadres().setVisible(true);
             }
         });
     }
@@ -1254,7 +1265,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JTable tabla_emisor;
+    private javax.swing.JTable tabla_padres;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;
