@@ -197,7 +197,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         txt_modificarAlumnos = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
+        txt_eliminarAlumno = new javax.swing.JLabel();
         menu_salir = new javax.swing.JPanel();
         nombre_user = new javax.swing.JPanel();
         user_menuIcon1 = new javax.swing.JLabel();
@@ -452,16 +452,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
         menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
 
-        jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Eliminar Alumno");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        txt_eliminarAlumno.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_eliminarAlumno.setForeground(new java.awt.Color(255, 255, 255));
+        txt_eliminarAlumno.setText("Eliminar Alumno");
+        txt_eliminarAlumno.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                txt_eliminarAlumnoMouseClicked(evt);
             }
         });
-        menu_alumnos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+        menu_alumnos.add(txt_eliminarAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
 
         fondo.add(menu_alumnos);
         menu_alumnos.setBounds(200, 100, 200, 160);
@@ -564,11 +564,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menu_salir.setBounds(790, 100, 260, 240);
 
         menu_padres.setBackground(new java.awt.Color(198, 54, 55));
-        menu_padres.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menu_padresMouseClicked(evt);
-            }
-        });
         menu_padres.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_altaPadres.setBackground(new java.awt.Color(255, 255, 255));
@@ -893,10 +888,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }  
         }
     }//GEN-LAST:event_btn_alumnosMouseClicked
-
-    private void menu_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_padresMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menu_padresMouseClicked
 
     private void btn_padresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_padresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
@@ -1227,14 +1218,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void txt_eliminarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarAlumnoMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
             EliminarAlumno ventena = new EliminarAlumno();
             ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);;
             ventena.setVisible(true);
             this.dispose();
         }
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1294,7 +1285,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item4;
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_salir;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
@@ -1332,6 +1322,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel txt_consultarPadres;
     private javax.swing.JLabel txt_del;
     private javax.swing.JLabel txt_editarEmisor;
+    private javax.swing.JLabel txt_eliminarAlumno;
     private javax.swing.JLabel txt_eliminarEmisor;
     private javax.swing.JLabel txt_eliminarPadres;
     private javax.swing.JLabel txt_emisor;
