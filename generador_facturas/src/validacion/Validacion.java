@@ -4,13 +4,11 @@
  */
 package validacion;
 
-import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,14 +17,14 @@ import javax.swing.JOptionPane;
 public class Validacion {
 
     public boolean nombresValidos(String nombre) {
-        String regex = "^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$";
+        String regex = "^(De|Del|Los|Las|La)?\\s?[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(\\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(nombre);
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
     }
 
     public boolean apellidoValido(String apelido) {
-        String regex = "^[a-zA-ZÁÉÍÓÚÑáéíóúñ ]+$";
+        String regex = "^(De|Del|Los|Las|La)?\\s?[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(\\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(apelido);
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
@@ -39,7 +37,7 @@ public class Validacion {
     }
 
     public boolean correo_valido(String correo) {//Valida correo electronicos 
-        String regex = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}";
+        String regex = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@(gmail|yahoo|hotmail|outlook)[.](com|net|org|edu|gov|mx)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(correo);
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
@@ -53,6 +51,9 @@ public class Validacion {
     }
     
 public String crear_rfc(String nombres, String apellido_paterno, String apellido_materno, Calendar fecha_nacimiento, String homoclave) {
+    //Se eliminan las particulas de los Apellidos
+    apellido_paterno = eliminarParticulasApellido(apellido_paterno);
+    apellido_materno = eliminarParticulasApellido(apellido_materno);
     // Obtener día, mes y año desde el Calendar que recibes
     int dia = fecha_nacimiento.get(Calendar.DAY_OF_MONTH);
     int mes = fecha_nacimiento.get(Calendar.MONTH) + 1; // Los meses son 0-11
@@ -121,6 +122,7 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
     private static String generarCURP(String nombre, String apellidoPaterno, String apellidoMaterno, String fechaNacimiento) {
         // Eliminar partículas como "De", "La", "Del", etc. del apellido paterno
         apellidoPaterno = eliminarParticulasApellido(apellidoPaterno);
+        apellidoPaterno = eliminarParticulasApellido(apellidoMaterno);
 
         // Paso 1: Primer letra del apellido paterno
         String curp = Character.toString(apellidoPaterno.charAt(0)).toUpperCase();
@@ -148,7 +150,7 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
 
     // Método para eliminar partículas como "De", "La", "Del" en apellidos
     private static String eliminarParticulasApellido(String apellido) {
-        String[] particulas = {"DE", "LA", "DEL", "LAS"};
+        String[] particulas = {"DE", "LA", "DEL", "LAS","LOS","SAN","SANTA","Y"};
         for (String particula : particulas) {
             apellido = apellido.toUpperCase().replaceFirst("^" + particula + "\\s+", "");
         }
@@ -169,7 +171,7 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
     // Método para obtener la primera letra del nombre (considerando el caso de "José" o "María")
     private static String obtenerPrimeraLetraNombre(String nombre) {
         String[] nombres = nombre.split(" ");
-        if (nombres[0].equalsIgnoreCase("José") || nombres[0].equalsIgnoreCase("María")) {
+        if (nombres[0].equalsIgnoreCase("José") || nombres[0].equalsIgnoreCase("María") || nombres[0].equals("Maria") || nombres[0].equals("Jose")) {
             return Character.toString(nombres[1].charAt(0)).toUpperCase();
         } else {
             return Character.toString(nombres[0].charAt(0)).toUpperCase();

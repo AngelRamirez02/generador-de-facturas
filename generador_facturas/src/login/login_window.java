@@ -215,6 +215,11 @@ public class login_window extends javax.swing.JFrame {
         usuario_entrada.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         usuario_entrada.setToolTipText("");
         usuario_entrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        usuario_entrada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                usuario_entradaKeyTyped(evt);
+            }
+        });
         panelRound2.add(usuario_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 300, 45));
 
         iniciar_sesion.setBackground(new java.awt.Color(102, 102, 102));
@@ -234,6 +239,11 @@ public class login_window extends javax.swing.JFrame {
         password_entrada.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         password_entrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         password_entrada.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        password_entrada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                password_entradaKeyTyped(evt);
+            }
+        });
         panelRound2.add(password_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 265, 300, 45));
 
         etiqueta_usuario.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
@@ -426,6 +436,18 @@ public class login_window extends javax.swing.JFrame {
             this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void usuario_entradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usuario_entradaKeyTyped
+        if(usuario_entrada.getText().length()>=15){
+            evt.consume();
+        }
+    }//GEN-LAST:event_usuario_entradaKeyTyped
+
+    private void password_entradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_password_entradaKeyTyped
+        if(password_entrada.getPassword().length>16){
+            evt.consume();
+        }
+    }//GEN-LAST:event_password_entradaKeyTyped
 
     /**
      * @param args the command line arguments

@@ -208,7 +208,6 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         setTitle("Instituto Manuel Andres Lopez Obrador - Alta Emisor");
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1050, 700));
-        setPreferredSize(new java.awt.Dimension(1050, 700));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -345,9 +344,9 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         infoIcon_lb3.setBounds(840, 242, 20, 20);
 
         infoFecha_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        infoFecha_lb.setText("Ej: 02 dic 2003");
+        infoFecha_lb.setText("Ejemplo: 02 dic 2003");
         contenedor.add(infoFecha_lb);
-        infoFecha_lb.setBounds(400, 460, 80, 15);
+        infoFecha_lb.setBounds(380, 460, 130, 15);
 
         infoIcon_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_info.png"))); // NOI18N
         infoIcon_lb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -428,6 +427,12 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         jLabel10.setText("Código postal");
         contenedor.add(jLabel10);
         jLabel10.setBounds(540, 300, 120, 22);
+
+        entrada_rfc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_rfcKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_rfc);
         entrada_rfc.setBounds(680, 232, 157, 30);
 
@@ -911,12 +916,18 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                 return;
             }
             if(!valida.nombresValidos(entrada_nombres.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrese un nombre valido\n"
+                        + "\tDebe iniciar con mayusculas y no puede contener numeros ni caracteres especiales\n"
+                        + "Si existen conectores como 'De' u otro nombre deben comenzar con mayusculas", 
+                        "Nombre no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_nombres.requestFocusInWindow();
                 return;
             }
             if(!valida.apellidoValido(entrada_apellidoPaterno.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido\n"
+                        + "\tDebe iniciar con mayusculas y no puede contener numeros ni caracteres especiales\n"
+                        + "Si existen conectores como 'De' deben comenzar con mayusculas", 
+                        "Apellido no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_apellidoPaterno.requestFocusInWindow();
                 return;
             }
@@ -959,12 +970,30 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                 entrada_noExterior.requestFocusInWindow();    // Borde al tener foco;
                 return;
             }
-            if(!valida.numInteriorExteriorValido(entrada_noInterior.getText())){
+            if (!valida.numInteriorExteriorValido(entrada_noInterior.getText())) {
                 JOptionPane.showMessageDialog(null, "Ingrese un numero exterior valido", "Numero interior no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_noInterior.requestFocusInWindow();    // Borde al tener foco;
                 return;
             }
-            altaEmisor();
+            //Confirmacion para registro
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "¿Desea registrar al emisor?",
+                    "Confirmación de registro",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ///Dar de alta al emisor
+                altaEmisor();
+            } else {
+                return;
+            }
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
 
@@ -1033,6 +1062,12 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void entrada_rfcKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_rfcKeyTyped
+        if(entrada_rfc.getText().length()>=13){
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_rfcKeyTyped
 
     /**
      * @param args the command line arguments
