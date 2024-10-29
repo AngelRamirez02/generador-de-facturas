@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import menu.MenuPrincipal;
 
@@ -37,6 +38,16 @@ import menu.MenuPrincipal;
 public class login_window extends javax.swing.JFrame {
 
     conexion cx;//variable para la conexion a la base de datos
+    
+    private static int tiempoRestante = 30; // tiempo en segundos
+    private static Timer tiempoBloqueo;
+    private static boolean bloqueado = false;
+    
+    int numIntentosFallidos = 0;
+    int llamadaPanel=0;
+    private JOptionPane optionPane;
+    private JDialog dialog;
+
 
     public login_window() {
         initComponents();
@@ -108,6 +119,22 @@ public class login_window extends javax.swing.JFrame {
                 fondo_redondoLogin.setLocation(newX-8, newY-8);
             }
         });
+        
+        tiempoBloqueo= new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tiempoRestante--;    
+                if (tiempoRestante <= 0) {
+                    dialog.dispose();
+                    tiempoBloqueo.stop();
+                    desbloquear();
+                }
+                // Actualizar el mensaje del JOptionPane
+                optionPane.setMessage("Demasiados intentos fallidos\n"
+                + "Contacte al soporte del sistema o espere: "+tiempoRestante+" segundos para realizar otra accion");
+            }
+        });
+        
         this.setIconImage(logo_img);//agregar logo a ventana
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setExtendedState(this.MAXIMIZED_BOTH);
@@ -375,15 +402,23 @@ public class login_window extends javax.swing.JFrame {
                     ventana.setVisible(true);
                     this.setVisible(false);
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                numIntentosFallidos++;
+                if(numIntentosFallidos>=6){//si llega el numero de intentos bloquea y comienza el conteo
+                    bloquear();
+                    tiempoBloqueo.start();                  
+                    mostrarTiempoEnDialogo();
+                    return;
+                }
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error de autenticación", JOptionPane.ERROR_MESSAGE);           
             }
         } catch (SQLException ex) {
             //Logger.getLogger(login_window.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("NO SE CONECTO A LA BASE DE DATOS");
         }
     }//GEN-LAST:event_iniciar_sesionActionPerformed
-
+    
     private void mostrar_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrar_passwordActionPerformed
         //boton para mostrar y ocultar contraseña
         if (mostrar_password.isSelected()) {
@@ -398,6 +433,10 @@ public class login_window extends javax.swing.JFrame {
     }//GEN-LAST:event_mostrar_passwordActionPerformed
 
     private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
+        if(bloqueado){//si el sistema esta bloqueado
+            mostrarTiempoEnDialogo();//muestra el mensaje
+            return;
+        }
         Object[] opciones = {"Aceptar", "Cancelar"};
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
             //dialogo que pregunta si desea confirmar salir
@@ -414,6 +453,10 @@ public class login_window extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_salirMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if(bloqueado){//si el sistema esta bloqueado
+            mostrarTiempoEnDialogo();//muestra el mensaje
+            return;
+        }
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
         // Mostrar diálogo que pregunta si desea confirmar la salida
@@ -437,14 +480,42 @@ public class login_window extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void bloquear(){
+        bloqueado=true;
+        usuario_entrada.setEditable(false);
+        password_entrada.setEditable(false);
+        iniciar_sesion.setEnabled(false);
+    }
+    
+    void desbloquear(){
+        bloqueado=false;
+        usuario_entrada.setEditable(true);
+        password_entrada.setEditable(true);
+        iniciar_sesion.setEnabled(true);
+        tiempoRestante=10;
+        numIntentosFallidos=0;
+    }
+    
+        // Método para mostrar el tiempo restante en un JOptionPane
+    private void mostrarTiempoEnDialogo() {
+        optionPane = new JOptionPane("Demasiados intentos fallidos\n"
+                + "Contacte al soporte del sistema o espere: "+tiempoRestante+" segundos para realizar otra accion",
+                JOptionPane.WARNING_MESSAGE);
+        dialog = optionPane.createDialog(null,"Alerta");
+        dialog.setModal(true); // No modal para permitir actualizaciones
+        dialog.setVisible(true);
+    }
+    
     private void usuario_entradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usuario_entradaKeyTyped
-        if(usuario_entrada.getText().length()>=15){
+        if(usuario_entrada.getText().length()>=30){
+            JOptionPane.showMessageDialog(null, "Numero maximo de caracteres alcanzados", "Mensaje", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_usuario_entradaKeyTyped
 
     private void password_entradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_password_entradaKeyTyped
-        if(password_entrada.getPassword().length>16){
+        if(password_entrada.getPassword().length>30){
+            JOptionPane.showMessageDialog(null, "Numero maximo de caracteres alcanzados", "Mensaje", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_password_entradaKeyTyped
@@ -507,4 +578,8 @@ public class login_window extends javax.swing.JFrame {
     private javax.swing.JLabel txt_year;
     private javax.swing.JTextField usuario_entrada;
     // End of variables declaration//GEN-END:variables
+
+    private int tiempoRestante(long l) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

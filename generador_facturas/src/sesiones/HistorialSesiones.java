@@ -6,6 +6,10 @@ package sesiones;
 
 import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
+import alumnos.AltaAlumnos;
+import alumnos.ConsultarAlumnos;
+import alumnos.ConsultarAlumnosEdit;
+import alumnos.EliminarAlumno;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
 import conexion.conexion;
@@ -46,6 +50,10 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import login.login_window;
 import menu.MenuPrincipal;
+import padres.AltaPadres;
+import padres.ConsultarPadres;
+import padres.ConsultarPadresEdit;
+import padres.EliminarPadre;
 
 /**
  *
@@ -235,22 +243,6 @@ public class HistorialSesiones extends javax.swing.JFrame {
         txt_cerrarSesion1 = new javax.swing.JLabel();
         jSeparator17 = new javax.swing.JSeparator();
         cerrar_icon = new javax.swing.JLabel();
-        menu_alumnos = new javax.swing.JPanel();
-        txt_altaAlumnos = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        txt_consultarAlmnos = new javax.swing.JLabel();
-        jSeparator6 = new javax.swing.JSeparator();
-        txt_modificarAlumnos = new javax.swing.JLabel();
-        jSeparator7 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
-        menu_padres = new javax.swing.JPanel();
-        txt_altaPadres = new javax.swing.JLabel();
-        jSeparator8 = new javax.swing.JSeparator();
-        txt_consultarPadres = new javax.swing.JLabel();
-        jSeparator9 = new javax.swing.JSeparator();
-        txt_modificarPadres = new javax.swing.JLabel();
-        jSeparator10 = new javax.swing.JSeparator();
-        txt_eliminarPadres = new javax.swing.JLabel();
         menu_factura = new javax.swing.JPanel();
         txt_generarFcatura = new javax.swing.JLabel();
         txt_consultarAlmnos1 = new javax.swing.JLabel();
@@ -265,6 +257,22 @@ public class HistorialSesiones extends javax.swing.JFrame {
         txt_altaEmisor = new javax.swing.JLabel();
         jSeparator16 = new javax.swing.JSeparator();
         txt_eliminarEmisor = new javax.swing.JLabel();
+        menu_alumnos = new javax.swing.JPanel();
+        txt_altaAlumnos = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        txt_consultarAlmnos = new javax.swing.JLabel();
+        jSeparator6 = new javax.swing.JSeparator();
+        txt_modificarAlumnos = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
+        txt_eliminarAlumno = new javax.swing.JLabel();
+        menu_padres = new javax.swing.JPanel();
+        txt_altaPadres = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
+        txt_consultarPadres = new javax.swing.JLabel();
+        jSeparator9 = new javax.swing.JSeparator();
+        txt_modificarPadres = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        txt_eliminarPadres = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_sesiones = new javax.swing.JTable();
@@ -547,76 +555,6 @@ public class HistorialSesiones extends javax.swing.JFrame {
         fondo.add(menu_salir);
         menu_salir.setBounds(790, 100, 260, 240);
 
-        menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
-        menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txt_altaAlumnos.setBackground(new java.awt.Color(255, 255, 255));
-        txt_altaAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_altaAlumnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_altaAlumnos.setText("Dar de alta Alumno");
-        txt_altaAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_alumnos.add(txt_altaAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_alumnos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
-
-        txt_consultarAlmnos.setBackground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_consultarAlmnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos.setText("Consultar Alumno");
-        txt_consultarAlmnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_alumnos.add(txt_consultarAlmnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
-        menu_alumnos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
-
-        txt_modificarAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_modificarAlumnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_modificarAlumnos.setText("Modificar Alumno");
-        txt_modificarAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
-
-        jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Eliminar Alumno");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_alumnos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
-
-        fondo.add(menu_alumnos);
-        menu_alumnos.setBounds(200, 100, 200, 160);
-
-        menu_padres.setBackground(new java.awt.Color(198, 54, 55));
-        menu_padres.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txt_altaPadres.setBackground(new java.awt.Color(255, 255, 255));
-        txt_altaPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_altaPadres.setForeground(new java.awt.Color(255, 255, 255));
-        txt_altaPadres.setText("Dar de alta padre");
-        txt_altaPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_padres.add(txt_altaPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_padres.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
-
-        txt_consultarPadres.setBackground(new java.awt.Color(255, 255, 255));
-        txt_consultarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_consultarPadres.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarPadres.setText("Consultar Padre");
-        txt_consultarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_padres.add(txt_consultarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
-        menu_padres.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
-
-        txt_modificarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_modificarPadres.setForeground(new java.awt.Color(255, 255, 255));
-        txt_modificarPadres.setText("Modificar Padre");
-        txt_modificarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_padres.add(txt_modificarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_padres.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
-
-        txt_eliminarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_eliminarPadres.setForeground(new java.awt.Color(255, 255, 255));
-        txt_eliminarPadres.setText("Eliminar Padre");
-        txt_eliminarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_padres.add(txt_eliminarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
-
-        fondo.add(menu_padres);
-        menu_padres.setBounds(0, 100, 200, 160);
-
         menu_factura.setBackground(new java.awt.Color(198, 54, 55));
         menu_factura.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         menu_factura.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -699,6 +637,116 @@ public class HistorialSesiones extends javax.swing.JFrame {
 
         fondo.add(menu_emisor);
         menu_emisor.setBounds(800, 100, 200, 130);
+
+        menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
+        menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txt_altaAlumnos.setBackground(new java.awt.Color(255, 255, 255));
+        txt_altaAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_altaAlumnos.setForeground(new java.awt.Color(255, 255, 255));
+        txt_altaAlumnos.setText("Dar de alta Alumno");
+        txt_altaAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_altaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_altaAlumnosMouseClicked(evt);
+            }
+        });
+        menu_alumnos.add(txt_altaAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_alumnos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+
+        txt_consultarAlmnos.setBackground(new java.awt.Color(255, 255, 255));
+        txt_consultarAlmnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_consultarAlmnos.setForeground(new java.awt.Color(255, 255, 255));
+        txt_consultarAlmnos.setText("Consultar Alumno");
+        txt_consultarAlmnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_consultarAlmnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_consultarAlmnosMouseClicked(evt);
+            }
+        });
+        menu_alumnos.add(txt_consultarAlmnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+        menu_alumnos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+
+        txt_modificarAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_modificarAlumnos.setForeground(new java.awt.Color(255, 255, 255));
+        txt_modificarAlumnos.setText("Modificar Alumno");
+        txt_modificarAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_modificarAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_modificarAlumnosMouseClicked(evt);
+            }
+        });
+        menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        txt_eliminarAlumno.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_eliminarAlumno.setForeground(new java.awt.Color(255, 255, 255));
+        txt_eliminarAlumno.setText("Eliminar Alumno");
+        txt_eliminarAlumno.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarAlumnoMouseClicked(evt);
+            }
+        });
+        menu_alumnos.add(txt_eliminarAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+
+        fondo.add(menu_alumnos);
+        menu_alumnos.setBounds(200, 100, 200, 160);
+
+        menu_padres.setBackground(new java.awt.Color(198, 54, 55));
+        menu_padres.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txt_altaPadres.setBackground(new java.awt.Color(255, 255, 255));
+        txt_altaPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_altaPadres.setForeground(new java.awt.Color(255, 255, 255));
+        txt_altaPadres.setText("Dar de alta padre");
+        txt_altaPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_altaPadres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_altaPadresMouseClicked(evt);
+            }
+        });
+        menu_padres.add(txt_altaPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_padres.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+
+        txt_consultarPadres.setBackground(new java.awt.Color(255, 255, 255));
+        txt_consultarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_consultarPadres.setForeground(new java.awt.Color(255, 255, 255));
+        txt_consultarPadres.setText("Consultar Padre");
+        txt_consultarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_consultarPadres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_consultarPadresMouseClicked(evt);
+            }
+        });
+        menu_padres.add(txt_consultarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+        menu_padres.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+
+        txt_modificarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_modificarPadres.setForeground(new java.awt.Color(255, 255, 255));
+        txt_modificarPadres.setText("Modificar Padre");
+        txt_modificarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_modificarPadres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_modificarPadresMouseClicked(evt);
+            }
+        });
+        menu_padres.add(txt_modificarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_padres.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        txt_eliminarPadres.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_eliminarPadres.setForeground(new java.awt.Color(255, 255, 255));
+        txt_eliminarPadres.setText("Eliminar Padre");
+        txt_eliminarPadres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarPadres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarPadresMouseClicked(evt);
+            }
+        });
+        menu_padres.add(txt_eliminarPadres, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+
+        fondo.add(menu_padres);
+        menu_padres.setBounds(0, 100, 200, 160);
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1144,10 +1192,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
 
     private void btn_historialSesionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historialSesionesMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            HistorialSesiones ventana = new HistorialSesiones();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btn_historialSesionesMouseClicked
 
@@ -1236,6 +1281,78 @@ public class HistorialSesiones extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cerrar_iconMouseClicked
 
+    private void txt_altaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaAlumnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            AltaAlumnos ventana = new AltaAlumnos();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_altaAlumnosMouseClicked
+
+    private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
+            ConsultarAlumnos ventana = new ConsultarAlumnos();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
+
+    private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
+
+    private void txt_eliminarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarAlumnoMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            EliminarAlumno ventena = new EliminarAlumno();
+            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);;
+            ventena.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
+
+    private void txt_altaPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            AltaPadres ventana = new AltaPadres();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_altaPadresMouseClicked
+
+    private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
+            ConsultarPadres ventena = new ConsultarPadres();
+            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventena.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_consultarPadresMouseClicked
+
+    private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_modificarPadresMouseClicked
+
+    private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            EliminarPadre ventana = new EliminarPadre();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_eliminarPadresMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1304,7 +1421,6 @@ public class HistorialSesiones extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator10;
@@ -1341,6 +1457,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
     private javax.swing.JLabel txt_consultarAlmnos1;
     private javax.swing.JLabel txt_consultarPadres;
     private javax.swing.JLabel txt_editarEmisor;
+    private javax.swing.JLabel txt_eliminarAlumno;
     private javax.swing.JLabel txt_eliminarEmisor;
     private javax.swing.JLabel txt_eliminarPadres;
     private javax.swing.JLabel txt_emisor;

@@ -1322,10 +1322,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
 
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarPadresEdit ventana = new ConsultarPadresEdit();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_txt_modificarPadresMouseClicked
 

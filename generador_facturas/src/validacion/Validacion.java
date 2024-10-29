@@ -37,7 +37,7 @@ public class Validacion {
     }
 
     public boolean correo_valido(String correo) {//Valida correo electronicos 
-        String regex = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@(gmail|yahoo|hotmail|outlook)[.](com|net|org|edu|gov|mx)";
+        String regex = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@(gmail|yahoo|hotmail|outlook|acapulco)([.][a-zA-Z0-9_]+)?[.](com|net|org|edu|gov|mx|tecnm)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(correo);
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
@@ -122,7 +122,7 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
     private static String generarCURP(String nombre, String apellidoPaterno, String apellidoMaterno, String fechaNacimiento) {
         // Eliminar partículas como "De", "La", "Del", etc. del apellido paterno
         apellidoPaterno = eliminarParticulasApellido(apellidoPaterno);
-        apellidoPaterno = eliminarParticulasApellido(apellidoMaterno);
+        apellidoMaterno = eliminarParticulasApellido(apellidoMaterno);
 
         // Paso 1: Primer letra del apellido paterno
         String curp = Character.toString(apellidoPaterno.charAt(0)).toUpperCase();
@@ -144,7 +144,8 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
         curp += fechaNacimiento.substring(2, 4); // Año
         curp += fechaNacimiento.substring(5, 7); // Mes
         curp += fechaNacimiento.substring(8, 10); // Día
-
+        
+        System.out.println(curp);
         return curp;
     }
 

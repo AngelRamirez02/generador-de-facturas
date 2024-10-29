@@ -1132,24 +1132,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_eliminarPadresMouseClicked
 
-    private void txt_altaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaAlumnosMouseClicked
-       if(SwingUtilities.isLeftMouseButton(evt)){
-           AltaAlumnos ventana = new AltaAlumnos();
-           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-           ventana.setVisible(true);
-           this.dispose();
-       }
-    }//GEN-LAST:event_txt_altaAlumnosMouseClicked
-
-    private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
-       if(SwingUtilities.isLeftMouseButton(evt)){
-           ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
-           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-           ventana.setVisible(true);
-           this.dispose();
-       }
-    }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
-
     private void btn_cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrarSesionMouseClicked
         Object[] opciones = {"Aceptar", "Cancelar"};
         if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
@@ -1190,15 +1172,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_cerrarSesionMouseClicked
 
-    private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
-       if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-           ConsultarAlumnos ventana = new ConsultarAlumnos();
-           ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-           ventana.setVisible(true);
-           this.dispose();
-       }
-    }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
-
     private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
             ConsultarPadres ventena = new ConsultarPadres();
@@ -1226,6 +1199,33 @@ public class MenuPrincipal extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
+
+    private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
+
+    private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
+            ConsultarAlumnos ventana = new ConsultarAlumnos();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
+
+    private void txt_altaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaAlumnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            AltaAlumnos ventana = new AltaAlumnos();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_altaAlumnosMouseClicked
 
     /**
      * @param args the command line arguments

@@ -998,37 +998,43 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
 
     private void entrada_correoElectronicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_correoElectronicoKeyTyped
-        if(entrada_nombres.getText().length()>=80){//si la longitud es mayor a 80 no permite seguir escribiendo
+        if(entrada_correoElectronico.getText().length()>=80){//si la longitud es mayor a 80 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Numero maximo de caracteres alcanzados", "Mensaje", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_correoElectronicoKeyTyped
 
     private void entrada_apellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoKeyTyped
-        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+        if(entrada_apellidoMaterno.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Numero maximo de caracteres alcanzados", "Mensaje", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_apellidoMaternoKeyTyped
 
     private void entrada_apellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoKeyTyped
-        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+        if(entrada_apellidoPaterno.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Numero maximo de caracteres alcanzados", "Mensaje", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_apellidoPaternoKeyTyped
 
     private void entrada_nombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_nombresKeyTyped
         if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Numero maximo de caracteres alcanzados", "Mensaje", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_nombresKeyTyped
 
     private void entrada_noExteriorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_noExteriorKeyTyped
-        if(entrada_nombres.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+        if(entrada_noExterior.getText().length()>=19){//si la longitud es mayor a 20 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Numero maximo de caracteres alcanzados", "Mensaje", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_noExteriorKeyTyped
 
     private void entrada_noInteriorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_noInteriorKeyTyped
-        if(entrada_nombres.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+        if(entrada_noInterior.getText().length()>=19){//si la longitud es mayor a 20 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Numero maximo de caracteres alcanzados", "Mensaje", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_noInteriorKeyTyped

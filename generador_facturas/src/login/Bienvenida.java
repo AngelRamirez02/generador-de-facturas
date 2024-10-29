@@ -175,7 +175,7 @@ public class Bienvenida extends javax.swing.JFrame {
         msj_text1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         msj_text1.setText("Bienvenido al Sistema de Facturación Escolar");
         contenedor.add(msj_text1);
-        msj_text1.setBounds(-10, 400, 900, 30);
+        msj_text1.setBounds(-10, 420, 900, 30);
 
         logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
         logo_lb.setText("jLabel2");
@@ -278,7 +278,7 @@ public class Bienvenida extends javax.swing.JFrame {
         if (SwingUtilities.isLeftMouseButton(evt)) {
            login_window ventana = new login_window();
            ventana.setVisible(true);
-            this.dispose();
+           this.dispose();
         }
     }//GEN-LAST:event_btn_continuarMouseClicked
 

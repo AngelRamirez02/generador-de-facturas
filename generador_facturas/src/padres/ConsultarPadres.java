@@ -1214,10 +1214,7 @@ public class ConsultarPadres extends javax.swing.JFrame {
 
     private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            ConsultarPadres ventena = new ConsultarPadres();
-            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventena.setVisible(true);
-            this.dispose();
+            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_txt_consultarPadresMouseClicked
 

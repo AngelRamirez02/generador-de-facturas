@@ -230,18 +230,18 @@ public class AltaPadres extends javax.swing.JFrame {
         txt_cerrarSesion1 = new javax.swing.JLabel();
         jSeparator17 = new javax.swing.JSeparator();
         cerrar_icon = new javax.swing.JLabel();
-        menu_factura = new javax.swing.JPanel();
-        txt_generarFcatura = new javax.swing.JLabel();
-        jSeparator11 = new javax.swing.JSeparator();
-        txt_consultarAlmnos1 = new javax.swing.JLabel();
-        jSeparator12 = new javax.swing.JSeparator();
-        txt_modificarAlumnos1 = new javax.swing.JLabel();
-        jSeparator13 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
         menu_estadisticas = new javax.swing.JPanel();
         txt_facturasGeneradas = new javax.swing.JLabel();
         txt_ingresos = new javax.swing.JLabel();
         jSeparator15 = new javax.swing.JSeparator();
+        menu_emisor = new javax.swing.JPanel();
+        txt_editarEmisor = new javax.swing.JLabel();
+        jSeparator14 = new javax.swing.JSeparator();
+        txt_altaEmisor = new javax.swing.JLabel();
+        jSeparator16 = new javax.swing.JSeparator();
+        txt_eliminarEmisor = new javax.swing.JLabel();
+        jSeparator18 = new javax.swing.JSeparator();
+        txt_ConsultarEmisor = new javax.swing.JLabel();
         menu_padres = new javax.swing.JPanel();
         txt_altaPadres = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
@@ -258,14 +258,10 @@ public class AltaPadres extends javax.swing.JFrame {
         txt_modificarAlumnos = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
         txt_eliminarAlumno = new javax.swing.JLabel();
-        menu_emisor = new javax.swing.JPanel();
-        txt_editarEmisor = new javax.swing.JLabel();
-        jSeparator14 = new javax.swing.JSeparator();
-        txt_altaEmisor = new javax.swing.JLabel();
-        jSeparator16 = new javax.swing.JSeparator();
-        txt_eliminarEmisor = new javax.swing.JLabel();
-        jSeparator18 = new javax.swing.JSeparator();
-        txt_ConsultarEmisor = new javax.swing.JLabel();
+        menu_factura = new javax.swing.JPanel();
+        txt_generarFcatura = new javax.swing.JLabel();
+        txt_consultarAlmnos1 = new javax.swing.JLabel();
+        jSeparator12 = new javax.swing.JSeparator();
         contenedor = new javax.swing.JPanel();
         infoIcon_lb4 = new javax.swing.JLabel();
         infocp_lb = new javax.swing.JLabel();
@@ -586,42 +582,6 @@ public class AltaPadres extends javax.swing.JFrame {
         fondo.add(menu_salir);
         menu_salir.setBounds(790, 100, 260, 240);
 
-        menu_factura.setBackground(new java.awt.Color(198, 54, 55));
-        menu_factura.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        menu_factura.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txt_generarFcatura.setBackground(new java.awt.Color(255, 255, 255));
-        txt_generarFcatura.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_generarFcatura.setForeground(new java.awt.Color(255, 255, 255));
-        txt_generarFcatura.setText("Generar factura");
-        txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_factura.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
-
-        txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_consultarAlmnos1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos1.setText("Opcion");
-        txt_consultarAlmnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_factura.add(txt_consultarAlmnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
-        menu_factura.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
-
-        txt_modificarAlumnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_modificarAlumnos1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_modificarAlumnos1.setText("Opcion");
-        txt_modificarAlumnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_factura.add(txt_modificarAlumnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_factura.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
-
-        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Opcion");
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        menu_factura.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
-
-        fondo.add(menu_factura);
-        menu_factura.setBounds(400, 100, 200, 160);
-
         menu_estadisticas.setBackground(new java.awt.Color(198, 54, 55));
         menu_estadisticas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         menu_estadisticas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -643,6 +603,62 @@ public class AltaPadres extends javax.swing.JFrame {
 
         fondo.add(menu_estadisticas);
         menu_estadisticas.setBounds(600, 100, 200, 90);
+
+        menu_emisor.setBackground(new java.awt.Color(198, 54, 55));
+        menu_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        menu_emisor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txt_editarEmisor.setBackground(new java.awt.Color(255, 255, 255));
+        txt_editarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_editarEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_editarEmisor.setText("Editar emisor");
+        txt_editarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_editarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_editarEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_editarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_emisor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+
+        txt_altaEmisor.setBackground(new java.awt.Color(255, 255, 255));
+        txt_altaEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_altaEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_altaEmisor.setText("Dar de alta emisor");
+        txt_altaEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_altaEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_altaEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_altaEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_emisor.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+
+        txt_eliminarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_eliminarEmisor.setText("Eliminar emisor");
+        txt_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+        menu_emisor.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        txt_ConsultarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_ConsultarEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_ConsultarEmisor.setText("Consultar Emisor");
+        txt_ConsultarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_ConsultarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_ConsultarEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_ConsultarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+
+        fondo.add(menu_emisor);
+        menu_emisor.setBounds(800, 100, 200, 160);
 
         menu_padres.setBackground(new java.awt.Color(198, 54, 55));
         menu_padres.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -754,61 +770,27 @@ public class AltaPadres extends javax.swing.JFrame {
         fondo.add(menu_alumnos);
         menu_alumnos.setBounds(200, 100, 200, 160);
 
-        menu_emisor.setBackground(new java.awt.Color(198, 54, 55));
-        menu_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        menu_emisor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        menu_factura.setBackground(new java.awt.Color(198, 54, 55));
+        menu_factura.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        menu_factura.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txt_editarEmisor.setBackground(new java.awt.Color(255, 255, 255));
-        txt_editarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_editarEmisor.setForeground(new java.awt.Color(255, 255, 255));
-        txt_editarEmisor.setText("Editar emisor");
-        txt_editarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_editarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_editarEmisorMouseClicked(evt);
-            }
-        });
-        menu_emisor.add(txt_editarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_emisor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+        txt_generarFcatura.setBackground(new java.awt.Color(255, 255, 255));
+        txt_generarFcatura.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_generarFcatura.setForeground(new java.awt.Color(255, 255, 255));
+        txt_generarFcatura.setText("Generar factura");
+        txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
 
-        txt_altaEmisor.setBackground(new java.awt.Color(255, 255, 255));
-        txt_altaEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_altaEmisor.setForeground(new java.awt.Color(255, 255, 255));
-        txt_altaEmisor.setText("Dar de alta emisor");
-        txt_altaEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_altaEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_altaEmisorMouseClicked(evt);
-            }
-        });
-        menu_emisor.add(txt_altaEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_emisor.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+        txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
+        txt_consultarAlmnos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_consultarAlmnos1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_consultarAlmnos1.setText("Consultar facturas");
+        txt_consultarAlmnos1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menu_factura.add(txt_consultarAlmnos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+        menu_factura.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
 
-        txt_eliminarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
-        txt_eliminarEmisor.setText("Eliminar emisor");
-        txt_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_eliminarEmisorMouseClicked(evt);
-            }
-        });
-        menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
-        menu_emisor.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
-
-        txt_ConsultarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_ConsultarEmisor.setForeground(new java.awt.Color(255, 255, 255));
-        txt_ConsultarEmisor.setText("Consultar Emisor");
-        txt_ConsultarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_ConsultarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_ConsultarEmisorMouseClicked(evt);
-            }
-        });
-        menu_emisor.add(txt_ConsultarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
-
-        fondo.add(menu_emisor);
-        menu_emisor.setBounds(800, 100, 200, 160);
+        fondo.add(menu_factura);
+        menu_factura.setBounds(400, 100, 200, 90);
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(null);
@@ -1720,11 +1702,31 @@ public class AltaPadres extends javax.swing.JFrame {
     }//GEN-LAST:event_nombre_userMouseClicked
 
     private void btn_historialSesionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historialSesionesMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            HistorialSesiones ventana = new HistorialSesiones();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "No se guardarán los cambios, ¿Desea salir?",
+                    "Confirmación de salida",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                EliminarEmisor ventana = new EliminarEmisor();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_btn_historialSesionesMouseClicked
 
@@ -1813,114 +1815,329 @@ public class AltaPadres extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cerrar_iconMouseClicked
 
+    private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
+        }
+    }//GEN-LAST:event_txt_editarEmisorMouseClicked
+
+    private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                AltaEmisor ventana = new AltaEmisor();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
+        }
+    }//GEN-LAST:event_txt_altaEmisorMouseClicked
+
+    private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                EliminarEmisor ventana = new EliminarEmisor();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
+        }
+    }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
+
+    private void txt_ConsultarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_ConsultarEmisorMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ConsultarEmisor ventana = new ConsultarEmisor();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
+        }
+    }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
+
     private void txt_altaPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            AltaPadres ventana = new AltaPadres();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+             JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_txt_altaPadresMouseClicked
 
     private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            ConsultarPadres ventena = new ConsultarPadres();
-            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventena.setVisible(true);
-            this.dispose();
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ConsultarPadres ventena = new ConsultarPadres();
+                ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventena.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_txt_consultarPadresMouseClicked
 
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarPadresEdit ventana = new ConsultarPadresEdit();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_txt_modificarPadresMouseClicked
 
     private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            EliminarPadre ventana = new EliminarPadre();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+
+                EliminarPadre ventana = new EliminarPadre();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_txt_eliminarPadresMouseClicked
 
     private void txt_altaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaAlumnosMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            AltaAlumnos ventana = new AltaAlumnos();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                AltaAlumnos ventana = new AltaAlumnos();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_txt_altaAlumnosMouseClicked
 
     private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            ConsultarAlumnos ventana = new ConsultarAlumnos();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ConsultarAlumnos ventana = new ConsultarAlumnos();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
 
     private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
 
     private void txt_eliminarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarAlumnoMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            EliminarAlumno ventena = new EliminarAlumno();
-            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);;
-            ventena.setVisible(true);
-            this.dispose();
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                EliminarAlumno ventena = new EliminarAlumno();
+                ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);;
+                ventena.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
+            }
         }
     }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
-
-    private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
-        }
-    }//GEN-LAST:event_txt_editarEmisorMouseClicked
-
-    private void txt_altaEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaEmisorMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)){
-            AltaEmisor ventana = new AltaEmisor();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.setVisible(false);
-        }
-    }//GEN-LAST:event_txt_altaEmisorMouseClicked
-
-    private void txt_eliminarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarEmisorMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            EliminarEmisor ventana = new EliminarEmisor();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
-        }
-    }//GEN-LAST:event_txt_eliminarEmisorMouseClicked
-
-    private void txt_ConsultarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_ConsultarEmisorMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            ConsultarEmisor ventana = new ConsultarEmisor();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
-
-        }
-    }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
 
     /**
      * @param args the command line arguments
@@ -2018,7 +2235,6 @@ public class AltaPadres extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2027,9 +2243,7 @@ public class AltaPadres extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator10;
-    private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
-    private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
@@ -2076,7 +2290,6 @@ public class AltaPadres extends javax.swing.JFrame {
     private javax.swing.JLabel txt_generarFcatura;
     private javax.swing.JLabel txt_ingresos;
     private javax.swing.JLabel txt_modificarAlumnos;
-    private javax.swing.JLabel txt_modificarAlumnos1;
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;

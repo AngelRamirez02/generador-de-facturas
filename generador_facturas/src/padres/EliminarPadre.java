@@ -247,7 +247,7 @@ public class EliminarPadre extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         txt_modificarAlumnos = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
+        txt_eliminarAlumno = new javax.swing.JLabel();
         menu_emisor = new javax.swing.JPanel();
         txt_editarEmisor = new javax.swing.JLabel();
         jSeparator14 = new javax.swing.JSeparator();
@@ -679,16 +679,16 @@ public class EliminarPadre extends javax.swing.JFrame {
         menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
         menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
 
-        jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Eliminar Alumno");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        txt_eliminarAlumno.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_eliminarAlumno.setForeground(new java.awt.Color(255, 255, 255));
+        txt_eliminarAlumno.setText("Eliminar Alumno");
+        txt_eliminarAlumno.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                txt_eliminarAlumnoMouseClicked(evt);
             }
         });
-        menu_alumnos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+        menu_alumnos.add(txt_eliminarAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
 
         fondo.add(menu_alumnos);
         menu_alumnos.setBounds(200, 100, 200, 160);
@@ -1334,10 +1334,7 @@ public class EliminarPadre extends javax.swing.JFrame {
 
     private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            EliminarPadre ventana = new EliminarPadre();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_txt_eliminarPadresMouseClicked
 
@@ -1368,14 +1365,14 @@ public class EliminarPadre extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void txt_eliminarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarAlumnoMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
             EliminarAlumno ventena = new EliminarAlumno();
             ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);;
             ventena.setVisible(true);
             this.dispose();
         }
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
 
     private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
@@ -1483,7 +1480,6 @@ public class EliminarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -1523,6 +1519,7 @@ public class EliminarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel txt_consultarAlmnos1;
     private javax.swing.JLabel txt_consultarPadres;
     private javax.swing.JLabel txt_editarEmisor;
+    private javax.swing.JLabel txt_eliminarAlumno;
     private javax.swing.JLabel txt_eliminarEmisor;
     private javax.swing.JLabel txt_eliminarPadres;
     private javax.swing.JLabel txt_emisor;
