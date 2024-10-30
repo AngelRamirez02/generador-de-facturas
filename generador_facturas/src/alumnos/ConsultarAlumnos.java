@@ -788,11 +788,10 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    void llenarTabla(){
-        
+    void llenarTabla(){//metodo para llenar la tabla       
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM alumnos";
+           String consulta = "SELECT * FROM alumnos ORDER BY rfc_padre";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos

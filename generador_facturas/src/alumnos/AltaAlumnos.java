@@ -1015,7 +1015,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private void cargarTipo() {
         try {
             //Seleccionar los datos del emisor
-            String consulta = "SELECT * FROM padre_familia";
+            String consulta = "SELECT * FROM padre_familia ORDER BY rfc";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
             //Arreglo de datos
@@ -1186,6 +1186,15 @@ public class AltaAlumnos extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);;
         }
+    }
+    
+    boolean esHijo(){
+        if(!entrada_apellidoPaterno.getText().equals(apellidoPaterno_padre.getText()) 
+                && !entrada_apellidoMaterno.getText().equals(apellido_maternoPadre.getText())){
+                JOptionPane.showMessageDialog(null,"Ninguno de los apellidos del padre o madre no coinciden con los del hijo", "Apelidos sin coincidencia", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+        }
+        return true;
     }
     
     private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
@@ -1474,6 +1483,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 entrada_curp.requestFocusInWindow();  
                 return; 
             }
+            if(!esHijo()){
+                //JOptionPane.showMessageDialog(null, "Solo se permiten hijos con los mimos apellidos", "Los apellidos no coinciden", JOptionPane.WARNING_MESSAGE);
+                entrada_apellidoPaterno.requestFocusInWindow();    
+                return;
+            }
             if(entrada_nivelEscolar.getSelectedIndex()==0){ //la opcion 0 es <seleccionar>  
                 JOptionPane.showMessageDialog(null, "Selecione un nivel escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
                 entrada_nivelEscolar.requestFocusInWindow();   
@@ -1488,11 +1502,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
             limpiarDatos();
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
-
-    private void datosPadre(){
-        
-    }
-    
+  
     private void infoIcon_lbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseEntered
         
     }//GEN-LAST:event_infoIcon_lbMouseEntered

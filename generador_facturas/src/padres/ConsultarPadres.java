@@ -160,11 +160,12 @@ public class ConsultarPadres extends javax.swing.JFrame {
             }
         });
         timer.start();
-
+        
         //Propiedades para la tabla
         JTableHeader header = tabla_padres.getTableHeader();
         header.setDefaultRenderer(new TablaPersonalizada());
         header.setPreferredSize(new Dimension(30,50));
+        
         
         llenarTabla();
         
@@ -751,7 +752,7 @@ public class ConsultarPadres extends javax.swing.JFrame {
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_emisoresRegistrados.setText("PADRES DE FAMILIA REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1050, 50));
 
         tabla_padres.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
         tabla_padres.setModel(new javax.swing.table.DefaultTableModel(
@@ -795,12 +796,16 @@ public class ConsultarPadres extends javax.swing.JFrame {
         
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM padre_familia";
+           String consulta = "SELECT * FROM padre_familia ORDER BY rfc";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
-           Object [] padre =new Object[13];
-           modelo = (DefaultTableModel) tabla_padres.getModel();
+            Object[] padre = new Object[13];
+            modelo = (DefaultTableModel) tabla_padres.getModel();
+
+            // Limpia el modelo antes de llenar la tabla
+            modelo.setRowCount(0);
+           
            while(rs.next()){
                //se obtienen los datos de la tabla
                padre[0] = rs.getString("rfc");
