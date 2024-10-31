@@ -784,7 +784,7 @@ public class EliminarPadre extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabla_emisor);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 300));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 990, 430));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -794,7 +794,7 @@ public class EliminarPadre extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Seleccione el padre a eliminar");
-        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 990, 50));
+        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 990, 50));
 
         btn_eliminarPadre.setBackground(new java.awt.Color(0, 0, 0));
         btn_eliminarPadre.setRoundBottomLeft(10);
@@ -823,10 +823,10 @@ public class EliminarPadre extends javax.swing.JFrame {
 
         btn_eliminarPadre.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
 
-        contenedor.add(btn_eliminarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
+        contenedor.add(btn_eliminarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 530, 240, 40));
 
         fondo.add(contenedor);
-        contenedor.setBounds(30, 150, 990, 510);
+        contenedor.setBounds(30, 150, 990, 580);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -837,7 +837,7 @@ public class EliminarPadre extends javax.swing.JFrame {
     private void llenarTabla(){      
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM padre_familia";
+           String consulta = "SELECT * FROM padre_familia ORDER BY rfc";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos

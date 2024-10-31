@@ -297,7 +297,7 @@ public class ConsultarPadres extends javax.swing.JFrame {
             }
         });
         fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
+        icon_regresarlb.setBounds(50, 115, 60, 60);
 
         menu_salir.setBackground(new java.awt.Color(198, 54, 55));
         menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -764,7 +764,7 @@ public class ConsultarPadres extends javax.swing.JFrame {
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_emisoresRegistrados.setText("PADRES DE FAMILIA REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 50));
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 15, 910, 50));
 
         btn_descarga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/descarga_icono.png"))); // NOI18N
         btn_descarga.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -773,7 +773,7 @@ public class ConsultarPadres extends javax.swing.JFrame {
                 btn_descargaMouseClicked(evt);
             }
         });
-        contenedor.add(btn_descarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 0, 60, 60));
+        contenedor.add(btn_descarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, 60, 60));
 
         tabla_padres.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
         tabla_padres.setModel(new javax.swing.table.DefaultTableModel(
@@ -802,10 +802,10 @@ public class ConsultarPadres extends javax.swing.JFrame {
         tabla_padres.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla_padres);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1050, 440));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 1050, 510));
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 140, 1050, 520);
+        contenedor.setBounds(0, 140, 1050, 600);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 

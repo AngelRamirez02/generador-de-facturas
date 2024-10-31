@@ -882,7 +882,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
 
         entrada_fechaNacimiento.setDateFormatString("dd MMM y");
         entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1735628468000L));
-        entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
+        entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(1230793268000L));
         entrada_fechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 entrada_fechaNacimientoPropertyChange(evt);

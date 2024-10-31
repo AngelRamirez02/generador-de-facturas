@@ -806,7 +806,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
 
         btn_actualizar.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
 
-        contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
+        contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 530, 240, 40));
 
         tabla_padres.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
         tabla_padres.setModel(new javax.swing.table.DefaultTableModel(
@@ -840,10 +840,10 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabla_padres);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1050, 300));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1050, 420));
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 150, 1050, 510);
+        contenedor.setBounds(0, 150, 1050, 580);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -855,7 +855,7 @@ public class ConsultarPadresEdit extends javax.swing.JFrame {
         
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM padre_familia";
+           String consulta = "SELECT * FROM padre_familia ORDER BY rfc";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
