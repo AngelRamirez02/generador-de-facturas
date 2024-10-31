@@ -963,7 +963,7 @@ public class AltaEmisor extends javax.swing.JFrame {
         jLabel5.setBounds(70, 367, 150, 22);
 
         jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel3.setText("Apellido peterno");
+        jLabel3.setText("Apellido paterno");
         contenedor.add(jLabel3);
         jLabel3.setBounds(70, 305, 140, 22);
 
@@ -1120,7 +1120,7 @@ public class AltaEmisor extends javax.swing.JFrame {
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
-                "¿Desea salir de la apliación?",
+                "¿Desea salir de la aplicación?",
                 "Confirmación de salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,

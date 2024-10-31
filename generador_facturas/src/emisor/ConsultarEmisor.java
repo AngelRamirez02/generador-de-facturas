@@ -802,7 +802,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM emisor";
+           String consulta = "SELECT * FROM emisor ORDER BY rfc";
            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
            ResultSet rs = ps.executeQuery();
            //Arreglo de datos
@@ -1062,7 +1062,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
-                "¿Desea salir de la apliación?",
+                "¿Desea salir de la aplicación?",
                 "Confirmación de salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,

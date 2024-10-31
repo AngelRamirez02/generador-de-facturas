@@ -308,7 +308,7 @@ public class PrimerInicio extends javax.swing.JFrame {
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
-                "¿Desea salir de la apliación?",
+                "¿Desea salir de la aplicación?",
                 "Confirmación de salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,

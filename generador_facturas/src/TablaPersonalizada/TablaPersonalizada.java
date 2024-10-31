@@ -32,10 +32,10 @@ public class TablaPersonalizada extends DefaultTableCellRenderer {
         // Borde solo en los lados izquierdo y derecho de la celda
         //setBorder(new MatteBorder(0, 1, 0, 1, Color.BLACK)); // Grosor de 1 píxel y color negro en los bordes verticales
         // Verifica si el valor es una cadena y formatea el texto con salto de línea en HTML
-        if (value instanceof String) {
-            value = "<html><center>" + value.toString().replace(" ", "<br>") + "</center></html>";
-            setText((String) value);
-        }
+//        if (value instanceof String) {
+//            value = "<html><center>" + value.toString().replace(" ", "<br>") + "</center></html>";
+//            setText((String) value);
+//        }
         return this;
     }
 }

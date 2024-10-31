@@ -159,11 +159,11 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         header.setDefaultRenderer(new TablaPersonalizada());
         header.setPreferredSize(new Dimension(30,50));
         //redimensionar las columnas
-        TableColumn columnaCurp = tabla_alumno.getColumnModel().getColumn(1);
-        TableColumn columnaRfcPadre= tabla_alumno.getColumnModel().getColumn(0);
+        TableColumn columnaRfcPadre = tabla_alumno.getColumnModel().getColumn(1);
+        TableColumn columnaCurp = tabla_alumno.getColumnModel().getColumn(0);
         columnaRfcPadre.setPreferredWidth(110);
         columnaCurp.setPreferredWidth(135); 
-        llenarTabla();
+        mostrarTodos();
         
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
@@ -256,6 +256,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         contenedor = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_alumno = new javax.swing.JTable();
+        jComboBox1 = new javax.swing.JComboBox<>();
         txt_emisoresRegistrados = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -751,11 +752,11 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "RFC del padre", "CURP", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Nivel escolar", "Grado escolar"
+                "CURP", "RFC del padre", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Nivel escolar", "Grado escolar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -772,15 +773,20 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         tabla_alumno.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla_alumno);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 990, 450));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 990, 500));
+
+        jComboBox1.setBackground(new java.awt.Color(201, 69, 69));
+        jComboBox1.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Preeescolar", "Primaria", "Secundaria" }));
+        contenedor.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 140, 30));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_emisoresRegistrados.setText("ALUMNOS REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 990, 50));
 
         fondo.add(contenedor);
-        contenedor.setBounds(30, 150, 990, 510);
+        contenedor.setBounds(30, 150, 990, 580);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -788,33 +794,116 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    void llenarTabla(){//metodo para llenar la tabla       
+    void mostrarTodos(){//metodo para llenar la tabla    
+        tablaPreescolar();
+        tablaPrimaria();
+        tablaSecundaria();
+    }
+    
+    void tablaPreescolar() {//llenar la tabla solo con alumnos del preescolar
+        //limpiarTabla();
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM alumnos ORDER BY rfc_padre";
-           PreparedStatement ps = cx.conectar().prepareStatement(consulta);
-           ResultSet rs = ps.executeQuery();
-           //Arreglo de datos
-           Object [] alumno =new Object[8];
-           modelo = (DefaultTableModel) tabla_alumno.getModel();
-           while(rs.next()){
-               //se obtienen los datos de la tabla
-               alumno[0] = rs.getString("rfc_padre");
-               alumno[1] = rs.getString("curp");
-               alumno[2] = rs.getString("nombres");
-               alumno[3] = rs.getString("apellido_paterno");
-               alumno[4] = rs.getString("apellido_materno");
-               alumno[5] = rs.getDate("fecha_nacimiento");
-               alumno[6] = rs.getString("nivel_escolaridad");
-               alumno[7] = rs.getString("grado_escolar");
-               //añade la info  la tabla
-               modelo.addRow(alumno);
-           }
-           tabla_alumno.setModel(modelo);
+            String consulta = "SELECT * FROM alumnos WHERE nivel_escolaridad = 'Preescolar' ORDER BY grado_escolar, curp;";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] alumno = new Object[8];
+            modelo = (DefaultTableModel) tabla_alumno.getModel();
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");
+                //añade la info  la tabla
+                modelo.addRow(alumno);
+            }
+            tabla_alumno.setModel(modelo);
         } catch (SQLException ex) {
             Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    void tablaPrimaria() {
+        try {
+            //Seleccionar los datos del emisor
+            String consulta = "SELECT *FROM alumnos WHERE nivel_escolaridad = 'Primaria'"
+                    + "ORDER BY"
+                    + "    CASE"
+                    + "        WHEN grado_escolar = 'Primero' THEN 1"
+                    + "        WHEN grado_escolar = 'Segundo' THEN 2"
+                    + "        WHEN grado_escolar = 'Tercero' THEN 3"
+                    + "        WHEN grado_escolar = 'Cuarto' THEN 4"
+                    + "        WHEN grado_escolar = 'Quinto' THEN 5"
+                    + "        WHEN grado_escolar = 'Sexto' THEN 6"
+                    + "    END,"
+                    + "    curp;";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] alumno = new Object[8];
+            modelo = (DefaultTableModel) tabla_alumno.getModel();
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");
+                //añade la info  la tabla
+                modelo.addRow(alumno);
+            }
+            tabla_alumno.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    void tablaSecundaria(){
+                try {
+            //Seleccionar los datos del emisor
+            String consulta = "SELECT * FROM alumnos WHERE nivel_escolaridad = 'Secundaria' ORDER BY grado_escolar, curp;";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] alumno = new Object[8];
+            modelo = (DefaultTableModel) tabla_alumno.getModel();
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");
+                //añade la info  la tabla
+                modelo.addRow(alumno);
+            }
+            tabla_alumno.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //limpia la tabla
+    private void limpiarTabla() {
+        int rowCount = tabla_alumno.getRowCount(); // Obtén el número de filas
+        for (int i = rowCount - 1; i >= 0; i--) { // Comienza desde la última fila
+            modelo.removeRow(i); // Elimina la fila en el índice actual
+        }
+    }
+    
     
     public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
@@ -1046,7 +1135,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
-                "¿Desea salir de la apliación?",
+                "¿Desea salir de la aplicación?",
                 "Confirmación de salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,
@@ -1389,6 +1478,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator10;

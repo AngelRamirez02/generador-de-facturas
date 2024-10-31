@@ -44,16 +44,8 @@ import sesiones.HistorialSesiones;
  * @author ar275
  */
 public class EliminarAlumno extends javax.swing.JFrame {
-    //Variables para los datos de las columas
-    String rfc_padre;
+   //curp del alumno a eliminar
     String curp;
-    String nombres;
-    String apellido_paterno;
-    String apellido_materno;
-    Calendar fecha_nacimiento;
-    String nivelEscolar;
-    String gradoEscolar;
-    
     
     conexion cx = new conexion();
     
@@ -893,11 +885,11 @@ public class EliminarAlumno extends javax.swing.JFrame {
             int filas_eliminadas = ps.executeUpdate();
             //verificar si se elimaron los datos
             if (filas_eliminadas > 0) {
-                JOptionPane.showMessageDialog(null, "Emisor eliminado exitosamente", "Eliminación exitosa", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Alumno eliminado exitosamente", "Eliminación exitosa", JOptionPane.INFORMATION_MESSAGE);
                 //limpia la tabla para que este actualizada
                 limpiarTabla();
             } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el registro con el RFC especificado", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No se encontró el registro con la CURP especificada", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se completó la acción", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
@@ -1131,7 +1123,7 @@ public class EliminarAlumno extends javax.swing.JFrame {
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
-                "¿Desea salir de la apliación?",
+                "¿Desea salir de la aplicación?",
                 "Confirmación de salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,
@@ -1196,9 +1188,9 @@ public class EliminarAlumno extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_eliminarMouseClicked
 
     private void tabla_alumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_alumnoMouseClicked
-        int fila = tabla_alumno.getSelectedRow();
+        int fila = tabla_alumno.getSelectedRow();//obtener la fila seleccionada
         if (fila != - 1) {
-            curp = (String) tabla_alumno.getValueAt(fila, 1);
+            curp = (String) tabla_alumno.getValueAt(fila, 1);//obtener la curp del alumno
             if(!btn_eliminar.isVisible()){
                 btn_eliminar.setVisible(true);
             }

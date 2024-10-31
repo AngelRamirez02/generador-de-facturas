@@ -841,12 +841,12 @@ public class AltaAlumnos extends javax.swing.JFrame {
         entrada_apellidoMaterno.setBounds(790, 340, 190, 30);
 
         jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel5.setText("Apellido Materno");
+        jLabel5.setText("Apellido materno");
         contenedor.add(jLabel5);
         jLabel5.setBounds(790, 310, 150, 30);
 
         jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel3.setText("Apellido peterno");
+        jLabel3.setText("Apellido paterno");
         contenedor.add(jLabel3);
         jLabel3.setBounds(550, 310, 140, 30);
         contenedor.add(entrada_apellidoPaterno);
@@ -1085,7 +1085,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
-                "¿Desea salir de la apliación?",
+                "¿Desea salir de la aplicación?",
                 "Confirmación de salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,
@@ -1140,7 +1140,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private boolean curp_valida(){
         //valida la longitud de la curp 
         if(entrada_curp.getText().length()!=18){
-            JOptionPane.showMessageDialog(null, "El tamaño de la CURP es de 18 caracteres obligatoriamnete", "CURP no valida", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El tamaño de la CURP es de 18 caracteres obligatoriamente", "CURP no valida", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         //Valida la curp coincide con los datos
