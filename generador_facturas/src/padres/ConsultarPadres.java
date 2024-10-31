@@ -10,6 +10,7 @@ import alumnos.AltaAlumnos;
 import alumnos.ConsultarAlumnos;
 import alumnos.ConsultarAlumnosEdit;
 import alumnos.EliminarAlumno;
+import com.itextpdf.text.DocumentException;
 import conexion.conexion;
 import emisor.AltaEmisor;
 import java.awt.Color;
@@ -22,17 +23,23 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -55,6 +62,10 @@ public class ConsultarPadres extends javax.swing.JFrame {
     private String usuario;//Nombre del usuario que inicia sesión
     LocalDate fechaInicioSesion;
     LocalTime horaInicioSesion;
+    
+    //variables para generar el pdf
+    PadresPDF x;
+    public List<PadresPDF> registrosPadres = new ArrayList<PadresPDF>();
 
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
@@ -76,12 +87,11 @@ public class ConsultarPadres extends javax.swing.JFrame {
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
         Image logo_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
-
-        //tamaños para las columnas de las tablas
-        TableColumn columnaApellido = tabla_padres.getColumnModel().getColumn(0);
-        columnaApellido.setPreferredWidth(115);
-
         
+        //Boton de descargar pdf
+        Image descargImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/descarga_icono.png"));
+        btn_descarga.setIcon(new ImageIcon(descargImg.getScaledInstance(btn_descarga.getWidth(), btn_descarga.getHeight(), Image.SCALE_SMOOTH)));
+       
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -161,12 +171,13 @@ public class ConsultarPadres extends javax.swing.JFrame {
         });
         timer.start();
         
+        //tamaños para las columnas de las tablas
+        TableColumn columnaApellido = tabla_padres.getColumnModel().getColumn(0);
+        columnaApellido.setPreferredWidth(115);
         //Propiedades para la tabla
         JTableHeader header = tabla_padres.getTableHeader();
         header.setDefaultRenderer(new TablaPersonalizada());
-        header.setPreferredSize(new Dimension(30,50));
-        
-        
+        header.setPreferredSize(new Dimension(30,50));     
         llenarTabla();
         
         txt_nombreUser.setText(usuario);
@@ -259,6 +270,7 @@ public class ConsultarPadres extends javax.swing.JFrame {
         txt_ConsultarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
         txt_emisoresRegistrados = new javax.swing.JLabel();
+        btn_descarga = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_padres = new javax.swing.JTable();
 
@@ -752,7 +764,16 @@ public class ConsultarPadres extends javax.swing.JFrame {
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_emisoresRegistrados.setText("PADRES DE FAMILIA REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1050, 50));
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 50));
+
+        btn_descarga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/descarga_icono.png"))); // NOI18N
+        btn_descarga.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_descarga.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_descargaMouseClicked(evt);
+            }
+        });
+        contenedor.add(btn_descarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 0, 60, 60));
 
         tabla_padres.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
         tabla_padres.setModel(new javax.swing.table.DefaultTableModel(
@@ -784,7 +805,7 @@ public class ConsultarPadres extends javax.swing.JFrame {
         contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1050, 440));
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 150, 1050, 510);
+        contenedor.setBounds(0, 140, 1050, 520);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -805,27 +826,29 @@ public class ConsultarPadres extends javax.swing.JFrame {
 
             // Limpia el modelo antes de llenar la tabla
             modelo.setRowCount(0);
-           
-           while(rs.next()){
-               //se obtienen los datos de la tabla
-               padre[0] = rs.getString("rfc");
-               padre[1] = rs.getString("nombres");
-               padre[2] = rs.getString("apellido_paterno");
-               padre[3] = rs.getString("apellido_materno");
-               padre[4] = rs.getDate("fecha_nacimiento");
-               padre[5] = rs.getString("correo_electronico");
-               padre[6] = rs.getInt("domicilio_fiscal");
-               padre[7] = rs.getString("estado");
-               padre[8] = rs.getString("municipio");
-               padre[9] = rs.getString("colonia");
-               padre[10] = rs.getString("num_exterior");
-               padre[11] = rs.getString("num_interior");
-               padre[12] = rs.getString("regimen");
-               //añade la info  la tabla
-               //añade la info  la tabla
-               modelo.addRow(padre);
-           }
-           tabla_padres.setModel(modelo);
+ 
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                padre[0] = rs.getString("rfc");
+                padre[1] = rs.getString("nombres");
+                padre[2] = rs.getString("apellido_paterno");
+                padre[3] = rs.getString("apellido_materno");
+                padre[4] = rs.getDate("fecha_nacimiento");
+                padre[5] = rs.getString("correo_electronico");
+                padre[6] = rs.getInt("domicilio_fiscal");
+                padre[7] = rs.getString("estado");
+                padre[8] = rs.getString("municipio");
+                padre[9] = rs.getString("colonia");
+                padre[10] = rs.getString("num_exterior");
+                padre[11] = rs.getString("num_interior");
+                padre[12] = rs.getString("regimen");
+                //añade la info  la tabla
+                //añade la info  la tabla
+                modelo.addRow(padre);
+                tabla_padres.setModel(modelo);
+                x = new PadresPDF(padre[0].toString(), padre[1].toString(), padre[2].toString(), padre[3].toString(), padre[4].toString(), padre[5].toString(), padre[6].toString(), padre[7].toString(), padre[8].toString(), padre[9].toString(), padre[10].toString(), padre[11].toString(), padre[12].toString());
+                registrosPadres.add(x);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ConsultarPadres.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1314,6 +1337,34 @@ public class ConsultarPadres extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
 
+    private void btn_descargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_descargaMouseClicked
+        //generar pdf de los registros
+        if(SwingUtilities.isLeftMouseButton(evt)){
+             //Mostrar interfaz para seleccionar la carpeta
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setPreferredSize(new Dimension(800, 600));//Tamño de la ventana
+            fileChooser.setDialogTitle("Seleccionar carpeta");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Solo permitir seleccionar carpetas
+            int opcion = fileChooser.showSaveDialog(null); // Mostrar el diálogo de guardar
+            //si selecciona una ruta valida
+            if (opcion == JFileChooser.APPROVE_OPTION) {
+                // Obtener la carpeta seleccionada por el usuario
+                File directorioSeleccionado = fileChooser.getSelectedFile();
+                String rutaCarpeta = directorioSeleccionado.getAbsolutePath();
+                try {
+                    x.generarPdf(registrosPadres, rutaCarpeta);
+                    //JOptionPane.showMessageDialog(null,"PDF guardado correctamente", "Reporte Generado",JOptionPane.INFORMATION_MESSAGE);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_descargaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1369,6 +1420,7 @@ public class ConsultarPadres extends javax.swing.JFrame {
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
+    private javax.swing.JLabel btn_descarga;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;

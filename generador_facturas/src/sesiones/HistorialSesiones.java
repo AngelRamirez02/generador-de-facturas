@@ -70,8 +70,8 @@ public class HistorialSesiones extends javax.swing.JFrame {
     
     DefaultTableModel modelo;//modelo para la tabla
    
-    Sesion x;
-    public List<Sesion> listaHistorial = new ArrayList<Sesion>();
+    SesionPDF x;
+    public List<SesionPDF> listaHistorial = new ArrayList<SesionPDF>();
    
     
     //Colores para los botones seleccionados y no
@@ -178,7 +178,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
          //Propiedades para la tabla
          JTableHeader header = tabla_sesiones.getTableHeader();
          header.setDefaultRenderer(new TablaPersonalizada());
-         header.setPreferredSize(new Dimension(30, 50));
+         header.setPreferredSize(new Dimension(30, 70));
          //tamaños para las columnas de las tablas
          TableColumn columnaID = tabla_sesiones.getColumnModel().getColumn(0);
          columnaID.setPreferredWidth(5);
@@ -778,12 +778,12 @@ public class HistorialSesiones extends javax.swing.JFrame {
         tabla_sesiones.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla_sesiones);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 990, 330));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 990, 420));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_emisoresRegistrados.setText("Historial de sesiones");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 40));
 
         btn_imprimirHistorial.setBackground(new java.awt.Color(0, 0, 0));
         btn_imprimirHistorial.setRoundBottomLeft(10);
@@ -812,7 +812,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
 
         btn_imprimirHistorial.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
 
-        contenedor.add(btn_imprimirHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
+        contenedor.add(btn_imprimirHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, 240, 40));
 
         fondo.add(contenedor);
         contenedor.setBounds(30, 150, 990, 510);
@@ -843,7 +843,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
                //añade la info  la tabla
                modelo.addRow(historial);
                //añade a la lista para generar el pdf
-               x = new Sesion(historial[0].toString(),historial[1].toString(),historial[2].toString(),historial[3].toString(),historial[4].toString(),historial[5].toString());
+               x = new SesionPDF(historial[0].toString(),historial[1].toString(),historial[2].toString(),historial[3].toString(),historial[4].toString(),historial[5].toString());
                listaHistorial.add(x);
            }
            tabla_sesiones.setModel(modelo);

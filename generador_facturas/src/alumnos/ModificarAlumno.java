@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.sql.PreparedStatement;
@@ -22,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
@@ -56,6 +58,8 @@ public class ModificarAlumno extends javax.swing.JFrame {
     private String[] grados_preescolar = {"<seleccionar>","Primero","Segundo","Tercero"}; 
     private String[] grados_primaria = {"<seleccionar>","Primero","Segundo","Tercero","Cuarto","Quinto","Sexto"}; 
     private String[] grados_secundaria = {"<seleccionar>","Primero","Segundo","Tercero"}; 
+    private int edad=0;
+    
     //RFC que se recibe
     String rfc_pdreOriginal;
     String curpOriginal;
@@ -879,6 +883,11 @@ public class ModificarAlumno extends javax.swing.JFrame {
         entrada_fechaNacimiento.setDateFormatString("dd MMM y");
         entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1735628468000L));
         entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
+        entrada_fechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                entrada_fechaNacimientoPropertyChange(evt);
+            }
+        });
         contenedor.add(entrada_fechaNacimiento);
         entrada_fechaNacimiento.setBounds(50, 460, 190, 30);
 
@@ -951,6 +960,11 @@ public class ModificarAlumno extends javax.swing.JFrame {
 
         entrada_nivelEscolar.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
         entrada_nivelEscolar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>", "Preescolar", "Primaria", "Secundaria" }));
+        entrada_nivelEscolar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                entrada_nivelEscolarItemStateChanged(evt);
+            }
+        });
         entrada_nivelEscolar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 entrada_nivelEscolarActionPerformed(evt);
@@ -972,6 +986,11 @@ public class ModificarAlumno extends javax.swing.JFrame {
         entrada_gradoEscolar.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
         entrada_gradoEscolar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
         entrada_gradoEscolar.setEnabled(false);
+        entrada_gradoEscolar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                entrada_gradoEscolarItemStateChanged(evt);
+            }
+        });
         contenedor.add(entrada_gradoEscolar);
         entrada_gradoEscolar.setBounds(790, 460, 200, 30);
 
@@ -2089,6 +2108,108 @@ public class ModificarAlumno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
 
+    private void entrada_fechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_entrada_fechaNacimientoPropertyChange
+
+        if (entrada_fechaNacimiento.getDate() != null) {//si la fecha de nacimiento no esta vacia
+            LocalDate fechaActual = LocalDate.now();//obtiene la fecha actual
+            //año de nacimiento
+            int anioNacimiento = entrada_fechaNacimiento.getDate().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()
+                    .getYear();
+            //año actual
+            int anioActual = fechaActual.getYear();
+            //se calcula restando el año actual menos el año de nacimiento
+            edad = anioActual - anioNacimiento;
+            if (edad < 3) {//si tiene menos de 3 años
+                JOptionPane.showMessageDialog(null, "El alumno no cumple con la edad suficiente para\n"
+                        + "pertenecer a un nivel escolar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                entrada_fechaNacimiento.setDate(null);
+                //desactiva para elegir nivel escolar
+                entrada_nivelEscolar.setEnabled(false);
+                return;
+            }
+            if (edad > 15) {//si tiene mas de 15 años 
+                JOptionPane.showMessageDialog(null, "El alumno rebasa la edad para\n"
+                        + "pertenecer a un nivel escolar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                entrada_fechaNacimiento.setDate(null);
+                //desactiva para elegir grado escolar
+                entrada_nivelEscolar.setEnabled(false);
+                return;
+            }
+            //acativa para elegir grado escolar
+            entrada_nivelEscolar.setEnabled(true);
+            entrada_nivelEscolar.setSelectedIndex(0);
+            System.out.println(edad);
+        }
+    }//GEN-LAST:event_entrada_fechaNacimientoPropertyChange
+
+    private void entrada_gradoEscolarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_entrada_gradoEscolarItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {//si selecciona un item verificar           
+            if (entrada_gradoEscolar.getSelectedIndex() == 0) {
+                return;
+            }
+            //
+            String nivel_escolar = entrada_nivelEscolar.getSelectedItem().toString();
+            String grado_seleccionado = (String) evt.getItem();//pasar el item seleaccionado a string
+            String gradoReal = gradoNivelYEdad(edad, nivel_escolar);
+            //Si no ha seleccciona el grado correspondiente al real marca un mensaje de error
+            if (!grado_seleccionado.equals(gradoReal)) {
+                JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
+                        + "deben pertenecer al " + gradoReal + " de " + nivel_escolar, "Advertencia", JOptionPane.ERROR_MESSAGE);
+                entrada_gradoEscolar.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_entrada_gradoEscolarItemStateChanged
+
+    private void entrada_nivelEscolarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_entrada_nivelEscolarItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {//si selecciona un item verificar
+            String item_seleccionado = (String) evt.getItem();//pasar el item seleaccionado a string
+            if(entrada_nivelEscolar.getSelectedIndex()==0){//caso cuando selecciona el item 0
+                return;
+            }
+            if (edad >= 3 && edad <= 5 && !item_seleccionado.equals("Preescolar")) {
+                JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
+                        + "deben pertenecer al nivel de preescolar ", "Advertencia", JOptionPane.ERROR_MESSAGE);
+                entrada_nivelEscolar.setSelectedIndex(0);
+            }
+            if(edad >= 6 && edad <= 11 && !item_seleccionado.equals("Primaria")){
+                JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
+                        + "deben pertenecer al nivel de primaria", "Advertencia", JOptionPane.ERROR_MESSAGE);
+                entrada_nivelEscolar.setSelectedIndex(0);
+            }
+            if(edad >= 12 && edad <=15 && !item_seleccionado.equals("Secundaria")){
+                JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
+                        + "deben pertenecer al nivel de secundaria", "Advertencia", JOptionPane.ERROR_MESSAGE);
+                entrada_nivelEscolar.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_entrada_nivelEscolarItemStateChanged
+
+    private String gradoNivelYEdad(int edad, String nivelSeleccionado) {
+        switch (nivelSeleccionado) {
+            case "Preescolar":
+                if (edad == 3) return "Primero";
+                if (edad == 4) return "Segundo";
+                if (edad == 5) return "Tercero";
+                break;
+            case "Primaria":
+                if (edad == 6) return "Primero";
+                if (edad == 7) return "Segundo";
+                if (edad == 8) return "Tercero";
+                if (edad == 9) return "Cuarto";
+                if (edad == 10) return "Quinto";
+                if (edad == 11) return "Sexto";
+                break;             
+            case "Secundaria":
+                if (edad==12) return "Primero";
+                if (edad == 13) return "Segundo";
+                if (edad == 14 || edad == 15) return "Tercero";
+                break;
+        }
+        return null;
+    }
+    
     /**
      * @param args the command line arguments
      */

@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package sesiones;
+package padres;
 
+import sesiones.*;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import com.itextpdf.text.Image; // Correcto
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import java.awt.Desktop;
@@ -37,15 +39,22 @@ import java.util.logging.Logger;
  *
  * @author ar275
  */
-public class Sesion{
-    public String id_sesion;
-    public String usuario;
-    public String fecha_entrada;
-    public String horario_entrada;
-    public String fecha_salida;
-    public String horario_salida;
+public class PadresPDF{
+    public String rfc;
+    public String nombres;
+    public String apellido_paterno;
+    public String apellido_materno;
+    public String fecha_nacimiento;
+    public String correo_electronico;
+    public String domicilio_fiscal;
+    public String estado;
+    public String municipio;
+    public String colonia;
+    public String num_exterior;
+    public String num_interior;
+    public String regimen;
     
-    public void generarPdf(List<Sesion> listaSesiones, String ruta) throws FileNotFoundException, DocumentException, BadElementException, IOException{
+    public void generarPdf(List<PadresPDF> listaSesiones, String ruta) throws FileNotFoundException, DocumentException, BadElementException, IOException{
         //Fecha
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatoEspanol = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
@@ -59,12 +68,12 @@ public class Sesion{
         BaseColor colorCabeceraTabla = new BaseColor(201, 69, 69); // Usando RGB
         BaseColor colortTitulo = new BaseColor(134, 10, 10); // Usando RGB
         BaseColor colortLinea = new BaseColor(161, 145, 89); // Usando RGB
-        com.itextpdf.text.Font fuenteArialBlanca = FontFactory.getFont("Calibri", 12, Font.BOLD, BaseColor.WHITE);
+        com.itextpdf.text.Font fuenteArialBlanca = FontFactory.getFont("Arial", 12, Font.NORMAL, BaseColor.WHITE);
             
         //Ruta para guardar el documento
-        String rutaArchivo = ruta+File.separator+"Historial de sesiones"+fechaActual.toString()+".pdf";
+        String rutaArchivo = ruta+File.separator+"Registro padres"+fechaActual.toString()+".pdf";
         //Crar documento
-        Document documento = new Document();
+        Document documento = new Document(PageSize.A3.rotate());
         //Nombre del archivo
         FileOutputStream ficheroPdf = new FileOutputStream(rutaArchivo);
         //Instancia del doc
@@ -104,7 +113,7 @@ public class Sesion{
                 pieTable.addCell(celda3); // Agregar la celda a la tabla
 
                 // Posicionar la tabla en el documento
-                pieTable.writeSelectedRows(0, -1, document.leftMargin(), document.bottom() + 50, writer.getDirectContent());
+                pieTable.writeSelectedRows(0, -1, document.leftMargin(), document.bottom() + 30, writer.getDirectContent());
             }
         });
 
@@ -166,11 +175,11 @@ public class Sesion{
             //Añadir tabla a documento
             documento.add(encabezado);
         } catch (IOException ex) {
-            Logger.getLogger(Sesion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PadresPDF.class.getName()).log(Level.SEVERE, null, ex);
         }
               
         //Parrafo Titulo
-        Paragraph titulo = new Paragraph("\nHistorial de inicio de sesión del Sistema de facturación "
+        Paragraph titulo = new Paragraph("\nRegistro de padres en el Sistema de facturación "
                 + "del Instituto Andres Manuel Lopez Obrador\n",FontFactory.getFont("arial",18,Font.BOLD,BaseColor.BLACK));
         titulo.setAlignment(Paragraph.ALIGN_CENTER);
         //Añadir parrafo al doc
@@ -181,41 +190,83 @@ public class Sesion{
         
         //salto de linea al doc
         //Crear tabla y titulos de las columnas
-        PdfPTable tabla = new PdfPTable(6);
+        float[] columnWidths = {2f, 1f, 1f,1f,1f,2f,1f,1f,1f,1f,1f,1f,1f};
+        PdfPTable tabla = new PdfPTable(13);
         tabla.setWidthPercentage(100);
+        tabla.setWidths(columnWidths);
         
         //celdas con estilo
-        PdfPCell celda_id = new PdfPCell(new Phrase("N° sesión",fuenteArialBlanca));
-        celda_id.setBackgroundColor(colorCabeceraTabla);
-        celda_id.setFixedHeight(20f);//Altura de las cabeceras
-        //Titulo usuario
-        PdfPCell celda_user = new PdfPCell(new Phrase("Usuario",fuenteArialBlanca));
-        celda_user.setBackgroundColor(colorCabeceraTabla);
-        //Titulo fecha y hora ingreso
-        PdfPCell celda_fechaIngreso = new PdfPCell(new Phrase("Fecha ingreso",fuenteArialBlanca));
-        celda_fechaIngreso.setBackgroundColor(colorCabeceraTabla);
-        PdfPCell celda_horaIngreso = new PdfPCell(new Phrase("Hora ingreso",fuenteArialBlanca));
-        celda_horaIngreso.setBackgroundColor(colorCabeceraTabla);
-        //Titulo fecha y hora salida
-        PdfPCell celda_fechaSalida = new PdfPCell(new Phrase("Fecha salida",fuenteArialBlanca));
-        celda_fechaSalida.setBackgroundColor(colorCabeceraTabla);
-        PdfPCell celda_horaSalida = new PdfPCell(new Phrase("Hora salida",fuenteArialBlanca));
-        celda_horaSalida.setBackgroundColor(colorCabeceraTabla);
+        //celda para el RFC
+        PdfPCell celda_rfc = new PdfPCell(new Phrase("RFC",fuenteArialBlanca));
+        celda_rfc.setBackgroundColor(colorCabeceraTabla);
+        celda_rfc.setFixedHeight(20f);//Altura de las cabeceras
+        //Titulo nombres
+        PdfPCell celda_nombres = new PdfPCell(new Phrase("Nombre",fuenteArialBlanca));
+        celda_nombres.setBackgroundColor(colorCabeceraTabla);
+        //Titulo apellidos paterno y materno
+        PdfPCell celda_apellidoPaterno = new PdfPCell(new Phrase("Apellido Paterno",fuenteArialBlanca));
+        celda_apellidoPaterno.setBackgroundColor(colorCabeceraTabla);
+        //
+        PdfPCell celda_apellidoMaterno = new PdfPCell(new Phrase("Apellido Materno",fuenteArialBlanca));
+        celda_apellidoPaterno.setBackgroundColor(colorCabeceraTabla);
+        //Titulo fecha nacimiento
+        PdfPCell celda_fechaNacimiento= new PdfPCell(new Phrase("Fecha de Nacimiento",fuenteArialBlanca));
+        celda_fechaNacimiento.setBackgroundColor(colorCabeceraTabla);
+        //Titulo correo electronico
+        PdfPCell celda_correo = new PdfPCell(new Phrase("Correo electronico",fuenteArialBlanca));
+        celda_correo.setBackgroundColor(colorCabeceraTabla);
+        //Titulo domicilio fiscal
+        PdfPCell celda_domicilioFiscal= new PdfPCell(new Phrase("Domicilio Fiscal",fuenteArialBlanca));
+        celda_domicilioFiscal.setBackgroundColor(colorCabeceraTabla);
+        //Titulo estado
+        PdfPCell celda_estado = new PdfPCell(new Phrase("Estado",fuenteArialBlanca));
+        celda_estado.setBackgroundColor(colorCabeceraTabla);
+        //Celda muncipio
+        PdfPCell celda_municipio = new PdfPCell(new Phrase("Municipio",fuenteArialBlanca));
+        celda_municipio.setBackgroundColor(colorCabeceraTabla);
+        //Titulo colonia
+        PdfPCell celda_colonia = new PdfPCell(new Phrase("Colonia",fuenteArialBlanca));
+        celda_colonia.setBackgroundColor(colorCabeceraTabla);
+        //Titulo no exterior
+        PdfPCell celda_noExterior = new PdfPCell(new Phrase("No Exterior",fuenteArialBlanca));
+        celda_noExterior.setBackgroundColor(colorCabeceraTabla);
+        //Titulo numero interior
+        PdfPCell celda_noInterior = new PdfPCell(new Phrase("No Interior",fuenteArialBlanca));
+        celda_noInterior.setBackgroundColor(colorCabeceraTabla);
+        //Titulo regimen
+        PdfPCell celda_regimen = new PdfPCell(new Phrase("Regimen",fuenteArialBlanca));
+        celda_regimen.setBackgroundColor(colorCabeceraTabla);
         
-        tabla.addCell(celda_id);
-        tabla.addCell(celda_user);
-        tabla.addCell(celda_fechaIngreso);
-        tabla.addCell(celda_horaIngreso);
-        tabla.addCell(celda_fechaSalida);
-        tabla.addCell(celda_horaSalida);
+        //agregar celdas a la tabla
+        tabla.addCell(celda_rfc);
+        tabla.addCell(celda_nombres);
+        tabla.addCell(celda_apellidoPaterno);
+        tabla.addCell(celda_apellidoPaterno);
+        tabla.addCell(celda_fechaNacimiento);
+        tabla.addCell(celda_correo);
+        tabla.addCell(celda_domicilioFiscal);
+        tabla.addCell(celda_estado);
+        tabla.addCell(celda_municipio);
+        tabla.addCell(celda_colonia);
+        tabla.addCell(celda_noExterior);
+        tabla.addCell(celda_noInterior);
+        tabla.addCell(celda_regimen);
+        
         //agregar todos los valores de la seccion
         for(int i=0; i<listaSesiones.size(); i++){
-            tabla.addCell(listaSesiones.get(i).id_sesion);
-            tabla.addCell(listaSesiones.get(i).usuario);
-            tabla.addCell(listaSesiones.get(i).fecha_entrada);
-            tabla.addCell(listaSesiones.get(i).horario_entrada);
-            tabla.addCell(listaSesiones.get(i).fecha_salida);
-            tabla.addCell(listaSesiones.get(i).horario_salida);
+            tabla.addCell(listaSesiones.get(i).rfc);
+            tabla.addCell(listaSesiones.get(i).nombres);
+            tabla.addCell(listaSesiones.get(i).apellido_paterno);
+            tabla.addCell(listaSesiones.get(i).apellido_materno);
+            tabla.addCell(listaSesiones.get(i).fecha_nacimiento);
+            tabla.addCell(listaSesiones.get(i).correo_electronico);
+            tabla.addCell(listaSesiones.get(i).domicilio_fiscal);
+            tabla.addCell(listaSesiones.get(i).estado);
+            tabla.addCell(listaSesiones.get(i).municipio);
+            tabla.addCell(listaSesiones.get(i).colonia);
+            tabla.addCell(listaSesiones.get(i).num_exterior);
+            tabla.addCell(listaSesiones.get(i).num_interior);
+            tabla.addCell(listaSesiones.get(i).regimen);
         }
         //agregar tabla al documento
         documento.add(tabla);
@@ -227,7 +278,7 @@ public class Sesion{
         try {
             Desktop.getDesktop().open(path);
         } catch (IOException ex) {
-            Logger.getLogger(Sesion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PadresPDF.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -241,13 +292,21 @@ public class Sesion{
         cb.stroke();
     }
 
-    //Constructor de la clase
-    public Sesion(String id_sesion, String usuario, String fecha_entrada, String horario_entrada, String fecha_salida, String horario_salida) {
-        this.id_sesion = id_sesion;
-        this.usuario = usuario;
-        this.fecha_entrada = fecha_entrada;
-        this.horario_entrada = horario_entrada;
-        this.fecha_salida = fecha_salida;
-        this.horario_salida = horario_salida;
+    public PadresPDF(String rfc, String nombres, String apellido_paterno, String apellido_materno, String fecha_nacimiento, String correo_electronico, String domicilio_fiscal, String estado, String municipio, String colonia, String num_exterior, String num_interior, String regimen) {
+        this.rfc = rfc;
+        this.nombres = nombres;
+        this.apellido_paterno = apellido_paterno;
+        this.apellido_materno = apellido_materno;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.correo_electronico = correo_electronico;
+        this.domicilio_fiscal = domicilio_fiscal;
+        this.estado = estado;
+        this.municipio = municipio;
+        this.colonia = colonia;
+        this.num_exterior = num_exterior;
+        this.num_interior = num_interior;
+        this.regimen = regimen;
     }
+
+    
 }
