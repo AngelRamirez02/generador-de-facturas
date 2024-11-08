@@ -28,13 +28,17 @@ import java.util.List;
 import com.itextpdf.text.Image; // Correcto
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
+import com.itextpdf.text.pdf.Pfm2afm;
+import java.awt.Canvas;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jdesktop.swingx.JXLabel.TextAlignment;
 
 /**
  *
@@ -48,9 +52,10 @@ public class AlumnosPDF {
     public String apellido_paterno;
     public String apellido_materno;
     public String fecha_nacimiento;
-    
+    public String nivel_escolaridad;
+    public String grado_escolar;
 
-    public void generarPdf(List<AlumnosPDF> listaSesiones, String ruta) throws FileNotFoundException, DocumentException, BadElementException, IOException{
+    public void PdfTodosLosAlumnos(List<AlumnosPDF> listaPreescolar, List<AlumnosPDF>listaPrimaria, List<AlumnosPDF>listaSecundaria, String ruta) throws FileNotFoundException, DocumentException, BadElementException, IOException{
         //Fecha
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatoEspanol = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
@@ -67,9 +72,9 @@ public class AlumnosPDF {
         com.itextpdf.text.Font fuenteArialBlanca = FontFactory.getFont("Arial", 12, Font.NORMAL, BaseColor.WHITE);
             
         //Ruta para guardar el documento
-        String rutaArchivo = ruta+File.separator+"Registro padres"+fechaActual.toString()+".pdf";
+        String rutaArchivo = ruta+File.separator+"Registro alumnos"+fechaActual.toString()+".pdf";
         //Crar documento
-        Document documento = new Document(PageSize.A3.rotate());
+        Document documento = new Document(PageSize.A4.rotate());
         //Nombre del archivo
         FileOutputStream ficheroPdf = new FileOutputStream(rutaArchivo);
         //Instancia del doc
@@ -91,25 +96,30 @@ public class AlumnosPDF {
                 PdfPTable pieTable = new PdfPTable(1); // Una columna
                 pieTable.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin()); // Ancho total de la tabla
                 pieTable.setLockedWidth(true); // Bloquear el ancho
-
+                
+                PdfPCell fechaHoraGenerado = new PdfPCell(new Phrase("Reporte generado el "+fechaFormateada+" a las "+horaFormateada, fuentePie));
+                fechaHoraGenerado.setBorder(PdfPCell.NO_BORDER);
+                
+                fechaHoraGenerado.setHorizontalAlignment(Element.ALIGN_CENTER);
+                pieTable.addCell(fechaHoraGenerado);
                 // Crear celdas con el contenido
                 PdfPCell celda1 = new PdfPCell(new Phrase("Instituto Andres Manuel Lopez Obrador Calzada Pie De La Cuesta NO 12 Calle Vista Al Mar C.P. 398000, ACAPULCO, GRO. Tel 3-90-18-23", fuentePie));
                 celda1.setBorder(PdfPCell.NO_BORDER); // Sin borde
                 celda1.setHorizontalAlignment(Element.ALIGN_CENTER); // Alinear al centro
                 pieTable.addCell(celda1); // Agregar la celda a la tabla
 
-                PdfPCell celda2 = new PdfPCell(new Phrase("\ninstituto12020@gmail.com                                 nombredirector@gmail.com", fuenteCorreos));
+                PdfPCell celda2 = new PdfPCell(new Phrase("Instituto12020@gmail.com                                 nombredirector@gmail.com", fuenteCorreos));
                 celda2.setBorder(PdfPCell.NO_BORDER); // Sin borde
                 celda2.setHorizontalAlignment(Element.ALIGN_CENTER); // Alinear al centro
                 pieTable.addCell(celda2); // Agregar la celda a la tabla
 
-                PdfPCell celda3 = new PdfPCell(new Phrase("\nPágina: " + document.getPageNumber(), fuentePie));
+                PdfPCell celda3 = new PdfPCell(new Phrase("Página: " + document.getPageNumber(), fuentePie));
                 celda3.setBorder(PdfPCell.NO_BORDER); // Sin borde
                 celda3.setHorizontalAlignment(Element.ALIGN_CENTER); // Alinear al centro
                 pieTable.addCell(celda3); // Agregar la celda a la tabla
 
                 // Posicionar la tabla en el documento
-                pieTable.writeSelectedRows(0, -1, document.leftMargin(), document.bottom() + 30, writer.getDirectContent());
+                pieTable.writeSelectedRows(0, -1, document.leftMargin(), document.bottom() + 25, writer.getDirectContent());
             }
         });
 
@@ -175,27 +185,40 @@ public class AlumnosPDF {
         }
               
         //Parrafo Titulo
-        Paragraph titulo = new Paragraph("\nRegistro de padres en el Sistema de facturación "
+        Paragraph titulo = new Paragraph("Registro de alumnos por nivel escolar en el Sistema de facturación "
                 + "del Instituto Andres Manuel Lopez Obrador\n",FontFactory.getFont("arial",18,Font.BOLD,BaseColor.BLACK));
         titulo.setAlignment(Paragraph.ALIGN_CENTER);
         //Añadir parrafo al doc
         documento.add(titulo);
         
-        Paragraph fechaHora = new Paragraph("\nReporte generado el "+fechaFormateada+" a las "+horaFormateada+"\n\n", FontFactory.getFont("Arial",12,Font.NORMAL,BaseColor.BLACK));
-        documento.add(fechaHora);
+//        Paragraph fechaHora = new Paragraph("\nReporte generado el "+fechaFormateada+" a las "+horaFormateada+"\n", FontFactory.getFont("Arial",12,Font.NORMAL,BaseColor.BLACK));
+//        documento.add(fechaHora);
         
         //salto de linea al doc
-        //Crear tabla y titulos de las columnas
-        float[] columnWidths = {2f, 1f, 1f,1f,1f,2f,1f,1f,1f,1f,1f,1f,1f};
-        PdfPTable tabla = new PdfPTable(13);
-        tabla.setWidthPercentage(100);
-        tabla.setWidths(columnWidths);
+        //Crear tabla para alumnos de preescolar y titulos de las columnas
+        float[] relacionColumnas= {2f, 2f, 1f,1f,1f,1f,1f,1f};
+        PdfPTable tablaPreescolar = new PdfPTable(8);
+        tablaPreescolar.setWidthPercentage(100);
+        tablaPreescolar.setWidths(relacionColumnas);
+        
+        //Tabla para alumnos
+        PdfPTable tablaPrimaria = new PdfPTable(8);
+        tablaPrimaria.setWidthPercentage(100);
+        tablaPrimaria.setWidths(relacionColumnas);
+        
+        PdfPTable tablaSecundaria = new PdfPTable(8);
+        tablaSecundaria.setWidthPercentage(100);
+        tablaSecundaria.setWidths(relacionColumnas);
         
         //celdas con estilo
-        //celda para el RFC
-        PdfPCell celda_rfc = new PdfPCell(new Phrase("RFC",fuenteArialBlanca));
-        celda_rfc.setBackgroundColor(colorCabeceraTabla);
-        celda_rfc.setFixedHeight(20f);//Altura de las cabeceras
+        //celda para la CURP
+        PdfPCell celda_curp = new PdfPCell(new Phrase("CURP",fuenteArialBlanca));
+        celda_curp.setBackgroundColor(colorCabeceraTabla);
+        celda_curp.setFixedHeight(20f);//Altura de las cabeceras
+        //
+        PdfPCell celda_rfc_padre = new PdfPCell(new Phrase("RFC del padre",fuenteArialBlanca));
+        celda_rfc_padre.setBackgroundColor(colorCabeceraTabla);
+        celda_rfc_padre.setFixedHeight(20f);//Altura de las cabeceras
         //Titulo nombres
         PdfPCell celda_nombres = new PdfPCell(new Phrase("Nombre",fuenteArialBlanca));
         celda_nombres.setBackgroundColor(colorCabeceraTabla);
@@ -208,64 +231,114 @@ public class AlumnosPDF {
         //Titulo fecha nacimiento
         PdfPCell celda_fechaNacimiento= new PdfPCell(new Phrase("Fecha de Nacimiento",fuenteArialBlanca));
         celda_fechaNacimiento.setBackgroundColor(colorCabeceraTabla);
-        //Titulo correo electronico
-        PdfPCell celda_correo = new PdfPCell(new Phrase("Correo electronico",fuenteArialBlanca));
-        celda_correo.setBackgroundColor(colorCabeceraTabla);
-        //Titulo domicilio fiscal
-        PdfPCell celda_domicilioFiscal= new PdfPCell(new Phrase("Domicilio Fiscal",fuenteArialBlanca));
-        celda_domicilioFiscal.setBackgroundColor(colorCabeceraTabla);
-        //Titulo estado
-        PdfPCell celda_estado = new PdfPCell(new Phrase("Estado",fuenteArialBlanca));
-        celda_estado.setBackgroundColor(colorCabeceraTabla);
-        //Celda muncipio
-        PdfPCell celda_municipio = new PdfPCell(new Phrase("Municipio",fuenteArialBlanca));
-        celda_municipio.setBackgroundColor(colorCabeceraTabla);
-        //Titulo colonia
-        PdfPCell celda_colonia = new PdfPCell(new Phrase("Colonia",fuenteArialBlanca));
-        celda_colonia.setBackgroundColor(colorCabeceraTabla);
-        //Titulo no exterior
-        PdfPCell celda_noExterior = new PdfPCell(new Phrase("No Exterior",fuenteArialBlanca));
-        celda_noExterior.setBackgroundColor(colorCabeceraTabla);
-        //Titulo numero interior
-        PdfPCell celda_noInterior = new PdfPCell(new Phrase("No Interior",fuenteArialBlanca));
-        celda_noInterior.setBackgroundColor(colorCabeceraTabla);
-        //Titulo regimen
-        PdfPCell celda_regimen = new PdfPCell(new Phrase("Regimen",fuenteArialBlanca));
-        celda_regimen.setBackgroundColor(colorCabeceraTabla);
+        //Titulo nivel escolar
+        PdfPCell celda_NivelEscolar= new PdfPCell(new Phrase("Nivel Escolar",fuenteArialBlanca));
+        celda_NivelEscolar.setBackgroundColor(colorCabeceraTabla);
+        //Titulo grado Escolar
+        PdfPCell celda_GradoEscolar= new PdfPCell(new Phrase("Grado Escolar",fuenteArialBlanca));
+        celda_GradoEscolar.setBackgroundColor(colorCabeceraTabla);
+        
         
         //agregar celdas a la tabla
-        tabla.addCell(celda_rfc);
-        tabla.addCell(celda_nombres);
-        tabla.addCell(celda_apellidoPaterno);
-        tabla.addCell(celda_apellidoPaterno);
-        tabla.addCell(celda_fechaNacimiento);
-        tabla.addCell(celda_correo);
-        tabla.addCell(celda_domicilioFiscal);
-        tabla.addCell(celda_estado);
-        tabla.addCell(celda_municipio);
-        tabla.addCell(celda_colonia);
-        tabla.addCell(celda_noExterior);
-        tabla.addCell(celda_noInterior);
-        tabla.addCell(celda_regimen);
+        tablaPreescolar.addCell(celda_curp);
+        tablaPreescolar.addCell(celda_rfc_padre);
+        tablaPreescolar.addCell(celda_nombres);
+        tablaPreescolar.addCell(celda_apellidoPaterno);
+        tablaPreescolar.addCell(celda_apellidoPaterno);
+        tablaPreescolar.addCell(celda_fechaNacimiento);
+        tablaPreescolar.addCell(celda_NivelEscolar);
+        tablaPreescolar.addCell(celda_GradoEscolar);
         
-        //agregar todos los valores de la seccion
-        for(int i=0; i<listaSesiones.size(); i++){
-            tabla.addCell(listaSesiones.get(i).rfc);
-            tabla.addCell(listaSesiones.get(i).nombres);
-            tabla.addCell(listaSesiones.get(i).apellido_paterno);
-            tabla.addCell(listaSesiones.get(i).apellido_materno);
-            tabla.addCell(listaSesiones.get(i).fecha_nacimiento);
-            tabla.addCell(listaSesiones.get(i).correo_electronico);
-            tabla.addCell(listaSesiones.get(i).domicilio_fiscal);
-            tabla.addCell(listaSesiones.get(i).estado);
-            tabla.addCell(listaSesiones.get(i).municipio);
-            tabla.addCell(listaSesiones.get(i).colonia);
-            tabla.addCell(listaSesiones.get(i).num_exterior);
-            tabla.addCell(listaSesiones.get(i).num_interior);
-            tabla.addCell(listaSesiones.get(i).regimen);
+        //Enacabezados para la tabla de primaria
+        tablaPrimaria.addCell(celda_curp);
+        tablaPrimaria.addCell(celda_rfc_padre);
+        tablaPrimaria.addCell(celda_nombres);
+        tablaPrimaria.addCell(celda_apellidoPaterno);
+        tablaPrimaria.addCell(celda_apellidoPaterno);
+        tablaPrimaria.addCell(celda_fechaNacimiento);
+        tablaPrimaria.addCell(celda_NivelEscolar);
+        tablaPrimaria.addCell(celda_GradoEscolar);
+        
+        //Encabezados para la tabla de secundaria
+        tablaSecundaria.addCell(celda_curp);
+        tablaSecundaria.addCell(celda_rfc_padre);
+        tablaSecundaria.addCell(celda_nombres);
+        tablaSecundaria.addCell(celda_apellidoPaterno);
+        tablaSecundaria.addCell(celda_apellidoPaterno);
+        tablaSecundaria.addCell(celda_fechaNacimiento);
+        tablaSecundaria.addCell(celda_NivelEscolar);
+        tablaSecundaria.addCell(celda_GradoEscolar);
+        
+        //lista para la tabla preescolar 
+        for(int i=0; i<listaPreescolar.size(); i++){
+            tablaPreescolar.addCell(listaPreescolar.get(i).curp);
+            tablaPreescolar.addCell(listaPreescolar.get(i).rfc_padre);
+            tablaPreescolar.addCell(listaPreescolar.get(i).nombres);
+            tablaPreescolar.addCell(listaPreescolar.get(i).apellido_paterno);
+            tablaPreescolar.addCell(listaPreescolar.get(i).apellido_materno);
+            tablaPreescolar.addCell(listaPreescolar.get(i).fecha_nacimiento);
+            tablaPreescolar.addCell(listaPreescolar.get(i).nivel_escolaridad);
+            tablaPreescolar.addCell(listaPreescolar.get(i).grado_escolar);
         }
+        
+        //Lista para la tabla primaria
+        for(int i=0; i<listaPrimaria.size(); i++){
+            tablaPrimaria.addCell(listaPrimaria.get(i).curp);
+            tablaPrimaria.addCell(listaPrimaria.get(i).rfc_padre);
+            tablaPrimaria.addCell(listaPrimaria.get(i).nombres);
+            tablaPrimaria.addCell(listaPrimaria.get(i).apellido_paterno);
+            tablaPrimaria.addCell(listaPrimaria.get(i).apellido_materno);
+            tablaPrimaria.addCell(listaPrimaria.get(i).fecha_nacimiento);
+            tablaPrimaria.addCell(listaPrimaria.get(i).nivel_escolaridad);
+            tablaPrimaria.addCell(listaPrimaria.get(i).grado_escolar);
+        }
+        
+        //Lista para la tabla secundaria
+        for(int i=0; i<listaSecundaria.size(); i++){
+            tablaSecundaria.addCell(listaSecundaria.get(i).curp);
+            tablaSecundaria.addCell(listaSecundaria.get(i).rfc_padre);
+            tablaSecundaria.addCell(listaSecundaria.get(i).nombres);
+            tablaSecundaria.addCell(listaSecundaria.get(i).apellido_paterno);
+            tablaSecundaria.addCell(listaSecundaria.get(i).apellido_materno);
+            tablaSecundaria.addCell(listaSecundaria.get(i).fecha_nacimiento);
+            tablaSecundaria.addCell(listaSecundaria.get(i).nivel_escolaridad);
+            tablaSecundaria.addCell(listaSecundaria.get(i).grado_escolar);
+        }
+        
+        //Titulo para alumnos en nivel preescolar
+        Paragraph tituloPreescolar = new Paragraph("\nAlumnos registrados en nivel preescolar en el Sistema de facturación "
+                + "del Instituto Andres Manuel Lopez Obrador\n\n",FontFactory.getFont("arial",16,Font.BOLD,BaseColor.BLACK));
+        tituloPreescolar.setAlignment(Paragraph.ALIGN_CENTER);
+        documento.add(tituloPreescolar);
+
         //agregar tabla al documento
-        documento.add(tabla);
+        documento.add(tablaPreescolar);
+        
+        //crear nueva pagina para el registro de alumnos de primaria
+        documento.newPage();
+        
+        Image logoPagina = Image.getInstance("src/img/logo_escuela.png");
+        logoPagina.scaleToFit(100, 100);
+          
+        documento.add(encabezado);
+        
+        //Titulo para alumnos en nivel primaria
+        Paragraph tituloPrimaria = new Paragraph("\nAlumnos registrados en nivel primaria en el Sistema de facturación "
+                + "del Instituto Andres Manuel Lopez Obrador\n\n",FontFactory.getFont("arial",16,Font.BOLD,BaseColor.BLACK));
+        tituloPrimaria.setAlignment(Paragraph.ALIGN_CENTER);
+        documento.add(tituloPrimaria);
+        documento.add(tablaPrimaria);
+        
+        
+        //crear nueva pagina para el registro de alumnos de secundaria
+        documento.newPage();
+        documento.add(encabezado);
+        //Titulo para alumnos en nivel secundaria
+        Paragraph tituloSecundaria = new Paragraph("\nAlumnos registrados en nivel secundaria en el Sistema de facturación "
+                + "del Instituto Andres Manuel Lopez Obrador\n\n",FontFactory.getFont("arial",16,Font.BOLD,BaseColor.BLACK));
+        tituloSecundaria.setAlignment(Paragraph.ALIGN_CENTER);
+        documento.add(tituloSecundaria);
+        documento.add(tablaSecundaria);
 
         //Cerrar doc
         documento.close();       
@@ -288,21 +361,14 @@ public class AlumnosPDF {
         cb.stroke();
     }
 
-    public AlumnosPDF(String rfc, String nombres, String apellido_paterno, String apellido_materno, String fecha_nacimiento, String correo_electronico, String domicilio_fiscal, String estado, String municipio, String colonia, String num_exterior, String num_interior, String regimen) {
-        this.rfc = rfc;
+    public AlumnosPDF(String curp, String rfc_padre, String nombres, String apellido_paterno, String apellido_materno, String fecha_nacimiento, String nivel_escolaridad, String grado_escolar) {
+        this.curp = curp;
+        this.rfc_padre = rfc_padre;
         this.nombres = nombres;
         this.apellido_paterno = apellido_paterno;
         this.apellido_materno = apellido_materno;
         this.fecha_nacimiento = fecha_nacimiento;
-        this.correo_electronico = correo_electronico;
-        this.domicilio_fiscal = domicilio_fiscal;
-        this.estado = estado;
-        this.municipio = municipio;
-        this.colonia = colonia;
-        this.num_exterior = num_exterior;
-        this.num_interior = num_interior;
-        this.regimen = regimen;
-    }
-
-    
+        this.nivel_escolaridad = nivel_escolaridad;
+        this.grado_escolar = grado_escolar;
+    }    
 }

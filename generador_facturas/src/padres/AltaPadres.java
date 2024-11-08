@@ -918,6 +918,12 @@ public class AltaPadres extends javax.swing.JFrame {
         jLabel10.setText("Código postal");
         contenedor.add(jLabel10);
         jLabel10.setBounds(540, 300, 120, 22);
+
+        entrada_rfc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_rfcKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_rfc);
         entrada_rfc.setBounds(680, 232, 157, 30);
 
@@ -1253,6 +1259,23 @@ public class AltaPadres extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null,"El RFC no coincide con el nombre, apellidos o con la fecha de nacimiento del emisor", "RFC no valido", JOptionPane.WARNING_MESSAGE);
         return false;
     }
+    
+    public boolean correoRepetido(){
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_correo = "SELECT * FROM padre_familia WHERE correo_electronico = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_correo);
+            ps.setString(1, entrada_correoElectronico.getText());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){//si encuentra un fila con el correo quiere decir que ya existe
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;//Retorna falso si no encuentra el correo
+    }
+    
     public void altaEmisor() {
         try {
             int cp = Integer.parseInt(entrada_cp.getText());
@@ -1598,6 +1621,11 @@ public class AltaPadres extends javax.swing.JFrame {
                 entrada_correoElectronico.requestFocusInWindow();
                 return;
             }
+            if(correoRepetido()){
+                JOptionPane.showMessageDialog(null, "El correo ya se encuentra registrado\nPor favor ingrese otro", "Correo repetido", JOptionPane.WARNING_MESSAGE);
+                entrada_correoElectronico.requestFocusInWindow();
+                return;
+            }
             if(!rfc_valido()){
                 entrada_rfc.requestFocusInWindow();
                 return;
@@ -1698,7 +1726,7 @@ public class AltaPadres extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
-
+        
     }//GEN-LAST:event_nombre_userMouseClicked
 
     private void btn_historialSesionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historialSesionesMouseClicked
@@ -2138,6 +2166,12 @@ public class AltaPadres extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
+
+    private void entrada_rfcKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_rfcKeyTyped
+        if (entrada_rfc.getText().length() >= 13) {//si la longitud es mayor a 20 no permite seguir escribiendo
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_rfcKeyTyped
 
     /**
      * @param args the command line arguments

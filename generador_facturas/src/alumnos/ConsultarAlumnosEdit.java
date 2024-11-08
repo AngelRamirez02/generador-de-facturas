@@ -788,7 +788,7 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabla_alumno);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 300));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 990, 450));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -798,7 +798,7 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Seleccione el alumno a editar");
-        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 990, 50));
+        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 990, 50));
 
         btn_actualizar.setBackground(new java.awt.Color(0, 0, 0));
         btn_actualizar.setRoundBottomLeft(10);
@@ -827,10 +827,10 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
 
         btn_actualizar.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
 
-        contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
+        contenedor.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 550, 240, 40));
 
         fondo.add(contenedor);
-        contenedor.setBounds(30, 150, 990, 510);
+        contenedor.setBounds(30, 100, 990, 610);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -1323,17 +1323,18 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_altaAlumnosMouseClicked
 
     private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            ConsultarAlumnos ventana = new ConsultarAlumnos();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
 
     private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
 

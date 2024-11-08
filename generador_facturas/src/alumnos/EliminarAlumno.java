@@ -818,7 +818,7 @@ public class EliminarAlumno extends javax.swing.JFrame {
 
         text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_guardarDatos.setText("Elimar alumno");
+        text_guardarDatos.setText("Eliminar alumno");
         text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
 

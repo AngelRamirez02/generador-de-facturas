@@ -7,6 +7,7 @@ package alumnos;
 import padres.*;
 import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
+import com.itextpdf.text.DocumentException;
 import conexion.conexion;
 import emisor.AltaEmisor;
 import java.awt.Color;
@@ -17,19 +18,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -46,6 +54,10 @@ import sesiones.HistorialSesiones;
  */
 public class ConsultarAlumnos extends javax.swing.JFrame {   
     conexion cx = new conexion();
+    AlumnosPDF x;
+    public List<AlumnosPDF> listaPreescolar = new ArrayList<AlumnosPDF>();
+    public List<AlumnosPDF> listaPrimaria = new ArrayList<AlumnosPDF>();
+    public List<AlumnosPDF> listaSecundaria = new ArrayList<AlumnosPDF>();
     
     DefaultTableModel modelo;//modelo de la tabala
     
@@ -74,6 +86,10 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        
+        //Boton de descargar pdf
+        Image descargImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/descarga_icono.png"));
+        btn_descarga.setIcon(new ImageIcon(descargImg.getScaledInstance(btn_descarga.getWidth(), btn_descarga.getHeight(), Image.SCALE_SMOOTH)));
 
         
         //Iconos para botones de menu
@@ -162,8 +178,8 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         TableColumn columnaRfcPadre = tabla_alumno.getColumnModel().getColumn(1);
         TableColumn columnaCurp = tabla_alumno.getColumnModel().getColumn(0);
         columnaRfcPadre.setPreferredWidth(110);
-        columnaCurp.setPreferredWidth(135); 
-        mostrarTodos();
+        columnaCurp.setPreferredWidth(135);
+        tablaTodsLosRegitros();
         
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
@@ -256,7 +272,8 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         contenedor = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_alumno = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        escolaridad = new javax.swing.JComboBox<>();
+        btn_descarga = new javax.swing.JLabel();
         txt_emisoresRegistrados = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -775,10 +792,24 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
 
         contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 990, 500));
 
-        jComboBox1.setBackground(new java.awt.Color(201, 69, 69));
-        jComboBox1.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Preeescolar", "Primaria", "Secundaria" }));
-        contenedor.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 140, 30));
+        escolaridad.setBackground(new java.awt.Color(201, 69, 69));
+        escolaridad.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        escolaridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Preescolar", "Primaria", "Secundaria" }));
+        escolaridad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                escolaridadItemStateChanged(evt);
+            }
+        });
+        contenedor.add(escolaridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 140, 30));
+
+        btn_descarga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/descarga_icono.png"))); // NOI18N
+        btn_descarga.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_descarga.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_descargaMouseClicked(evt);
+            }
+        });
+        contenedor.add(btn_descarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, 60, 60));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -794,7 +825,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    void mostrarTodos(){//metodo para llenar la tabla    
+    void tablaTodsLosRegitros(){//muestra todos los registros 
         tablaPreescolar();
         tablaPrimaria();
         tablaSecundaria();
@@ -802,6 +833,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     
     void tablaPreescolar() {//llenar la tabla solo con alumnos del preescolar
         //limpiarTabla();
+        listaPreescolar.clear();
         try {
             //Seleccionar los datos del emisor
             String consulta = "SELECT * FROM alumnos WHERE nivel_escolaridad = 'Preescolar' ORDER BY grado_escolar, curp;";
@@ -822,6 +854,8 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
                 alumno[7] = rs.getString("grado_escolar");
                 //añade la info  la tabla
                 modelo.addRow(alumno);
+                x = new AlumnosPDF(alumno[0].toString(), alumno[1].toString(), alumno[2].toString(), alumno[3].toString(), alumno[4].toString(), alumno[5].toString(),alumno[6].toString(),alumno[7].toString());
+                listaPreescolar.add(x);
             }
             tabla_alumno.setModel(modelo);
         } catch (SQLException ex) {
@@ -831,8 +865,9 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     
     
     void tablaPrimaria() {
+        listaPrimaria.clear();
         try {
-            //Seleccionar los datos del emisor
+            //Seleccionar los datos de los alumnos de primaria ordenados
             String consulta = "SELECT *FROM alumnos WHERE nivel_escolaridad = 'Primaria'"
                     + "ORDER BY"
                     + "    CASE"
@@ -861,6 +896,8 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
                 alumno[7] = rs.getString("grado_escolar");
                 //añade la info  la tabla
                 modelo.addRow(alumno);
+                x = new AlumnosPDF(alumno[0].toString(),alumno[1].toString(),alumno[2].toString(),alumno[3].toString(),alumno[4].toString(),alumno[5].toString(),alumno[6].toString(),alumno[7].toString());
+                listaPrimaria.add(x);
             }
             tabla_alumno.setModel(modelo);
         } catch (SQLException ex) {
@@ -870,7 +907,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     
     void tablaSecundaria(){
                 try {
-            //Seleccionar los datos del emisor
+            //Seleccionar los datos de los alumnos de secundaria ordenados
             String consulta = "SELECT * FROM alumnos WHERE nivel_escolaridad = 'Secundaria' ORDER BY grado_escolar, curp;";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
@@ -889,7 +926,8 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
                 alumno[7] = rs.getString("grado_escolar");
                 //añade la info  la tabla
                 modelo.addRow(alumno);
-            }
+                x = new AlumnosPDF(alumno[0].toString(),alumno[1].toString(),alumno[2].toString(),alumno[3].toString(),alumno[4].toString(),alumno[5].toString(),alumno[6].toString(),alumno[7].toString());
+            }   listaSecundaria.add(x);
             tabla_alumno.setModel(modelo);
         } catch (SQLException ex) {
             Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
@@ -1388,6 +1426,60 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
 
+    private void btn_descargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_descargaMouseClicked
+        //generar pdf de los registros
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            //Mostrar interfaz para seleccionar la carpeta
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setPreferredSize(new Dimension(800, 600));//Tamño de la ventana
+            fileChooser.setDialogTitle("Seleccionar carpeta");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Solo permitir seleccionar carpetas
+            int opcion = fileChooser.showSaveDialog(null); // Mostrar el diálogo de guardar
+            //si selecciona una ruta valida
+            if (opcion == JFileChooser.APPROVE_OPTION) {
+                // Obtener la carpeta seleccionada por el usuario
+                File directorioSeleccionado = fileChooser.getSelectedFile();
+                String rutaCarpeta = directorioSeleccionado.getAbsolutePath();
+                try {
+                    x.PdfTodosLosAlumnos(listaPreescolar,listaPrimaria, listaSecundaria, rutaCarpeta);
+                    //JOptionPane.showMessageDialog(null,"PDF guardado correctamente", "Reporte Generado",JOptionPane.INFORMATION_MESSAGE);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_descargaMouseClicked
+
+    private void escolaridadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_escolaridadItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {//si selecciona un item verificar
+            String itemSeleccionado = (String) evt.getItem();
+            if(itemSeleccionado.equals("Todos")){
+                limpiarTabla();
+                tablaTodsLosRegitros();
+                return;
+            }
+            if(itemSeleccionado.equals("Preescolar")){
+                limpiarTabla();
+                tablaPreescolar();
+                return;
+            }
+            if(itemSeleccionado.equals("Primaria")){
+                limpiarTabla();
+                tablaPrimaria();
+                return;
+            }
+            if(itemSeleccionado.equals("Secundaria")){
+                limpiarTabla();
+                tablaSecundaria();
+                return;
+            }
+        }
+    }//GEN-LAST:event_escolaridadItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -1459,6 +1551,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
+    private javax.swing.JLabel btn_descarga;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
@@ -1468,6 +1561,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     private javax.swing.JLabel cerrar_icon;
     private javax.swing.JPanel contenedor;
     private javax.swing.JPanel contenedor_menu;
+    private javax.swing.JComboBox<String> escolaridad;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
@@ -1478,7 +1572,6 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator10;

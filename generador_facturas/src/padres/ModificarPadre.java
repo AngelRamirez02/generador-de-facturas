@@ -59,6 +59,8 @@ public class ModificarPadre extends javax.swing.JFrame {
     LocalTime horaInicioSesion;
     
     private String rfc;//rfc que se va a modficar
+    private String correo;//correo a modificar
+    
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -1115,8 +1117,11 @@ public class ModificarPadre extends javax.swing.JFrame {
         }
     }
     
+        
+        
     public void setDatos(String rfc, String nombres, String apellido_paterno, String apellido_materno, Calendar fecha_nacimiento, String correo, String regimen, int cp, String colonia,  String num_Exterior,String num_Interior) {
         this.rfc=rfc;//rfc que se va a modificar
+        this.correo=correo;
         entrada_rfc.setText(rfc);
         entrada_nombres.setText(nombres);
         entrada_apellidoPaterno.setText(apellido_paterno);
@@ -1493,6 +1498,27 @@ public class ModificarPadre extends javax.swing.JFrame {
         return false;
     }
 
+    public boolean correoRepetido() {
+        if (entrada_correoElectronico.getText().equals(this.correo)){//no existen cambios en el correo 
+            return false;
+        }
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_correo = "SELECT * FROM padre_familia WHERE correo_electronico = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_correo);
+            ps.setString(1, entrada_correoElectronico.getText());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {//si encuentra un fila con el correo quiere decir que ya existe
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;//Retorna falso si no encuentra registros con ese coreeo
+    }
+    
+    
+    
     public void actualizarPadre() {
         try {
             int cp = Integer.parseInt(entrada_cp.getText());
@@ -1632,6 +1658,11 @@ public class ModificarPadre extends javax.swing.JFrame {
             }
             if(!valida.correo_valido(entrada_correoElectronico.getText())){
                 JOptionPane.showMessageDialog(null, "Ingrese un correo electronico valido", "Correo no valido", JOptionPane.WARNING_MESSAGE);
+                entrada_correoElectronico.requestFocusInWindow();
+                return;
+            }
+            if(correoRepetido()){
+                JOptionPane.showMessageDialog(null, "El correo ya se encuentra registrado\nPor favor ingrese otro", "Correo repetido", JOptionPane.WARNING_MESSAGE);
                 entrada_correoElectronico.requestFocusInWindow();
                 return;
             }
