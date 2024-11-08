@@ -1191,9 +1191,9 @@ public class AltaAlumnos extends javax.swing.JFrame {
             PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
             ps.setString(1, rfc_padre.getSelectedItem().toString());
             ps.setString(2, entrada_curp.getText().toUpperCase());
-            ps.setString(3, entrada_nombres.getText());
-            ps.setString(4, entrada_apellidoPaterno.getText());
-            ps.setString(5, entrada_apellidoMaterno.getText());
+            ps.setString(3, valida.formatearNombresApellidos(entrada_nombres.getText()));
+            ps.setString(4, valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()));
+            ps.setString(5, valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()));
             ps.setDate(6, fecha_sql);
             ps.setString(7, entrada_nivelEscolar.getSelectedItem().toString());
             ps.setString(8, entrada_gradoEscolar.getSelectedItem().toString());
@@ -1477,17 +1477,17 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 rfc_padre.requestFocusInWindow(); //hace focus al elemento
                 return;
             }
-            if(!valida.nombresValidos(entrada_nombres.getText())){
+            if(!valida.nombresValidos(valida.formatearNombresApellidos(entrada_nombres.getText()))){
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_nombres.requestFocusInWindow();
                 return;
             }
-            if(!valida.apellidoValido(entrada_apellidoPaterno.getText())){
+            if(!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()))){
                 JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_apellidoPaterno.requestFocusInWindow();
                 return;
             }
-            if(!valida.apellidoValido(entrada_apellidoMaterno.getText())){
+            if(!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()))){
                 JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_apellidoMaterno.requestFocusInWindow();
                 return;

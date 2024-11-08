@@ -29,6 +29,7 @@ public class Validacion {
         Matcher matcher = pattern.matcher(apelido);
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
     }
+
     public boolean cpValido(String cp) {
         String regex = "^\\d{5}$";
         Pattern pattern = Pattern.compile(regex);
@@ -42,64 +43,83 @@ public class Validacion {
         Matcher matcher = pattern.matcher(correo);
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
     }
-    
+
     public boolean numInteriorExteriorValido(String num) {
         String regex = "^[A-Za-z0-9\\s\\-\\/]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(num);
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
     }
-    
-public String crear_rfc(String nombres, String apellido_paterno, String apellido_materno, Calendar fecha_nacimiento, String homoclave) {
-    //Se eliminan las particulas de los Apellidos
-    apellido_paterno = eliminarParticulasApellido(apellido_paterno);
-    apellido_materno = eliminarParticulasApellido(apellido_materno);
-    // Obtener día, mes y año desde el Calendar que recibes
-    int dia = fecha_nacimiento.get(Calendar.DAY_OF_MONTH);
-    int mes = fecha_nacimiento.get(Calendar.MONTH) + 1; // Los meses son 0-11
-    int year = fecha_nacimiento.get(Calendar.YEAR);
-    
-    //Variable que almacena el RFC creado
-    StringBuilder rfc = new StringBuilder();
 
-    // Obtener primera letra del apellido paterno
-    char Primerletra_apellidoPaterno = apellido_paterno.toUpperCase().charAt(0);
-    rfc.append(Primerletra_apellidoPaterno);
+    public String formatearNombresApellidos(String nombre) {
+        if (nombre == null || nombre.isEmpty()) {
+            return ""; // Maneja el caso de una cadena nula o vacía
+        }
 
-    // Si la primera letra es una vocal, agregar la siguiente letra
-    if (isVowel(Primerletra_apellidoPaterno)) {
-        rfc.append(apellido_paterno.toUpperCase().charAt(1));
-    } else {
-        // Si no, buscar la primera vocal en el apellido paterno y agregarla
-        for (int i = 1; i < apellido_paterno.length(); i++) {
-            char c = apellido_paterno.toUpperCase().charAt(i);
-            if (isVowel(c)) {
-                rfc.append(c);
-                break;
+        String nombreFormateado = "";
+        String[] palabras = nombre.trim().split("\\s+");
+        for (String s : palabras) {
+            if (s.length() > 0) {
+                String aux = s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+                nombreFormateado += aux + " ";
             }
         }
+        System.out.println(nombreFormateado);
+        return nombreFormateado.trim();
+        
     }
 
-    // Obtener primera letra del apellido materno
-    rfc.append(apellido_materno.toUpperCase().charAt(0));
-    // Obtener primera letra del nombre
-    rfc.append(nombres.toUpperCase().charAt(0));
 
-    // Obtener la fecha en formato AAMMDD
-    rfc.append(String.format("%02d", year % 100)); // Últimos 2 dígitos del año
-    rfc.append(String.format("%02d", mes)); // Mes
-    rfc.append(String.format("%02d", dia)); // Día
+    public String crear_rfc(String nombres, String apellido_paterno, String apellido_materno, Calendar fecha_nacimiento, String homoclave) {
+        //Se eliminan las particulas de los Apellidos
+        apellido_paterno = eliminarParticulasApellido(apellido_paterno);
+        apellido_materno = eliminarParticulasApellido(apellido_materno);
+        // Obtener día, mes y año desde el Calendar que recibes
+        int dia = fecha_nacimiento.get(Calendar.DAY_OF_MONTH);
+        int mes = fecha_nacimiento.get(Calendar.MONTH) + 1; // Los meses son 0-11
+        int year = fecha_nacimiento.get(Calendar.YEAR);
 
-    // Agregar la homoclave (por ejemplo, un valor aleatorio o fijo)
-    rfc.append(homoclave);
+        //Variable que almacena el RFC creado
+        StringBuilder rfc = new StringBuilder();
 
-    return rfc.toString();
-}
-    
+        // Obtener primera letra del apellido paterno
+        char Primerletra_apellidoPaterno = apellido_paterno.toUpperCase().charAt(0);
+        rfc.append(Primerletra_apellidoPaterno);
+
+        // Si la primera letra es una vocal, agregar la siguiente letra
+        if (isVowel(Primerletra_apellidoPaterno)) {
+            rfc.append(apellido_paterno.toUpperCase().charAt(1));
+        } else {
+            // Si no, buscar la primera vocal en el apellido paterno y agregarla
+            for (int i = 1; i < apellido_paterno.length(); i++) {
+                char c = apellido_paterno.toUpperCase().charAt(i);
+                if (isVowel(c)) {
+                    rfc.append(c);
+                    break;
+                }
+            }
+        }
+
+        // Obtener primera letra del apellido materno
+        rfc.append(apellido_materno.toUpperCase().charAt(0));
+        // Obtener primera letra del nombre
+        rfc.append(nombres.toUpperCase().charAt(0));
+
+        // Obtener la fecha en formato AAMMDD
+        rfc.append(String.format("%02d", year % 100)); // Últimos 2 dígitos del año
+        rfc.append(String.format("%02d", mes)); // Mes
+        rfc.append(String.format("%02d", dia)); // Día
+
+        // Agregar la homoclave (por ejemplo, un valor aleatorio o fijo)
+        rfc.append(homoclave);
+
+        return rfc.toString();
+    }
+
     private static boolean isVowel(char c) {
         return "AEIOU".indexOf(Character.toUpperCase(c)) >= 0;
     }
-    
+
     // Método para verificar si una CURP coincide con los datos proporcionados
     public static boolean verificarCURP(String curp, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento) {
         // Convertir la fecha de nacimiento a formato AAAA-MM-DD
@@ -107,7 +127,7 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
 
         // Generar la CURP esperada usando los datos proporcionados
         String curpGenerada = generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimientoStr);
-        
+
         // Comparar los primeros 10 caracteres de la CURP generada con la CURP ingresada
         return curp.substring(0, 10).equalsIgnoreCase(curpGenerada.substring(0, 10));
     }
@@ -144,14 +164,14 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
         curp += fechaNacimiento.substring(2, 4); // Año
         curp += fechaNacimiento.substring(5, 7); // Mes
         curp += fechaNacimiento.substring(8, 10); // Día
-        
+
         System.out.println(curp);
         return curp;
     }
 
     // Método para eliminar partículas como "De", "La", "Del" en apellidos
     private static String eliminarParticulasApellido(String apellido) {
-        String[] particulas = {"DE", "LA", "DEL", "LAS","LOS","SAN","SANTA","Y"};
+        String[] particulas = {"DE", "LA", "DEL", "LAS", "LOS", "SAN", "SANTA", "Y"};
         for (String particula : particulas) {
             apellido = apellido.toUpperCase().replaceFirst("^" + particula + "\\s+", "");
         }
@@ -179,4 +199,3 @@ public String crear_rfc(String nombres, String apellido_paterno, String apellido
         }
     }
 }
-
