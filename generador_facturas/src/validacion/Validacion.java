@@ -9,12 +9,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ar275
  */
 public class Validacion {
+    // Arreglo con los códigos de los estados de México
+
+    public String[] estados = {
+        "AS", "BC", "BS", "CC", "CL", "CM", "CS", "CH", "DF",
+        "DG", "GT", "GR", "HG", "JC", "MC", "MN", "MS", "NT",
+        "NL", "OC", "PL", "QT", "QR", "SP", "SL", "SR", "TC",
+        "TL", "TS", "VZ", "YN", "ZS"
+    };
 
     public boolean nombresValidos(String nombre) {
         String regex = "^(De|Del|Los|Las|La)?\\s?[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(\\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*$";
@@ -65,7 +74,7 @@ public class Validacion {
             }
         }
         System.out.println(nombreFormateado);
-        return nombreFormateado.trim();
+        return nombreFormateado.trim();//elimina el ultimo espacio
         
     }
 
@@ -74,6 +83,7 @@ public class Validacion {
         //Se eliminan las particulas de los Apellidos
         apellido_paterno = eliminarParticulasApellido(apellido_paterno);
         apellido_materno = eliminarParticulasApellido(apellido_materno);
+        nombres = eliminarParticulasApellido(nombres);
         // Obtener día, mes y año desde el Calendar que recibes
         int dia = fecha_nacimiento.get(Calendar.DAY_OF_MONTH);
         int mes = fecha_nacimiento.get(Calendar.MONTH) + 1; // Los meses son 0-11
@@ -87,9 +97,9 @@ public class Validacion {
         rfc.append(Primerletra_apellidoPaterno);
 
         // Si la primera letra es una vocal, agregar la siguiente letra
-        if (isVowel(Primerletra_apellidoPaterno)) {
-            rfc.append(apellido_paterno.toUpperCase().charAt(1));
-        } else {
+        //if (isVowel(Primerletra_apellidoPaterno)) {
+          //  rfc.append(apellido_paterno.toUpperCase().charAt(1));
+        //} else {
             // Si no, buscar la primera vocal en el apellido paterno y agregarla
             for (int i = 1; i < apellido_paterno.length(); i++) {
                 char c = apellido_paterno.toUpperCase().charAt(i);
@@ -98,7 +108,7 @@ public class Validacion {
                     break;
                 }
             }
-        }
+        //}
 
         // Obtener primera letra del apellido materno
         rfc.append(apellido_materno.toUpperCase().charAt(0));
@@ -112,7 +122,7 @@ public class Validacion {
 
         // Agregar la homoclave (por ejemplo, un valor aleatorio o fijo)
         rfc.append(homoclave);
-
+        System.out.println(rfc);
         return rfc.toString();
     }
 
@@ -121,13 +131,49 @@ public class Validacion {
     }
 
     // Método para verificar si una CURP coincide con los datos proporcionados
-    public static boolean verificarCURP(String curp, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento) {
+    public  boolean verificarCURP(String curp, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento) {
+        boolean estado_valido=false;
         // Convertir la fecha de nacimiento a formato AAAA-MM-DD
         String fechaNacimientoStr = convertirFecha(fechaNacimiento);
+        nombre=EliminarNombresComunes(nombre);
 
         // Generar la CURP esperada usando los datos proporcionados
         String curpGenerada = generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimientoStr);
+        if(!curp.substring(0, 10).equalsIgnoreCase(curpGenerada.substring(0, 10))){
+            JOptionPane.showMessageDialog(null,"La CURP no coincide con el nombre, apellidos o con la fecha de nacimiento del alumno", "CURP no valida", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        String aux[] = curp.split(curpGenerada);
+        if (aux.length > 1) {
+            String curp_part2 = aux[1];
 
+            // Verifica que el primer carácter de `curp_part2` sea 'H' o 'M'
+            if (curp_part2.charAt(0) != 'H' && curp_part2.charAt(0) != 'M') {
+                JOptionPane.showMessageDialog(null,"Se esperaba H o M en la posicion 11 de la CURP", "Sexo no valido en la curp", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+            String estado = "" + curp_part2.charAt(1) + curp_part2.charAt(2);
+            
+            for (String s: estados){
+                if (estado.equals(s)) {
+                    estado_valido=true;
+                    break;
+                }
+            }
+            if(!estado_valido){
+                JOptionPane.showMessageDialog(null,"El estado "+estado+" no es valido", "Estado no valido", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }          
+            String consonantesCurp = ""+curp_part2.charAt(3)+curp_part2.charAt(4)+curp_part2.charAt(5);
+            String consonantes=primeraConsonanteInterna(eliminarParticulasApellido(apellidoPaterno));
+            consonantes+=primeraConsonanteInterna(eliminarParticulasApellido(apellidoMaterno));
+            consonantes+=primeraConsonanteInterna(eliminarParticulasApellido(nombre));
+            System.out.println(consonantes);
+            if(!consonantesCurp.equals(consonantes)){
+                JOptionPane.showMessageDialog(null,"Las consonates: "+consonantesCurp+" no pertenecen a los apellidos ni al nombre", "Consonantes no validas", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }                  
+        }
         // Comparar los primeros 10 caracteres de la CURP generada con la CURP ingresada
         return curp.substring(0, 10).equalsIgnoreCase(curpGenerada.substring(0, 10));
     }
@@ -197,5 +243,26 @@ public class Validacion {
         } else {
             return Character.toString(nombres[0].charAt(0)).toUpperCase();
         }
+    }
+
+    //metodo para eliminar nombres comunes
+    private static String EliminarNombresComunes(String nombre) {
+        String[] nombres = nombre.split(" ");
+        if (nombres[0].equalsIgnoreCase("José") || nombres[0].equalsIgnoreCase("María") || nombres[0].equals("Maria") || nombres[0].equals("Jose")) {
+            return nombres[1];
+        } else {
+            return nombres[0];
+        }
+    }
+    
+        private static String primeraConsonanteInterna(String palabra) {
+        String vocales = "AEIOUaeiou";
+        for (int i = 1; i < palabra.length(); i++) { // Comienza desde el índice 1
+            char c = palabra.charAt(i);
+            if (vocales.indexOf(c) == -1) { // Si no es vocal
+                return String.valueOf(c).toUpperCase(); // Devuelve la primera consonante interna en mayúscula
+            }
+        }
+        return ""; // Devuelve cadena vacía si no hay consonante interna
     }
 }

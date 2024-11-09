@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.sql.PreparedStatement;
@@ -35,6 +36,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import login.login_window;
 import menu.MenuPrincipal;
 import sesiones.HistorialSesiones;
@@ -161,8 +163,12 @@ public class EliminarAlumno extends javax.swing.JFrame {
         JTableHeader header = tabla_alumno.getTableHeader();
         header.setDefaultRenderer(new TablaPersonalizada());
         header.setPreferredSize(new Dimension(30,50));
-        
-        llenarTabla();
+        //redimensionar las columnas
+        TableColumn columnaRfcPadre = tabla_alumno.getColumnModel().getColumn(1);
+        TableColumn columnaCurp = tabla_alumno.getColumnModel().getColumn(0);
+        columnaRfcPadre.setPreferredWidth(110);
+        columnaCurp.setPreferredWidth(135);
+        tablaTodsLosRegitros();
         
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
@@ -260,6 +266,7 @@ public class EliminarAlumno extends javax.swing.JFrame {
         btn_eliminar = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
         text_guardarDatos = new javax.swing.JLabel();
+        escolaridad = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Alumnos registrados");
@@ -759,11 +766,11 @@ public class EliminarAlumno extends javax.swing.JFrame {
 
             },
             new String [] {
-                "RFC del padre", "CURP", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Nivel escolar", "Grado escolar"
+                "CURP", "RFC del padre", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Nivel escolar", "Grado escolar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, false, false, false, false
+                true, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -785,7 +792,7 @@ public class EliminarAlumno extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabla_alumno);
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 300));
+        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 990, 420));
 
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -824,10 +831,20 @@ public class EliminarAlumno extends javax.swing.JFrame {
 
         btn_eliminar.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
 
-        contenedor.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 240, 40));
+        contenedor.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 550, 240, 40));
+
+        escolaridad.setBackground(new java.awt.Color(201, 69, 69));
+        escolaridad.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        escolaridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Preescolar", "Primaria", "Secundaria" }));
+        escolaridad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                escolaridadItemStateChanged(evt);
+            }
+        });
+        contenedor.add(escolaridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 140, 30));
 
         fondo.add(contenedor);
-        contenedor.setBounds(30, 150, 990, 510);
+        contenedor.setBounds(20, 110, 1010, 610);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -835,32 +852,105 @@ public class EliminarAlumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    void llenarTabla(){
-        
+    void tablaTodsLosRegitros(){//muestra todos los registros 
+        tablaPreescolar();
+        tablaPrimaria();
+        tablaSecundaria();
+    }
+    
+    void tablaPreescolar() {//llenar la tabla solo con alumnos del preescolar
+        //limpiarTabla();
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM alumnos";
-           PreparedStatement ps = cx.conectar().prepareStatement(consulta);
-           ResultSet rs = ps.executeQuery();
-           //Arreglo de datos
-           Object [] alumno =new Object[8];
-           modelo = (DefaultTableModel) tabla_alumno.getModel();
-           while(rs.next()){
-               //se obtienen los datos de la tabla
-               alumno[0] = rs.getString("rfc_padre");
-               alumno[1] = rs.getString("curp");
-               alumno[2] = rs.getString("nombres");
-               alumno[3] = rs.getString("apellido_paterno");
-               alumno[4] = rs.getString("apellido_materno");
-               alumno[5] = rs.getDate("fecha_nacimiento");
-               alumno[6] = rs.getString("nivel_escolaridad");
-               alumno[7] = rs.getString("grado_escolar");
-               //añade la info  la tabla
-               modelo.addRow(alumno);
-           }
-           tabla_alumno.setModel(modelo);
+            String consulta = "SELECT * FROM alumnos WHERE nivel_escolaridad = 'Preescolar' ORDER BY grado_escolar, curp;";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] alumno = new Object[8];
+            modelo = (DefaultTableModel) tabla_alumno.getModel();
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");
+                //añade la info  la tabla
+                modelo.addRow(alumno);
+            }
+            tabla_alumno.setModel(modelo);
         } catch (SQLException ex) {
-            Logger.getLogger(EliminarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    void tablaPrimaria() {
+        try {
+            //Seleccionar los datos de los alumnos de primaria ordenados
+            String consulta = "SELECT *FROM alumnos WHERE nivel_escolaridad = 'Primaria'"
+                    + "ORDER BY"
+                    + "    CASE"
+                    + "        WHEN grado_escolar = 'Primero' THEN 1"
+                    + "        WHEN grado_escolar = 'Segundo' THEN 2"
+                    + "        WHEN grado_escolar = 'Tercero' THEN 3"
+                    + "        WHEN grado_escolar = 'Cuarto' THEN 4"
+                    + "        WHEN grado_escolar = 'Quinto' THEN 5"
+                    + "        WHEN grado_escolar = 'Sexto' THEN 6"
+                    + "    END,"
+                    + "    curp;";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] alumno = new Object[8];
+            modelo = (DefaultTableModel) tabla_alumno.getModel();
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");
+                //añade la info  la tabla
+                modelo.addRow(alumno);
+            }
+            tabla_alumno.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    void tablaSecundaria(){
+                try {
+            //Seleccionar los datos de los alumnos de secundaria ordenados
+            String consulta = "SELECT * FROM alumnos WHERE nivel_escolaridad = 'Secundaria' ORDER BY grado_escolar, curp;";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] alumno = new Object[8];
+            modelo = (DefaultTableModel) tabla_alumno.getModel();
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");
+                //añade la info  la tabla
+                modelo.addRow(alumno);
+            }   
+            tabla_alumno.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -1180,7 +1270,22 @@ public class EliminarAlumno extends javax.swing.JFrame {
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 eliminarAlumno();
-                llenarTabla();
+                limpiarTabla();//limpia la tabla despues de eliminar
+                if(escolaridad.getSelectedIndex()==0){
+                    tablaTodsLosRegitros();
+                    return;
+                }
+                if(escolaridad.getSelectedIndex()==1){
+                    tablaPreescolar();               
+                    return;
+                }
+                if(escolaridad.getSelectedIndex()==2){
+                    tablaPrimaria();
+                    return;
+                }
+                if(escolaridad.getSelectedIndex()==3){
+                    tablaSecundaria();
+                }
             } else {
                 return;
             }
@@ -1190,7 +1295,7 @@ public class EliminarAlumno extends javax.swing.JFrame {
     private void tabla_alumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_alumnoMouseClicked
         int fila = tabla_alumno.getSelectedRow();//obtener la fila seleccionada
         if (fila != - 1) {
-            curp = (String) tabla_alumno.getValueAt(fila, 1);//obtener la curp del alumno
+            curp = (String) tabla_alumno.getValueAt(fila, 0);//obtener la curp del alumno
             if(!btn_eliminar.isVisible()){
                 btn_eliminar.setVisible(true);
             }
@@ -1417,6 +1522,32 @@ public class EliminarAlumno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
 
+    private void escolaridadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_escolaridadItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {//si selecciona un item verificar
+            String itemSeleccionado = (String) evt.getItem();
+            if(itemSeleccionado.equals("Todos")){
+                limpiarTabla();
+                tablaTodsLosRegitros();
+                return;
+            }
+            if(itemSeleccionado.equals("Preescolar")){
+                limpiarTabla();
+                tablaPreescolar();
+                return;
+            }
+            if(itemSeleccionado.equals("Primaria")){
+                limpiarTabla();
+                tablaPrimaria();
+                return;
+            }
+            if(itemSeleccionado.equals("Secundaria")){
+                limpiarTabla();
+                tablaSecundaria();
+                return;
+            }
+        }
+    }//GEN-LAST:event_escolaridadItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -1499,6 +1630,7 @@ public class EliminarAlumno extends javax.swing.JFrame {
     private javax.swing.JPanel contenedor;
     private paneles.PanelRound contenedor_btn;
     private javax.swing.JPanel contenedor_menu;
+    private javax.swing.JComboBox<String> escolaridad;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;

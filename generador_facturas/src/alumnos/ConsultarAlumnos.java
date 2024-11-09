@@ -927,7 +927,8 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
                 //añade la info  la tabla
                 modelo.addRow(alumno);
                 x = new AlumnosPDF(alumno[0].toString(),alumno[1].toString(),alumno[2].toString(),alumno[3].toString(),alumno[4].toString(),alumno[5].toString(),alumno[6].toString(),alumno[7].toString());
-            }   listaSecundaria.add(x);
+                listaSecundaria.add(x);
+            }   
             tabla_alumno.setModel(modelo);
         } catch (SQLException ex) {
             Logger.getLogger(ConsultarAlumnos.class.getName()).log(Level.SEVERE, null, ex);

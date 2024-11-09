@@ -919,6 +919,11 @@ public class AltaPadres extends javax.swing.JFrame {
         contenedor.add(jLabel10);
         jLabel10.setBounds(540, 300, 120, 22);
 
+        entrada_rfc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_rfcFocusLost(evt);
+            }
+        });
         entrada_rfc.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 entrada_rfcKeyTyped(evt);
@@ -955,6 +960,11 @@ public class AltaPadres extends javax.swing.JFrame {
         contenedor.add(jLabel6);
         jLabel6.setBounds(70, 430, 180, 20);
 
+        entrada_apellidoMaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_apellidoMaternoFocusLost(evt);
+            }
+        });
         entrada_apellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 entrada_apellidoMaternoKeyTyped(evt);
@@ -973,6 +983,11 @@ public class AltaPadres extends javax.swing.JFrame {
         contenedor.add(jLabel3);
         jLabel3.setBounds(70, 305, 140, 22);
 
+        entrada_apellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_apellidoPaternoFocusLost(evt);
+            }
+        });
         entrada_apellidoPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 entrada_apellidoPaternoKeyTyped(evt);
@@ -981,6 +996,11 @@ public class AltaPadres extends javax.swing.JFrame {
         contenedor.add(entrada_apellidoPaterno);
         entrada_apellidoPaterno.setBounds(260, 300, 190, 30);
 
+        entrada_nombres.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_nombresFocusLost(evt);
+            }
+        });
         entrada_nombres.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 entrada_nombresKeyTyped(evt);
@@ -1028,7 +1048,7 @@ public class AltaPadres extends javax.swing.JFrame {
         datosfiscales_titulo.setBounds(640, 180, 170, 30);
 
         entrada_fechaNacimiento.setDateFormatString("dd MMM y");
-        entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1735628468000L));
+        entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1167548468000L));
         entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
         contenedor.add(entrada_fechaNacimiento);
         entrada_fechaNacimiento.setBounds(260, 420, 190, 30);
@@ -1660,37 +1680,43 @@ public class AltaPadres extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
 
     private void entrada_correoElectronicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_correoElectronicoKeyTyped
-        if(entrada_nombres.getText().length()>=80){//si la longitud es mayor a 80 no permite seguir escribiendo
+        if(entrada_correoElectronico.getText().length()>=80){//si la longitud es mayor a 80 no permite seguir escribiendo
+             JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_correoElectronicoKeyTyped
 
     private void entrada_apellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoKeyTyped
-        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+        if(entrada_apellidoMaterno.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_apellidoMaternoKeyTyped
 
     private void entrada_apellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoKeyTyped
-        if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+        if(entrada_apellidoPaterno.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_apellidoPaternoKeyTyped
 
     private void entrada_nombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_nombresKeyTyped
         if(entrada_nombres.getText().length()>=50){//si la longitud es mayor a 50 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_nombresKeyTyped
 
     private void entrada_noExteriorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_noExteriorKeyTyped
-        if(entrada_nombres.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+        if(entrada_noExterior.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_noExteriorKeyTyped
 
     private void entrada_noInteriorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_noInteriorKeyTyped
-        if(entrada_nombres.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+        if(entrada_noInterior.getText().length()>=20){//si la longitud es mayor a 20 no permite seguir escribiendo
+            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_noInteriorKeyTyped
@@ -1701,7 +1727,7 @@ public class AltaPadres extends javax.swing.JFrame {
             //obtener los datos del codigo postal si es valido
             try {
                 direc = new ObtenerDireccion(entrada_cp.getText());
-                if(!direc.estado.isEmpty()){
+                if(!direc.estado.isEmpty()){                    
                     entrada_estado.removeAllItems();
                     entrada_municipio.removeAllItems();
                     entrada_colonia.removeAllItems();
@@ -1716,7 +1742,9 @@ public class AltaPadres extends javax.swing.JFrame {
                     return;
                 }
             } catch (Exception ex) {
-                Logger.getLogger(AltaEmisor.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Hubo un error en la consulta de codigos postales\n"
+                        + "Verifique su conexión a internet "
+                        + "\nSi el problema persiste contacte al soporte del sistema", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
@@ -2172,6 +2200,22 @@ public class AltaPadres extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_entrada_rfcKeyTyped
+
+    private void entrada_nombresFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_nombresFocusLost
+       entrada_nombres.setText(valida.formatearNombresApellidos(entrada_nombres.getText()));
+    }//GEN-LAST:event_entrada_nombresFocusLost
+
+    private void entrada_apellidoPaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoFocusLost
+        entrada_apellidoPaterno.setText(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()));
+    }//GEN-LAST:event_entrada_apellidoPaternoFocusLost
+
+    private void entrada_apellidoMaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoFocusLost
+        entrada_apellidoMaterno.setText(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()));
+    }//GEN-LAST:event_entrada_apellidoMaternoFocusLost
+
+    private void entrada_rfcFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_rfcFocusLost
+       entrada_rfc.setText(entrada_rfc.getText().toUpperCase());
+    }//GEN-LAST:event_entrada_rfcFocusLost
 
     /**
      * @param args the command line arguments

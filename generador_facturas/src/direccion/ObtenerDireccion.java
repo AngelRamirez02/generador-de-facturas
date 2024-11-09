@@ -19,7 +19,7 @@ public class ObtenerDireccion {
         //6bae8f3fe1mshaa056e464b2f3bap16a4cfjsnb4fe8f7318df
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://mexico-zip-codes.p.rapidapi.com/codigo_postal/" + codigoPostal))
-                .header("x-rapidapi-key", "9ff95b243amshc27ce31c239630dp170b8fjsn81276898c998")
+                .header("x-rapidapi-key", "6bae8f3fe1mshaa056e464b2f3bap16a4cfjsnb4fe8f7318df")
                 .header("x-rapidapi-host", "mexico-zip-codes.p.rapidapi.com")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();

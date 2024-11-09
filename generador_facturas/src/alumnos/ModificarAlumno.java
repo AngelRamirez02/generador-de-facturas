@@ -296,8 +296,6 @@ public class ModificarAlumno extends javax.swing.JFrame {
         apellidoPaterno_padre = new javax.swing.JTextField();
         apellido_maternoPadre = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        entrada_nombres = new javax.swing.JTextPane();
         entrada_curp = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         entrada_nivelEscolar = new javax.swing.JComboBox<>();
@@ -308,6 +306,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
         infoIcon_lb2 = new javax.swing.JLabel();
         infoIcon_lb3 = new javax.swing.JLabel();
         rfc_padre = new javax.swing.JComboBox<>();
+        entrada_nombres = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar alumnos");
@@ -854,6 +853,17 @@ public class ModificarAlumno extends javax.swing.JFrame {
         jLabel6.setText("Fecha de nacimiento");
         contenedor.add(jLabel6);
         jLabel6.setBounds(50, 420, 180, 40);
+
+        entrada_apellidoMaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_apellidoMaternoFocusLost(evt);
+            }
+        });
+        entrada_apellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_apellidoMaternoKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_apellidoMaterno);
         entrada_apellidoMaterno.setBounds(790, 340, 190, 30);
 
@@ -866,6 +876,17 @@ public class ModificarAlumno extends javax.swing.JFrame {
         jLabel3.setText("Apellido paterno");
         contenedor.add(jLabel3);
         jLabel3.setBounds(550, 310, 140, 30);
+
+        entrada_apellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_apellidoPaternoFocusLost(evt);
+            }
+        });
+        entrada_apellidoPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_apellidoPaternoKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_apellidoPaterno);
         entrada_apellidoPaterno.setBounds(550, 340, 190, 30);
 
@@ -945,11 +966,16 @@ public class ModificarAlumno extends javax.swing.JFrame {
         contenedor.add(jLabel14);
         jLabel14.setBounds(790, 160, 160, 30);
 
-        entrada_nombres.setFocusTraversalPolicyProvider(true);
-        jScrollPane1.setViewportView(entrada_nombres);
-
-        contenedor.add(jScrollPane1);
-        jScrollPane1.setBounds(300, 340, 190, 30);
+        entrada_curp.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_curpFocusLost(evt);
+            }
+        });
+        entrada_curp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_curpKeyTyped(evt);
+            }
+        });
         contenedor.add(entrada_curp);
         entrada_curp.setBounds(50, 340, 180, 30);
 
@@ -1042,6 +1068,19 @@ public class ModificarAlumno extends javax.swing.JFrame {
         });
         contenedor.add(rfc_padre);
         rfc_padre.setBounds(40, 190, 170, 30);
+
+        entrada_nombres.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_nombresFocusLost(evt);
+            }
+        });
+        entrada_nombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entrada_nombresKeyTyped(evt);
+            }
+        });
+        contenedor.add(entrada_nombres);
+        entrada_nombres.setBounds(290, 340, 190, 30);
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 0, 1050, 650);
@@ -1178,7 +1217,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
             //si cumple con el formato retorna verdadero
             return true;
         }
-        JOptionPane.showMessageDialog(null,"La CURP no coincide con el nombre, apellidos o con la fecha de nacimiento del alumno", "CURP no valida", JOptionPane.WARNING_MESSAGE);
+        //JOptionPane.showMessageDialog(null,"La CURP no coincide con el nombre, apellidos o con la fecha de nacimiento del alumno", "CURP no valida", JOptionPane.WARNING_MESSAGE);
         return false;
     }
     
@@ -1190,7 +1229,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
             ps.setString(1, entrada_curp.getText().toUpperCase());
             ResultSet rs = ps.executeQuery();
             if(rs.next()){//si encuentra un fila con la curp quiere decir que ya existe
-                if(rs.getString("curp").equals(curpOriginal)){//es el mismo rfc que quiere actualizar
+                if (rs.getString("curp").equals(curpOriginal)) {//es el mismo rfc que quiere actualizar
                     return false;
                 }
                 return true;
@@ -1200,8 +1239,15 @@ public class ModificarAlumno extends javax.swing.JFrame {
         }
         return false;//Retorna falso si no encuentra la curp
     }
-    
 
+    boolean esHijo() {
+        if (!entrada_apellidoPaterno.getText().equals(apellidoPaterno_padre.getText())
+                && !entrada_apellidoMaterno.getText().equals(apellido_maternoPadre.getText())) {
+            JOptionPane.showMessageDialog(null, "Ninguno de los apellidos del padre o madre no coinciden con los del hijo", "Apelidos sin coincidencia", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     public void actualizarAlumno() {
         try {
             //Obtener todos los datos de entrada
@@ -1522,6 +1568,10 @@ public class ModificarAlumno extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "La CURP ya se encuentra registrada", "CURP existente", JOptionPane.WARNING_MESSAGE);
                 entrada_curp.requestFocusInWindow();  
                 return; 
+            }
+            if(!esHijo()){
+                entrada_apellidoPaterno.requestFocusInWindow();    
+                return;
             }
             if(entrada_nivelEscolar.getSelectedIndex()==0){ //la opcion 0 es <seleccionar>  
                 JOptionPane.showMessageDialog(null, "Selecione un nivel escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
@@ -2186,6 +2236,49 @@ public class ModificarAlumno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_entrada_nivelEscolarItemStateChanged
 
+    private void entrada_nombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_nombresKeyTyped
+        if(entrada_nombres.getText().length()>=80){
+            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_nombresKeyTyped
+
+    private void entrada_curpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_curpKeyTyped
+        if(entrada_curp.getText().length()>=18){
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_curpKeyTyped
+
+    private void entrada_apellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoKeyTyped
+        if(entrada_apellidoPaterno.getText().length()>=50){
+            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_apellidoPaternoKeyTyped
+
+    private void entrada_apellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoKeyTyped
+        if(entrada_apellidoMaterno.getText().length()>50){
+            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_entrada_apellidoMaternoKeyTyped
+
+    private void entrada_curpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_curpFocusLost
+       entrada_curp.setText(entrada_curp.getText().toUpperCase());
+    }//GEN-LAST:event_entrada_curpFocusLost
+
+    private void entrada_nombresFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_nombresFocusLost
+        entrada_nombres.setText(valida.formatearNombresApellidos(entrada_nombres.getText()));
+    }//GEN-LAST:event_entrada_nombresFocusLost
+
+    private void entrada_apellidoPaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoFocusLost
+        entrada_apellidoPaterno.setText(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()));
+    }//GEN-LAST:event_entrada_apellidoPaternoFocusLost
+
+    private void entrada_apellidoMaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoFocusLost
+        entrada_apellidoMaterno.setText(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()));
+    }//GEN-LAST:event_entrada_apellidoMaternoFocusLost
+
     private String gradoNivelYEdad(int edad, String nivelSeleccionado) {
         switch (nivelSeleccionado) {
             case "Preescolar":
@@ -2284,7 +2377,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser entrada_fechaNacimiento;
     private javax.swing.JComboBox<String> entrada_gradoEscolar;
     private javax.swing.JComboBox<String> entrada_nivelEscolar;
-    private javax.swing.JTextPane entrada_nombres;
+    private javax.swing.JTextField entrada_nombres;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
@@ -2313,7 +2406,6 @@ public class ModificarAlumno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;

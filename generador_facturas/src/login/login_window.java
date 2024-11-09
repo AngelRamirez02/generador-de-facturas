@@ -492,7 +492,7 @@ public class login_window extends javax.swing.JFrame {
         usuario_entrada.setEditable(true);
         password_entrada.setEditable(true);
         iniciar_sesion.setEnabled(true);
-        tiempoRestante=10;
+        tiempoRestante=30;
         numIntentosFallidos=0;
     }
     

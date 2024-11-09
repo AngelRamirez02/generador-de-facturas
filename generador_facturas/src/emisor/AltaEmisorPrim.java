@@ -428,6 +428,11 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         contenedor.add(jLabel10);
         jLabel10.setBounds(540, 300, 120, 22);
 
+        entrada_rfc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_rfcFocusLost(evt);
+            }
+        });
         entrada_rfc.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 entrada_rfcKeyTyped(evt);
@@ -464,6 +469,11 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         contenedor.add(jLabel6);
         jLabel6.setBounds(70, 430, 180, 20);
 
+        entrada_apellidoMaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_apellidoMaternoFocusLost(evt);
+            }
+        });
         entrada_apellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 entrada_apellidoMaternoKeyTyped(evt);
@@ -482,6 +492,11 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         contenedor.add(jLabel3);
         jLabel3.setBounds(70, 305, 140, 22);
 
+        entrada_apellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_apellidoPaternoFocusLost(evt);
+            }
+        });
         entrada_apellidoPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 entrada_apellidoPaternoKeyTyped(evt);
@@ -490,6 +505,11 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         contenedor.add(entrada_apellidoPaterno);
         entrada_apellidoPaterno.setBounds(260, 300, 190, 30);
 
+        entrada_nombres.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                entrada_nombresFocusLost(evt);
+            }
+        });
         entrada_nombres.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 entrada_nombresKeyTyped(evt);
@@ -536,7 +556,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
         datosfiscales_titulo.setBounds(640, 180, 170, 30);
 
         entrada_fechaNacimiento.setDateFormatString("dd MMM y");
-        entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1735628468000L));
+        entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1167548468000L));
         entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(-315593932000L));
         contenedor.add(entrada_fechaNacimiento);
         entrada_fechaNacimiento.setBounds(260, 420, 190, 30);
@@ -713,9 +733,9 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                     + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
             ps.setString(1, entrada_rfc.getText().toUpperCase());
-            ps.setString(2, entrada_nombres.getText());
-            ps.setString(3, entrada_apellidoPaterno.getText());
-            ps.setString(4, entrada_apellidoMaterno.getText());
+            ps.setString(2, valida.formatearNombresApellidos(entrada_nombres.getText()));
+            ps.setString(3,valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()));
+            ps.setString(4, valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()));
             ps.setDate(5, fecha_sql);
             ps.setString(6, entrada_correoElectronico.getText());
             ps.setInt(7, cp);
@@ -915,7 +935,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if(!valida.nombresValidos(entrada_nombres.getText())){
+            if(!valida.nombresValidos(valida.formatearNombresApellidos(entrada_nombres.getText()))){
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre valido\n"
                         + "\tDebe iniciar con mayusculas y no puede contener numeros ni caracteres especiales\n"
                         + "Si existen conectores como 'De' u otro nombre deben comenzar con mayusculas", 
@@ -923,7 +943,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                 entrada_nombres.requestFocusInWindow();
                 return;
             }
-            if(!valida.apellidoValido(entrada_apellidoPaterno.getText())){
+            if(!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()))){
                 JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido\n"
                         + "\tDebe iniciar con mayusculas y no puede contener numeros ni caracteres especiales\n"
                         + "Si existen conectores como 'De' deben comenzar con mayusculas", 
@@ -931,7 +951,7 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                 entrada_apellidoPaterno.requestFocusInWindow();
                 return;
             }
-            if(!valida.apellidoValido(entrada_apellidoMaterno.getText())){
+            if(!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()))){
                 JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
                 entrada_apellidoMaterno.requestFocusInWindow();
                 return;
@@ -1041,11 +1061,11 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //busca las coincidencias con el codigo postal
-        if(valida.cpValido(entrada_cp.getText())){
+        if (valida.cpValido(entrada_cp.getText())) {
             //obtener los datos del codigo postal si es valido
             try {
                 direc = new ObtenerDireccion(entrada_cp.getText());
-                if(!direc.estado.isEmpty()){
+                if (!direc.estado.isEmpty()) {
                     entrada_estado.removeAllItems();
                     entrada_municipio.removeAllItems();
                     entrada_colonia.removeAllItems();
@@ -1060,9 +1080,11 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
                     return;
                 }
             } catch (Exception ex) {
-                Logger.getLogger(AltaEmisor.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Hubo un error en la consulta de codigos postales\n"
+                        + "Verifique su conexión a internet "
+                        + "\nSi el problema persiste contacte al soporte del sistema", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
             entrada_cp.requestFocusInWindow();    // Borde al tener foco;
             return;
@@ -1074,6 +1096,22 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_entrada_rfcKeyTyped
+
+    private void entrada_nombresFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_nombresFocusLost
+        entrada_nombres.setText(valida.formatearNombresApellidos(entrada_nombres.getText()));
+    }//GEN-LAST:event_entrada_nombresFocusLost
+
+    private void entrada_apellidoPaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoFocusLost
+        entrada_apellidoPaterno.setText(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()));
+    }//GEN-LAST:event_entrada_apellidoPaternoFocusLost
+
+    private void entrada_apellidoMaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoFocusLost
+         entrada_apellidoMaterno.setText(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()));
+    }//GEN-LAST:event_entrada_apellidoMaternoFocusLost
+
+    private void entrada_rfcFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_rfcFocusLost
+        entrada_rfc.setText(entrada_rfc.getText().toUpperCase());
+    }//GEN-LAST:event_entrada_rfcFocusLost
 
     /**
      * @param args the command line arguments
