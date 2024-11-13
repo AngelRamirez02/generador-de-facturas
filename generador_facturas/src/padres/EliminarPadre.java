@@ -1,4 +1,4 @@
-/*
+/* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -10,6 +10,7 @@ import alumnos.AltaAlumnos;
 import alumnos.ConsultarAlumnos;
 import alumnos.ConsultarAlumnosEdit;
 import alumnos.EliminarAlumno;
+import com.itextpdf.text.DocumentException;
 import conexion.conexion;
 import emisor.AltaEmisor;
 import java.awt.Color;
@@ -20,54 +21,66 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import login.login_window;
 import menu.MenuPrincipal;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import paneles.PanelRound;
 import sesiones.HistorialSesiones;
+import validacion.Validacion;
 
 /**
  *
  * @author ar275
  */
 public class EliminarPadre extends javax.swing.JFrame {
-    //Variables para los datos de las columas
-    String rfc;
-
     conexion cx = new conexion();
-    
+
     DefaultTableModel modelo;
-   
+
     private String usuario;//Nombre del usuario que inicia sesión
     LocalDate fechaInicioSesion;
     LocalTime horaInicioSesion;
     
+    //variables para generar el pdf
+    PadresPDF x;
+    public List<PadresPDF> registrosPadres = new ArrayList<PadresPDF>();
+
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
     Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
-     //Imagen para menu selccionado
+    //Imagen para menu selccionado
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-   
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
-    
-     public EliminarPadre() {
+
+    public EliminarPadre() {
         initComponents();
         
         //Menus ocultos por defecto
@@ -76,12 +89,10 @@ public class EliminarPadre extends javax.swing.JFrame {
         menu_factura.setVisible(false);
         menu_estadisticas.setVisible(false);
         menu_emisor.setVisible(false);
-        //Imagen del logo de la escuela
+         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
-        
-       //boton acatulizar oculto por defecto
-       btn_eliminarPadre.setVisible(false);
-        
+        logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
+       
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -97,6 +108,9 @@ public class EliminarPadre extends javax.swing.JFrame {
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
         Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
         icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
+        
+        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
+        icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -160,13 +174,13 @@ public class EliminarPadre extends javax.swing.JFrame {
             }
         });
         timer.start();
-
-        //Propiedades para la tabla
-        JTableHeader header = tabla_emisor.getTableHeader();
-        header.setDefaultRenderer(new TablaPersonalizada());
-        header.setPreferredSize(new Dimension(30,50));
         
-        llenarTabla();
+        //por defectos estan ocultos los campos
+        ocultarCampos();
+        //ocultar btn de cerrar consulta
+        btn_eliminarPadre.setVisible(false);
+        lb_noEncontrados.setVisible(false);
+        
         
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
@@ -186,6 +200,23 @@ public class EliminarPadre extends javax.swing.JFrame {
 
         fondo = new javax.swing.JPanel();
         icon_regresarlb = new javax.swing.JLabel();
+        menu_salir = new javax.swing.JPanel();
+        nombre_user = new javax.swing.JPanel();
+        user_menuIcon1 = new javax.swing.JLabel();
+        txt_nombreUser = new javax.swing.JLabel();
+        btn_historialSesiones = new javax.swing.JPanel();
+        historial_lb = new javax.swing.JLabel();
+        txt_cerrarSesion = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        btn_salir = new javax.swing.JPanel();
+        icon_salir = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        text_salir = new javax.swing.JLabel();
+        btn_cerrarSesion = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        txt_cerrarSesion1 = new javax.swing.JLabel();
+        jSeparator17 = new javax.swing.JSeparator();
+        cerrar_icon = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
@@ -207,23 +238,6 @@ public class EliminarPadre extends javax.swing.JFrame {
         icon_item5 = new javax.swing.JLabel();
         menu_user = new javax.swing.JPanel();
         user_menuIcon = new javax.swing.JLabel();
-        menu_salir = new javax.swing.JPanel();
-        nombre_user = new javax.swing.JPanel();
-        user_menuIcon1 = new javax.swing.JLabel();
-        txt_nombreUser = new javax.swing.JLabel();
-        btn_historialSesiones = new javax.swing.JPanel();
-        historial_lb = new javax.swing.JLabel();
-        txt_cerrarSesion = new javax.swing.JLabel();
-        jSeparator5 = new javax.swing.JSeparator();
-        btn_salir = new javax.swing.JPanel();
-        icon_salir = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        text_salir = new javax.swing.JLabel();
-        btn_cerrarSesion = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        txt_cerrarSesion1 = new javax.swing.JLabel();
-        jSeparator17 = new javax.swing.JSeparator();
-        cerrar_icon = new javax.swing.JLabel();
         menu_factura = new javax.swing.JPanel();
         txt_generarFcatura = new javax.swing.JLabel();
         txt_consultarAlmnos1 = new javax.swing.JLabel();
@@ -257,16 +271,45 @@ public class EliminarPadre extends javax.swing.JFrame {
         jSeparator18 = new javax.swing.JSeparator();
         txt_ConsultarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla_emisor = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        btn_eliminarPadre = new paneles.PanelRound();
-        contenedor_btn = new paneles.PanelRound();
-        text_eliminarEmisor = new javax.swing.JLabel();
+        titulo_rfc = new javax.swing.JTextField();
+        rfc_show = new javax.swing.JTextField();
+        titulo_estado = new javax.swing.JTextField();
+        titulo_apellidoPaterno = new javax.swing.JTextField();
+        estado = new javax.swing.JTextField();
+        titulo_apellidoMaterno = new javax.swing.JTextField();
+        apellido_materno = new javax.swing.JTextField();
+        titulo_nombres = new javax.swing.JTextField();
+        nombres = new javax.swing.JTextField();
+        titulo_regimen = new javax.swing.JTextField();
+        titulo_correo = new javax.swing.JTextField();
+        titulo_cp = new javax.swing.JTextField();
+        titulo_fechaNacimiento = new javax.swing.JTextField();
+        titulo_municipio = new javax.swing.JTextField();
+        lb_campos = new javax.swing.JLabel();
+        apellido_paterno = new javax.swing.JTextField();
+        correo_electronico = new javax.swing.JTextField();
+        codigo_postal = new javax.swing.JTextField();
+        fecha_nacimiento = new javax.swing.JTextField();
+        municipio = new javax.swing.JTextField();
+        regimen = new javax.swing.JTextField();
+        no_interior = new javax.swing.JTextField();
+        titulo_colonia = new javax.swing.JTextField();
+        titulo_noExterior = new javax.swing.JTextField();
+        titulo_noInterior = new javax.swing.JTextField();
+        colonia = new javax.swing.JTextField();
+        no_exterior = new javax.swing.JTextField();
+        lb_noEncontrados = new javax.swing.JLabel();
+        lb_inicial = new javax.swing.JLabel();
+        rfc_busqueda = new javax.swing.JTextField();
+        icon_buscar = new javax.swing.JLabel();
+        btn_eliminarPadre = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
+        logo_lb = new javax.swing.JLabel();
+        txt_rfc = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Eliminar padre de familia");
+        setTitle("Instituto Andrés Manuel López Obrador - Consultar Padre de familia");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -288,7 +331,104 @@ public class EliminarPadre extends javax.swing.JFrame {
             }
         });
         fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
+        icon_regresarlb.setBounds(30, 115, 60, 60);
+
+        menu_salir.setBackground(new java.awt.Color(198, 54, 55));
+        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        nombre_user.setBackground(new java.awt.Color(198, 54, 55));
+        nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nombre_userMouseClicked(evt);
+            }
+        });
+        nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
+        user_menuIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        user_menuIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_usuarioMenu.png"))); // NOI18N
+        nombre_user.add(user_menuIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
+
+        txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
+        txt_nombreUser.setText("Administrador");
+        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
+
+        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
+
+        btn_historialSesiones.setBackground(new java.awt.Color(198, 54, 55));
+        btn_historialSesiones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_historialSesiones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_historialSesionesMouseClicked(evt);
+            }
+        });
+        btn_historialSesiones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        historial_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_historial.png"))); // NOI18N
+        btn_historialSesiones.add(historial_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 3, 40, 40));
+
+        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion.setText(" Historial de sesiones");
+        btn_historialSesiones.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 190, 50));
+        btn_historialSesiones.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_historialSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, 50));
+
+        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
+        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_salirMouseClicked(evt);
+            }
+        });
+        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
+        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 50, 50));
+        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 240, 10));
+
+        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        text_salir.setForeground(new java.awt.Color(255, 255, 255));
+        text_salir.setText("Salir");
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 40));
+
+        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 250, 60));
+
+        btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
+        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cerrarSesionMouseClicked(evt);
+            }
+        });
+        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
+        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
+
+        txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion1.setText("Cerrar sesión");
+        btn_cerrarSesion.add(txt_cerrarSesion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 50));
+        btn_cerrarSesion.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 250, 50));
+
+        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
+        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrar_iconMouseClicked(evt);
+            }
+        });
+        menu_salir.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 40, 40));
+
+        fondo.add(menu_salir);
+        menu_salir.setBounds(790, 100, 260, 240);
 
         barra_nav.setBackground(new java.awt.Color(201, 69, 69));
         barra_nav.setLayout(null);
@@ -388,7 +528,7 @@ public class EliminarPadre extends javax.swing.JFrame {
         txt_estadisticas.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txt_estadisticas.setForeground(new java.awt.Color(255, 255, 255));
         txt_estadisticas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_estadisticas.setText("Estadisticas");
+        txt_estadisticas.setText("Estadísticas");
         btn_estadisticas.add(txt_estadisticas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 30));
 
         icon_item4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_itemMenu.png"))); // NOI18N
@@ -441,103 +581,6 @@ public class EliminarPadre extends javax.swing.JFrame {
 
         fondo.add(barra_nav);
         barra_nav.setBounds(0, 0, 1050, 100);
-
-        menu_salir.setBackground(new java.awt.Color(198, 54, 55));
-        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        nombre_user.setBackground(new java.awt.Color(198, 54, 55));
-        nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nombre_userMouseClicked(evt);
-            }
-        });
-        nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
-        user_menuIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_menuIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_usuarioMenu.png"))); // NOI18N
-        nombre_user.add(user_menuIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
-
-        txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
-        txt_nombreUser.setText("Administrador");
-        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
-
-        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
-
-        btn_historialSesiones.setBackground(new java.awt.Color(198, 54, 55));
-        btn_historialSesiones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_historialSesiones.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_historialSesionesMouseClicked(evt);
-            }
-        });
-        btn_historialSesiones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        historial_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_historial.png"))); // NOI18N
-        btn_historialSesiones.add(historial_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 3, 40, 40));
-
-        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cerrarSesion.setText(" Historial de sesiones");
-        btn_historialSesiones.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 190, 50));
-        btn_historialSesiones.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
-
-        menu_salir.add(btn_historialSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, 50));
-
-        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
-        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
-        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_salirMouseClicked(evt);
-            }
-        });
-        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
-        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 50, 50));
-        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 240, 10));
-
-        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        text_salir.setForeground(new java.awt.Color(255, 255, 255));
-        text_salir.setText("Salir");
-        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 40));
-
-        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 250, 60));
-
-        btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
-        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_cerrarSesionMouseClicked(evt);
-            }
-        });
-        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
-        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
-
-        txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cerrarSesion1.setText("Cerrar sesión");
-        btn_cerrarSesion.add(txt_cerrarSesion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 50));
-        btn_cerrarSesion.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
-
-        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 250, 50));
-
-        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
-        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cerrar_iconMouseClicked(evt);
-            }
-        });
-        menu_salir.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 40, 40));
-
-        fondo.add(menu_salir);
-        menu_salir.setBounds(790, 100, 260, 240);
 
         menu_factura.setBackground(new java.awt.Color(198, 54, 55));
         menu_factura.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -752,124 +795,473 @@ public class EliminarPadre extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
-        tabla_emisor.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electronico", "Domicilio Fiscal", "Regimen Fiscal"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabla_emisor.setFillsViewportHeight(true);
-        tabla_emisor.setFocusable(false);
-        tabla_emisor.setRowHeight(40);
-        tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
-        tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabla_emisor.setShowHorizontalLines(true);
-        tabla_emisor.getTableHeader().setResizingAllowed(false);
-        tabla_emisor.getTableHeader().setReorderingAllowed(false);
-        tabla_emisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabla_emisorMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tabla_emisor);
-
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 990, 430));
-
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_emisoresRegistrados.setText("PADRES DE FAMILIA REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
+        txt_emisoresRegistrados.setText("ELIMINAR PADRES DE FAMILIA");
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1050, 50));
 
-        jLabel2.setFont(new java.awt.Font("Roboto Light", 1, 24)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Seleccione el padre a eliminar");
-        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 990, 50));
+        titulo_rfc.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_rfc.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_rfc.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_rfc.setText("  RFC");
+        titulo_rfc.setBorder(null);
+        titulo_rfc.setFocusable(false);
+        contenedor.add(titulo_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 220, 230, 40));
 
-        btn_eliminarPadre.setBackground(new java.awt.Color(0, 0, 0));
-        btn_eliminarPadre.setRoundBottomLeft(10);
-        btn_eliminarPadre.setRoundBottomRight(10);
-        btn_eliminarPadre.setRoundTopLeft(10);
-        btn_eliminarPadre.setRoundTopRight(10);
-        btn_eliminarPadre.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_eliminarPadreMouseClicked(evt);
+        rfc_show.setEditable(false);
+        rfc_show.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        rfc_show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        rfc_show.setText("jTextField1");
+        rfc_show.setBorder(null);
+        rfc_show.setFocusable(false);
+        contenedor.add(rfc_show, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 260, 230, 40));
+
+        titulo_estado.setEditable(false);
+        titulo_estado.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_estado.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_estado.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_estado.setText("   Estado");
+        titulo_estado.setBorder(null);
+        titulo_estado.setFocusable(false);
+        contenedor.add(titulo_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 310, 270, 40));
+
+        titulo_apellidoPaterno.setEditable(false);
+        titulo_apellidoPaterno.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoPaterno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoPaterno.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoPaterno.setText("   Apellido Paterno");
+        titulo_apellidoPaterno.setBorder(null);
+        titulo_apellidoPaterno.setFocusable(false);
+        contenedor.add(titulo_apellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 250, 40));
+
+        estado.setEditable(false);
+        estado.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        estado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        estado.setText("jTextField1");
+        estado.setBorder(null);
+        estado.setFocusable(false);
+        contenedor.add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 350, 270, 40));
+
+        titulo_apellidoMaterno.setEditable(false);
+        titulo_apellidoMaterno.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoMaterno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoMaterno.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoMaterno.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        titulo_apellidoMaterno.setText("    Apellido Materno");
+        titulo_apellidoMaterno.setBorder(null);
+        titulo_apellidoMaterno.setFocusable(false);
+        titulo_apellidoMaterno.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        contenedor.add(titulo_apellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 220, 230, 40));
+
+        apellido_materno.setEditable(false);
+        apellido_materno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_materno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_materno.setText("jTextField1");
+        apellido_materno.setBorder(null);
+        apellido_materno.setFocusable(false);
+        contenedor.add(apellido_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 230, 40));
+
+        titulo_nombres.setEditable(false);
+        titulo_nombres.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_nombres.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_nombres.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_nombres.setText("  Nombre(s)");
+        titulo_nombres.setBorder(null);
+        titulo_nombres.setFocusable(false);
+        contenedor.add(titulo_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 280, 40));
+
+        nombres.setEditable(false);
+        nombres.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        nombres.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        nombres.setText("jTextField1");
+        nombres.setBorder(null);
+        nombres.setFocusable(false);
+        contenedor.add(nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 260, 280, 40));
+
+        titulo_regimen.setEditable(false);
+        titulo_regimen.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_regimen.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_regimen.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_regimen.setText("   Regimen fiscal");
+        titulo_regimen.setBorder(null);
+        titulo_regimen.setFocusable(false);
+        contenedor.add(titulo_regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 410, 330, 40));
+
+        titulo_correo.setEditable(false);
+        titulo_correo.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_correo.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_correo.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_correo.setText("   Correo electronico");
+        titulo_correo.setBorder(null);
+        titulo_correo.setFocusable(false);
+        contenedor.add(titulo_correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, 330, 40));
+
+        titulo_cp.setEditable(false);
+        titulo_cp.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_cp.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_cp.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_cp.setText("   Codigo postal");
+        titulo_cp.setBorder(null);
+        titulo_cp.setFocusable(false);
+        contenedor.add(titulo_cp, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 310, 180, 40));
+
+        titulo_fechaNacimiento.setEditable(false);
+        titulo_fechaNacimiento.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_fechaNacimiento.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_fechaNacimiento.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_fechaNacimiento.setText("   Fecha de nacimiento");
+        titulo_fechaNacimiento.setBorder(null);
+        titulo_fechaNacimiento.setFocusable(false);
+        contenedor.add(titulo_fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 210, 40));
+
+        titulo_municipio.setEditable(false);
+        titulo_municipio.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_municipio.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_municipio.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_municipio.setText("  Municipio");
+        titulo_municipio.setBorder(null);
+        titulo_municipio.setFocusable(false);
+        contenedor.add(titulo_municipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 210, 40));
+
+        lb_campos.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_campos.setText("Datos del padre consultado:");
+        contenedor.add(lb_campos, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 350, 40));
+
+        apellido_paterno.setEditable(false);
+        apellido_paterno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_paterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_paterno.setText("jTextField1");
+        apellido_paterno.setBorder(null);
+        apellido_paterno.setFocusable(false);
+        contenedor.add(apellido_paterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 250, 40));
+
+        correo_electronico.setEditable(false);
+        correo_electronico.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        correo_electronico.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        correo_electronico.setText("jTextField1");
+        correo_electronico.setBorder(null);
+        correo_electronico.setFocusable(false);
+        contenedor.add(correo_electronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, 330, 40));
+
+        codigo_postal.setEditable(false);
+        codigo_postal.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        codigo_postal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        codigo_postal.setText("jTextField1");
+        codigo_postal.setBorder(null);
+        codigo_postal.setFocusable(false);
+        contenedor.add(codigo_postal, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 350, 180, 40));
+
+        fecha_nacimiento.setEditable(false);
+        fecha_nacimiento.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        fecha_nacimiento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        fecha_nacimiento.setText("jTextField1");
+        fecha_nacimiento.setBorder(null);
+        fecha_nacimiento.setFocusable(false);
+        contenedor.add(fecha_nacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 210, 40));
+
+        municipio.setEditable(false);
+        municipio.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        municipio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        municipio.setText("jTextField1");
+        municipio.setBorder(null);
+        municipio.setFocusable(false);
+        contenedor.add(municipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 210, 40));
+
+        regimen.setEditable(false);
+        regimen.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        regimen.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        regimen.setText("jTextField1");
+        regimen.setBorder(null);
+        regimen.setFocusable(false);
+        contenedor.add(regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 450, 330, 40));
+
+        no_interior.setEditable(false);
+        no_interior.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        no_interior.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        no_interior.setText("jTextField1");
+        no_interior.setBorder(null);
+        no_interior.setFocusable(false);
+        contenedor.add(no_interior, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 450, 130, 40));
+
+        titulo_colonia.setEditable(false);
+        titulo_colonia.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_colonia.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_colonia.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_colonia.setText("   Colonia");
+        titulo_colonia.setBorder(null);
+        titulo_colonia.setFocusable(false);
+        contenedor.add(titulo_colonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 200, 40));
+
+        titulo_noExterior.setEditable(false);
+        titulo_noExterior.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_noExterior.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_noExterior.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_noExterior.setText("   No Exterior");
+        titulo_noExterior.setBorder(null);
+        titulo_noExterior.setFocusable(false);
+        contenedor.add(titulo_noExterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 410, 130, 40));
+
+        titulo_noInterior.setEditable(false);
+        titulo_noInterior.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_noInterior.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_noInterior.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_noInterior.setText("   No Interior");
+        titulo_noInterior.setBorder(null);
+        titulo_noInterior.setFocusable(false);
+        contenedor.add(titulo_noInterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 410, 130, 40));
+
+        colonia.setEditable(false);
+        colonia.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        colonia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        colonia.setText("jTextField1");
+        colonia.setBorder(null);
+        colonia.setFocusable(false);
+        contenedor.add(colonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 200, 40));
+
+        no_exterior.setEditable(false);
+        no_exterior.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        no_exterior.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        no_exterior.setText("jTextField1");
+        no_exterior.setBorder(null);
+        no_exterior.setFocusable(false);
+        contenedor.add(no_exterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 450, 130, 40));
+
+        lb_noEncontrados.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_noEncontrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_noEncontrados.setText("NO SE ENCONTRÓ A NINGUN PADRE CON EL RFC INGRESADO");
+        contenedor.add(lb_noEncontrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 1050, 60));
+
+        lb_inicial.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        lb_inicial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lb_inicial.setText("INGRESE EL RFC DEL PADRE A ELIMINAR");
+        contenedor.add(lb_inicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 550, 30));
+
+        rfc_busqueda.setColumns(1);
+        rfc_busqueda.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        rfc_busqueda.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        rfc_busqueda.setActionCommand("<Not Set>");
+        rfc_busqueda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        rfc_busqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        rfc_busqueda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                rfc_busquedaFocusLost(evt);
             }
         });
-        btn_eliminarPadre.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        rfc_busqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rfc_busquedaActionPerformed(evt);
+            }
+        });
+        rfc_busqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rfc_busquedaKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rfc_busquedaKeyTyped(evt);
+            }
+        });
+        contenedor.add(rfc_busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 710, 50));
 
-        contenedor_btn.setBackground(new java.awt.Color(217, 217, 217));
-        contenedor_btn.setRoundBottomLeft(10);
-        contenedor_btn.setRoundBottomRight(10);
-        contenedor_btn.setRoundTopLeft(10);
-        contenedor_btn.setRoundTopRight(10);
-        contenedor_btn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        icon_buscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\ar275\\Documents\\Generador de facturas\\generador-de-facturas\\generador_facturas\\src\\img\\btn_buscar.png")); // NOI18N
+        icon_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarMouseClicked(evt);
+            }
+        });
+        contenedor.add(icon_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 110, 70, 70));
 
-        text_eliminarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        text_eliminarEmisor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_eliminarEmisor.setText("Eliminar padre");
-        text_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        contenedor_btn.add(text_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 40));
+        btn_eliminarPadre.setBackground(new java.awt.Color(198, 54, 55));
+        btn_eliminarPadre.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_eliminarPadre.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminarPadre.setText("Eliminar padre");
+        btn_eliminarPadre.setBorder(null);
+        btn_eliminarPadre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_eliminarPadre.setFocusPainted(false);
+        btn_eliminarPadre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarPadreActionPerformed(evt);
+            }
+        });
+        contenedor.add(btn_eliminarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 530, 170, 40));
 
-        btn_eliminarPadre.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 235, 35));
+        btn_cancelar.setBackground(new java.awt.Color(102, 102, 102));
+        btn_cancelar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_cancelar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.setBorder(null);
+        btn_cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cancelar.setFocusPainted(false);
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
+        contenedor.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 530, 170, 40));
 
-        contenedor.add(btn_eliminarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 530, 240, 40));
+        logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
+        logo_lb.setText("jLabel2");
+        logo_lb.setMaximumSize(new java.awt.Dimension(400, 400));
+        logo_lb.setMinimumSize(new java.awt.Dimension(400, 400));
+        logo_lb.setPreferredSize(new java.awt.Dimension(400, 600));
+        contenedor.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 370, 360));
+
+        txt_rfc.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        txt_rfc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_rfc.setText("jLabel1");
+        contenedor.add(txt_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 880, 50));
 
         fondo.add(contenedor);
-        contenedor.setBounds(30, 150, 990, 580);
+        contenedor.setBounds(0, 140, 1050, 600);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //conuslta los datos y los agrega a la tabla
-    private void llenarTabla(){      
+    private void mostrarDatos(String rfc) {
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM padre_familia ORDER BY rfc";
-           PreparedStatement ps = cx.conectar().prepareStatement(consulta);
-           ResultSet rs = ps.executeQuery();
-           //Arreglo de datos
-           Object [] emisor =new Object[8];
-           modelo = (DefaultTableModel) tabla_emisor.getModel();
-           while(rs.next()){
-               //se obtienen los datos de la tabla
-               emisor[0] = rs.getString("rfc");
-               emisor[1] = rs.getString("nombres");
-               emisor[2] = rs.getString("apellido_paterno");
-               emisor[3] = rs.getString("apellido_materno");
-               emisor[4] = rs.getDate("fecha_nacimiento");
-               emisor[5] = rs.getString("correo_electronico");
-               emisor[6] = rs.getInt("domicilio_fiscal");
-               emisor[7] = rs.getString("regimen");
-               //añade la info  la tabla
-               modelo.addRow(emisor);
-           }
-           tabla_emisor.setModel(modelo);
+            String consulta = "SELECT * FROM padre_familia WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ps.setString(1, rfc);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] padre = new Object[13];
+
+            if(rs.next()) {
+               mostrarCampos();
+               txt_rfc.setText(rs.getString("rfc"));//etiqueta con el nombre del RFC
+               rfc_show.setText(rs.getString("rfc"));
+               nombres.setText(rs.getString("nombres"));
+               apellido_paterno.setText(rs.getString("apellido_paterno"));
+               apellido_materno.setText( rs.getString("apellido_materno"));
+               fecha_nacimiento.setText(rs.getDate("fecha_nacimiento").toString());
+               codigo_postal.setText(String.valueOf(rs.getInt("domicilio_fiscal")));
+               correo_electronico.setText(rs.getString("correo_electronico"));
+               estado.setText(rs.getString("estado"));
+               municipio.setText(rs.getString("municipio"));
+               colonia.setText(rs.getString("colonia"));
+               no_exterior.setText(rs.getString("num_exterior"));
+               no_interior.setText(rs.getString("num_interior"));
+               regimen.setText(rs.getString("regimen"));
+            }else{
+                JOptionPane.showMessageDialog(null, "El RFC que solicitó no se encuentra registrado", "RFC no encontrado", JOptionPane.WARNING_MESSAGE);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    //limpia la tabla
-    private void limpiarTabla() {
-        int rowCount = tabla_emisor.getRowCount(); // Obtén el número de filas
-        for (int i = rowCount - 1; i >= 0; i--) { // Comienza desde la última fila
-            modelo.removeRow(i); // Elimina la fila en el índice actual
+
+    void eliminarPadre(String rfc) {
+        try {
+            //consulta para eliminar
+            String sql = "DELETE FROM padre_familia WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(sql);
+            ps.setString(1, rfc);
+            //ejecutar consulta
+            int filas_eliminadas = ps.executeUpdate();
+            //verificar si se elimaron los datos
+            if (filas_eliminadas > 0) {
+                JOptionPane.showMessageDialog(null, "Padre de familia eliminado exitosamente", "Eliminación exitosa", JOptionPane.INFORMATION_MESSAGE);
+                //limpia la tabla para que este actualizada;
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el registro con el RFC especificado", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se completó la acción", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
+
         }
     }
-            
+    private void ocultarCampos() {
+        //
+        rfc_busqueda.setVisible(true);
+        icon_buscar.setVisible(true);
+        lb_inicial.setVisible(true);
+        txt_rfc.setVisible(false);
+        logo_lb.setVisible(true);
+        lb_campos.setVisible(false);
+        //Titulos de los campos
+        titulo_apellidoPaterno.setVisible(false);
+        titulo_apellidoMaterno.setVisible(false);
+        titulo_nombres.setVisible(false);
+        titulo_rfc.setVisible(false);
+        titulo_correo.setVisible(false);
+        titulo_fechaNacimiento.setVisible(false);
+        titulo_cp.setVisible(false);
+        titulo_estado.setVisible(false);
+        titulo_municipio.setVisible(false);
+        titulo_colonia.setVisible(false);
+        titulo_noExterior.setVisible(false);
+        titulo_noInterior.setVisible(false);
+        titulo_regimen.setVisible(false);
+        //Campos
+        rfc_show.setVisible(false);
+        nombres.setVisible(false);
+        apellido_paterno.setVisible(false);
+        apellido_materno.setVisible(false);
+        fecha_nacimiento.setVisible(false);
+        codigo_postal.setVisible(false);
+        correo_electronico.setVisible(false);
+        estado.setVisible(false);
+        municipio.setVisible(false);
+        colonia.setVisible(false);
+        no_exterior.setVisible(false);
+        no_interior.setVisible(false);
+        regimen.setVisible(false);
+        //botones
+        btn_cancelar.setVisible(false);
+        btn_eliminarPadre.setVisible(false);
+
+    }
+
+    private void mostrarCampos() {
+        //OCulta logo
+        logo_lb.setVisible(false);
+        //mostrar boton para cerrar consulta
+        btn_eliminarPadre.setVisible(true);
+        btn_cancelar.setVisible(true);
+        //ocultar barra de busqueda
+        rfc_busqueda.setVisible(false);
+        icon_buscar.setVisible(false);
+        
+        //ocultar eiqueta de la barra
+        lb_inicial.setVisible(false);
+        
+        lb_noEncontrados.setVisible(false);
+        lb_campos.setVisible(true);
+        //
+        txt_rfc.setVisible(true);
+        titulo_apellidoPaterno.setVisible(true);
+        titulo_apellidoMaterno.setVisible(true);
+        titulo_nombres.setVisible(true);
+        titulo_rfc.setVisible(true);
+        titulo_correo.setVisible(true);
+        titulo_fechaNacimiento.setVisible(true);
+        titulo_cp.setVisible(true);
+        titulo_estado.setVisible(true);
+        titulo_municipio.setVisible(true);
+        titulo_colonia.setVisible(true);
+        titulo_noExterior.setVisible(true);
+        titulo_noInterior.setVisible(true);
+        titulo_regimen.setVisible(true);
+        //
+        rfc_show.setVisible(true);
+        nombres.setVisible(true);
+        apellido_paterno.setVisible(true);
+        apellido_materno.setVisible(true);
+        fecha_nacimiento.setVisible(true);
+        codigo_postal.setVisible(true);
+        correo_electronico.setVisible(true);
+        estado.setVisible(true);
+        municipio.setVisible(true);
+        colonia.setVisible(true);
+        no_exterior.setVisible(true);
+        no_interior.setVisible(true);
+        regimen.setVisible(true);
+
+    }
+    //datos para el historial
     public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
         this.fechaInicioSesion = fechaInicioSesion;
@@ -1095,8 +1487,8 @@ public class EliminarPadre extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_emisorMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       //cuando el usuario da click en la x de la ventana
         Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
@@ -1138,64 +1530,6 @@ public class EliminarPadre extends javax.swing.JFrame {
             this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         }
     }//GEN-LAST:event_formWindowClosing
-
-    void eliminarEmisor() {
-        try {
-            //consulta para eliminar
-            String sql = "DELETE FROM padre_familia WHERE rfc = ?";
-            PreparedStatement ps = cx.conectar().prepareStatement(sql);
-            ps.setString(1, rfc);
-            //ejecutar consulta
-            int filas_eliminadas = ps.executeUpdate();
-            //verificar si se elimaron los datos
-            if (filas_eliminadas > 0) {
-                JOptionPane.showMessageDialog(null, "Emisor eliminado exitosamente", "Eliminación exitosa", JOptionPane.INFORMATION_MESSAGE);
-                //limpia la tabla para que este actualizada
-                limpiarTabla();
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el registro con el RFC especificado", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se completó la acción", "Error en la eliminación", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-    
-    private void btn_eliminarPadreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarPadreMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo      
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "Se perderán los datos, ¿Desea eliminar al padre?",
-                    "Eliminacion de emisor",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                eliminarEmisor();
-                llenarTabla();
-            } else {
-                return;
-            }
-        }
-    }//GEN-LAST:event_btn_eliminarPadreMouseClicked
-
-    private void tabla_emisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_emisorMouseClicked
-        int fila = tabla_emisor.getSelectedRow();
-        if (fila != - 1) {
-            rfc = (String) tabla_emisor.getValueAt(fila, 0);
-            if(!btn_eliminarPadre.isVisible()){
-                btn_eliminarPadre.setVisible(true);
-            }
-        }else{
-            btn_eliminarPadre.setVisible(false);
-        }
-    }//GEN-LAST:event_tabla_emisorMouseClicked
 
     private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
@@ -1316,25 +1650,28 @@ public class EliminarPadre extends javax.swing.JFrame {
 
     private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            ConsultarPadre ventena = new ConsultarPadre();
-            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventena.setVisible(true);
+            ConsultarPadre ventana = new ConsultarPadre();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_txt_consultarPadresMouseClicked
 
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarPadre ventana = new ConsultarPadre();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+           ModificarPadre ventana = new ModificarPadre();
+           ventana.setDatosSesion(usuario, fechaInicioSesion, horaInicioSesion);
+           ventana.setVisible(true);
+           this.dispose();
         }
     }//GEN-LAST:event_txt_modificarPadresMouseClicked
 
     private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+             JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            menu_padres.setVisible(false);
+            btn_padres.setBackground(colorbtnNoSeleccionado);
+            icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));;
         }
     }//GEN-LAST:event_txt_eliminarPadresMouseClicked
 
@@ -1411,6 +1748,109 @@ public class EliminarPadre extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
 
+    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
+       ///boton para buscar
+       if(SwingUtilities.isLeftMouseButton(evt)){
+           Validacion valida = new Validacion();
+           if(rfc_busqueda.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+                return;
+           }
+           if(rfc_busqueda.getText().length()<13){
+               JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+           }
+           if(!valida.rfc_valido(rfc_busqueda.getText().toUpperCase())){
+               JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+           }
+           
+           mostrarDatos(rfc_busqueda.getText().toUpperCase());
+           rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+       }
+    }//GEN-LAST:event_icon_buscarMouseClicked
+
+    private void rfc_busquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rfc_busquedaFocusLost
+        rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_busquedaFocusLost
+
+    private void rfc_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_busquedaKeyTyped
+
+        if (rfc_busqueda.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_rfc_busquedaKeyTyped
+
+    private void rfc_busquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_busquedaKeyPressed
+
+    }//GEN-LAST:event_rfc_busquedaKeyPressed
+
+    private void rfc_busquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_busquedaActionPerformed
+        Validacion valida = new Validacion();
+        if (rfc_busqueda.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (rfc_busqueda.getText().length() < 13) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!valida.rfc_valido(rfc_busqueda.getText().toUpperCase())) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        mostrarDatos(rfc_busqueda.getText().toUpperCase());
+        rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_busquedaActionPerformed
+
+    private void btn_eliminarPadreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarPadreActionPerformed
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
+        // Mostrar diálogo que pregunta si desea confirmar la salida
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "Se perderán los datos, ¿Desea eliminar al padre?",
+                "Eliminacion de emisor",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+        // Manejar las opciones seleccionadas
+        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            eliminarPadre(rfc_show.getText().toUpperCase());
+            ocultarCampos();
+            rfc_busqueda.setText("");
+        } else {
+            return;
+        }
+    }//GEN-LAST:event_btn_eliminarPadreActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
+        // Mostrar diálogo que pregunta si desea confirmar la salida
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "¿Seleccionar a otro padre de familia?",
+                "Regresar",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+        // Manejar las opciones seleccionadas
+        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            ocultarCampos();
+            rfc_busqueda.setText("");
+        } else {
+            return;
+        }
+    }//GEN-LAST:event_btn_cancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1445,6 +1885,2046 @@ public class EliminarPadre extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1456,10 +3936,13 @@ public class EliminarPadre extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
+    private javax.swing.JTextField apellido_materno;
+    private javax.swing.JTextField apellido_paterno;
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
+    private javax.swing.JButton btn_cancelar;
     private javax.swing.JPanel btn_cerrarSesion;
-    private paneles.PanelRound btn_eliminarPadre;
+    private javax.swing.JButton btn_eliminarPadre;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
@@ -1467,12 +3950,17 @@ public class EliminarPadre extends javax.swing.JFrame {
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
+    private javax.swing.JTextField codigo_postal;
+    private javax.swing.JTextField colonia;
     private javax.swing.JPanel contenedor;
-    private paneles.PanelRound contenedor_btn;
     private javax.swing.JPanel contenedor_menu;
+    private javax.swing.JTextField correo_electronico;
+    private javax.swing.JTextField estado;
+    private javax.swing.JTextField fecha_nacimiento;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel icon_buscar;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
     private javax.swing.JLabel icon_item3;
@@ -1481,8 +3969,6 @@ public class EliminarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
@@ -1497,6 +3983,10 @@ public class EliminarPadre extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JLabel lb_campos;
+    private javax.swing.JLabel lb_inicial;
+    private javax.swing.JLabel lb_noEncontrados;
+    private javax.swing.JLabel logo_lb;
     private javax.swing.JPanel menu_alumnos;
     private javax.swing.JPanel menu_emisor;
     private javax.swing.JPanel menu_estadisticas;
@@ -1504,10 +3994,28 @@ public class EliminarPadre extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
+    private javax.swing.JTextField municipio;
+    private javax.swing.JTextField no_exterior;
+    private javax.swing.JTextField no_interior;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JTable tabla_emisor;
-    private javax.swing.JLabel text_eliminarEmisor;
+    private javax.swing.JTextField nombres;
+    private javax.swing.JTextField regimen;
+    private javax.swing.JTextField rfc_busqueda;
+    private javax.swing.JTextField rfc_show;
     private javax.swing.JLabel text_salir;
+    private javax.swing.JTextField titulo_apellidoMaterno;
+    private javax.swing.JTextField titulo_apellidoPaterno;
+    private javax.swing.JTextField titulo_colonia;
+    private javax.swing.JTextField titulo_correo;
+    private javax.swing.JTextField titulo_cp;
+    private javax.swing.JTextField titulo_estado;
+    private javax.swing.JTextField titulo_fechaNacimiento;
+    private javax.swing.JTextField titulo_municipio;
+    private javax.swing.JTextField titulo_noExterior;
+    private javax.swing.JTextField titulo_noInterior;
+    private javax.swing.JTextField titulo_nombres;
+    private javax.swing.JTextField titulo_regimen;
+    private javax.swing.JTextField titulo_rfc;
     private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;
@@ -1533,6 +4041,7 @@ public class EliminarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
+    private javax.swing.JLabel txt_rfc;
     private javax.swing.JLabel user_menuIcon;
     private javax.swing.JLabel user_menuIcon1;
     // End of variables declaration//GEN-END:variables
