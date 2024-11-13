@@ -1386,7 +1386,7 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
 
     private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            ConsultarPadres ventena = new ConsultarPadres();
+            ConsultarPadre ventena = new ConsultarPadre();
             ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventena.setVisible(true);
             this.dispose();
@@ -1395,7 +1395,7 @@ public class ConsultarAlumnosEdit extends javax.swing.JFrame {
 
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+            ConsultarPadre ventana = new ConsultarPadre();
             ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();

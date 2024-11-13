@@ -41,8 +41,8 @@ import validacion.Validacion;
 import direccion.ObtenerDireccion;
 import javax.swing.DefaultComboBoxModel;
 import padres.AltaPadres;
-import padres.ConsultarPadres;
-import padres.ConsultarPadresEdit;
+import padres.ConsultarPadre;
+import padres.ConsultarPadre;
 import padres.EliminarPadre;
 import sesiones.HistorialSesiones;
 
@@ -2018,7 +2018,7 @@ public class AltaEmisor extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadres ventena = new ConsultarPadres();
+                ConsultarPadre ventena = new ConsultarPadre();
                 ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventena.setVisible(true);
                 this.dispose();
@@ -2047,7 +2047,7 @@ public class AltaEmisor extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+                ConsultarPadre ventana = new ConsultarPadre();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();

@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.sql.PreparedStatement;
@@ -39,6 +40,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import login.login_window;
+import menu.MenuPrincipal;
 import sesiones.HistorialSesiones;
 import validacion.Validacion;
 
@@ -58,8 +60,8 @@ public class ModificarPadre extends javax.swing.JFrame {
     LocalDate fechaInicioSesion;
     LocalTime horaInicioSesion;
     
-    private String rfc;//rfc que se va a modficar
-    private String correo;//correo a modificar
+    private String rfc="";//rfc que se va a modficar
+    private String correo="";//correo a modificar
     
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
@@ -101,7 +103,7 @@ public class ModificarPadre extends javax.swing.JFrame {
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
-       
+        logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -109,6 +111,10 @@ public class ModificarPadre extends javax.swing.JFrame {
         icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
+        
+        //icono de buscar
+         Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
+        icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -175,6 +181,9 @@ public class ModificarPadre extends javax.swing.JFrame {
         timer.start();
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
+        
+        ocultarCampos();
+        
         this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setExtendedState(this.MAXIMIZED_BOTH);
@@ -270,42 +279,44 @@ public class ModificarPadre extends javax.swing.JFrame {
         infoIcon_lb = new javax.swing.JLabel();
         info_nombre = new javax.swing.JLabel();
         infoIcon_lb2 = new javax.swing.JLabel();
-        btn_guardarDatos = new paneles.PanelRound();
-        contenedor_btn = new paneles.PanelRound();
-        text_guardarDatos = new javax.swing.JLabel();
         entrada_cp = new javax.swing.JFormattedTextField();
         entrada_regimen = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
+        cp_lb = new javax.swing.JLabel();
         entrada_rfc = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        regimen_lb = new javax.swing.JLabel();
+        rfc_lb = new javax.swing.JLabel();
         entrada_correoElectronico = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        correo_lb = new javax.swing.JLabel();
+        nacimiento_lb = new javax.swing.JLabel();
         entrada_apellidoMaterno = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        materno_lb = new javax.swing.JLabel();
+        paterno_lb = new javax.swing.JLabel();
         entrada_apellidoPaterno = new javax.swing.JTextField();
         entrada_nombres = new javax.swing.JTextField();
         nombres_lb = new javax.swing.JLabel();
         registrarPadre = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        datosPersonales_titulo = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        datosfiscales_titulo = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
         entrada_fechaNacimiento = new com.toedter.calendar.JDateChooser();
         entrada_estado = new javax.swing.JComboBox<>();
         entrada_municipio = new javax.swing.JComboBox<>();
-        txt_estado = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        lb_estado = new javax.swing.JLabel();
+        lb_municipio = new javax.swing.JLabel();
+        colonia_lb = new javax.swing.JLabel();
         entrada_colonia = new javax.swing.JComboBox<>();
         entrada_noExterior = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
+        exterior_lb = new javax.swing.JLabel();
         entrada_noInterior = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        interior_lb = new javax.swing.JLabel();
+        btn_buscarCP = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        rfc_busqueda = new javax.swing.JTextField();
+        icon_buscar = new javax.swing.JLabel();
+        txt_rfc = new javax.swing.JLabel();
+        lb_inicial = new javax.swing.JLabel();
+        txt_datosFiscales = new javax.swing.JLabel();
+        btn_guardarDatos = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
+        logo_lb = new javax.swing.JLabel();
+        txt_datosPersonales = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Modificar Padre de familia");
@@ -869,36 +880,6 @@ public class ModificarPadre extends javax.swing.JFrame {
         contenedor.add(infoIcon_lb2);
         infoIcon_lb2.setBounds(450, 427, 20, 20);
 
-        btn_guardarDatos.setBackground(new java.awt.Color(0, 0, 0));
-        btn_guardarDatos.setRoundBottomLeft(10);
-        btn_guardarDatos.setRoundBottomRight(10);
-        btn_guardarDatos.setRoundTopLeft(10);
-        btn_guardarDatos.setRoundTopRight(10);
-        btn_guardarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_guardarDatosMouseClicked(evt);
-            }
-        });
-        btn_guardarDatos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        contenedor_btn.setBackground(new java.awt.Color(217, 217, 217));
-        contenedor_btn.setRoundBottomLeft(10);
-        contenedor_btn.setRoundBottomRight(10);
-        contenedor_btn.setRoundTopLeft(10);
-        contenedor_btn.setRoundTopRight(10);
-        contenedor_btn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_guardarDatos.setText("Actualizar datos del padre");
-        text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
-
-        btn_guardarDatos.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 240, 40));
-
-        contenedor.add(btn_guardarDatos);
-        btn_guardarDatos.setBounds(400, 550, 245, 45);
-
         try {
             entrada_cp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####")));
         } catch (java.text.ParseException ex) {
@@ -913,10 +894,10 @@ public class ModificarPadre extends javax.swing.JFrame {
         contenedor.add(entrada_regimen);
         entrada_regimen.setBounds(680, 490, 360, 30);
 
-        jLabel10.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel10.setText("Código postal");
-        contenedor.add(jLabel10);
-        jLabel10.setBounds(540, 300, 120, 22);
+        cp_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        cp_lb.setText("Código postal");
+        contenedor.add(cp_lb);
+        cp_lb.setBounds(540, 300, 120, 22);
 
         entrada_rfc.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -931,15 +912,15 @@ public class ModificarPadre extends javax.swing.JFrame {
         contenedor.add(entrada_rfc);
         entrada_rfc.setBounds(680, 232, 157, 30);
 
-        jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel9.setText("Régimen Fiscal");
-        contenedor.add(jLabel9);
-        jLabel9.setBounds(540, 490, 126, 22);
+        regimen_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        regimen_lb.setText("Régimen Fiscal");
+        contenedor.add(regimen_lb);
+        regimen_lb.setBounds(540, 490, 126, 30);
 
-        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel8.setText("RFC");
-        contenedor.add(jLabel8);
-        jLabel8.setBounds(540, 240, 35, 22);
+        rfc_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        rfc_lb.setText("RFC");
+        contenedor.add(rfc_lb);
+        rfc_lb.setBounds(540, 240, 35, 22);
 
         entrada_correoElectronico.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -949,15 +930,15 @@ public class ModificarPadre extends javax.swing.JFrame {
         contenedor.add(entrada_correoElectronico);
         entrada_correoElectronico.setBounds(260, 490, 190, 30);
 
-        jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel7.setText("Correo electrónico");
-        contenedor.add(jLabel7);
-        jLabel7.setBounds(70, 490, 170, 20);
+        correo_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        correo_lb.setText("Correo electrónico");
+        contenedor.add(correo_lb);
+        correo_lb.setBounds(70, 490, 170, 20);
 
-        jLabel6.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel6.setText("Fecha de nacimiento");
-        contenedor.add(jLabel6);
-        jLabel6.setBounds(70, 430, 180, 20);
+        nacimiento_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        nacimiento_lb.setText("Fecha de nacimiento");
+        contenedor.add(nacimiento_lb);
+        nacimiento_lb.setBounds(70, 430, 180, 20);
 
         entrada_apellidoMaterno.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -972,15 +953,15 @@ public class ModificarPadre extends javax.swing.JFrame {
         contenedor.add(entrada_apellidoMaterno);
         entrada_apellidoMaterno.setBounds(260, 360, 190, 30);
 
-        jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel5.setText("Apellido Materno");
-        contenedor.add(jLabel5);
-        jLabel5.setBounds(70, 367, 150, 22);
+        materno_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        materno_lb.setText("Apellido Materno");
+        contenedor.add(materno_lb);
+        materno_lb.setBounds(70, 367, 150, 22);
 
-        jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel3.setText("Apellido peterno");
-        contenedor.add(jLabel3);
-        jLabel3.setBounds(70, 305, 140, 22);
+        paterno_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        paterno_lb.setText("Apellido peterno");
+        contenedor.add(paterno_lb);
+        paterno_lb.setBounds(70, 305, 140, 22);
 
         entrada_apellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -1015,36 +996,8 @@ public class ModificarPadre extends javax.swing.JFrame {
 
         registrarPadre.setBackground(new java.awt.Color(255, 255, 255));
         registrarPadre.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel4.setFont(new java.awt.Font("Roboto Light", 1, 48)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Modificar padre de familia");
-        registrarPadre.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-202, 0, 1050, 60));
-
         contenedor.add(registrarPadre);
-        registrarPadre.setBounds(200, 60, 620, 60);
-
-        datosPersonales_titulo.setBackground(new java.awt.Color(255, 255, 255));
-        datosPersonales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel11.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Datos personales");
-        datosPersonales_titulo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 30));
-
-        contenedor.add(datosPersonales_titulo);
-        datosPersonales_titulo.setBounds(115, 180, 200, 30);
-
-        datosfiscales_titulo.setBackground(new java.awt.Color(255, 255, 255));
-        datosfiscales_titulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel12.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Datos fiscales");
-        datosfiscales_titulo.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 30));
-
-        contenedor.add(datosfiscales_titulo);
-        datosfiscales_titulo.setBounds(640, 180, 170, 30);
+        registrarPadre.setBounds(200, 60, 620, 0);
 
         entrada_fechaNacimiento.setDateFormatString("dd MMM y");
         entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1167548468000L));
@@ -1062,20 +1015,20 @@ public class ModificarPadre extends javax.swing.JFrame {
         contenedor.add(entrada_municipio);
         entrada_municipio.setBounds(850, 360, 180, 30);
 
-        txt_estado.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_estado.setText("Estado");
-        contenedor.add(txt_estado);
-        txt_estado.setBounds(540, 360, 90, 30);
+        lb_estado.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        lb_estado.setText("Estado");
+        contenedor.add(lb_estado);
+        lb_estado.setBounds(540, 360, 90, 30);
 
-        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel13.setText("Municipio");
-        contenedor.add(jLabel13);
-        jLabel13.setBounds(760, 360, 90, 30);
+        lb_municipio.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        lb_municipio.setText("Municipio");
+        contenedor.add(lb_municipio);
+        lb_municipio.setBounds(760, 360, 90, 30);
 
-        jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel14.setText("Colonia");
-        contenedor.add(jLabel14);
-        jLabel14.setBounds(540, 420, 90, 22);
+        colonia_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        colonia_lb.setText("Colonia");
+        contenedor.add(colonia_lb);
+        colonia_lb.setBounds(540, 420, 90, 22);
 
         entrada_colonia.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
         entrada_colonia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
@@ -1090,11 +1043,11 @@ public class ModificarPadre extends javax.swing.JFrame {
         contenedor.add(entrada_noExterior);
         entrada_noExterior.setBounds(840, 420, 90, 30);
 
-        jLabel16.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("N° Exterior");
-        contenedor.add(jLabel16);
-        jLabel16.setBounds(840, 450, 90, 20);
+        exterior_lb.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        exterior_lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        exterior_lb.setText("N° Exterior");
+        contenedor.add(exterior_lb);
+        exterior_lb.setBounds(840, 450, 90, 20);
 
         entrada_noInterior.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1104,20 +1057,122 @@ public class ModificarPadre extends javax.swing.JFrame {
         contenedor.add(entrada_noInterior);
         entrada_noInterior.setBounds(940, 420, 100, 30);
 
-        jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("N° Interior");
-        contenedor.add(jLabel17);
-        jLabel17.setBounds(940, 450, 100, 20);
+        interior_lb.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        interior_lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        interior_lb.setText("N° Interior");
+        contenedor.add(interior_lb);
+        interior_lb.setBounds(940, 450, 100, 20);
 
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_buscarCP.setText("Buscar");
+        btn_buscarCP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_buscarCPActionPerformed(evt);
             }
         });
-        contenedor.add(jButton1);
-        jButton1.setBounds(880, 300, 75, 30);
+        contenedor.add(btn_buscarCP);
+        btn_buscarCP.setBounds(880, 300, 75, 30);
+
+        jLabel4.setFont(new java.awt.Font("Roboto Light", 1, 48)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Modificar padre de familia");
+        contenedor.add(jLabel4);
+        jLabel4.setBounds(-10, 40, 1050, 60);
+
+        rfc_busqueda.setColumns(1);
+        rfc_busqueda.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        rfc_busqueda.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        rfc_busqueda.setActionCommand("<Not Set>");
+        rfc_busqueda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        rfc_busqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        rfc_busqueda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                rfc_busquedaFocusLost(evt);
+            }
+        });
+        rfc_busqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rfc_busquedaActionPerformed(evt);
+            }
+        });
+        rfc_busqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rfc_busquedaKeyTyped(evt);
+            }
+        });
+        contenedor.add(rfc_busqueda);
+        rfc_busqueda.setBounds(170, 150, 710, 50);
+
+        icon_buscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\ar275\\Documents\\Generador de facturas\\generador-de-facturas\\generador_facturas\\src\\img\\btn_buscar.png")); // NOI18N
+        icon_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarMouseClicked(evt);
+            }
+        });
+        contenedor.add(icon_buscar);
+        icon_buscar.setBounds(890, 140, 70, 70);
+
+        txt_rfc.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        txt_rfc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_rfc.setText("jLabel1");
+        contenedor.add(txt_rfc);
+        txt_rfc.setBounds(0, 100, 1050, 50);
+
+        lb_inicial.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        lb_inicial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lb_inicial.setText("INGRESE EL RFC DEL PADRE A MODIFICAR");
+        contenedor.add(lb_inicial);
+        lb_inicial.setBounds(180, 110, 345, 30);
+
+        txt_datosFiscales.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_datosFiscales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_datosFiscales.setText("Datos fiscales");
+        contenedor.add(txt_datosFiscales);
+        txt_datosFiscales.setBounds(660, 190, 170, 30);
+
+        btn_guardarDatos.setBackground(new java.awt.Color(198, 54, 55));
+        btn_guardarDatos.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_guardarDatos.setForeground(new java.awt.Color(255, 255, 255));
+        btn_guardarDatos.setText("Guardar cambios");
+        btn_guardarDatos.setBorder(null);
+        btn_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_guardarDatos.setFocusPainted(false);
+        btn_guardarDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarDatosActionPerformed(evt);
+            }
+        });
+        contenedor.add(btn_guardarDatos);
+        btn_guardarDatos.setBounds(270, 570, 170, 40);
+
+        btn_cancelar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_cancelar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_cancelar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.setBorder(null);
+        btn_cancelar.setBorderPainted(false);
+        btn_cancelar.setFocusPainted(false);
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
+        contenedor.add(btn_cancelar);
+        btn_cancelar.setBounds(640, 570, 170, 40);
+
+        logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
+        logo_lb.setText("jLabel2");
+        logo_lb.setMaximumSize(new java.awt.Dimension(400, 400));
+        logo_lb.setMinimumSize(new java.awt.Dimension(400, 400));
+        logo_lb.setPreferredSize(new java.awt.Dimension(400, 600));
+        contenedor.add(logo_lb);
+        logo_lb.setBounds(330, 210, 390, 370);
+
+        txt_datosPersonales.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_datosPersonales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_datosPersonales.setText("Datos personales");
+        contenedor.add(txt_datosPersonales);
+        txt_datosPersonales.setBounds(100, 190, 200, 30);
 
         fondo.add(contenedor);
         contenedor.setBounds(0, 0, 1050, 650);
@@ -1127,7 +1182,146 @@ public class ModificarPadre extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        public void obtenerDireccion(String colonia){
+    private void mostrarDatos(String rfc) {
+        try {
+            //Seleccionar los datos del emisor
+            String consulta = "SELECT * FROM padre_familia WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ps.setString(1, rfc);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] padre = new Object[13];
+
+            if (rs.next()) {
+                mostrarCampos();
+                this.rfc = rs.getString("rfc");
+                System.out.println(rfc);
+                txt_rfc.setText(rs.getString("rfc"));//etiqueta con el nombre del RFC
+                entrada_rfc.setText(rs.getString("rfc"));
+                entrada_nombres.setText(rs.getString("nombres"));
+                entrada_apellidoPaterno.setText(rs.getString("apellido_paterno"));
+                entrada_apellidoMaterno.setText(rs.getString("apellido_materno"));
+                entrada_fechaNacimiento.setDate(rs.getDate("fecha_nacimiento"));
+                entrada_cp.setText(String.valueOf(rs.getInt("domicilio_fiscal")));
+                entrada_correoElectronico.setText(rs.getString("correo_electronico"));
+                correo =rs.getString("correo_electronico");
+                entrada_noExterior.setText(rs.getString("num_exterior"));
+                entrada_noInterior.setText(rs.getString("num_interior"));
+
+                if (rs.getString("regimen").equals("Simplificado de Confianza. ")) {
+                    entrada_regimen.setSelectedIndex(0);
+                } else if (rs.getString("regimen").equals("612  Persona Física con Actividad Empresarial")) {
+                    entrada_regimen.setSelectedIndex(1);
+                } else {
+                    entrada_regimen.setSelectedIndex(2);
+                }
+                obtenerDireccion(rs.getString("colonia"));
+            } else {
+                JOptionPane.showMessageDialog(null, "El RFC que solicitó no se encuentra registrado", "RFC no encontrado", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarPadre.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void mostrarCampos(){
+        txt_rfc.setVisible(true);
+        //Ocultar barra de busqueda
+        rfc_busqueda.setVisible(false);
+        icon_buscar.setVisible(false);
+        lb_inicial.setVisible(false);
+        logo_lb.setVisible(false);
+        //etiquetas de campos
+        txt_datosPersonales.setVisible(true);
+        txt_datosFiscales.setVisible(true);
+        nombres_lb.setVisible(true);
+        paterno_lb.setVisible(true);
+        materno_lb.setVisible(true);
+        nacimiento_lb.setVisible(true);
+        correo_lb.setVisible(true);
+        rfc_lb.setVisible(true);
+        cp_lb.setVisible(true);
+        lb_estado.setVisible(true);
+        lb_municipio.setVisible(true);
+        colonia_lb.setVisible(true);
+        interior_lb.setVisible(true);
+        exterior_lb.setVisible(true);
+        regimen_lb.setVisible(true);
+        //entradas
+        entrada_rfc.setVisible(true);
+        entrada_nombres.setVisible(true);
+        entrada_apellidoPaterno.setVisible(true);
+        entrada_apellidoMaterno.setVisible(true);
+        entrada_fechaNacimiento.setVisible(true);
+        entrada_cp.setVisible(true);
+        entrada_colonia.setVisible(true);
+        entrada_estado.setVisible(true);
+        entrada_municipio.setVisible(true);
+        entrada_correoElectronico.setVisible(true);
+        entrada_noExterior.setVisible(true);
+        entrada_noInterior.setVisible(true);
+        entrada_regimen.setVisible(true);
+        btn_guardarDatos.setVisible(true);
+         btn_cancelar.setVisible(true);
+        //bton de buscar cp
+        btn_buscarCP.setVisible(true);
+        //etiquetas de informacion
+        infoIcon_lb.setVisible(true);
+        infoIcon_lb2.setVisible(true);
+        infoIcon_lb3.setVisible(true);
+        infoIcon_lb4.setVisible(true);
+    }
+
+    public void ocultarCampos() {
+        txt_rfc.setVisible(false);
+        //Campos de busqueda
+        rfc_busqueda.setVisible(true);
+        icon_buscar.setVisible(true);
+        lb_inicial.setVisible(true);
+        logo_lb.setVisible(true);
+        // etiquetas de campos
+        txt_datosPersonales.setVisible(false);
+        txt_datosFiscales.setVisible(false);
+        nombres_lb.setVisible(false);
+        paterno_lb.setVisible(false);
+        materno_lb.setVisible(false);
+        nacimiento_lb.setVisible(false);
+        correo_lb.setVisible(false);
+        rfc_lb.setVisible(false);
+        cp_lb.setVisible(false);
+        lb_estado.setVisible(false);
+        lb_municipio.setVisible(false);
+        colonia_lb.setVisible(false);
+        interior_lb.setVisible(false);
+        exterior_lb.setVisible(false);
+        regimen_lb.setVisible(false);
+        // entradas
+        entrada_rfc.setVisible(false);
+        entrada_nombres.setVisible(false);
+        entrada_apellidoPaterno.setVisible(false);
+        entrada_apellidoMaterno.setVisible(false);
+        entrada_fechaNacimiento.setVisible(false);
+        entrada_cp.setVisible(false);
+        entrada_colonia.setVisible(false);
+        entrada_estado.setVisible(false);
+        entrada_municipio.setVisible(false);
+        entrada_correoElectronico.setVisible(false);
+        entrada_noExterior.setVisible(false);
+        entrada_noInterior.setVisible(false);
+        entrada_regimen.setVisible(false);
+        btn_guardarDatos.setVisible(false);
+        btn_cancelar.setVisible(false);
+        // botón de buscar cp
+        btn_buscarCP.setVisible(false);
+        // etiquetas de información
+        infoIcon_lb.setVisible(false);
+        infoIcon_lb2.setVisible(false);
+        infoIcon_lb3.setVisible(false);
+        infoIcon_lb4.setVisible(false);
+    }
+
+    
+    public void obtenerDireccion(String colonia) {
         try {
             direc = new ObtenerDireccion(entrada_cp.getText());
             entrada_estado.removeAllItems();
@@ -1142,43 +1336,43 @@ public class ModificarPadre extends javax.swing.JFrame {
             Logger.getLogger(ModificarEmisor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
         
         
-    public void setDatos(String rfc, String nombres, String apellido_paterno, String apellido_materno, Calendar fecha_nacimiento, String correo, String regimen, int cp, String colonia,  String num_Exterior,String num_Interior) {
-        this.rfc=rfc;//rfc que se va a modificar
-        this.correo=correo;
-        entrada_rfc.setText(rfc);
-        entrada_nombres.setText(nombres);
-        entrada_apellidoPaterno.setText(apellido_paterno);
-        entrada_apellidoMaterno.setText(apellido_materno);
-        // Convertir Calendar a java.util.Date
-        java.util.Date fechaDate = fecha_nacimiento.getTime();
-        // Establecer la fecha en el JDateChooser
-        entrada_fechaNacimiento.setDate(fechaDate);
-        entrada_correoElectronico.setText(correo);
-        entrada_cp.setText(""+cp);
-        
-        entrada_noExterior.setText(num_Exterior);
-        entrada_noInterior.setText(num_Interior);
-        
-        //entrada de estado, municipio y colonia
-        obtenerDireccion(colonia);
-        //definir el regimen seleccionado
-        if(regimen.equals("Simplificado de Confianza. ")){
-            entrada_regimen.setSelectedIndex(0);
-        }
-        else if(regimen.equals("612  Persona Física con Actividad Empresarial")){
-            entrada_regimen.setSelectedIndex(1);
-        }else{
-            entrada_regimen.setSelectedIndex(2);
-        }
-        
-        //solo muestra el menu de emisor si el usuario es el director
-        if(!"director".equals(this.usuario)){
-            btn_emisor.setVisible(false);
-        }
-    }
+//    public void setDatos(String rfc, String nombres, String apellido_paterno, String apellido_materno, Calendar fecha_nacimiento, String correo, String regimen, int cp, String colonia,  String num_Exterior,String num_Interior) {
+//        this.rfc=rfc;//rfc que se va a modificar
+//        this.correo=correo;
+//        entrada_rfc.setText(rfc);
+//        entrada_nombres.setText(nombres);
+//        entrada_apellidoPaterno.setText(apellido_paterno);
+//        entrada_apellidoMaterno.setText(apellido_materno);
+//        // Convertir Calendar a java.util.Date
+//        java.util.Date fechaDate = fecha_nacimiento.getTime();
+//        // Establecer la fecha en el JDateChooser
+//        entrada_fechaNacimiento.setDate(fechaDate);
+//        entrada_correoElectronico.setText(correo);
+//        entrada_cp.setText(""+cp);
+//        
+//        entrada_noExterior.setText(num_Exterior);
+//        entrada_noInterior.setText(num_Interior);
+//        
+//        //entrada de estado, municipio y colonia
+//        obtenerDireccion(colonia);
+//        //definir el regimen seleccionado
+//        if(regimen.equals("Simplificado de Confianza. ")){
+//            entrada_regimen.setSelectedIndex(0);
+//        }
+//        else if(regimen.equals("612  Persona Física con Actividad Empresarial")){
+//            entrada_regimen.setSelectedIndex(1);
+//        }else{
+//            entrada_regimen.setSelectedIndex(2);
+//        }
+//        
+//        //solo muestra el menu de emisor si el usuario es el director
+//        if(!"director".equals(this.usuario)){
+//            btn_emisor.setVisible(false);
+//        }
+//    }
     
     public void setDatosSesion(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
@@ -1463,12 +1657,12 @@ public class ModificarPadre extends javax.swing.JFrame {
     public boolean rfc_existente(){
         try {
             //Prepara la consulta para verificar si existe el RFC
-            String consulta_rfc = "SELECT * FROM emisor WHERE rfc = ?";
+            String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
             ps.setString(1, entrada_rfc.getText());
             ResultSet rs = ps.executeQuery();
             if(rs.next()){//si encuentra un fila con el RFC quiere decir que ya existe
-                if(rs.getString("rfc").equals(entrada_rfc.getText())){//es el mismo rfc que quiere actualizar
+                if(rs.getString("rfc").equals(this.rfc.toUpperCase())){//es el mismo rfc que quiere actualizar
                     return false;
                 }
                 return true;
@@ -1543,8 +1737,6 @@ public class ModificarPadre extends javax.swing.JFrame {
         return false;//Retorna falso si no encuentra registros con ese coreeo
     }
     
-    
-    
     public void actualizarPadre() {
         try {
             int cp = Integer.parseInt(entrada_cp.getText());
@@ -1575,9 +1767,8 @@ public class ModificarPadre extends javax.swing.JFrame {
             ps.setString(12, entrada_noInterior.getText());
             ps.setString(13, entrada_regimen.getSelectedItem().toString());
             
-
             // Establecer el RFC para actualizar el registro correspondiente
-            ps.setString(14, rfc.toUpperCase());
+            ps.setString(14, this.rfc.toUpperCase());
 
 
             // Verificar si se actualizó el registro
@@ -1593,7 +1784,6 @@ public class ModificarPadre extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Hubo un error al actualizar los datos, intente otra vez", "Error en la actualización", JOptionPane.WARNING_MESSAGE);
         }
     }
-
 
     private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
@@ -1613,7 +1803,7 @@ public class ModificarPadre extends javax.swing.JFrame {
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 //Regresa al menu principal
-                ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+                MenuPrincipal ventana= new MenuPrincipal();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1655,100 +1845,6 @@ public class ModificarPadre extends javax.swing.JFrame {
     private void infoIcon_lb2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseExited
         infoFecha_lb.setVisible(false);
     }//GEN-LAST:event_infoIcon_lb2MouseExited
-
-    private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            if(!existeInfo()){
-                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if(!valida.nombresValidos(valida.formatearNombresApellidos(entrada_nombres.getText()))){
-                JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_nombres.requestFocusInWindow();
-                return;
-            }
-            if(!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()))){
-                JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_apellidoPaterno.requestFocusInWindow();
-                return;
-            }
-            if(!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()))){
-                JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_apellidoMaterno.requestFocusInWindow();
-                return;
-            }
-            if(!fechaValida()){
-                JOptionPane.showMessageDialog(null, "Ingrese una fecha de nacimiento valida", "Fecha no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_fechaNacimiento.requestFocusInWindow();
-                return;
-            }
-            if(!valida.correo_valido(entrada_correoElectronico.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un correo electronico valido", "Correo no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_correoElectronico.requestFocusInWindow();
-                return;
-            }
-            if(correoRepetido()){
-                JOptionPane.showMessageDialog(null, "El correo ya se encuentra registrado\nPor favor ingrese otro", "Correo repetido", JOptionPane.WARNING_MESSAGE);
-                entrada_correoElectronico.requestFocusInWindow();
-                return;
-            }
-            if(!rfc_valido()){
-                entrada_rfc.requestFocusInWindow();
-                return;
-            }
-            if(rfc_existente()){
-                JOptionPane.showMessageDialog(null, "El RFC ya se encuentra registrado", "RFC existente", JOptionPane.WARNING_MESSAGE);
-                entrada_rfc.requestFocusInWindow();    // Borde al tener foco;
-                return;
-            }
-            if(!valida.cpValido(entrada_cp.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_cp.requestFocusInWindow();    // Borde al tener foco;
-                return;
-            }
-            if(entrada_colonia.getSelectedItem().toString().equals("<seleccionar>")){//sino selecciona una colonia
-                JOptionPane.showMessageDialog(null, "Seleccione una colonia", "Colonia no seleccionada", JOptionPane.WARNING_MESSAGE);
-                entrada_colonia.requestFocusInWindow();    // Borde al tener foco;
-                return;
-            }
-            if(!valida.numInteriorExteriorValido(entrada_noExterior.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un nímero exterior valido", "Número exterior no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_noExterior.requestFocusInWindow();    // Borde al tener foco;
-                return;
-            }
-            if(!valida.numInteriorExteriorValido(entrada_noInterior.getText())){
-                JOptionPane.showMessageDialog(null, "Ingrese un numero exterior valido", "Numero interior no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_noInterior.requestFocusInWindow();    // Borde al tener foco;
-                return;
-            }
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "¿Desea modificar los datos del padre de familia?",
-                    "Modificacion de datos",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                //actualizar datos
-                actualizarPadre();
-                //volver a la lista de los emisores
-                ConsultarPadresEdit ventana = new ConsultarPadresEdit();
-                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-                ventana.setVisible(true);
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }
-        }
-    }//GEN-LAST:event_btn_guardarDatosMouseClicked
 
     private void entrada_correoElectronicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_correoElectronicoKeyTyped
         if(entrada_correoElectronico.getText().length()>=80){//si la longitud es mayor a 80 no permite seguir escribiendo
@@ -1792,7 +1888,7 @@ public class ModificarPadre extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_entrada_noInteriorKeyTyped
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_buscarCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarCPActionPerformed
         //busca las coincidencias con el codigo postal
         if (valida.cpValido(entrada_cp.getText())) {
             //obtener los datos del codigo postal si es valido
@@ -1822,7 +1918,7 @@ public class ModificarPadre extends javax.swing.JFrame {
             entrada_cp.requestFocusInWindow();    // Borde al tener foco;
             return;
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_buscarCPActionPerformed
 
     private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
 
@@ -2101,7 +2197,7 @@ public class ModificarPadre extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadres ventena = new ConsultarPadres();
+                ConsultarPadre ventena = new ConsultarPadre();
                 ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventena.setVisible(true);
                 this.dispose();
@@ -2130,7 +2226,7 @@ public class ModificarPadre extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+                ConsultarPadre ventana = new ConsultarPadre();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -2310,7 +2406,174 @@ public class ModificarPadre extends javax.swing.JFrame {
     private void entrada_rfcFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_rfcFocusLost
         entrada_rfc.setText(entrada_rfc.getText().toUpperCase());
     }//GEN-LAST:event_entrada_rfcFocusLost
-    
+
+    private void rfc_busquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rfc_busquedaFocusLost
+        rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_busquedaFocusLost
+
+    private void rfc_busquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_busquedaActionPerformed
+        Validacion valida = new Validacion();
+        if (rfc_busqueda.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (rfc_busqueda.getText().length() < 13) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!valida.rfc_valido(rfc_busqueda.getText().toUpperCase())) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        mostrarDatos(rfc_busqueda.getText().toUpperCase());
+        rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_busquedaActionPerformed
+
+    private void rfc_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_busquedaKeyTyped
+
+        if (rfc_busqueda.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_rfc_busquedaKeyTyped
+
+    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
+        ///boton para buscar
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            Validacion valida = new Validacion();
+            if(rfc_busqueda.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(rfc_busqueda.getText().length()<13){
+                JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(!valida.rfc_valido(rfc_busqueda.getText().toUpperCase())){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            mostrarDatos(rfc_busqueda.getText().toUpperCase());
+            rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_icon_buscarMouseClicked
+
+    private void btn_guardarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarDatosActionPerformed
+
+        if (!existeInfo()) {
+            JOptionPane.showMessageDialog(null, "Ingrese todos los datos del emisor", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!valida.nombresValidos(valida.formatearNombresApellidos(entrada_nombres.getText()))) {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_nombres.requestFocusInWindow();
+            return;
+        }
+        if (!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()))) {
+            JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_apellidoPaterno.requestFocusInWindow();
+            return;
+        }
+        if (!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()))) {
+            JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_apellidoMaterno.requestFocusInWindow();
+            return;
+        }
+        if (!fechaValida()) {
+            JOptionPane.showMessageDialog(null, "Ingrese una fecha de nacimiento valida", "Fecha no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_fechaNacimiento.requestFocusInWindow();
+            return;
+        }
+        if (!valida.correo_valido(entrada_correoElectronico.getText())) {
+            JOptionPane.showMessageDialog(null, "Ingrese un correo electronico valido", "Correo no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_correoElectronico.requestFocusInWindow();
+            return;
+        }
+        if (correoRepetido()) {
+            JOptionPane.showMessageDialog(null, "El correo ya se encuentra registrado\nPor favor ingrese otro", "Correo repetido", JOptionPane.WARNING_MESSAGE);
+            entrada_correoElectronico.requestFocusInWindow();
+            return;
+        }
+        if (!rfc_valido()) {
+            entrada_rfc.requestFocusInWindow();
+            return;
+        }
+        if (rfc_existente()) {
+            JOptionPane.showMessageDialog(null, "El RFC ya se encuentra registrado", "RFC existente", JOptionPane.WARNING_MESSAGE);
+            entrada_rfc.requestFocusInWindow();    // Borde al tener foco;
+            return;
+        }
+        if (!valida.cpValido(entrada_cp.getText())) {
+            JOptionPane.showMessageDialog(null, "Ingrese un codigo postal valido", "Codigo postal no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_cp.requestFocusInWindow();    // Borde al tener foco;
+            return;
+        }
+        if (entrada_colonia.getSelectedItem().toString().equals("<seleccionar>")) {//sino selecciona una colonia
+            JOptionPane.showMessageDialog(null, "Seleccione una colonia", "Colonia no seleccionada", JOptionPane.WARNING_MESSAGE);
+            entrada_colonia.requestFocusInWindow();    // Borde al tener foco;
+            return;
+        }
+        if (!valida.numInteriorExteriorValido(entrada_noExterior.getText())) {
+            JOptionPane.showMessageDialog(null, "Ingrese un nímero exterior valido", "Número exterior no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_noExterior.requestFocusInWindow();    // Borde al tener foco;
+            return;
+        }
+        if (!valida.numInteriorExteriorValido(entrada_noInterior.getText())) {
+            JOptionPane.showMessageDialog(null, "Ingrese un numero exterior valido", "Numero interior no valido", JOptionPane.WARNING_MESSAGE);
+            entrada_noInterior.requestFocusInWindow();    // Borde al tener foco;
+            return;
+        }
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
+        // Mostrar diálogo que pregunta si desea confirmar la salida
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "¿Desea modificar los datos del padre de familia?",
+                "Modificacion de datos",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+        // Manejar las opciones seleccionadas
+        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            //actualizar datos
+            actualizarPadre();
+            ocultarCampos();
+            rfc_busqueda.setText("");          
+        } else {
+            // Evitar que la ventana se cierre
+            return;
+        }
+    }//GEN-LAST:event_btn_guardarDatosActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        // Si existe información que no ha sido guardada
+        // Mostrar diálogo que pregunta si desea confirmar la salida
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Regresar?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+        // Manejar las opciones seleccionadas
+        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+            ocultarCampos();
+            rfc_busqueda.setText("");
+        } else {
+            // Evitar que la ventana se cierre
+            return;
+        }      
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -2358,20 +2621,22 @@ public class ModificarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel Fecha;
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
+    private javax.swing.JButton btn_buscarCP;
+    private javax.swing.JButton btn_cancelar;
     private javax.swing.JPanel btn_cerrarSesion;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
-    private paneles.PanelRound btn_guardarDatos;
+    private javax.swing.JButton btn_guardarDatos;
     private javax.swing.JPanel btn_historialSesiones;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
+    private javax.swing.JLabel colonia_lb;
     private javax.swing.JPanel contenedor;
-    private paneles.PanelRound contenedor_btn;
     private javax.swing.JPanel contenedor_menu;
-    private javax.swing.JPanel datosPersonales_titulo;
-    private javax.swing.JPanel datosfiscales_titulo;
+    private javax.swing.JLabel correo_lb;
+    private javax.swing.JLabel cp_lb;
     private javax.swing.JTextField entrada_apellidoMaterno;
     private javax.swing.JTextField entrada_apellidoPaterno;
     private javax.swing.JComboBox<String> entrada_colonia;
@@ -2385,9 +2650,11 @@ public class ModificarPadre extends javax.swing.JFrame {
     private javax.swing.JTextField entrada_nombres;
     private javax.swing.JComboBox<String> entrada_regimen;
     private javax.swing.JTextField entrada_rfc;
+    private javax.swing.JLabel exterior_lb;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel icon_buscar;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
     private javax.swing.JLabel icon_item3;
@@ -2403,22 +2670,9 @@ public class ModificarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel infoRFC_lb;
     private javax.swing.JLabel info_nombre;
     private javax.swing.JLabel infocp_lb;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel interior_lb;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
@@ -2433,6 +2687,11 @@ public class ModificarPadre extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JLabel lb_estado;
+    private javax.swing.JLabel lb_inicial;
+    private javax.swing.JLabel lb_municipio;
+    private javax.swing.JLabel logo_lb;
+    private javax.swing.JLabel materno_lb;
     private javax.swing.JPanel menu_alumnos;
     private javax.swing.JPanel menu_emisor;
     private javax.swing.JPanel menu_estadisticas;
@@ -2440,10 +2699,14 @@ public class ModificarPadre extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
+    private javax.swing.JLabel nacimiento_lb;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JLabel nombres_lb;
+    private javax.swing.JLabel paterno_lb;
+    private javax.swing.JLabel regimen_lb;
     private javax.swing.JPanel registrarPadre;
-    private javax.swing.JLabel text_guardarDatos;
+    private javax.swing.JTextField rfc_busqueda;
+    private javax.swing.JLabel rfc_lb;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
@@ -2455,13 +2718,14 @@ public class ModificarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel txt_consultarAlmnos;
     private javax.swing.JLabel txt_consultarAlmnos1;
     private javax.swing.JLabel txt_consultarPadres;
+    private javax.swing.JLabel txt_datosFiscales;
+    private javax.swing.JLabel txt_datosPersonales;
     private javax.swing.JLabel txt_editarEmisor;
     private javax.swing.JLabel txt_eliminarAlumno;
     private javax.swing.JLabel txt_eliminarEmisor;
     private javax.swing.JLabel txt_eliminarPadres;
     private javax.swing.JLabel txt_emisor;
     private javax.swing.JLabel txt_estadisticas;
-    private javax.swing.JLabel txt_estado;
     private javax.swing.JLabel txt_factura;
     private javax.swing.JLabel txt_facturasGeneradas;
     private javax.swing.JLabel txt_generarFcatura;
@@ -2470,6 +2734,7 @@ public class ModificarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
+    private javax.swing.JLabel txt_rfc;
     private javax.swing.JLabel user_menuIcon;
     private javax.swing.JLabel user_menuIcon1;
     // End of variables declaration//GEN-END:variables

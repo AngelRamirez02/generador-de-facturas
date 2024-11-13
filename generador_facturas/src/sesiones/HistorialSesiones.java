@@ -51,8 +51,8 @@ import javax.swing.table.TableModel;
 import login.login_window;
 import menu.MenuPrincipal;
 import padres.AltaPadres;
-import padres.ConsultarPadres;
-import padres.ConsultarPadresEdit;
+import padres.ConsultarPadre;
+import padres.ConsultarPadre;
 import padres.EliminarPadre;
 
 /**
@@ -1328,7 +1328,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
 
     private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            ConsultarPadres ventena = new ConsultarPadres();
+            ConsultarPadre ventena = new ConsultarPadre();
             ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventena.setVisible(true);
             this.dispose();
@@ -1337,7 +1337,7 @@ public class HistorialSesiones extends javax.swing.JFrame {
 
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+            ConsultarPadre ventana = new ConsultarPadre();
             ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();

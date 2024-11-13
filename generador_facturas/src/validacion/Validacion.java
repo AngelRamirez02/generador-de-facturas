@@ -59,6 +59,10 @@ public class Validacion {
         Matcher matcher = pattern.matcher(num);
         return matcher.matches();//retorna el resultado de evaluar el correo con la expresion regular
     }
+    
+    public boolean rfc_valido(String rfc){
+        return rfc.matches("^[A-ZÑ&]{4}\\d{6}[A-Z0-9]{3}$");
+    }
 
     public String formatearNombresApellidos(String nombre) {
         if (nombre == null || nombre.isEmpty()) {
@@ -189,6 +193,7 @@ public class Validacion {
         // Eliminar partículas como "De", "La", "Del", etc. del apellido paterno
         apellidoPaterno = eliminarParticulasApellido(apellidoPaterno);
         apellidoMaterno = eliminarParticulasApellido(apellidoMaterno);
+        nombre = eliminarParticulasApellido(nombre);
 
         // Paso 1: Primer letra del apellido paterno
         String curp = Character.toString(apellidoPaterno.charAt(0)).toUpperCase();

@@ -41,8 +41,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import login.login_window;
 import padres.AltaPadres;
-import padres.ConsultarPadres;
-import padres.ConsultarPadresEdit;
+import padres.ConsultarPadre;
+import padres.ConsultarPadre;
 import padres.EliminarPadre;
 import sesiones.HistorialSesiones;
 import validacion.Validacion;
@@ -2071,7 +2071,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadres ventena = new ConsultarPadres();
+                ConsultarPadre ventena = new ConsultarPadre();
                 ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventena.setVisible(true);
                 this.dispose();
@@ -2100,7 +2100,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+                ConsultarPadre ventana = new ConsultarPadre();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();

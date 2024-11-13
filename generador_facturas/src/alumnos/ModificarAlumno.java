@@ -43,8 +43,8 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import padres.AltaPadres;
-import padres.ConsultarPadres;
-import padres.ConsultarPadresEdit;
+import padres.ConsultarPadre;
+import padres.ConsultarPadre;
 import padres.EliminarPadre;
 import padres.ModificarPadre;
 import sesiones.HistorialSesiones;
@@ -1857,7 +1857,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadres ventena = new ConsultarPadres();
+                ConsultarPadre ventena = new ConsultarPadre();
                 ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventena.setVisible(true);
                 this.dispose();
@@ -1886,7 +1886,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadresEdit ventana = new ConsultarPadresEdit();
+                ConsultarPadre ventana = new ConsultarPadre();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
