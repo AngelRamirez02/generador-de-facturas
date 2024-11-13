@@ -1,15 +1,12 @@
-/* 
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package padres;
+package alumnos;
 
+import padres.*;
 import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
-import alumnos.AltaAlumnos;
-import alumnos.ConsultarAlumnos;
-import alumnos.ConsultarAlumnosEdit;
-import alumnos.EliminarAlumno;
 import com.itextpdf.text.DocumentException;
 import conexion.conexion;
 import emisor.AltaEmisor;
@@ -21,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -49,8 +47,6 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import login.login_window;
 import menu.MenuPrincipal;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import paneles.PanelRound;
 import sesiones.HistorialSesiones;
 import validacion.Validacion;
 
@@ -58,19 +54,19 @@ import validacion.Validacion;
  *
  * @author ar275
  */
-public class ConsultarPadre extends javax.swing.JFrame {
+public class PruebaConsultar extends javax.swing.JFrame {   
     conexion cx = new conexion();
+    AlumnosPDF x;
+    public List<AlumnosPDF> listaPreescolar = new ArrayList<AlumnosPDF>();
+    public List<AlumnosPDF> listaPrimaria = new ArrayList<AlumnosPDF>();
+    public List<AlumnosPDF> listaSecundaria = new ArrayList<AlumnosPDF>();
 
-    DefaultTableModel modelo;
-
+    
+    //Variables para el historial de registro
     private String usuario;//Nombre del usuario que inicia sesión
     LocalDate fechaInicioSesion;
-    LocalTime horaInicioSesion;
+    LocalTime horaInicioSesion;    
     
-    //variables para generar el pdf
-    PadresPDF x;
-    public List<PadresPDF> registrosPadres = new ArrayList<PadresPDF>();
-
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -79,8 +75,8 @@ public class ConsultarPadre extends javax.swing.JFrame {
     //Imagen para menu selccionado
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
-
-    public ConsultarPadre() {
+    
+     public PruebaConsultar() {
         initComponents();
         
         //Menus ocultos por defecto
@@ -89,32 +85,32 @@ public class ConsultarPadre extends javax.swing.JFrame {
         menu_factura.setVisible(false);
         menu_estadisticas.setVisible(false);
         menu_emisor.setVisible(false);
-         //Imagen del logo de la escuela
+        //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         
         //Boton de descargar pdf
         Image descargImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/descarga_icono.png"));
         btn_descarga.setIcon(new ImageIcon(descargImg.getScaledInstance(btn_descarga.getWidth(), btn_descarga.getHeight(), Image.SCALE_SMOOTH)));
-       
+
+        
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item3.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
-        contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
-        
-        icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
-        
-        //Imaganes para el menu del usuario
-        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
-        historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
-        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
-        icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
-        
-        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
-        icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
+        contenedor_menu.setLocation(user_menuIcon.getLocation().x - 650, contenedor_menu.getLocation().y);//centrar el contenedor   
+
+         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
+         //Imaganes para el menu del usuario
+         Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
+         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
+         Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
+         icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
+
+         Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
+         icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -178,19 +174,12 @@ public class ConsultarPadre extends javax.swing.JFrame {
             }
         });
         timer.start();
-
         
-        //carga los datos para la descarga del pdf
-        cargarDatosPdf();
-        
-        //por defectos estan ocultos los campos
         ocultarCampos();
-        //ocultar btn de cerrar consulta
-        btn_cerrarConsulta.setVisible(false);
-        lb_noEncontrados.setVisible(false);
         
-        //info descarga del pdf
+        //etiqueta de info de descarga del pdf
         lb_infoDescarga.setVisible(false);
+        cargarDatosPDF();//carga los datos en el pdf
         
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
@@ -210,23 +199,6 @@ public class ConsultarPadre extends javax.swing.JFrame {
 
         fondo = new javax.swing.JPanel();
         icon_regresarlb = new javax.swing.JLabel();
-        menu_salir = new javax.swing.JPanel();
-        nombre_user = new javax.swing.JPanel();
-        user_menuIcon1 = new javax.swing.JLabel();
-        txt_nombreUser = new javax.swing.JLabel();
-        btn_historialSesiones = new javax.swing.JPanel();
-        historial_lb = new javax.swing.JLabel();
-        txt_cerrarSesion = new javax.swing.JLabel();
-        jSeparator5 = new javax.swing.JSeparator();
-        btn_salir = new javax.swing.JPanel();
-        icon_salir = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        text_salir = new javax.swing.JLabel();
-        btn_cerrarSesion = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        txt_cerrarSesion1 = new javax.swing.JLabel();
-        jSeparator17 = new javax.swing.JSeparator();
-        cerrar_icon = new javax.swing.JLabel();
         barra_nav = new javax.swing.JPanel();
         Fecha = new javax.swing.JLabel();
         hora_lb = new javax.swing.JLabel();
@@ -248,6 +220,31 @@ public class ConsultarPadre extends javax.swing.JFrame {
         icon_item5 = new javax.swing.JLabel();
         menu_user = new javax.swing.JPanel();
         user_menuIcon = new javax.swing.JLabel();
+        menu_alumnos = new javax.swing.JPanel();
+        txt_altaAlumnos = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        txt_consultarAlmnos = new javax.swing.JLabel();
+        jSeparator6 = new javax.swing.JSeparator();
+        txt_modificarAlumnos = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
+        txt_eliminarAlumno = new javax.swing.JLabel();
+        menu_salir = new javax.swing.JPanel();
+        nombre_user = new javax.swing.JPanel();
+        user_menuIcon1 = new javax.swing.JLabel();
+        txt_nombreUser = new javax.swing.JLabel();
+        btn_historialSesiones = new javax.swing.JPanel();
+        historial_lb = new javax.swing.JLabel();
+        txt_cerrarSesion = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        btn_salir = new javax.swing.JPanel();
+        icon_salir = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        text_salir = new javax.swing.JLabel();
+        btn_cerrarSesion = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        txt_cerrarSesion1 = new javax.swing.JLabel();
+        jSeparator17 = new javax.swing.JSeparator();
+        cerrar_icon = new javax.swing.JLabel();
         menu_factura = new javax.swing.JPanel();
         txt_generarFcatura = new javax.swing.JLabel();
         txt_consultarAlmnos1 = new javax.swing.JLabel();
@@ -264,14 +261,6 @@ public class ConsultarPadre extends javax.swing.JFrame {
         txt_modificarPadres = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
         txt_eliminarPadres = new javax.swing.JLabel();
-        menu_alumnos = new javax.swing.JPanel();
-        txt_altaAlumnos = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        txt_consultarAlmnos = new javax.swing.JLabel();
-        jSeparator6 = new javax.swing.JSeparator();
-        txt_modificarAlumnos = new javax.swing.JLabel();
-        jSeparator7 = new javax.swing.JSeparator();
-        txt_eliminarAlumno = new javax.swing.JLabel();
         menu_emisor = new javax.swing.JPanel();
         txt_editarEmisor = new javax.swing.JLabel();
         jSeparator14 = new javax.swing.JSeparator();
@@ -281,46 +270,42 @@ public class ConsultarPadre extends javax.swing.JFrame {
         jSeparator18 = new javax.swing.JSeparator();
         txt_ConsultarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
-        txt_emisoresRegistrados = new javax.swing.JLabel();
         btn_descarga = new javax.swing.JLabel();
-        titulo_rfc = new javax.swing.JTextField();
-        rfc_show = new javax.swing.JTextField();
-        titulo_estado = new javax.swing.JTextField();
-        titulo_apellidoPaterno = new javax.swing.JTextField();
-        estado = new javax.swing.JTextField();
-        titulo_apellidoMaterno = new javax.swing.JTextField();
-        apellido_materno = new javax.swing.JTextField();
-        titulo_nombres = new javax.swing.JTextField();
-        nombres = new javax.swing.JTextField();
-        titulo_regimen = new javax.swing.JTextField();
-        titulo_correo = new javax.swing.JTextField();
-        titulo_cp = new javax.swing.JTextField();
-        titulo_fechaNacimiento = new javax.swing.JTextField();
-        titulo_municipio = new javax.swing.JTextField();
-        lb_campos = new javax.swing.JLabel();
-        apellido_paterno = new javax.swing.JTextField();
-        correo_electronico = new javax.swing.JTextField();
-        codigo_postal = new javax.swing.JTextField();
-        fecha_nacimiento = new javax.swing.JTextField();
-        municipio = new javax.swing.JTextField();
-        regimen = new javax.swing.JTextField();
-        no_interior = new javax.swing.JTextField();
-        titulo_colonia = new javax.swing.JTextField();
-        titulo_noExterior = new javax.swing.JTextField();
-        titulo_noInterior = new javax.swing.JTextField();
-        colonia = new javax.swing.JTextField();
-        no_exterior = new javax.swing.JTextField();
-        lb_noEncontrados = new javax.swing.JLabel();
+        txt_emisoresRegistrados = new javax.swing.JLabel();
+        curp_busqueda = new javax.swing.JTextField();
         lb_inicial = new javax.swing.JLabel();
-        rfc_busqueda = new javax.swing.JTextField();
+        titulo_rfc = new javax.swing.JTextField();
+        rfcPadre = new javax.swing.JTextField();
+        titulo_apellidoPaterno = new javax.swing.JTextField();
+        titulo_apellidoMaterno = new javax.swing.JTextField();
+        apellido_maternoPadre = new javax.swing.JTextField();
+        titulo_nombres = new javax.swing.JTextField();
+        nombresPadre = new javax.swing.JTextField();
+        apellido_paternoPadre = new javax.swing.JTextField();
+        lb_datosAlumno = new javax.swing.JLabel();
+        lb_datosPadre = new javax.swing.JLabel();
+        titulo_curp = new javax.swing.JTextField();
+        curp_show = new javax.swing.JTextField();
+        titulo_apellidoAlumno = new javax.swing.JTextField();
+        titulo_apellidoMaternoAlumno = new javax.swing.JTextField();
+        apellido_maternoAlumno = new javax.swing.JTextField();
+        titulo_nombresAlumno = new javax.swing.JTextField();
+        nombresAlumno = new javax.swing.JTextField();
+        apellido_paternoAlumno = new javax.swing.JTextField();
+        gradoEscolar_Alumno = new javax.swing.JTextField();
+        grado_EscolarAlumno = new javax.swing.JTextField();
+        fechaNacimiento_Alumno = new javax.swing.JTextField();
+        titulo_gradoEscolar = new javax.swing.JTextField();
+        nivelEscolar_Alumno = new javax.swing.JTextField();
+        fecha_nacimientoAlumno = new javax.swing.JTextField();
+        lb_infoDescarga = new javax.swing.JLabel();
         icon_buscar = new javax.swing.JLabel();
         btn_cerrarConsulta = new javax.swing.JButton();
         logo_lb = new javax.swing.JLabel();
-        txt_rfc = new javax.swing.JLabel();
-        lb_infoDescarga = new javax.swing.JLabel();
+        txt_curp = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Consultar Padre de familia");
+        setTitle("Instituto Andrés Manuel López Obrador - Alumnos registrados");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -342,104 +327,7 @@ public class ConsultarPadre extends javax.swing.JFrame {
             }
         });
         fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(30, 115, 60, 60);
-
-        menu_salir.setBackground(new java.awt.Color(198, 54, 55));
-        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        nombre_user.setBackground(new java.awt.Color(198, 54, 55));
-        nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nombre_userMouseClicked(evt);
-            }
-        });
-        nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
-        user_menuIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_menuIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_usuarioMenu.png"))); // NOI18N
-        nombre_user.add(user_menuIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
-
-        txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
-        txt_nombreUser.setText("Administrador");
-        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
-
-        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
-
-        btn_historialSesiones.setBackground(new java.awt.Color(198, 54, 55));
-        btn_historialSesiones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_historialSesiones.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_historialSesionesMouseClicked(evt);
-            }
-        });
-        btn_historialSesiones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        historial_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_historial.png"))); // NOI18N
-        btn_historialSesiones.add(historial_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 3, 40, 40));
-
-        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cerrarSesion.setText(" Historial de sesiones");
-        btn_historialSesiones.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 190, 50));
-        btn_historialSesiones.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
-
-        menu_salir.add(btn_historialSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, 50));
-
-        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
-        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
-        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_salirMouseClicked(evt);
-            }
-        });
-        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
-        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 50, 50));
-        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 240, 10));
-
-        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        text_salir.setForeground(new java.awt.Color(255, 255, 255));
-        text_salir.setText("Salir");
-        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 40));
-
-        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 250, 60));
-
-        btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
-        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_cerrarSesionMouseClicked(evt);
-            }
-        });
-        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
-        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
-
-        txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cerrarSesion1.setText("Cerrar sesión");
-        btn_cerrarSesion.add(txt_cerrarSesion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 50));
-        btn_cerrarSesion.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
-
-        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 250, 50));
-
-        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
-        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cerrar_iconMouseClicked(evt);
-            }
-        });
-        menu_salir.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 40, 40));
-
-        fondo.add(menu_salir);
-        menu_salir.setBounds(790, 100, 260, 240);
+        icon_regresarlb.setBounds(50, 120, 60, 60);
 
         barra_nav.setBackground(new java.awt.Color(201, 69, 69));
         barra_nav.setLayout(null);
@@ -593,6 +481,158 @@ public class ConsultarPadre extends javax.swing.JFrame {
         fondo.add(barra_nav);
         barra_nav.setBounds(0, 0, 1050, 100);
 
+        menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
+        menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txt_altaAlumnos.setBackground(new java.awt.Color(255, 255, 255));
+        txt_altaAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_altaAlumnos.setForeground(new java.awt.Color(255, 255, 255));
+        txt_altaAlumnos.setText("Dar de alta Alumno");
+        txt_altaAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_altaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_altaAlumnosMouseClicked(evt);
+            }
+        });
+        menu_alumnos.add(txt_altaAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_alumnos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+
+        txt_consultarAlmnos.setBackground(new java.awt.Color(255, 255, 255));
+        txt_consultarAlmnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_consultarAlmnos.setForeground(new java.awt.Color(255, 255, 255));
+        txt_consultarAlmnos.setText("Consultar Alumno");
+        txt_consultarAlmnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_consultarAlmnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_consultarAlmnosMouseClicked(evt);
+            }
+        });
+        menu_alumnos.add(txt_consultarAlmnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+        menu_alumnos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+
+        txt_modificarAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_modificarAlumnos.setForeground(new java.awt.Color(255, 255, 255));
+        txt_modificarAlumnos.setText("Modificar Alumno");
+        txt_modificarAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_modificarAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_modificarAlumnosMouseClicked(evt);
+            }
+        });
+        menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        txt_eliminarAlumno.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_eliminarAlumno.setForeground(new java.awt.Color(255, 255, 255));
+        txt_eliminarAlumno.setText("Eliminar Alumno");
+        txt_eliminarAlumno.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarAlumnoMouseClicked(evt);
+            }
+        });
+        menu_alumnos.add(txt_eliminarAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+
+        fondo.add(menu_alumnos);
+        menu_alumnos.setBounds(200, 100, 200, 160);
+
+        menu_salir.setBackground(new java.awt.Color(198, 54, 55));
+        menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        nombre_user.setBackground(new java.awt.Color(198, 54, 55));
+        nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nombre_userMouseClicked(evt);
+            }
+        });
+        nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
+        user_menuIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        user_menuIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_usuarioMenu.png"))); // NOI18N
+        nombre_user.add(user_menuIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
+
+        txt_nombreUser.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombreUser.setForeground(new java.awt.Color(255, 255, 255));
+        txt_nombreUser.setText("Administrador");
+        nombre_user.add(txt_nombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 50));
+
+        menu_salir.add(nombre_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, -1));
+
+        btn_historialSesiones.setBackground(new java.awt.Color(198, 54, 55));
+        btn_historialSesiones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_historialSesiones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_historialSesionesMouseClicked(evt);
+            }
+        });
+        btn_historialSesiones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        historial_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_historial.png"))); // NOI18N
+        btn_historialSesiones.add(historial_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 3, 40, 40));
+
+        txt_cerrarSesion.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion.setText(" Historial de sesiones");
+        btn_historialSesiones.add(txt_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 190, 50));
+        btn_historialSesiones.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_historialSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, 50));
+
+        btn_salir.setBackground(new java.awt.Color(198, 54, 55));
+        btn_salir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btn_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_salirMouseClicked(evt);
+            }
+        });
+        btn_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_salir.png"))); // NOI18N
+        btn_salir.add(icon_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 50, 50));
+        btn_salir.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 240, 10));
+
+        text_salir.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        text_salir.setForeground(new java.awt.Color(255, 255, 255));
+        text_salir.setText("Salir");
+        btn_salir.add(text_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 40));
+
+        menu_salir.add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 250, 60));
+
+        btn_cerrarSesion.setBackground(new java.awt.Color(198, 54, 55));
+        btn_cerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cerrarSesionMouseClicked(evt);
+            }
+        });
+        btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
+        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
+
+        txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cerrarSesion1.setText("Cerrar sesión");
+        btn_cerrarSesion.add(txt_cerrarSesion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 150, 50));
+        btn_cerrarSesion.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 47, 250, 10));
+
+        menu_salir.add(btn_cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 250, 50));
+
+        cerrar_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x_menuUser.png"))); // NOI18N
+        cerrar_icon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cerrar_icon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrar_iconMouseClicked(evt);
+            }
+        });
+        menu_salir.add(cerrar_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 40, 40));
+
+        fondo.add(menu_salir);
+        menu_salir.setBounds(790, 100, 260, 240);
+
         menu_factura.setBackground(new java.awt.Color(198, 54, 55));
         menu_factura.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         menu_factura.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -692,61 +732,6 @@ public class ConsultarPadre extends javax.swing.JFrame {
         fondo.add(menu_padres);
         menu_padres.setBounds(0, 100, 200, 160);
 
-        menu_alumnos.setBackground(new java.awt.Color(198, 54, 55));
-        menu_alumnos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txt_altaAlumnos.setBackground(new java.awt.Color(255, 255, 255));
-        txt_altaAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_altaAlumnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_altaAlumnos.setText("Dar de alta Alumno");
-        txt_altaAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_altaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_altaAlumnosMouseClicked(evt);
-            }
-        });
-        menu_alumnos.add(txt_altaAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_alumnos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
-
-        txt_consultarAlmnos.setBackground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_consultarAlmnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_consultarAlmnos.setText("Consultar Alumno");
-        txt_consultarAlmnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_consultarAlmnos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_consultarAlmnosMouseClicked(evt);
-            }
-        });
-        menu_alumnos.add(txt_consultarAlmnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
-        menu_alumnos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
-
-        txt_modificarAlumnos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_modificarAlumnos.setForeground(new java.awt.Color(255, 255, 255));
-        txt_modificarAlumnos.setText("Modificar Alumno");
-        txt_modificarAlumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_modificarAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_modificarAlumnosMouseClicked(evt);
-            }
-        });
-        menu_alumnos.add(txt_modificarAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_alumnos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
-
-        txt_eliminarAlumno.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_eliminarAlumno.setForeground(new java.awt.Color(255, 255, 255));
-        txt_eliminarAlumno.setText("Eliminar Alumno");
-        txt_eliminarAlumno.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_eliminarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_eliminarAlumnoMouseClicked(evt);
-            }
-        });
-        menu_alumnos.add(txt_eliminarAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
-
-        fondo.add(menu_alumnos);
-        menu_alumnos.setBounds(200, 100, 200, 160);
-
         menu_emisor.setBackground(new java.awt.Color(198, 54, 55));
         menu_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         menu_emisor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -806,11 +791,6 @@ public class ConsultarPadre extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
-        txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_emisoresRegistrados.setText("CONSULTA DE PADRES DE FAMILIA");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 910, 50));
-
         btn_descarga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/descarga_icono.png"))); // NOI18N
         btn_descarga.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_descarga.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -824,7 +804,43 @@ public class ConsultarPadre extends javax.swing.JFrame {
                 btn_descargaMouseExited(evt);
             }
         });
-        contenedor.add(btn_descarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 20, 60, 60));
+        contenedor.add(btn_descarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, 60, 60));
+
+        txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
+        txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_emisoresRegistrados.setText("CONSULTA DE ALUMNOS");
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 990, 50));
+
+        curp_busqueda.setColumns(1);
+        curp_busqueda.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        curp_busqueda.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        curp_busqueda.setActionCommand("<Not Set>");
+        curp_busqueda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        curp_busqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        curp_busqueda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                curp_busquedaFocusLost(evt);
+            }
+        });
+        curp_busqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                curp_busquedaActionPerformed(evt);
+            }
+        });
+        curp_busqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                curp_busquedaKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                curp_busquedaKeyTyped(evt);
+            }
+        });
+        contenedor.add(curp_busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 710, 50));
+
+        lb_inicial.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        lb_inicial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lb_inicial.setText("INGRESE LA CURP DEL ALUMNO A CONSULTAR");
+        contenedor.add(lb_inicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 550, 30));
 
         titulo_rfc.setEditable(false);
         titulo_rfc.setBackground(new java.awt.Color(198, 54, 55));
@@ -833,24 +849,15 @@ public class ConsultarPadre extends javax.swing.JFrame {
         titulo_rfc.setText("  RFC");
         titulo_rfc.setBorder(null);
         titulo_rfc.setFocusable(false);
-        contenedor.add(titulo_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 220, 230, 40));
+        contenedor.add(titulo_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 200, 230, 40));
 
-        rfc_show.setEditable(false);
-        rfc_show.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        rfc_show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        rfc_show.setText("jTextField1");
-        rfc_show.setBorder(null);
-        rfc_show.setFocusable(false);
-        contenedor.add(rfc_show, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 260, 230, 40));
-
-        titulo_estado.setEditable(false);
-        titulo_estado.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_estado.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_estado.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_estado.setText("   Estado");
-        titulo_estado.setBorder(null);
-        titulo_estado.setFocusable(false);
-        contenedor.add(titulo_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 310, 270, 40));
+        rfcPadre.setEditable(false);
+        rfcPadre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        rfcPadre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        rfcPadre.setText("jTextField1");
+        rfcPadre.setBorder(null);
+        rfcPadre.setFocusable(false);
+        contenedor.add(rfcPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 240, 230, 40));
 
         titulo_apellidoPaterno.setEditable(false);
         titulo_apellidoPaterno.setBackground(new java.awt.Color(198, 54, 55));
@@ -859,15 +866,7 @@ public class ConsultarPadre extends javax.swing.JFrame {
         titulo_apellidoPaterno.setText("   Apellido Paterno");
         titulo_apellidoPaterno.setBorder(null);
         titulo_apellidoPaterno.setFocusable(false);
-        contenedor.add(titulo_apellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 250, 40));
-
-        estado.setEditable(false);
-        estado.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        estado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        estado.setText("jTextField1");
-        estado.setBorder(null);
-        estado.setFocusable(false);
-        contenedor.add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 350, 270, 40));
+        contenedor.add(titulo_apellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 250, 40));
 
         titulo_apellidoMaterno.setEditable(false);
         titulo_apellidoMaterno.setBackground(new java.awt.Color(198, 54, 55));
@@ -878,15 +877,15 @@ public class ConsultarPadre extends javax.swing.JFrame {
         titulo_apellidoMaterno.setBorder(null);
         titulo_apellidoMaterno.setFocusable(false);
         titulo_apellidoMaterno.setMargin(new java.awt.Insets(10, 6, 2, 6));
-        contenedor.add(titulo_apellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 220, 230, 40));
+        contenedor.add(titulo_apellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 230, 40));
 
-        apellido_materno.setEditable(false);
-        apellido_materno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        apellido_materno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        apellido_materno.setText("jTextField1");
-        apellido_materno.setBorder(null);
-        apellido_materno.setFocusable(false);
-        contenedor.add(apellido_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 230, 40));
+        apellido_maternoPadre.setEditable(false);
+        apellido_maternoPadre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_maternoPadre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_maternoPadre.setText("jTextField1");
+        apellido_maternoPadre.setBorder(null);
+        apellido_maternoPadre.setFocusable(false);
+        contenedor.add(apellido_maternoPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 230, 40));
 
         titulo_nombres.setEditable(false);
         titulo_nombres.setBackground(new java.awt.Color(198, 54, 55));
@@ -895,199 +894,165 @@ public class ConsultarPadre extends javax.swing.JFrame {
         titulo_nombres.setText("  Nombre(s)");
         titulo_nombres.setBorder(null);
         titulo_nombres.setFocusable(false);
-        contenedor.add(titulo_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 280, 40));
+        contenedor.add(titulo_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 280, 40));
 
-        nombres.setEditable(false);
-        nombres.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        nombres.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        nombres.setText("jTextField1");
-        nombres.setBorder(null);
-        nombres.setFocusable(false);
-        contenedor.add(nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 260, 280, 40));
+        nombresPadre.setEditable(false);
+        nombresPadre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        nombresPadre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        nombresPadre.setText("jTextField1");
+        nombresPadre.setBorder(null);
+        nombresPadre.setFocusable(false);
+        contenedor.add(nombresPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, 280, 40));
 
-        titulo_regimen.setEditable(false);
-        titulo_regimen.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_regimen.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_regimen.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_regimen.setText("   Regimen fiscal");
-        titulo_regimen.setBorder(null);
-        titulo_regimen.setFocusable(false);
-        contenedor.add(titulo_regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 410, 330, 40));
+        apellido_paternoPadre.setEditable(false);
+        apellido_paternoPadre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_paternoPadre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_paternoPadre.setText("jTextField1");
+        apellido_paternoPadre.setBorder(null);
+        apellido_paternoPadre.setFocusable(false);
+        contenedor.add(apellido_paternoPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 250, 40));
 
-        titulo_correo.setEditable(false);
-        titulo_correo.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_correo.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_correo.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_correo.setText("   Correo electronico");
-        titulo_correo.setBorder(null);
-        titulo_correo.setFocusable(false);
-        contenedor.add(titulo_correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, 330, 40));
+        lb_datosAlumno.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_datosAlumno.setText("Datos del alumno:");
+        contenedor.add(lb_datosAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 350, 40));
 
-        titulo_cp.setEditable(false);
-        titulo_cp.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_cp.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_cp.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_cp.setText("   Codigo postal");
-        titulo_cp.setBorder(null);
-        titulo_cp.setFocusable(false);
-        contenedor.add(titulo_cp, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 310, 180, 40));
+        lb_datosPadre.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_datosPadre.setText("Datos del padre:");
+        contenedor.add(lb_datosPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 350, 40));
 
-        titulo_fechaNacimiento.setEditable(false);
-        titulo_fechaNacimiento.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_fechaNacimiento.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_fechaNacimiento.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_fechaNacimiento.setText("   Fecha de nacimiento");
-        titulo_fechaNacimiento.setBorder(null);
-        titulo_fechaNacimiento.setFocusable(false);
-        contenedor.add(titulo_fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 210, 40));
+        titulo_curp.setEditable(false);
+        titulo_curp.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_curp.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_curp.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_curp.setText("  CURP");
+        titulo_curp.setBorder(null);
+        titulo_curp.setFocusable(false);
+        contenedor.add(titulo_curp, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 320, 240, 40));
 
-        titulo_municipio.setEditable(false);
-        titulo_municipio.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_municipio.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_municipio.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_municipio.setText("  Municipio");
-        titulo_municipio.setBorder(null);
-        titulo_municipio.setFocusable(false);
-        contenedor.add(titulo_municipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 210, 40));
+        curp_show.setEditable(false);
+        curp_show.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        curp_show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        curp_show.setText("jTextField1");
+        curp_show.setBorder(null);
+        curp_show.setFocusable(false);
+        contenedor.add(curp_show, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 360, 240, 40));
 
-        lb_campos.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        lb_campos.setText("Datos del padre consultado:");
-        contenedor.add(lb_campos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 350, 40));
+        titulo_apellidoAlumno.setEditable(false);
+        titulo_apellidoAlumno.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoAlumno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoAlumno.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoAlumno.setText("   Apellido Paterno");
+        titulo_apellidoAlumno.setBorder(null);
+        titulo_apellidoAlumno.setFocusable(false);
+        contenedor.add(titulo_apellidoAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 250, 40));
 
-        apellido_paterno.setEditable(false);
-        apellido_paterno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        apellido_paterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        apellido_paterno.setText("jTextField1");
-        apellido_paterno.setBorder(null);
-        apellido_paterno.setFocusable(false);
-        contenedor.add(apellido_paterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 250, 40));
+        titulo_apellidoMaternoAlumno.setEditable(false);
+        titulo_apellidoMaternoAlumno.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoMaternoAlumno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoMaternoAlumno.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoMaternoAlumno.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        titulo_apellidoMaternoAlumno.setText("    Apellido Materno");
+        titulo_apellidoMaternoAlumno.setBorder(null);
+        titulo_apellidoMaternoAlumno.setFocusable(false);
+        titulo_apellidoMaternoAlumno.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        contenedor.add(titulo_apellidoMaternoAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 230, 40));
 
-        correo_electronico.setEditable(false);
-        correo_electronico.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        correo_electronico.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        correo_electronico.setText("jTextField1");
-        correo_electronico.setBorder(null);
-        correo_electronico.setFocusable(false);
-        contenedor.add(correo_electronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, 330, 40));
+        apellido_maternoAlumno.setEditable(false);
+        apellido_maternoAlumno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_maternoAlumno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_maternoAlumno.setText("jTextField1");
+        apellido_maternoAlumno.setBorder(null);
+        apellido_maternoAlumno.setFocusable(false);
+        contenedor.add(apellido_maternoAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 360, 230, 40));
 
-        codigo_postal.setEditable(false);
-        codigo_postal.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        codigo_postal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        codigo_postal.setText("jTextField1");
-        codigo_postal.setBorder(null);
-        codigo_postal.setFocusable(false);
-        contenedor.add(codigo_postal, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 350, 180, 40));
+        titulo_nombresAlumno.setEditable(false);
+        titulo_nombresAlumno.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_nombresAlumno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_nombresAlumno.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_nombresAlumno.setText("  Nombre(s)");
+        titulo_nombresAlumno.setBorder(null);
+        titulo_nombresAlumno.setFocusable(false);
+        contenedor.add(titulo_nombresAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 320, 270, 40));
 
-        fecha_nacimiento.setEditable(false);
-        fecha_nacimiento.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        fecha_nacimiento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fecha_nacimiento.setText("jTextField1");
-        fecha_nacimiento.setBorder(null);
-        fecha_nacimiento.setFocusable(false);
-        contenedor.add(fecha_nacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 210, 40));
+        nombresAlumno.setEditable(false);
+        nombresAlumno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        nombresAlumno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        nombresAlumno.setText("jTextField1");
+        nombresAlumno.setBorder(null);
+        nombresAlumno.setFocusable(false);
+        contenedor.add(nombresAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 360, 270, 40));
 
-        municipio.setEditable(false);
-        municipio.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        municipio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        municipio.setText("jTextField1");
-        municipio.setBorder(null);
-        municipio.setFocusable(false);
-        contenedor.add(municipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 210, 40));
+        apellido_paternoAlumno.setEditable(false);
+        apellido_paternoAlumno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_paternoAlumno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_paternoAlumno.setText("jTextField1");
+        apellido_paternoAlumno.setBorder(null);
+        apellido_paternoAlumno.setFocusable(false);
+        contenedor.add(apellido_paternoAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 250, 40));
 
-        regimen.setEditable(false);
-        regimen.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        regimen.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        regimen.setText("jTextField1");
-        regimen.setBorder(null);
-        regimen.setFocusable(false);
-        contenedor.add(regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 450, 330, 40));
-
-        no_interior.setEditable(false);
-        no_interior.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        no_interior.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        no_interior.setText("jTextField1");
-        no_interior.setBorder(null);
-        no_interior.setFocusable(false);
-        contenedor.add(no_interior, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 450, 130, 40));
-
-        titulo_colonia.setEditable(false);
-        titulo_colonia.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_colonia.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_colonia.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_colonia.setText("   Colonia");
-        titulo_colonia.setBorder(null);
-        titulo_colonia.setFocusable(false);
-        contenedor.add(titulo_colonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 200, 40));
-
-        titulo_noExterior.setEditable(false);
-        titulo_noExterior.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_noExterior.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_noExterior.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_noExterior.setText("   No Exterior");
-        titulo_noExterior.setBorder(null);
-        titulo_noExterior.setFocusable(false);
-        contenedor.add(titulo_noExterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 410, 130, 40));
-
-        titulo_noInterior.setEditable(false);
-        titulo_noInterior.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_noInterior.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_noInterior.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_noInterior.setText("   No Interior");
-        titulo_noInterior.setBorder(null);
-        titulo_noInterior.setFocusable(false);
-        contenedor.add(titulo_noInterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 410, 130, 40));
-
-        colonia.setEditable(false);
-        colonia.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        colonia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        colonia.setText("jTextField1");
-        colonia.setBorder(null);
-        colonia.setFocusable(false);
-        contenedor.add(colonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 200, 40));
-
-        no_exterior.setEditable(false);
-        no_exterior.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        no_exterior.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        no_exterior.setText("jTextField1");
-        no_exterior.setBorder(null);
-        no_exterior.setFocusable(false);
-        contenedor.add(no_exterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 450, 130, 40));
-
-        lb_noEncontrados.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        lb_noEncontrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_noEncontrados.setText("NO SE ENCONTRÓ A NINGUN PADRE CON EL RFC INGRESADO");
-        contenedor.add(lb_noEncontrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 1050, 60));
-
-        lb_inicial.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        lb_inicial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lb_inicial.setText("INGRESE EL RFC DEL PADRE A CONSULTAR");
-        contenedor.add(lb_inicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 550, 30));
-
-        rfc_busqueda.setColumns(1);
-        rfc_busqueda.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        rfc_busqueda.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        rfc_busqueda.setActionCommand("<Not Set>");
-        rfc_busqueda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        rfc_busqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        rfc_busqueda.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                rfc_busquedaFocusLost(evt);
-            }
-        });
-        rfc_busqueda.addActionListener(new java.awt.event.ActionListener() {
+        gradoEscolar_Alumno.setEditable(false);
+        gradoEscolar_Alumno.setBackground(new java.awt.Color(198, 54, 55));
+        gradoEscolar_Alumno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        gradoEscolar_Alumno.setForeground(new java.awt.Color(255, 255, 255));
+        gradoEscolar_Alumno.setText("  Grado escolar");
+        gradoEscolar_Alumno.setBorder(null);
+        gradoEscolar_Alumno.setFocusable(false);
+        gradoEscolar_Alumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rfc_busquedaActionPerformed(evt);
+                gradoEscolar_AlumnoActionPerformed(evt);
             }
         });
-        rfc_busqueda.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                rfc_busquedaKeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                rfc_busquedaKeyTyped(evt);
+        contenedor.add(gradoEscolar_Alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, 230, 40));
+
+        grado_EscolarAlumno.setEditable(false);
+        grado_EscolarAlumno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        grado_EscolarAlumno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        grado_EscolarAlumno.setText("jTextField1");
+        grado_EscolarAlumno.setBorder(null);
+        grado_EscolarAlumno.setFocusable(false);
+        grado_EscolarAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                grado_EscolarAlumnoActionPerformed(evt);
             }
         });
-        contenedor.add(rfc_busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 710, 50));
+        contenedor.add(grado_EscolarAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 460, 230, 40));
+
+        fechaNacimiento_Alumno.setEditable(false);
+        fechaNacimiento_Alumno.setBackground(new java.awt.Color(198, 54, 55));
+        fechaNacimiento_Alumno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        fechaNacimiento_Alumno.setForeground(new java.awt.Color(255, 255, 255));
+        fechaNacimiento_Alumno.setText("  Fecha nacimiento");
+        fechaNacimiento_Alumno.setBorder(null);
+        fechaNacimiento_Alumno.setFocusable(false);
+        contenedor.add(fechaNacimiento_Alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 420, 250, 40));
+
+        titulo_gradoEscolar.setEditable(false);
+        titulo_gradoEscolar.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_gradoEscolar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_gradoEscolar.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_gradoEscolar.setText("  Nivel escolar");
+        titulo_gradoEscolar.setBorder(null);
+        titulo_gradoEscolar.setFocusable(false);
+        contenedor.add(titulo_gradoEscolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 420, 280, 40));
+
+        nivelEscolar_Alumno.setEditable(false);
+        nivelEscolar_Alumno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        nivelEscolar_Alumno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        nivelEscolar_Alumno.setText("jTextField1");
+        nivelEscolar_Alumno.setBorder(null);
+        nivelEscolar_Alumno.setFocusable(false);
+        contenedor.add(nivelEscolar_Alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 460, 280, 40));
+
+        fecha_nacimientoAlumno.setEditable(false);
+        fecha_nacimientoAlumno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        fecha_nacimientoAlumno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        fecha_nacimientoAlumno.setText("jTextField1");
+        fecha_nacimientoAlumno.setBorder(null);
+        fecha_nacimientoAlumno.setFocusable(false);
+        contenedor.add(fecha_nacimientoAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 250, 40));
+
+        lb_infoDescarga.setText("Descargar el registro de todos los alumnos");
+        contenedor.add(lb_infoDescarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 80, 250, 20));
 
         icon_buscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\ar275\\Documents\\Generador de facturas\\generador-de-facturas\\generador_facturas\\src\\img\\btn_buscar.png")); // NOI18N
         icon_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1110,25 +1075,22 @@ public class ConsultarPadre extends javax.swing.JFrame {
                 btn_cerrarConsultaActionPerformed(evt);
             }
         });
-        contenedor.add(btn_cerrarConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 540, 170, 40));
+        contenedor.add(btn_cerrarConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 510, 170, 40));
 
         logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
         logo_lb.setText("jLabel2");
         logo_lb.setMaximumSize(new java.awt.Dimension(400, 400));
         logo_lb.setMinimumSize(new java.awt.Dimension(400, 400));
         logo_lb.setPreferredSize(new java.awt.Dimension(400, 600));
-        contenedor.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 370, 360));
+        contenedor.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 180, 370, 360));
 
-        txt_rfc.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        txt_rfc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_rfc.setText("jLabel1");
-        contenedor.add(txt_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 880, 50));
-
-        lb_infoDescarga.setText("Descargar el registro de todos los padres de familia");
-        contenedor.add(lb_infoDescarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 80, 300, 20));
+        txt_curp.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        txt_curp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_curp.setText("jLabel1");
+        contenedor.add(txt_curp, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 880, 50));
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 140, 1050, 600);
+        contenedor.setBounds(30, 150, 990, 580);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -1136,65 +1098,144 @@ public class ConsultarPadre extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    void cargarDatosPdf() {
+    void cargarDatosPDF(){//muestra todos los registros 
+        tablaPreescolar();
+        tablaPrimaria();
+        tablaSecundaria();
+    }
+    
+    void tablaPreescolar() {//llenar la tabla solo con alumnos del preescolar
+        //limpiarTabla();
+        listaPreescolar.clear();
         try {
             //Seleccionar los datos del emisor
-            String consulta = "SELECT * FROM padre_familia ORDER BY rfc";
+            String consulta = "SELECT * FROM alumnos WHERE nivel_escolaridad = 'Preescolar' ORDER BY grado_escolar, curp;";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
             //Arreglo de datos
-            Object[] padre = new Object[13];
-            
+            Object[] alumno = new Object[8];
             while (rs.next()) {
                 //se obtienen los datos de la tabla
-                padre[0] = rs.getString("rfc");
-                padre[1] = rs.getString("nombres");
-                padre[2] = rs.getString("apellido_paterno");
-                padre[3] = rs.getString("apellido_materno");
-                padre[4] = rs.getDate("fecha_nacimiento");
-                padre[5] = rs.getString("correo_electronico");
-                padre[6] = rs.getInt("domicilio_fiscal");
-                padre[7] = rs.getString("estado");
-                padre[8] = rs.getString("municipio");
-                padre[9] = rs.getString("colonia");
-                padre[10] = rs.getString("num_exterior");
-                padre[11] = rs.getString("num_interior");
-                padre[12] = rs.getString("regimen");
-                x = new PadresPDF(padre[0].toString(), padre[1].toString(), padre[2].toString(), padre[3].toString(), padre[4].toString(), padre[5].toString(), padre[6].toString(), padre[7].toString(), padre[8].toString(), padre[9].toString(), padre[10].toString(), padre[11].toString(), padre[12].toString());
-                registrosPadres.add(x);
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");;
+                x = new AlumnosPDF(alumno[0].toString(), alumno[1].toString(), alumno[2].toString(), alumno[3].toString(), alumno[4].toString(), alumno[5].toString(),alumno[6].toString(),alumno[7].toString());
+                listaPreescolar.add(x);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultarPadre.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PruebaConsultar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+       
+    void tablaPrimaria() {
+        listaPrimaria.clear();
+        try {
+            //Seleccionar los datos de los alumnos de primaria ordenados
+            String consulta = "SELECT *FROM alumnos WHERE nivel_escolaridad = 'Primaria'"
+                    + "ORDER BY"
+                    + "    CASE"
+                    + "        WHEN grado_escolar = 'Primero' THEN 1"
+                    + "        WHEN grado_escolar = 'Segundo' THEN 2"
+                    + "        WHEN grado_escolar = 'Tercero' THEN 3"
+                    + "        WHEN grado_escolar = 'Cuarto' THEN 4"
+                    + "        WHEN grado_escolar = 'Quinto' THEN 5"
+                    + "        WHEN grado_escolar = 'Sexto' THEN 6"
+                    + "    END,"
+                    + "    curp;";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] alumno = new Object[8];
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");
+                x = new AlumnosPDF(alumno[0].toString(),alumno[1].toString(),alumno[2].toString(),alumno[3].toString(),alumno[4].toString(),alumno[5].toString(),alumno[6].toString(),alumno[7].toString());
+                listaPrimaria.add(x);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PruebaConsultar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    void tablaSecundaria(){
+                try {
+            //Seleccionar los datos de los alumnos de secundaria ordenados
+            String consulta = "SELECT * FROM alumnos WHERE nivel_escolaridad = 'Secundaria' ORDER BY grado_escolar, curp;";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            Object[] alumno = new Object[8];
+            while (rs.next()) {
+                //se obtienen los datos de la tabla
+                alumno[0] = rs.getString("curp");
+                alumno[1] = rs.getString("rfc_padre");
+                alumno[2] = rs.getString("nombres");
+                alumno[3] = rs.getString("apellido_paterno");
+                alumno[4] = rs.getString("apellido_materno");
+                alumno[5] = rs.getDate("fecha_nacimiento");
+                alumno[6] = rs.getString("nivel_escolaridad");
+                alumno[7] = rs.getString("grado_escolar");
+                x = new AlumnosPDF(alumno[0].toString(),alumno[1].toString(),alumno[2].toString(),alumno[3].toString(),alumno[4].toString(),alumno[5].toString(),alumno[6].toString(),alumno[7].toString());
+                listaSecundaria.add(x);
+            }   
+        } catch (SQLException ex) {
+            Logger.getLogger(PruebaConsultar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
-    private void mostrarDatos(String rfc) {
+    private void mostrarDatos(String curp) {
+        try {
+            //muestra los datos del alumno solicitado
+            String consulta = "SELECT * FROM alumnos WHERE curp = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ps.setString(1, curp);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                txt_curp.setText(rs.getString("curp"));
+                mostrarCampos();
+                //datos del padre
+                obtenerDatosPadre(rs.getString("rfc_padre"));
+                //datos del alumno
+                curp_show.setText(rs.getString("curp"));
+                nombresAlumno.setText(rs.getString("nombres"));
+                apellido_paternoAlumno.setText(rs.getString("apellido_paterno"));
+                apellido_maternoAlumno.setText(rs.getString("apellido_materno"));
+                fecha_nacimientoAlumno.setText(rs.getDate("fecha_nacimiento").toString());
+                nivelEscolar_Alumno.setText(rs.getString("nivel_escolaridad"));
+                grado_EscolarAlumno.setText(rs.getString("grado_escolar"));
+            } else {
+                JOptionPane.showMessageDialog(null, "La CURP del alumno que solicitó no se encuentra registrada", "CURP no encontrada", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PruebaConsultar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void obtenerDatosPadre(String rfc) {
         try {
             //Seleccionar los datos del emisor
             String consulta = "SELECT * FROM padre_familia WHERE rfc = ?";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta);
             ps.setString(1, rfc);
             ResultSet rs = ps.executeQuery();
-            //Arreglo de datos
-            Object[] padre = new Object[13];
-
+            //muestra los datos del padre
             if (rs.next()) {
-                mostrarCampos();
-                txt_rfc.setText(rs.getString("rfc"));//etiqueta con el nombre del RFC
-                rfc_show.setText(rs.getString("rfc"));
-                nombres.setText(rs.getString("nombres"));
-                apellido_paterno.setText(rs.getString("apellido_paterno"));
-                apellido_materno.setText(rs.getString("apellido_materno"));
-                fecha_nacimiento.setText(rs.getDate("fecha_nacimiento").toString());
-                codigo_postal.setText(String.valueOf(rs.getInt("domicilio_fiscal")));
-                correo_electronico.setText(rs.getString("correo_electronico"));
-                estado.setText(rs.getString("estado"));
-                municipio.setText(rs.getString("municipio"));
-                colonia.setText(rs.getString("colonia"));
-                no_exterior.setText(rs.getString("num_exterior"));
-                no_interior.setText(rs.getString("num_interior"));
-                regimen.setText(rs.getString("regimen"));
+                rfcPadre.setText(rfc);
+                nombresPadre.setText(rs.getString("nombres"));
+                apellido_paternoPadre.setText(rs.getString("apellido_paterno"));
+                apellido_maternoPadre.setText(rs.getString("apellido_materno"));
             } else {
                 JOptionPane.showMessageDialog(null, "El RFC que solicitó no se encuentra registrado", "RFC no encontrado", JOptionPane.WARNING_MESSAGE);
             }
@@ -1202,86 +1243,88 @@ public class ConsultarPadre extends javax.swing.JFrame {
             Logger.getLogger(ConsultarPadre.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void ocultarCampos() {
-        //
-        lb_campos.setVisible(false);
-        //Titulos de los campos
+        //logo
+        logo_lb.setVisible(true);
+        //Campos de busqueda
+        curp_busqueda.setVisible(true);
+        icon_buscar.setVisible(true);
+        lb_inicial.setVisible(true);
+         //etiquetas de datos
+        lb_datosPadre.setVisible(false);
+        lb_datosAlumno.setVisible(false);
+        //etiqueta de curp
+        txt_curp.setVisible(false);
+        //encabezados
         titulo_apellidoPaterno.setVisible(false);
         titulo_apellidoMaterno.setVisible(false);
         titulo_nombres.setVisible(false);
         titulo_rfc.setVisible(false);
-        titulo_correo.setVisible(false);
-        titulo_fechaNacimiento.setVisible(false);
-        titulo_cp.setVisible(false);
-        titulo_estado.setVisible(false);
-        titulo_municipio.setVisible(false);
-        titulo_colonia.setVisible(false);
-        titulo_noExterior.setVisible(false);
-        titulo_noInterior.setVisible(false);
-        titulo_regimen.setVisible(false);
-        //Campos
-        rfc_show.setVisible(false);
-        nombres.setVisible(false);
-        apellido_paterno.setVisible(false);
-        apellido_materno.setVisible(false);
-        fecha_nacimiento.setVisible(false);
-        codigo_postal.setVisible(false);
-        correo_electronico.setVisible(false);
-        estado.setVisible(false);
-        municipio.setVisible(false);
-        colonia.setVisible(false);
-        no_exterior.setVisible(false);
-        no_interior.setVisible(false);
-        regimen.setVisible(false);
-
+        titulo_apellidoAlumno.setVisible(false);
+        titulo_apellidoMaternoAlumno.setVisible(false);
+        titulo_nombresAlumno.setVisible(false);
+        titulo_curp.setVisible(false);
+        fechaNacimiento_Alumno.setVisible(false);
+        titulo_gradoEscolar.setVisible(false);
+        gradoEscolar_Alumno.setVisible(false);
+        //campos de información
+        rfcPadre.setVisible(false);
+        nombresPadre.setVisible(false);
+        apellido_paternoPadre.setVisible(false);
+        apellido_maternoPadre.setVisible(false);
+        curp_show.setVisible(false);
+        nombresAlumno.setVisible(false);
+        apellido_paternoAlumno.setVisible(false);
+        apellido_maternoAlumno.setVisible(false);
+        fecha_nacimientoAlumno.setVisible(false);
+        nivelEscolar_Alumno.setVisible(false);
+        grado_EscolarAlumno.setVisible(false);
+        //boton
+        btn_cerrarConsulta.setVisible(false);
     }
 
     private void mostrarCampos() {
-        //OCulta logo
+        // logo
         logo_lb.setVisible(false);
-        //mostrar boton para cerrar consulta
-        btn_cerrarConsulta.setVisible(true);
-        //ocultar barra de busqueda
-        rfc_busqueda.setVisible(false);
+        // Campos de busqueda
+        curp_busqueda.setVisible(false);
         icon_buscar.setVisible(false);
-        
-        //ocultar eiqueta de la barra
         lb_inicial.setVisible(false);
-        
-        lb_noEncontrados.setVisible(false);
-        lb_campos.setVisible(true);
-        //
+        //etiquetas de datos
+        lb_datosPadre.setVisible(true);
+        lb_datosAlumno.setVisible(true);
+        // etiqueta de curp
+        txt_curp.setVisible(true);
+        // encabezados
         titulo_apellidoPaterno.setVisible(true);
         titulo_apellidoMaterno.setVisible(true);
         titulo_nombres.setVisible(true);
         titulo_rfc.setVisible(true);
-        titulo_correo.setVisible(true);
-        titulo_fechaNacimiento.setVisible(true);
-        titulo_cp.setVisible(true);
-        titulo_estado.setVisible(true);
-        titulo_municipio.setVisible(true);
-        titulo_colonia.setVisible(true);
-        titulo_noExterior.setVisible(true);
-        titulo_noInterior.setVisible(true);
-        titulo_regimen.setVisible(true);
-        //
-        rfc_show.setVisible(true);
-        nombres.setVisible(true);
-        apellido_paterno.setVisible(true);
-        apellido_materno.setVisible(true);
-        fecha_nacimiento.setVisible(true);
-        codigo_postal.setVisible(true);
-        correo_electronico.setVisible(true);
-        estado.setVisible(true);
-        municipio.setVisible(true);
-        colonia.setVisible(true);
-        no_exterior.setVisible(true);
-        no_interior.setVisible(true);
-        regimen.setVisible(true);
-
+        titulo_apellidoAlumno.setVisible(true);
+        titulo_apellidoMaternoAlumno.setVisible(true);
+        titulo_nombresAlumno.setVisible(true);
+        titulo_curp.setVisible(true);
+       fechaNacimiento_Alumno.setVisible(true);
+        titulo_gradoEscolar.setVisible(true);
+        gradoEscolar_Alumno.setVisible(true);
+        // campos de información
+        rfcPadre.setVisible(true);
+        nombresPadre.setVisible(true);
+        apellido_paternoPadre.setVisible(true);
+        apellido_maternoPadre.setVisible(true);
+        curp_show.setVisible(true);
+        nombresAlumno.setVisible(true);
+        apellido_paternoAlumno.setVisible(true);
+        apellido_maternoAlumno.setVisible(true);
+        fecha_nacimientoAlumno.setVisible(true);
+        nivelEscolar_Alumno.setVisible(true);
+        grado_EscolarAlumno.setVisible(true);
+        // boton
+        btn_cerrarConsulta.setVisible(true);
     }
-    //datos para el historial
+
+    
     public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
         this.fechaInicioSesion = fechaInicioSesion;
@@ -1512,7 +1555,7 @@ public class ConsultarPadre extends javax.swing.JFrame {
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
-                "¿Desea salir de la apliación?",
+                "¿Desea salir de la aplicación?",
                 "Confirmación de salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,
@@ -1670,10 +1713,10 @@ public class ConsultarPadre extends javax.swing.JFrame {
 
     private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-            menu_padres.setVisible(false);
-            btn_padres.setBackground(colorbtnNoSeleccionado);
-            icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
+            ConsultarPadre ventena = new ConsultarPadre();
+            ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventena.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_txt_consultarPadresMouseClicked
 
@@ -1706,10 +1749,7 @@ public class ConsultarPadre extends javax.swing.JFrame {
 
     private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            ConsultarAlumnos ventana = new ConsultarAlumnos();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-            ventana.setVisible(true);
-            this.dispose();
+            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
 
@@ -1771,7 +1811,7 @@ public class ConsultarPadre extends javax.swing.JFrame {
     private void btn_descargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_descargaMouseClicked
         //generar pdf de los registros
         if(SwingUtilities.isLeftMouseButton(evt)){
-             //Mostrar interfaz para seleccionar la carpeta
+            //Mostrar interfaz para seleccionar la carpeta
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setPreferredSize(new Dimension(800, 600));//Tamño de la ventana
             fileChooser.setDialogTitle("Seleccionar carpeta");
@@ -1783,7 +1823,7 @@ public class ConsultarPadre extends javax.swing.JFrame {
                 File directorioSeleccionado = fileChooser.getSelectedFile();
                 String rutaCarpeta = directorioSeleccionado.getAbsolutePath();
                 try {
-                    x.generarPdf(registrosPadres, rutaCarpeta);
+                    x.PdfTodosLosAlumnos(listaPreescolar,listaPrimaria, listaSecundaria, rutaCarpeta);
                     //JOptionPane.showMessageDialog(null,"PDF guardado correctamente", "Reporte Generado",JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(HistorialSesiones.class.getName()).log(Level.SEVERE, null, ex);
@@ -1796,72 +1836,47 @@ public class ConsultarPadre extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_descargaMouseClicked
 
-    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
-       ///boton para buscar
-       if(SwingUtilities.isLeftMouseButton(evt)){
-           Validacion valida = new Validacion();
-           if(rfc_busqueda.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
-                return;
-           }
-           if(rfc_busqueda.getText().length()<13){
-               JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
-                return;
-           }
-           if(!valida.rfc_valido(rfc_busqueda.getText().toUpperCase())){
-               JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
-                return;
-           }
-           
-           mostrarDatos(rfc_busqueda.getText().toUpperCase());
-           rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
-       }
-    }//GEN-LAST:event_icon_buscarMouseClicked
+    private void curp_busquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_curp_busquedaFocusLost
+        curp_busqueda.setText(curp_busqueda.getText().toUpperCase());
+    }//GEN-LAST:event_curp_busquedaFocusLost
 
-    private void rfc_busquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rfc_busquedaFocusLost
-        rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
-    }//GEN-LAST:event_rfc_busquedaFocusLost
+    private void curp_busquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_curp_busquedaActionPerformed
+        Validacion valida = new Validacion();
+        if (curp_busqueda.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese una CURP para consultar", "CURP no ingresada", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (curp_busqueda.getText().length() < 18) {
+            JOptionPane.showMessageDialog(null, "La CURP debe ser de 18 digitos", "CURP no valida", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!valida.curp_valida(curp_busqueda.getText().toUpperCase())) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese una CURP valido para consultar", "CURP no valida", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    private void rfc_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_busquedaKeyTyped
+        mostrarDatos(curp_busqueda.getText().toUpperCase());
+        curp_busqueda.setText(curp_busqueda.getText().toUpperCase());
+    }//GEN-LAST:event_curp_busquedaActionPerformed
 
-        if (rfc_busqueda.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
-            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    private void curp_busquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_curp_busquedaKeyPressed
+
+    }//GEN-LAST:event_curp_busquedaKeyPressed
+
+    private void curp_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_curp_busquedaKeyTyped
+        if (curp_busqueda.getText().length() > 18 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
+            JOptionPane.showMessageDialog(null, "LA CURP debe ser de 18 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
-    }//GEN-LAST:event_rfc_busquedaKeyTyped
+    }//GEN-LAST:event_curp_busquedaKeyTyped
 
-    private void rfc_busquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_busquedaKeyPressed
+    private void gradoEscolar_AlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradoEscolar_AlumnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gradoEscolar_AlumnoActionPerformed
 
-    }//GEN-LAST:event_rfc_busquedaKeyPressed
-
-    private void rfc_busquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_busquedaActionPerformed
-        Validacion valida = new Validacion();
-        if (rfc_busqueda.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (rfc_busqueda.getText().length() < 13) {
-            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (!valida.rfc_valido(rfc_busqueda.getText().toUpperCase())) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        mostrarDatos(rfc_busqueda.getText().toUpperCase());
-        rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
-    }//GEN-LAST:event_rfc_busquedaActionPerformed
-
-    private void btn_cerrarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarConsultaActionPerformed
-        ocultarCampos();
-        rfc_busqueda.setVisible(true);
-        rfc_busqueda.setText("");
-        lb_inicial.setVisible(true);
-        logo_lb.setVisible(true);
-        icon_buscar.setVisible(true);
-        btn_cerrarConsulta.setVisible(false);
-    }//GEN-LAST:event_btn_cerrarConsultaActionPerformed
+    private void grado_EscolarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grado_EscolarAlumnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_grado_EscolarAlumnoActionPerformed
 
     private void btn_descargaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_descargaMouseEntered
         lb_infoDescarga.setVisible(true);
@@ -1870,6 +1885,38 @@ public class ConsultarPadre extends javax.swing.JFrame {
     private void btn_descargaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_descargaMouseExited
         lb_infoDescarga.setVisible(false);
     }//GEN-LAST:event_btn_descargaMouseExited
+
+    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
+        ///boton para buscar
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            Validacion valida = new Validacion();
+            if(curp_busqueda.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(curp_busqueda.getText().length()<18){
+                JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(!valida.curp_valida(curp_busqueda.getText().toUpperCase())){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            mostrarDatos(curp_busqueda.getText().toUpperCase());
+            curp_busqueda.setText(curp_busqueda.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_icon_buscarMouseClicked
+
+    private void btn_cerrarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarConsultaActionPerformed
+        ocultarCampos();
+        curp_busqueda.setVisible(true);
+        curp_busqueda.setText("");
+        lb_inicial.setVisible(true);
+        logo_lb.setVisible(true);
+        icon_buscar.setVisible(true);
+        btn_cerrarConsulta.setVisible(false);
+    }//GEN-LAST:event_btn_cerrarConsultaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1888,462 +1935,14 @@ public class ConsultarPadre extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPadre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PruebaConsultar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPadre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PruebaConsultar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPadre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PruebaConsultar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPadre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PruebaConsultar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -2412,15 +2011,17 @@ public class ConsultarPadre extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultarPadre().setVisible(true);
+                new PruebaConsultar().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
-    private javax.swing.JTextField apellido_materno;
-    private javax.swing.JTextField apellido_paterno;
+    private javax.swing.JTextField apellido_maternoAlumno;
+    private javax.swing.JTextField apellido_maternoPadre;
+    private javax.swing.JTextField apellido_paternoAlumno;
+    private javax.swing.JTextField apellido_paternoPadre;
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JButton btn_cerrarConsulta;
@@ -2433,14 +2034,15 @@ public class ConsultarPadre extends javax.swing.JFrame {
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
-    private javax.swing.JTextField codigo_postal;
-    private javax.swing.JTextField colonia;
     private javax.swing.JPanel contenedor;
     private javax.swing.JPanel contenedor_menu;
-    private javax.swing.JTextField correo_electronico;
-    private javax.swing.JTextField estado;
-    private javax.swing.JTextField fecha_nacimiento;
+    private javax.swing.JTextField curp_busqueda;
+    private javax.swing.JTextField curp_show;
+    private javax.swing.JTextField fechaNacimiento_Alumno;
+    private javax.swing.JTextField fecha_nacimientoAlumno;
     private javax.swing.JPanel fondo;
+    private javax.swing.JTextField gradoEscolar_Alumno;
+    private javax.swing.JTextField grado_EscolarAlumno;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
     private javax.swing.JLabel icon_buscar;
@@ -2466,10 +2068,10 @@ public class ConsultarPadre extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JLabel lb_campos;
+    private javax.swing.JLabel lb_datosAlumno;
+    private javax.swing.JLabel lb_datosPadre;
     private javax.swing.JLabel lb_infoDescarga;
     private javax.swing.JLabel lb_inicial;
-    private javax.swing.JLabel lb_noEncontrados;
     private javax.swing.JLabel logo_lb;
     private javax.swing.JPanel menu_alumnos;
     private javax.swing.JPanel menu_emisor;
@@ -2478,27 +2080,20 @@ public class ConsultarPadre extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
-    private javax.swing.JTextField municipio;
-    private javax.swing.JTextField no_exterior;
-    private javax.swing.JTextField no_interior;
+    private javax.swing.JTextField nivelEscolar_Alumno;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JTextField nombres;
-    private javax.swing.JTextField regimen;
-    private javax.swing.JTextField rfc_busqueda;
-    private javax.swing.JTextField rfc_show;
+    private javax.swing.JTextField nombresAlumno;
+    private javax.swing.JTextField nombresPadre;
+    private javax.swing.JTextField rfcPadre;
     private javax.swing.JLabel text_salir;
+    private javax.swing.JTextField titulo_apellidoAlumno;
     private javax.swing.JTextField titulo_apellidoMaterno;
+    private javax.swing.JTextField titulo_apellidoMaternoAlumno;
     private javax.swing.JTextField titulo_apellidoPaterno;
-    private javax.swing.JTextField titulo_colonia;
-    private javax.swing.JTextField titulo_correo;
-    private javax.swing.JTextField titulo_cp;
-    private javax.swing.JTextField titulo_estado;
-    private javax.swing.JTextField titulo_fechaNacimiento;
-    private javax.swing.JTextField titulo_municipio;
-    private javax.swing.JTextField titulo_noExterior;
-    private javax.swing.JTextField titulo_noInterior;
+    private javax.swing.JTextField titulo_curp;
+    private javax.swing.JTextField titulo_gradoEscolar;
     private javax.swing.JTextField titulo_nombres;
-    private javax.swing.JTextField titulo_regimen;
+    private javax.swing.JTextField titulo_nombresAlumno;
     private javax.swing.JTextField titulo_rfc;
     private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
@@ -2510,6 +2105,7 @@ public class ConsultarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel txt_consultarAlmnos;
     private javax.swing.JLabel txt_consultarAlmnos1;
     private javax.swing.JLabel txt_consultarPadres;
+    private javax.swing.JLabel txt_curp;
     private javax.swing.JLabel txt_editarEmisor;
     private javax.swing.JLabel txt_eliminarAlumno;
     private javax.swing.JLabel txt_eliminarEmisor;
@@ -2525,7 +2121,6 @@ public class ConsultarPadre extends javax.swing.JFrame {
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
-    private javax.swing.JLabel txt_rfc;
     private javax.swing.JLabel user_menuIcon;
     private javax.swing.JLabel user_menuIcon1;
     // End of variables declaration//GEN-END:variables

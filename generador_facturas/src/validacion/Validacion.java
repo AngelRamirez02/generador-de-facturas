@@ -63,6 +63,10 @@ public class Validacion {
     public boolean rfc_valido(String rfc){
         return rfc.matches("^[A-ZÑ&]{4}\\d{6}[A-Z0-9]{3}$");
     }
+    
+    public boolean curp_valida( String curp){
+        return curp.matches("^[A-Z]{4}\\d{6}[HM][A-Z]{2}[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9][0-9]$");
+    }
 
     public String formatearNombresApellidos(String nombre) {
         if (nombre == null || nombre.isEmpty()) {
