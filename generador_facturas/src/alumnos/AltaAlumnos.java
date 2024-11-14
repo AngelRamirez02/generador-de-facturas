@@ -1250,12 +1250,14 @@ public class AltaAlumnos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);;
         }
     }
-    
-    boolean esHijo(){
-        if(!entrada_apellidoPaterno.getText().equalsIgnoreCase(apellidoPaterno_padre.getText()) 
-                && !entrada_apellidoMaterno.getText().equalsIgnoreCase(apellido_maternoPadre.getText())){
-                JOptionPane.showMessageDialog(null,"Ninguno de los apellidos del padre o madre no coinciden con los del hijo", "Apelidos sin coincidencia", JOptionPane.INFORMATION_MESSAGE);
-                return false;
+
+    boolean esHijo() {
+        if (!entrada_apellidoPaterno.getText().equals(apellidoPaterno_padre.getText())
+                && !entrada_apellidoMaterno.getText().equals(apellido_maternoPadre.getText())
+                && !entrada_apellidoPaterno.getText().equals(apellido_maternoPadre.getText())
+                && !entrada_apellidoMaterno.getText().equals(apellidoPaterno_padre.getText())) {
+            JOptionPane.showMessageDialog(null, "Ninguno de los apellidos del padre o madre no coinciden con los del hijo", "Apelidos sin coincidencia", JOptionPane.INFORMATION_MESSAGE);
+            return false;
         }
         return true;
     }
@@ -1537,6 +1539,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 entrada_fechaNacimiento.requestFocusInWindow();
                 return;
             }
+            if (!esHijo()) {
+                //JOptionPane.showMessageDialog(null, "Solo se permiten hijos con los mimos apellidos", "Los apellidos no coinciden", JOptionPane.WARNING_MESSAGE);
+                entrada_apellidoPaterno.requestFocusInWindow();
+                return;
+            }
             if(!curp_valida()){
                 entrada_curp.requestFocusInWindow();
                 return;
@@ -1545,11 +1552,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "La CURP ya se encuentra registrada", "CURP existente", JOptionPane.WARNING_MESSAGE);
                 entrada_curp.requestFocusInWindow();  
                 return; 
-            }
-            if(!esHijo()){
-                //JOptionPane.showMessageDialog(null, "Solo se permiten hijos con los mimos apellidos", "Los apellidos no coinciden", JOptionPane.WARNING_MESSAGE);
-                entrada_apellidoPaterno.requestFocusInWindow();    
-                return;
             }
             if(entrada_nivelEscolar.getSelectedIndex()==0){ //la opcion 0 es <seleccionar>  
                 JOptionPane.showMessageDialog(null, "Selecione un nivel escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
@@ -1933,7 +1935,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
+                ModificarAlumno ventana = new ModificarAlumno();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
             this.dispose();

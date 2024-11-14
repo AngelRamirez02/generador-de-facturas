@@ -8,7 +8,7 @@ import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
 import alumnos.AltaAlumnos;
 import alumnos.ConsultarAlumnos;
-import alumnos.ConsultarAlumnosEdit;
+import alumnos.ModificarAlumno;
 import alumnos.EliminarAlumno;
 import com.itextpdf.text.DocumentException;
 import conexion.conexion;
@@ -1715,7 +1715,7 @@ public class ConsultarPadre extends javax.swing.JFrame {
 
     private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
+            ModificarAlumno ventana = new ModificarAlumno();
             ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();

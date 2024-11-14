@@ -6,7 +6,7 @@ package padres;
 
 import alumnos.AltaAlumnos;
 import alumnos.ConsultarAlumnos;
-import alumnos.ConsultarAlumnosEdit;
+import alumnos.ModificarAlumno;
 import alumnos.EliminarAlumno;
 import emisor.*;
 import conexion.conexion;
@@ -2154,7 +2154,7 @@ public class AltaPadres extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarAlumnosEdit ventana = new ConsultarAlumnosEdit();
+                ModificarAlumno ventana = new ModificarAlumno();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
