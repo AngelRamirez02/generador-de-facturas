@@ -2107,7 +2107,7 @@ public class AltaEmisor extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
+                ModificarEmisor ventana = new ModificarEmisor();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();

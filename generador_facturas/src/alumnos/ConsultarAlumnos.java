@@ -1774,7 +1774,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
 
     private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
+            ModificarEmisor ventana = new ModificarEmisor();
             ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();

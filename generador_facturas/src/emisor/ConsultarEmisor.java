@@ -45,6 +45,8 @@ import alumnos.AltaAlumnos;
 import alumnos.ConsultarAlumnos;
 import alumnos.ModificarAlumno;
 import alumnos.EliminarAlumno;
+import java.awt.event.KeyEvent;
+import validacion.Validacion;
 
 /**
  *
@@ -80,7 +82,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
-
+        logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -92,6 +94,8 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         
         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
         
+        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
+        icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
         //Imaganes para el menu del usuario
         Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
@@ -160,16 +164,8 @@ public class ConsultarEmisor extends javax.swing.JFrame {
             }
         });
         timer.start();
-
-        //Propiedades para la tabla
-        JTableHeader header = tabla_emisor.getTableHeader();
-        header.setDefaultRenderer(new TablaPersonalizada());
-         header.setPreferredSize(new Dimension(30, 50));
-         //tamaños para las columnas de las tablas
-         TableColumn columnaApellido = tabla_emisor.getColumnModel().getColumn(0);
-         columnaApellido.setPreferredWidth(115);
         
-        llenarTabla();
+        ocultarCampos();
         
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
@@ -260,12 +256,43 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         jSeparator18 = new javax.swing.JSeparator();
         txt_ConsultarEmisor = new javax.swing.JLabel();
         contenedor = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla_emisor = new javax.swing.JTable();
         txt_emisoresRegistrados = new javax.swing.JLabel();
+        titulo_rfc = new javax.swing.JTextField();
+        rfc_show = new javax.swing.JTextField();
+        titulo_estado = new javax.swing.JTextField();
+        titulo_apellidoPaterno = new javax.swing.JTextField();
+        estado = new javax.swing.JTextField();
+        titulo_apellidoMaterno = new javax.swing.JTextField();
+        apellido_materno = new javax.swing.JTextField();
+        titulo_nombres = new javax.swing.JTextField();
+        nombres = new javax.swing.JTextField();
+        titulo_regimen = new javax.swing.JTextField();
+        titulo_correo = new javax.swing.JTextField();
+        titulo_cp = new javax.swing.JTextField();
+        titulo_fechaNacimiento = new javax.swing.JTextField();
+        titulo_municipio = new javax.swing.JTextField();
+        lb_campos = new javax.swing.JLabel();
+        apellido_paterno = new javax.swing.JTextField();
+        correo_electronico = new javax.swing.JTextField();
+        codigo_postal = new javax.swing.JTextField();
+        fecha_nacimiento = new javax.swing.JTextField();
+        municipio = new javax.swing.JTextField();
+        regimen = new javax.swing.JTextField();
+        no_interior = new javax.swing.JTextField();
+        titulo_colonia = new javax.swing.JTextField();
+        titulo_noExterior = new javax.swing.JTextField();
+        lb_inicial = new javax.swing.JLabel();
+        titulo_noInterior = new javax.swing.JTextField();
+        colonia = new javax.swing.JTextField();
+        no_exterior = new javax.swing.JTextField();
+        rfc_busqueda = new javax.swing.JTextField();
+        icon_buscar = new javax.swing.JLabel();
+        btn_cerrarConsulta = new javax.swing.JButton();
+        logo_lb = new javax.swing.JLabel();
+        txt_rfc = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Menu Principal");
+        setTitle("Instituto Andrés Manuel López Obrador - Consultar Emisor");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -756,41 +783,308 @@ public class ConsultarEmisor extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla_emisor.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        tabla_emisor.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
+        txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_emisoresRegistrados.setText("CONSULTA DE EMISOR");
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 1050, 50));
 
-            },
-            new String [] {
-                "RFC", "Nombres", "Apellido paterno", "Apellido materno", "Fecha de nacimiento", "Correo electrónico", "Domicilio Fiscal", "Estado", "Municipio", "Colonia", "N° Exterior", "N° Interior", "Régimen Fiscal"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false
-            };
+        titulo_rfc.setEditable(false);
+        titulo_rfc.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_rfc.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_rfc.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_rfc.setText("  RFC");
+        titulo_rfc.setBorder(null);
+        titulo_rfc.setFocusable(false);
+        contenedor.add(titulo_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 210, 230, 40));
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        rfc_show.setEditable(false);
+        rfc_show.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        rfc_show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        rfc_show.setText("jTextField1");
+        rfc_show.setBorder(null);
+        rfc_show.setFocusable(false);
+        contenedor.add(rfc_show, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 250, 230, 40));
+
+        titulo_estado.setEditable(false);
+        titulo_estado.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_estado.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_estado.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_estado.setText("   Estado");
+        titulo_estado.setBorder(null);
+        titulo_estado.setFocusable(false);
+        contenedor.add(titulo_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 300, 270, 40));
+
+        titulo_apellidoPaterno.setEditable(false);
+        titulo_apellidoPaterno.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoPaterno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoPaterno.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoPaterno.setText("   Apellido Paterno");
+        titulo_apellidoPaterno.setBorder(null);
+        titulo_apellidoPaterno.setFocusable(false);
+        contenedor.add(titulo_apellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 250, 40));
+
+        estado.setEditable(false);
+        estado.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        estado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        estado.setText("jTextField1");
+        estado.setBorder(null);
+        estado.setFocusable(false);
+        contenedor.add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 340, 270, 40));
+
+        titulo_apellidoMaterno.setEditable(false);
+        titulo_apellidoMaterno.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoMaterno.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoMaterno.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoMaterno.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        titulo_apellidoMaterno.setText("    Apellido Materno");
+        titulo_apellidoMaterno.setBorder(null);
+        titulo_apellidoMaterno.setFocusable(false);
+        titulo_apellidoMaterno.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        contenedor.add(titulo_apellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 210, 230, 40));
+
+        apellido_materno.setEditable(false);
+        apellido_materno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_materno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_materno.setText("jTextField1");
+        apellido_materno.setBorder(null);
+        apellido_materno.setFocusable(false);
+        contenedor.add(apellido_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, 230, 40));
+
+        titulo_nombres.setEditable(false);
+        titulo_nombres.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_nombres.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_nombres.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_nombres.setText("  Nombre(s)");
+        titulo_nombres.setBorder(null);
+        titulo_nombres.setFocusable(false);
+        contenedor.add(titulo_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 210, 280, 40));
+
+        nombres.setEditable(false);
+        nombres.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        nombres.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        nombres.setText("jTextField1");
+        nombres.setBorder(null);
+        nombres.setFocusable(false);
+        contenedor.add(nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 250, 280, 40));
+
+        titulo_regimen.setEditable(false);
+        titulo_regimen.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_regimen.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_regimen.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_regimen.setText("   Regimen fiscal");
+        titulo_regimen.setBorder(null);
+        titulo_regimen.setFocusable(false);
+        contenedor.add(titulo_regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 400, 330, 40));
+
+        titulo_correo.setEditable(false);
+        titulo_correo.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_correo.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_correo.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_correo.setText("   Correo electronico");
+        titulo_correo.setBorder(null);
+        titulo_correo.setFocusable(false);
+        contenedor.add(titulo_correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 300, 330, 40));
+
+        titulo_cp.setEditable(false);
+        titulo_cp.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_cp.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_cp.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_cp.setText("   Codigo postal");
+        titulo_cp.setBorder(null);
+        titulo_cp.setFocusable(false);
+        contenedor.add(titulo_cp, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, 180, 40));
+
+        titulo_fechaNacimiento.setEditable(false);
+        titulo_fechaNacimiento.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_fechaNacimiento.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_fechaNacimiento.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_fechaNacimiento.setText("   Fecha de nacimiento");
+        titulo_fechaNacimiento.setBorder(null);
+        titulo_fechaNacimiento.setFocusable(false);
+        contenedor.add(titulo_fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 210, 40));
+
+        titulo_municipio.setEditable(false);
+        titulo_municipio.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_municipio.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_municipio.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_municipio.setText("  Municipio");
+        titulo_municipio.setBorder(null);
+        titulo_municipio.setFocusable(false);
+        contenedor.add(titulo_municipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 210, 40));
+
+        lb_campos.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_campos.setText("Datos del emisor consultado:");
+        contenedor.add(lb_campos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 350, 40));
+
+        apellido_paterno.setEditable(false);
+        apellido_paterno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_paterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_paterno.setText("jTextField1");
+        apellido_paterno.setBorder(null);
+        apellido_paterno.setFocusable(false);
+        contenedor.add(apellido_paterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 250, 40));
+
+        correo_electronico.setEditable(false);
+        correo_electronico.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        correo_electronico.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        correo_electronico.setText("jTextField1");
+        correo_electronico.setBorder(null);
+        correo_electronico.setFocusable(false);
+        contenedor.add(correo_electronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 340, 330, 40));
+
+        codigo_postal.setEditable(false);
+        codigo_postal.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        codigo_postal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        codigo_postal.setText("jTextField1");
+        codigo_postal.setBorder(null);
+        codigo_postal.setFocusable(false);
+        contenedor.add(codigo_postal, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 340, 180, 40));
+
+        fecha_nacimiento.setEditable(false);
+        fecha_nacimiento.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        fecha_nacimiento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        fecha_nacimiento.setText("jTextField1");
+        fecha_nacimiento.setBorder(null);
+        fecha_nacimiento.setFocusable(false);
+        contenedor.add(fecha_nacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 210, 40));
+
+        municipio.setEditable(false);
+        municipio.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        municipio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        municipio.setText("jTextField1");
+        municipio.setBorder(null);
+        municipio.setFocusable(false);
+        contenedor.add(municipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 210, 40));
+
+        regimen.setEditable(false);
+        regimen.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        regimen.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        regimen.setText("jTextField1");
+        regimen.setBorder(null);
+        regimen.setFocusable(false);
+        regimen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regimenActionPerformed(evt);
             }
         });
-        tabla_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tabla_emisor.setDragEnabled(true);
-        tabla_emisor.setFillsViewportHeight(true);
-        tabla_emisor.setRowHeight(40);
-        tabla_emisor.setSelectionBackground(new java.awt.Color(153, 153, 255));
-        tabla_emisor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabla_emisor.setShowGrid(false);
-        tabla_emisor.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tabla_emisor);
+        contenedor.add(regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 440, 330, 40));
 
-        contenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1050, 450));
+        no_interior.setEditable(false);
+        no_interior.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        no_interior.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        no_interior.setText("jTextField1");
+        no_interior.setBorder(null);
+        no_interior.setFocusable(false);
+        contenedor.add(no_interior, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 440, 130, 40));
 
-        txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
-        txt_emisoresRegistrados.setText("EMISORES REGISTRADOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 520, 50));
+        titulo_colonia.setEditable(false);
+        titulo_colonia.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_colonia.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_colonia.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_colonia.setText("   Colonia");
+        titulo_colonia.setBorder(null);
+        titulo_colonia.setFocusable(false);
+        contenedor.add(titulo_colonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, 200, 40));
+
+        titulo_noExterior.setEditable(false);
+        titulo_noExterior.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_noExterior.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_noExterior.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_noExterior.setText("   No Exterior");
+        titulo_noExterior.setBorder(null);
+        titulo_noExterior.setFocusable(false);
+        contenedor.add(titulo_noExterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 400, 130, 40));
+
+        lb_inicial.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        lb_inicial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lb_inicial.setText("INGRESE EL RFC DEL PADRE A CONSULTAR");
+        contenedor.add(lb_inicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 550, 30));
+
+        titulo_noInterior.setEditable(false);
+        titulo_noInterior.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_noInterior.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_noInterior.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_noInterior.setText("   No Interior");
+        titulo_noInterior.setBorder(null);
+        titulo_noInterior.setFocusable(false);
+        contenedor.add(titulo_noInterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 400, 130, 40));
+
+        colonia.setEditable(false);
+        colonia.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        colonia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        colonia.setText("jTextField1");
+        colonia.setBorder(null);
+        colonia.setFocusable(false);
+        contenedor.add(colonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 440, 200, 40));
+
+        no_exterior.setEditable(false);
+        no_exterior.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        no_exterior.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        no_exterior.setText("jTextField1");
+        no_exterior.setBorder(null);
+        no_exterior.setFocusable(false);
+        contenedor.add(no_exterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 440, 130, 40));
+
+        rfc_busqueda.setColumns(1);
+        rfc_busqueda.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        rfc_busqueda.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        rfc_busqueda.setActionCommand("<Not Set>");
+        rfc_busqueda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        rfc_busqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        rfc_busqueda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                rfc_busquedaFocusLost(evt);
+            }
+        });
+        rfc_busqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rfc_busquedaActionPerformed(evt);
+            }
+        });
+        rfc_busqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rfc_busquedaKeyTyped(evt);
+            }
+        });
+        contenedor.add(rfc_busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 710, 50));
+
+        icon_buscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\ar275\\Documents\\Generador de facturas\\generador-de-facturas\\generador_facturas\\src\\img\\btn_buscar.png")); // NOI18N
+        icon_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarMouseClicked(evt);
+            }
+        });
+        contenedor.add(icon_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 110, 70, 70));
+
+        btn_cerrarConsulta.setBackground(new java.awt.Color(198, 54, 55));
+        btn_cerrarConsulta.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_cerrarConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cerrarConsulta.setText("Cerrar consulta");
+        btn_cerrarConsulta.setBorder(null);
+        btn_cerrarConsulta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cerrarConsulta.setFocusPainted(false);
+        btn_cerrarConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cerrarConsultaActionPerformed(evt);
+            }
+        });
+        contenedor.add(btn_cerrarConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 530, 170, 40));
+
+        logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
+        logo_lb.setText("jLabel2");
+        logo_lb.setMaximumSize(new java.awt.Dimension(400, 400));
+        logo_lb.setMinimumSize(new java.awt.Dimension(400, 400));
+        logo_lb.setPreferredSize(new java.awt.Dimension(400, 600));
+        contenedor.add(logo_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 370, 360));
+
+        txt_rfc.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        txt_rfc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_rfc.setText("jLabel1");
+        contenedor.add(txt_rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 880, 50));
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 150, 1050, 510);
+        contenedor.setBounds(0, 100, 1050, 630);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -798,47 +1092,129 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    void llenarTabla(){
-        
+    void mostrarDatos(String rfc) {
         try {
             //Seleccionar los datos del emisor
-           String consulta = "SELECT * FROM emisor ORDER BY rfc";
-           PreparedStatement ps = cx.conectar().prepareStatement(consulta);
-           ResultSet rs = ps.executeQuery();
-           //Arreglo de datos
-           Object [] emisor =new Object[13];
-           modelo = (DefaultTableModel) tabla_emisor.getModel();
-           while(rs.next()){
-               //se obtienen los datos de la tabla
-               emisor[0] = rs.getString("rfc");
-               emisor[1] = rs.getString("nombres");
-               emisor[2] = rs.getString("apellido_paterno");
-               emisor[3] = rs.getString("apellido_materno");
-               emisor[4] = rs.getDate("fecha_nacimiento");
-               emisor[5] = rs.getString("correo_electronico");
-               emisor[6] = rs.getInt("domicilio_fiscal");
-               emisor[7] = rs.getString("estado");
-               emisor[8] = rs.getString("municipio");
-               emisor[9] = rs.getString("colonia");
-               emisor[10] = rs.getString("num_exterior");
-               emisor[11] = rs.getString("num_interior");
-               emisor[12] = rs.getString("regimen");
-               //añade la info  la tabla
-               modelo.addRow(emisor);
-           }
-           tabla_emisor.setModel(modelo);
+            String consulta = "SELECT * FROM emisor WHERE rfc =?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ps.setString(1, rfc);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                mostrarCampos();
+                txt_rfc.setText(rs.getString("rfc"));//etiqueta con el nombre del RFC
+                rfc_show.setText(rs.getString("rfc"));
+                nombres.setText(rs.getString("nombres"));
+                apellido_paterno.setText(rs.getString("apellido_paterno"));
+                apellido_materno.setText(rs.getString("apellido_materno"));
+                fecha_nacimiento.setText(rs.getDate("fecha_nacimiento").toString());
+                codigo_postal.setText(String.valueOf(rs.getInt("domicilio_fiscal")));
+                correo_electronico.setText(rs.getString("correo_electronico"));
+                estado.setText(rs.getString("estado"));
+                municipio.setText(rs.getString("municipio"));
+                colonia.setText(rs.getString("colonia"));
+                no_exterior.setText(rs.getString("num_exterior"));
+                no_interior.setText(rs.getString("num_interior"));
+                regimen.setText(rs.getString("regimen"));
+            }else{
+                JOptionPane.showMessageDialog(null, "El RFC que solicitó no se encuentra registrado", "RFC no encontrado", JOptionPane.WARNING_MESSAGE);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ConsultarEmisor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
-        this.usuario=usuario;
+
+        private void ocultarCampos() {
+        //
+        lb_campos.setVisible(false);
+        //Titulos de los campos
+        titulo_apellidoPaterno.setVisible(false);
+        titulo_apellidoMaterno.setVisible(false);
+        titulo_nombres.setVisible(false);
+        titulo_rfc.setVisible(false);
+        titulo_correo.setVisible(false);
+        titulo_fechaNacimiento.setVisible(false);
+        titulo_cp.setVisible(false);
+        titulo_estado.setVisible(false);
+        titulo_municipio.setVisible(false);
+        titulo_colonia.setVisible(false);
+        titulo_noExterior.setVisible(false);
+        titulo_noInterior.setVisible(false);
+        titulo_regimen.setVisible(false);
+        //Campos
+        rfc_show.setVisible(false);
+        nombres.setVisible(false);
+        apellido_paterno.setVisible(false);
+        apellido_materno.setVisible(false);
+        fecha_nacimiento.setVisible(false);
+        codigo_postal.setVisible(false);
+        correo_electronico.setVisible(false);
+        estado.setVisible(false);
+        municipio.setVisible(false);
+        colonia.setVisible(false);
+        no_exterior.setVisible(false);
+        no_interior.setVisible(false);
+        regimen.setVisible(false);
+        //btn cerrar
+        btn_cerrarConsulta.setVisible(false);
+        //
+        txt_rfc.setVisible(false);
+
+    }
+
+    private void mostrarCampos() {
+        //OCulta logo
+        logo_lb.setVisible(false);
+        //mostrar boton para cerrar consulta
+        btn_cerrarConsulta.setVisible(true);
+        //ocultar barra de busqueda
+        rfc_busqueda.setVisible(false);
+        icon_buscar.setVisible(false);
+
+        //ocultar eiqueta de la barra
+        lb_inicial.setVisible(false);
+
+        lb_campos.setVisible(true);
+        //
+        titulo_apellidoPaterno.setVisible(true);
+        titulo_apellidoMaterno.setVisible(true);
+        titulo_nombres.setVisible(true);
+        titulo_rfc.setVisible(true);
+        titulo_correo.setVisible(true);
+        titulo_fechaNacimiento.setVisible(true);
+        titulo_cp.setVisible(true);
+        titulo_estado.setVisible(true);
+        titulo_municipio.setVisible(true);
+        titulo_colonia.setVisible(true);
+        titulo_noExterior.setVisible(true);
+        titulo_noInterior.setVisible(true);
+        titulo_regimen.setVisible(true);
+        //
+        rfc_show.setVisible(true);
+        nombres.setVisible(true);
+        apellido_paterno.setVisible(true);
+        apellido_materno.setVisible(true);
+        fecha_nacimiento.setVisible(true);
+        codigo_postal.setVisible(true);
+        correo_electronico.setVisible(true);
+        estado.setVisible(true);
+        municipio.setVisible(true);
+        colonia.setVisible(true);
+        no_exterior.setVisible(true);
+        no_interior.setVisible(true);
+        regimen.setVisible(true);
+        //btn cerrar
+        btn_cerrarConsulta.setVisible(true);
+        txt_rfc.setVisible(true);
+    }
+
+    public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion) {
+        this.usuario = usuario;
         this.fechaInicioSesion = fechaInicioSesion;
         this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
         //solo muestra el menu de emisor si el usuario es el director
-        if(!"director".equals(this.usuario)){
+        if (!"director".equals(this.usuario)) {
             btn_emisor.setVisible(false);
         }
     }
@@ -1287,7 +1663,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
 
     private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarEmisorEdit ventana = new ConsultarEmisorEdit();
+            ModificarEmisor ventana = new ModificarEmisor();
             ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
@@ -1321,6 +1697,72 @@ public class ConsultarEmisor extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
+
+    private void rfc_busquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rfc_busquedaFocusLost
+        rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_busquedaFocusLost
+
+    private void rfc_busquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_busquedaActionPerformed
+        Validacion valida = new Validacion();
+        if (rfc_busqueda.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (rfc_busqueda.getText().length() < 13) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!valida.rfc_valido(rfc_busqueda.getText().toUpperCase())) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        mostrarDatos(rfc_busqueda.getText().toUpperCase());
+        rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_busquedaActionPerformed
+
+    private void rfc_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_busquedaKeyTyped
+        if (rfc_busqueda.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_rfc_busquedaKeyTyped
+
+    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
+        ///boton para buscar
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            Validacion valida = new Validacion();
+            if(rfc_busqueda.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(rfc_busqueda.getText().length()<13){
+                JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(!valida.rfc_valido(rfc_busqueda.getText().toUpperCase())){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            mostrarDatos(rfc_busqueda.getText().toUpperCase());
+            rfc_busqueda.setText(rfc_busqueda.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_icon_buscarMouseClicked
+
+    private void btn_cerrarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarConsultaActionPerformed
+        ocultarCampos();
+        rfc_busqueda.setVisible(true);
+        rfc_busqueda.setText("");
+        lb_inicial.setVisible(true);
+        logo_lb.setVisible(true);
+        icon_buscar.setVisible(true);
+        btn_cerrarConsulta.setVisible(false);
+    }//GEN-LAST:event_btn_cerrarConsultaActionPerformed
+
+    private void regimenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regimenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_regimenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1366,8 +1808,11 @@ public class ConsultarEmisor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
+    private javax.swing.JTextField apellido_materno;
+    private javax.swing.JTextField apellido_paterno;
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
+    private javax.swing.JButton btn_cerrarConsulta;
     private javax.swing.JPanel btn_cerrarSesion;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
@@ -1376,11 +1821,17 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
+    private javax.swing.JTextField codigo_postal;
+    private javax.swing.JTextField colonia;
     private javax.swing.JPanel contenedor;
     private javax.swing.JPanel contenedor_menu;
+    private javax.swing.JTextField correo_electronico;
+    private javax.swing.JTextField estado;
+    private javax.swing.JTextField fecha_nacimiento;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel icon_buscar;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
     private javax.swing.JLabel icon_item3;
@@ -1389,7 +1840,6 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
@@ -1404,6 +1854,9 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JLabel lb_campos;
+    private javax.swing.JLabel lb_inicial;
+    private javax.swing.JLabel logo_lb;
     private javax.swing.JPanel menu_alumnos;
     private javax.swing.JPanel menu_emisor;
     private javax.swing.JPanel menu_estadisticas;
@@ -1411,9 +1864,28 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
+    private javax.swing.JTextField municipio;
+    private javax.swing.JTextField no_exterior;
+    private javax.swing.JTextField no_interior;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JTable tabla_emisor;
+    private javax.swing.JTextField nombres;
+    private javax.swing.JTextField regimen;
+    private javax.swing.JTextField rfc_busqueda;
+    private javax.swing.JTextField rfc_show;
     private javax.swing.JLabel text_salir;
+    private javax.swing.JTextField titulo_apellidoMaterno;
+    private javax.swing.JTextField titulo_apellidoPaterno;
+    private javax.swing.JTextField titulo_colonia;
+    private javax.swing.JTextField titulo_correo;
+    private javax.swing.JTextField titulo_cp;
+    private javax.swing.JTextField titulo_estado;
+    private javax.swing.JTextField titulo_fechaNacimiento;
+    private javax.swing.JTextField titulo_municipio;
+    private javax.swing.JTextField titulo_noExterior;
+    private javax.swing.JTextField titulo_noInterior;
+    private javax.swing.JTextField titulo_nombres;
+    private javax.swing.JTextField titulo_regimen;
+    private javax.swing.JTextField titulo_rfc;
     private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;
@@ -1439,6 +1911,7 @@ public class ConsultarEmisor extends javax.swing.JFrame {
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
+    private javax.swing.JLabel txt_rfc;
     private javax.swing.JLabel user_menuIcon;
     private javax.swing.JLabel user_menuIcon1;
     // End of variables declaration//GEN-END:variables
