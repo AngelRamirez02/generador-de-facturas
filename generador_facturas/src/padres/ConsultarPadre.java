@@ -6,10 +6,7 @@ package padres;
 
 import emisor.*;
 import TablaPersonalizada.TablaPersonalizada;
-import alumnos.AltaAlumnos;
-import alumnos.ConsultarAlumnos;
-import alumnos.ModificarAlumno;
-import alumnos.EliminarAlumno;
+import alumnos.*;
 import com.itextpdf.text.DocumentException;
 import conexion.conexion;
 import emisor.AltaEmisor;
@@ -1080,9 +1077,6 @@ public class ConsultarPadre extends javax.swing.JFrame {
             }
         });
         rfc_busqueda.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                rfc_busquedaKeyPressed(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 rfc_busquedaKeyTyped(evt);
             }
@@ -1679,8 +1673,8 @@ public class ConsultarPadre extends javax.swing.JFrame {
 
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarPadre ventana = new ConsultarPadre();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ModificarPadre ventana = new ModificarPadre();
+            ventana.setDatosSesion(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }
@@ -1823,16 +1817,11 @@ public class ConsultarPadre extends javax.swing.JFrame {
     }//GEN-LAST:event_rfc_busquedaFocusLost
 
     private void rfc_busquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_busquedaKeyTyped
-
         if (rfc_busqueda.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
             JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_rfc_busquedaKeyTyped
-
-    private void rfc_busquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_busquedaKeyPressed
-
-    }//GEN-LAST:event_rfc_busquedaKeyPressed
 
     private void rfc_busquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_busquedaActionPerformed
         Validacion valida = new Validacion();

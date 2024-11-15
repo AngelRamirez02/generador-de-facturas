@@ -309,7 +309,7 @@ public class EliminarPadre extends javax.swing.JFrame {
         txt_rfc = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Consultar Padre de familia");
+        setTitle("Instituto Andrés Manuel López Obrador - Eliminar Padre de familia");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {

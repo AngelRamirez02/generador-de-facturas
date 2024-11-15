@@ -304,7 +304,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         txt_curp = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Alumnos registrados");
+        setTitle("Instituto Andrés Manuel López Obrador - Consultar Alumnos");
         setMinimumSize(new java.awt.Dimension(1050, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -808,7 +808,7 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
         txt_emisoresRegistrados.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         txt_emisoresRegistrados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_emisoresRegistrados.setText("CONSULTA DE ALUMNOS");
-        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 990, 50));
+        contenedor.add(txt_emisoresRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 990, 50));
 
         curp_busqueda.setColumns(1);
         curp_busqueda.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
@@ -1720,8 +1720,8 @@ public class ConsultarAlumnos extends javax.swing.JFrame {
 
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
         if(SwingUtilities.isLeftMouseButton(evt)){
-            ConsultarPadre ventana = new ConsultarPadre();
-            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ModificarPadre ventana = new ModificarPadre();
+            ventana.setDatosSesion(usuario, fechaInicioSesion, horaInicioSesion);
             ventana.setVisible(true);
             this.dispose();
         }

@@ -2038,8 +2038,8 @@ public class AltaPadres extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadre ventana = new ConsultarPadre();
-                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ModificarPadre ventana = new ModificarPadre();
+                ventana.setDatosSesion(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
                 this.dispose();

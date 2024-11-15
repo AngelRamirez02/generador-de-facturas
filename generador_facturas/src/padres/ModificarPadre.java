@@ -2210,31 +2210,10 @@ public class ModificarPadre extends javax.swing.JFrame {
 
     private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
-
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                null,
-                "No se guardarán los datos ingresados, ¿Desea salir?",
-                "Confirmación de salida",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                opciones,
-                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadre ventana = new ConsultarPadre();
-                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-                ventana.setVisible(true);
-                this.dispose();
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }
+            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            menu_padres.setVisible(false);
+            btn_padres.setBackground(colorbtnNoSeleccionado);
+            icon_item2.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         }
     }//GEN-LAST:event_txt_modificarPadresMouseClicked
 

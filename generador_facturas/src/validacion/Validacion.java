@@ -244,25 +244,39 @@ public class Validacion {
         return "X";
     }
 
-    // Método para obtener la primera letra del nombre (considerando el caso de "José" o "María")
+// Método para obtener la primera letra del nombre (considerando el caso de "José" o "María")
     private static String obtenerPrimeraLetraNombre(String nombre) {
         String[] nombres = nombre.split(" ");
-        if (nombres[0].equalsIgnoreCase("José") || nombres[0].equalsIgnoreCase("María") || nombres[0].equals("Maria") || nombres[0].equals("Jose")) {
-            return Character.toString(nombres[1].charAt(0)).toUpperCase();
-        } else {
+        // Si solo hay un nombre, regresar la primera letra de ese nombre
+        if (nombres.length == 1) {
             return Character.toString(nombres[0].charAt(0)).toUpperCase();
         }
+        // Si el primer nombre es "José" o "María" y hay un segundo nombre, tomar la primera letra del segundo nombre
+        if (nombres[0].equalsIgnoreCase("José") || nombres[0].equalsIgnoreCase("María")) {
+            return Character.toString(nombres[1].charAt(0)).toUpperCase();
+        }
+        // Si el primer nombre no es "José" o "María", tomar la primera letra de ese nombre
+        return Character.toString(nombres[0].charAt(0)).toUpperCase();
     }
 
-    //metodo para eliminar nombres comunes
+
     private static String EliminarNombresComunes(String nombre) {
         String[] nombres = nombre.split(" ");
-        if (nombres[0].equalsIgnoreCase("José") || nombres[0].equalsIgnoreCase("María") || nombres[0].equals("Maria") || nombres[0].equals("Jose")) {
-            return nombres[1];
-        } else {
+        // Si solo tiene un nombre, regresarlo directamente
+        if (nombres.length == 1) {
             return nombres[0];
         }
+        // Si tiene más de un nombre, verificar si el primer nombre es común
+        if (nombres[0].equalsIgnoreCase("José") || nombres[0].equalsIgnoreCase("María")) {
+            // Verificar que haya un segundo nombre para devolver
+            if (nombres.length > 1) {
+                return nombres[1];
+            }
+        }
+        // Si el primer nombre no es común, devolverlo
+        return nombres[0];
     }
+
     
         private static String primeraConsonanteInterna(String palabra) {
         String vocales = "AEIOUaeiou";

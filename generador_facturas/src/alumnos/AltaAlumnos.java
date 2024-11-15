@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.sql.PreparedStatement;
@@ -85,9 +86,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
      public AltaAlumnos() {
         initComponents();
         
-        info_nombre.setVisible(false);
+        //etiquetas de informaccion
+        info_nombres.setVisible(false);
         infoFecha_lb.setVisible(false);
-        
+        info_curp.setVisible(false);
+        //iconos de informacion
         infoIcon_lb.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));
         infoIcon_lb2.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));
         infoIcon_lb3.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb.getWidth(), infoIcon_lb.getHeight(), Image.SCALE_SMOOTH)));
@@ -116,6 +119,9 @@ public class AltaAlumnos extends javax.swing.JFrame {
         icon_item4.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
+        
+        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
+        icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -185,8 +191,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
         this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setExtendedState(this.MAXIMIZED_BOTH);
-        cargarTipo();
-        autoCompletar();
     }
 
     /**
@@ -271,8 +275,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
         txt_consultarAlmnos1 = new javax.swing.JLabel();
         jSeparator12 = new javax.swing.JSeparator();
         contenedor = new javax.swing.JPanel();
-        infoFecha_lb = new javax.swing.JLabel();
-        info_nombre = new javax.swing.JLabel();
         btn_guardarDatos = new paneles.PanelRound();
         contenedor_btn = new paneles.PanelRound();
         text_guardarDatos = new javax.swing.JLabel();
@@ -287,7 +289,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        nombre_padre = new javax.swing.JTextField();
+        rfc_padre = new javax.swing.JTextField();
         txt_nombrePadre = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         apellidoPaterno_padre = new javax.swing.JTextField();
@@ -299,11 +301,15 @@ public class AltaAlumnos extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         entrada_gradoEscolar = new javax.swing.JComboBox<>();
-        infoIcon_lb = new javax.swing.JLabel();
-        infoIcon_lb2 = new javax.swing.JLabel();
-        infoIcon_lb3 = new javax.swing.JLabel();
-        rfc_padre = new javax.swing.JComboBox<>();
         entrada_nombres = new javax.swing.JTextField();
+        icon_buscar = new javax.swing.JLabel();
+        nombre_padre = new javax.swing.JTextField();
+        infoIcon_lb = new javax.swing.JLabel();
+        info_curp = new javax.swing.JLabel();
+        infoIcon_lb2 = new javax.swing.JLabel();
+        info_nombres = new javax.swing.JLabel();
+        infoIcon_lb3 = new javax.swing.JLabel();
+        infoFecha_lb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar alumnos");
@@ -792,16 +798,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor.setLayout(null);
 
-        infoFecha_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        infoFecha_lb.setText("Ej: 02 dic 2003");
-        contenedor.add(infoFecha_lb);
-        infoFecha_lb.setBounds(190, 500, 80, 15);
-
-        info_nombre.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        info_nombre.setText("Ingrese los nombres separados por espacio");
-        contenedor.add(info_nombre);
-        info_nombre.setBounds(280, 370, 232, 20);
-
         btn_guardarDatos.setBackground(new java.awt.Color(0, 0, 0));
         btn_guardarDatos.setRoundBottomLeft(10);
         btn_guardarDatos.setRoundBottomRight(10);
@@ -912,11 +908,19 @@ public class AltaAlumnos extends javax.swing.JFrame {
         contenedor.add(jLabel11);
         jLabel11.setBounds(50, 280, 200, 30);
 
-        nombre_padre.setEditable(false);
-        nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
-        nombre_padre.setFocusable(false);
-        contenedor.add(nombre_padre);
-        nombre_padre.setBounds(300, 190, 160, 30);
+        rfc_padre.setBackground(new java.awt.Color(255, 255, 255));
+        rfc_padre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rfc_padreActionPerformed(evt);
+            }
+        });
+        rfc_padre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rfc_padreKeyTyped(evt);
+            }
+        });
+        contenedor.add(rfc_padre);
+        rfc_padre.setBounds(40, 190, 170, 30);
 
         txt_nombrePadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombrePadre.setText("Nombre (s)");
@@ -929,12 +933,14 @@ public class AltaAlumnos extends javax.swing.JFrame {
         jLabel13.setBounds(550, 160, 140, 30);
 
         apellidoPaterno_padre.setEditable(false);
+        apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
         apellidoPaterno_padre.setFocusCycleRoot(true);
         apellidoPaterno_padre.setFocusable(false);
         contenedor.add(apellidoPaterno_padre);
         apellidoPaterno_padre.setBounds(550, 190, 160, 30);
 
         apellido_maternoPadre.setEditable(false);
+        apellido_maternoPadre.setBackground(new java.awt.Color(255, 255, 255));
         apellido_maternoPadre.setFocusable(false);
         apellido_maternoPadre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1004,55 +1010,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
         contenedor.add(entrada_gradoEscolar);
         entrada_gradoEscolar.setBounds(790, 460, 200, 30);
 
-        infoIcon_lb.setText("jLabel11");
-        infoIcon_lb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        infoIcon_lb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                infoIcon_lbMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                infoIcon_lbMouseExited(evt);
-            }
-        });
-        contenedor.add(infoIcon_lb);
-        infoIcon_lb.setBounds(490, 346, 20, 20);
-
-        infoIcon_lb2.setText("jLabel11");
-        infoIcon_lb2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        infoIcon_lb2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                infoIcon_lb2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                infoIcon_lb2MouseExited(evt);
-            }
-        });
-        contenedor.add(infoIcon_lb2);
-        infoIcon_lb2.setBounds(230, 346, 20, 20);
-
-        infoIcon_lb3.setText("jLabel11");
-        infoIcon_lb3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        infoIcon_lb3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                infoIcon_lb3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                infoIcon_lb3MouseExited(evt);
-            }
-        });
-        contenedor.add(infoIcon_lb3);
-        infoIcon_lb3.setBounds(250, 463, 20, 20);
-
-        rfc_padre.setEditable(true);
-        rfc_padre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
-        rfc_padre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rfc_padreActionPerformed(evt);
-            }
-        });
-        contenedor.add(rfc_padre);
-        rfc_padre.setBounds(40, 190, 170, 30);
-
         entrada_nombres.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 entrada_nombresFocusLost(evt);
@@ -1066,6 +1023,75 @@ public class AltaAlumnos extends javax.swing.JFrame {
         contenedor.add(entrada_nombres);
         entrada_nombres.setBounds(290, 340, 200, 30);
 
+        icon_buscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\ar275\\Documents\\Generador de facturas\\generador-de-facturas\\generador_facturas\\src\\img\\btn_buscar.png")); // NOI18N
+        icon_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarMouseClicked(evt);
+            }
+        });
+        contenedor.add(icon_buscar);
+        icon_buscar.setBounds(210, 180, 50, 50);
+
+        nombre_padre.setEditable(false);
+        nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
+        nombre_padre.setFocusable(false);
+        contenedor.add(nombre_padre);
+        nombre_padre.setBounds(300, 190, 160, 30);
+
+        infoIcon_lb.setText("jLabel11");
+        infoIcon_lb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lbMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lbMouseExited(evt);
+            }
+        });
+        contenedor.add(infoIcon_lb);
+        infoIcon_lb.setBounds(230, 350, 20, 20);
+
+        info_curp.setText("La CURP debe ser de 18 caracteres");
+        contenedor.add(info_curp);
+        info_curp.setBounds(50, 370, 220, 20);
+
+        infoIcon_lb2.setText("jLabel11");
+        infoIcon_lb2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lb2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lb2MouseExited(evt);
+            }
+        });
+        contenedor.add(infoIcon_lb2);
+        infoIcon_lb2.setBounds(490, 350, 20, 20);
+
+        info_nombres.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        info_nombres.setText("Ingrese los nombres separados por espacio");
+        contenedor.add(info_nombres);
+        info_nombres.setBounds(290, 370, 232, 20);
+
+        infoIcon_lb3.setText("jLabel11");
+        infoIcon_lb3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoIcon_lb3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoIcon_lb3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoIcon_lb3MouseExited(evt);
+            }
+        });
+        contenedor.add(infoIcon_lb3);
+        infoIcon_lb3.setBounds(240, 470, 20, 20);
+
+        infoFecha_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        infoFecha_lb.setText("Ej: 02 dic 2003");
+        contenedor.add(infoFecha_lb);
+        infoFecha_lb.setBounds(190, 490, 80, 15);
+
         fondo.add(contenedor);
         contenedor.setBounds(0, 0, 1050, 650);
 
@@ -1073,25 +1099,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-     
-    private void cargarTipo() {
-        try {
-            //Seleccionar los datos del emisor
-            String consulta = "SELECT * FROM padre_familia ORDER BY rfc";
-            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
-            ResultSet rs = ps.executeQuery();
-            //Arreglo de datos
-            while (rs.next()) {
-                rfc_padre.addItem(rs.getString("rfc"));
-            }
-        } catch (SQLException ex) {
-            //Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void autoCompletar(){
-        AutoCompleteDecorator.decorate(rfc_padre);
-    }
+
     public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
         this.usuario=usuario;
         this.fechaInicioSesion = fechaInicioSesion;
@@ -1104,20 +1112,44 @@ public class AltaAlumnos extends javax.swing.JFrame {
         }
     }
     
+    private void obtenerDatosPadre(String rfc) {
+        try {
+            //Seleccionar los datos del emisor
+            String consulta = "SELECT * FROM padre_familia WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ps.setString(1, rfc);
+            ResultSet rs = ps.executeQuery();
+            //muestra los datos del padre
+            if (rs.next()) {
+                nombre_padre.setText(rs.getString("nombres"));
+                apellidoPaterno_padre.setText(rs.getString("apellido_paterno"));
+                apellido_maternoPadre.setText(rs.getString("apellido_materno"));
+            } else {
+                JOptionPane.showMessageDialog(null, "El RFC que solicitó no se encuentra registrado", "RFC no encontrado", JOptionPane.WARNING_MESSAGE);
+                nombre_padre.setText("");
+                apellidoPaterno_padre.setText("");
+                apellido_maternoPadre.setText("");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarPadre.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     void limpiarDatos(){//limpiar todos los campos
         entrada_nombres.setText("");
         entrada_apellidoPaterno.setText("");
         entrada_apellidoMaterno.setText("");
         entrada_curp.setText("");
-        rfc_padre.setSelectedIndex(0);
         entrada_fechaNacimiento.setDate(null);
         entrada_nivelEscolar.setSelectedItem("<seleccionar>");
         entrada_gradoEscolar.setSelectedItem("<seleccionar>");
         //
+       rfc_padre.setText("");
        nombre_padre.setText("");
        apellidoPaterno_padre.setText("");
        apellido_maternoPadre.setText("");
     }
+    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
@@ -1191,7 +1223,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
            Pattern pattern = Pattern.compile(curpPattern);
            Matcher matcher = pattern.matcher(entrada_curp.getText().toUpperCase());
             if(!matcher.matches()){//sino coincide con el formato retorna falso
-                JOptionPane.showMessageDialog(null, "Ingrese una CURP valida", "CURP no valido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrese una CURP valida, verifique la estructura", "CURP no valido", JOptionPane.WARNING_MESSAGE);
                 return false;
             }
             //si cumple con el formato retorna verdadero
@@ -1229,7 +1261,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
                     + "(rfc_padre, curp, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, nivel_escolaridad, grado_escolar)"
                     + "VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
-            ps.setString(1, rfc_padre.getSelectedItem().toString());
+            ps.setString(1, rfc_padre.getText().toUpperCase());
             ps.setString(2, entrada_curp.getText().toUpperCase());
             ps.setString(3, valida.formatearNombresApellidos(entrada_nombres.getText()));
             ps.setString(4, valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()));
@@ -1253,15 +1285,31 @@ public class AltaAlumnos extends javax.swing.JFrame {
 
     boolean esHijo() {
         if (!entrada_apellidoPaterno.getText().equals(apellidoPaterno_padre.getText())
-                && !entrada_apellidoMaterno.getText().equals(apellido_maternoPadre.getText())
-                && !entrada_apellidoPaterno.getText().equals(apellido_maternoPadre.getText())
+                //&& !entrada_apellidoMaterno.getText().equals(apellido_maternoPadre.getText())
+                //&& !entrada_apellidoPaterno.getText().equals(apellido_maternoPadre.getText())
                 && !entrada_apellidoMaterno.getText().equals(apellidoPaterno_padre.getText())) {
             JOptionPane.showMessageDialog(null, "Ninguno de los apellidos del padre o madre no coinciden con los del hijo", "Apelidos sin coincidencia", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         return true;
     }
-    
+
+    public boolean rfcPadre_existente() {
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
+            ps.setString(1, rfc_padre.getText().toUpperCase());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {//si encuentra un fila con el RFC quiere decir que ya existe
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;//Retorna falso si no encuentra el RFC
+    }
+
     private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
             Object[] opciones = {"Aceptar", "Cancelar"};
@@ -1548,85 +1596,45 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 entrada_curp.requestFocusInWindow();
                 return;
             }
-            if(curp_existente()){
+            if (curp_existente()) {
                 JOptionPane.showMessageDialog(null, "La CURP ya se encuentra registrada", "CURP existente", JOptionPane.WARNING_MESSAGE);
-                entrada_curp.requestFocusInWindow();  
-                return; 
+                entrada_curp.requestFocusInWindow();
+                return;
             }
-            if(entrada_nivelEscolar.getSelectedIndex()==0){ //la opcion 0 es <seleccionar>  
+            if (entrada_nivelEscolar.getSelectedIndex() == 0) { //la opcion 0 es <seleccionar>  
                 JOptionPane.showMessageDialog(null, "Selecione un nivel escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
-                entrada_nivelEscolar.requestFocusInWindow();   
+                entrada_nivelEscolar.requestFocusInWindow();
                 return;
             }
-            if(entrada_gradoEscolar.getSelectedIndex()==0){//si no selecciona un opcion valida
+            if (entrada_gradoEscolar.getSelectedIndex() == 0) {//si no selecciona un opcion valida
                 JOptionPane.showMessageDialog(null, "Selecione un grado escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
-                entrada_gradoEscolar.requestFocusInWindow();    
+                entrada_gradoEscolar.requestFocusInWindow();
                 return;
             }
-            altaAlumno();
-            limpiarDatos();
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "¿Está seguro de registrar a un nuevo alumno?",
+                    "Alta de alumnos",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                altaAlumno();
+                limpiarDatos();
+            } else {
+                // regresa
+                return;
+            }
         }
     }//GEN-LAST:event_btn_guardarDatosMouseClicked
   
-    private void infoIcon_lbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseEntered
-        
-    }//GEN-LAST:event_infoIcon_lbMouseEntered
-
-    private void infoIcon_lbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseExited
-        
-    }//GEN-LAST:event_infoIcon_lbMouseExited
-
-    private void infoIcon_lb2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseEntered
-        
-    }//GEN-LAST:event_infoIcon_lb2MouseEntered
-
-    private void infoIcon_lb2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseExited
-        
-    }//GEN-LAST:event_infoIcon_lb2MouseExited
-
-    private void infoIcon_lb3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseEntered
-        
-    }//GEN-LAST:event_infoIcon_lb3MouseEntered
-
-    private void infoIcon_lb3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseExited
-        
-    }//GEN-LAST:event_infoIcon_lb3MouseExited
-
-    private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
-        nombre_padre.setText("");
-        apellidoPaterno_padre.setText("");
-        apellido_maternoPadre.setText("");
-        try {//muestra nombre y apellidos del padre dependiendo del RFC seleccionado
-            //Seleccionar los datos del emisor
-            String consulta = "SELECT * FROM padre_familia WHERE rfc = '" + rfc_padre.getSelectedItem().toString() + "'";
-            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
-            ResultSet rs = ps.executeQuery();
-            //Arreglo de datos que recibe de la consulta
-            while (rs.next()) {
-                nombre_padre.setText(rs.getString("nombres"));
-                apellidoPaterno_padre.setText(rs.getString("apellido_paterno"));
-                apellido_maternoPadre.setText(rs.getString("apellido_materno"));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex);;
-        }
-    }//GEN-LAST:event_rfc_padreActionPerformed
-
-        public boolean rfcPadre_existente(){
-        try {
-            //Prepara la consulta para verificar si existe el RFC
-            String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
-            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
-            ps.setString(1, rfc_padre.getSelectedItem().toString().toUpperCase());
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){//si encuentra un fila con el RFC quiere decir que ya existe
-                return true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;//Retorna falso si no encuentra el RFC
-    }
     
     private void entrada_nivelEscolarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrada_nivelEscolarActionPerformed
        //Las opciones de grado escolar solo se pueden seleccionar cuando se elige un nivel escolar
@@ -2211,6 +2219,75 @@ public class AltaAlumnos extends javax.swing.JFrame {
         entrada_apellidoMaterno.setText(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()));
     }//GEN-LAST:event_entrada_apellidoMaternoFocusLost
 
+    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Validacion valida = new Validacion();
+            if (rfc_padre.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (rfc_padre.getText().length() < 13) {
+                JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (!valida.rfc_valido(rfc_padre.getText().toUpperCase())) {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            obtenerDatosPadre(rfc_padre.getText().toUpperCase());
+            rfc_padre.setText(rfc_padre.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_icon_buscarMouseClicked
+
+    private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
+        Validacion valida = new Validacion();
+        if (rfc_padre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (rfc_padre.getText().length() < 13) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!valida.rfc_valido(rfc_padre.getText().toUpperCase())) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        obtenerDatosPadre(rfc_padre.getText().toUpperCase());
+        rfc_padre.setText(rfc_padre.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_padreActionPerformed
+
+    private void rfc_padreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_padreKeyTyped
+        if (rfc_padre.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_rfc_padreKeyTyped
+
+    private void infoIcon_lbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseEntered
+        info_curp.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lbMouseEntered
+
+    private void infoIcon_lbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseExited
+        info_curp.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lbMouseExited
+
+    private void infoIcon_lb2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseEntered
+        info_nombres.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb2MouseEntered
+
+    private void infoIcon_lb2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseExited
+        info_nombres.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb2MouseExited
+
+    private void infoIcon_lb3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseEntered
+        infoFecha_lb.setVisible(true);
+    }//GEN-LAST:event_infoIcon_lb3MouseEntered
+
+    private void infoIcon_lb3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseExited
+        infoFecha_lb.setVisible(false);
+    }//GEN-LAST:event_infoIcon_lb3MouseExited
+
     private String gradoNivelYEdad(int edad, String nivelSeleccionado) {
         switch (nivelSeleccionado) {
             case "Preescolar":
@@ -2305,6 +2382,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel icon_buscar;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
     private javax.swing.JLabel icon_item3;
@@ -2316,7 +2394,8 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JLabel infoIcon_lb;
     private javax.swing.JLabel infoIcon_lb2;
     private javax.swing.JLabel infoIcon_lb3;
-    private javax.swing.JLabel info_nombre;
+    private javax.swing.JLabel info_curp;
+    private javax.swing.JLabel info_nombres;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -2353,7 +2432,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JTextField nombre_padre;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JLabel nombres_lb;
-    private javax.swing.JComboBox<String> rfc_padre;
+    private javax.swing.JTextField rfc_padre;
     private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_ConsultarEmisor;
