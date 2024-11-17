@@ -959,7 +959,7 @@ public class ModificarPadre extends javax.swing.JFrame {
         materno_lb.setBounds(70, 367, 150, 22);
 
         paterno_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        paterno_lb.setText("Apellido peterno");
+        paterno_lb.setText("Apellido paterno");
         contenedor.add(paterno_lb);
         paterno_lb.setBounds(70, 305, 140, 22);
 

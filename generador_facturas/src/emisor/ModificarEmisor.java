@@ -65,7 +65,6 @@ public class ModificarEmisor extends javax.swing.JFrame {
     LocalDate fechaInicioSesion;
     LocalTime horaInicioSesion;
     
-    private String rfcOriginal;//rfc que se va a modficar
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -1629,7 +1628,7 @@ public class ModificarEmisor extends javax.swing.JFrame {
             ps.setString(1, entrada_rfc.getText());
             ResultSet rs = ps.executeQuery();
             if(rs.next()){//si encuentra un fila con el RFC quiere decir que ya existe
-                if(rs.getString("rfc").equals(rfcOriginal)){//es el mismo rfc que quiere actualizar
+                if(rs.getString("rfc").equals(this.rfc)){//es el mismo rfc que quiere actualizar
                     return false;
                 }
                 return true;

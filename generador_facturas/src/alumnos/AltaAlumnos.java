@@ -908,7 +908,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
         contenedor.add(jLabel11);
         jLabel11.setBounds(50, 280, 200, 30);
 
-        rfc_padre.setBackground(new java.awt.Color(255, 255, 255));
         rfc_padre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rfc_padreActionPerformed(evt);
@@ -958,6 +957,11 @@ public class AltaAlumnos extends javax.swing.JFrame {
         entrada_curp.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 entrada_curpFocusLost(evt);
+            }
+        });
+        entrada_curp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entrada_curpActionPerformed(evt);
             }
         });
         entrada_curp.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -2178,6 +2182,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
 
     private void entrada_curpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_curpKeyTyped
         if(entrada_curp.getText().length()>=18){
+            JOptionPane.showMessageDialog(null, "La CURP debe ser de 18 digitos", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_entrada_curpKeyTyped
@@ -2287,6 +2292,10 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private void infoIcon_lb3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseExited
         infoFecha_lb.setVisible(false);
     }//GEN-LAST:event_infoIcon_lb3MouseExited
+
+    private void entrada_curpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrada_curpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_entrada_curpActionPerformed
 
     private String gradoNivelYEdad(int edad, String nivelSeleccionado) {
         switch (nivelSeleccionado) {

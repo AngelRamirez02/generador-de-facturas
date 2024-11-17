@@ -329,6 +329,9 @@ public class ModificarAlumno extends javax.swing.JFrame {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
+            public void windowDeactivated(java.awt.event.WindowEvent evt) {
+                formWindowDeactivated(evt);
+            }
         });
 
         fondo.setBackground(new java.awt.Color(255, 255, 255));
@@ -2485,6 +2488,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
     private void entrada_curpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_curpKeyTyped
         if(entrada_curp.getText().length()>=18){
             evt.consume();
+            JOptionPane.showMessageDialog(null, "La CURP debe ser de 18 digitos", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_entrada_curpKeyTyped
 
@@ -2536,6 +2540,10 @@ public class ModificarAlumno extends javax.swing.JFrame {
             rfc_padre.setText(rfc_padre.getText().toUpperCase());
         }
     }//GEN-LAST:event_icon_buscarRfcPadreMouseClicked
+
+    private void formWindowDeactivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowDeactivated
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowDeactivated
 
     private String gradoNivelYEdad(int edad, String nivelSeleccionado) {
         switch (nivelSeleccionado) {
