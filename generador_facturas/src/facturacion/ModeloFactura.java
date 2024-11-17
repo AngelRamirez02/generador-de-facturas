@@ -34,6 +34,14 @@ public class ModeloFactura extends JDialog {
         //regimen padre
         regimen_padre.setText("<html>612 Personas Físicas con Actividades Empresariales y Profesionales </html>");
         
+        //unidad del producto
+        unidad.setText("<html><center>E48/<br>Unidad de servicio</center></html>");
+ 
+        //descricion del producto
+        descripcion.setText("<html><center><br><br>PAGO POR CONCEPTO DE COLEGIATURA DEL"
+                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: 12PPR0395H, CORRESPONDIENTE AL MES DE AGOSTO DEL 2024, "
+                + "DEL ALUMNO MANUEL NAVARRETE MARCOS, QUE CURSA EL SEGUNDO GRADO DE PRIMARIA. CURP: NAMM031120HGRVRNA5</center>.</htm>");
+        
         //aparece en el centro de la pantalla
         this.setLocationRelativeTo(null);
     }
@@ -47,6 +55,7 @@ public class ModeloFactura extends JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -62,12 +71,9 @@ public class ModeloFactura extends JDialog {
         titulo_fechaHoraEmision1 = new javax.swing.JTextField();
         fechaHoraEmison = new javax.swing.JTextField();
         titulo_fechaHoraCertificacion = new javax.swing.JTextField();
-        titulo_codigoPostalExped1 = new javax.swing.JTextField();
         cp_Expedicion1 = new javax.swing.JTextField();
         encabezado_Receptor = new paneles.PanelRound();
         jLabel1 = new javax.swing.JLabel();
-        encabezado_datosFiscales = new paneles.PanelRound();
-        jLabel3 = new javax.swing.JLabel();
         contenedor_receptor = new paneles.PanelRound();
         nombre_padre = new javax.swing.JLabel();
         Tituloregimen_padre = new javax.swing.JLabel();
@@ -78,7 +84,6 @@ public class ModeloFactura extends JDialog {
         regimen_padre = new javax.swing.JLabel();
         titulo_rfc2 = new javax.swing.JLabel();
         uso_CFDI2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         contenedor_datosFiscales = new paneles.PanelRound();
         titulo_certificadoEmisor = new javax.swing.JLabel();
         certificadoSAT = new javax.swing.JLabel();
@@ -89,23 +94,95 @@ public class ModeloFactura extends JDialog {
         titulo_FolioSat2 = new javax.swing.JLabel();
         titulo_leyenda = new javax.swing.JLabel();
         certificadoEmisor2 = new javax.swing.JLabel();
+        encabezado_datosFiscales1 = new paneles.PanelRound();
+        jLabel4 = new javax.swing.JLabel();
+        titulo_codigoPostalExped2 = new javax.swing.JTextField();
+        EncabezadoProductos = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        contenedorProductos = new javax.swing.JPanel();
+        unidad = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        descripcion = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        precio = new javax.swing.JLabel();
+        importe = new javax.swing.JLabel();
+        curp_alumno = new javax.swing.JLabel();
+        cantidad2 = new javax.swing.JLabel();
+        curp_alumno1 = new javax.swing.JLabel();
+        cantidad4 = new javax.swing.JLabel();
+        nivel_escolar = new javax.swing.JLabel();
+        cantidad5 = new javax.swing.JLabel();
+        nombre_alumno = new javax.swing.JLabel();
+        cantidad6 = new javax.swing.JLabel();
+        cantidad1 = new javax.swing.JLabel();
+        cantidad7 = new javax.swing.JLabel();
+        contenedorPagos = new javax.swing.JPanel();
+        precio_texto = new javax.swing.JLabel();
+        forma_pago = new javax.swing.JLabel();
+        cantidad8 = new javax.swing.JLabel();
+        forma_pago1 = new javax.swing.JLabel();
+        forma_pago2 = new javax.swing.JLabel();
+        cantidad10 = new javax.swing.JLabel();
+        forma_pago3 = new javax.swing.JLabel();
+        cantidad11 = new javax.swing.JLabel();
+        forma_pago4 = new javax.swing.JLabel();
+        cantidad12 = new javax.swing.JLabel();
+        cantidad13 = new javax.swing.JLabel();
+        cantidad14 = new javax.swing.JLabel();
+        contenedorSubTotal = new javax.swing.JPanel();
+        subtotal = new javax.swing.JLabel();
+        cantidad15 = new javax.swing.JLabel();
+        descuento = new javax.swing.JLabel();
+        cantidad17 = new javax.swing.JLabel();
+        contenedorTotal = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        encabezadoCadenaSat = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        contenedorCadenaSat = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+
+        jLabel9.setFont(new java.awt.Font("Roboto Black", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Nota: hasta no confirmar la generación de la factura, este documento no tiene ninguna validez");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Factura previa");
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(2147483647, 700));
-        setMinimumSize(new java.awt.Dimension(700, 700));
-        setPreferredSize(new java.awt.Dimension(1100, 740));
+        setMinimumSize(new java.awt.Dimension(700, 735));
+        setPreferredSize(new java.awt.Dimension(1120, 730));
         setResizable(false);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1000, 1100));
+        jPanel2.setPreferredSize(new java.awt.Dimension(1000, 2000));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 1100));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1060, 1500));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 2000));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
@@ -187,16 +264,6 @@ public class ModeloFactura extends JDialog {
         titulo_fechaHoraCertificacion.setFocusable(false);
         jPanel1.add(titulo_fechaHoraCertificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 130, 260, 30));
 
-        titulo_codigoPostalExped1.setEditable(false);
-        titulo_codigoPostalExped1.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_codigoPostalExped1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_codigoPostalExped1.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_codigoPostalExped1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        titulo_codigoPostalExped1.setText("  Codigo postal de expedición");
-        titulo_codigoPostalExped1.setBorder(null);
-        titulo_codigoPostalExped1.setFocusable(false);
-        jPanel1.add(titulo_codigoPostalExped1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 190, 260, 30));
-
         cp_Expedicion1.setEditable(false);
         cp_Expedicion1.setBackground(new java.awt.Color(255, 255, 255));
         cp_Expedicion1.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
@@ -218,19 +285,6 @@ public class ModeloFactura extends JDialog {
         encabezado_Receptor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, 440, 40));
 
         jPanel1.add(encabezado_Receptor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 490, 40));
-
-        encabezado_datosFiscales.setBackground(new java.awt.Color(198, 54, 55));
-        encabezado_datosFiscales.setRoundTopLeft(20);
-        encabezado_datosFiscales.setRoundTopRight(20);
-        encabezado_datosFiscales.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Datos Fiscales");
-        encabezado_datosFiscales.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, 370, 40));
-
-        jPanel1.add(encabezado_datosFiscales, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 290, 490, 40));
 
         contenedor_receptor.setBackground(new java.awt.Color(255, 255, 255));
         contenedor_receptor.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(198, 54, 55), 2, true));
@@ -277,9 +331,6 @@ public class ModeloFactura extends JDialog {
 
         jPanel1.add(contenedor_receptor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 490, 250));
 
-        jLabel5.setText("jLabel5");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 1070, -1, -1));
-
         contenedor_datosFiscales.setBackground(new java.awt.Color(255, 255, 255));
         contenedor_datosFiscales.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(198, 54, 55), 2, true));
         contenedor_datosFiscales.setRoundBottomLeft(20);
@@ -324,6 +375,378 @@ public class ModeloFactura extends JDialog {
 
         jPanel1.add(contenedor_datosFiscales, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 490, 250));
 
+        encabezado_datosFiscales1.setBackground(new java.awt.Color(198, 54, 55));
+        encabezado_datosFiscales1.setRoundTopLeft(20);
+        encabezado_datosFiscales1.setRoundTopRight(20);
+        encabezado_datosFiscales1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Datos Fiscales");
+        encabezado_datosFiscales1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, 370, 40));
+
+        jPanel1.add(encabezado_datosFiscales1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 290, 490, 40));
+
+        titulo_codigoPostalExped2.setEditable(false);
+        titulo_codigoPostalExped2.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_codigoPostalExped2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_codigoPostalExped2.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_codigoPostalExped2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        titulo_codigoPostalExped2.setText("  Codigo postal de expedición");
+        titulo_codigoPostalExped2.setBorder(null);
+        titulo_codigoPostalExped2.setFocusable(false);
+        jPanel1.add(titulo_codigoPostalExped2, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 190, 260, 30));
+
+        EncabezadoProductos.setBackground(new java.awt.Color(198, 54, 55));
+        EncabezadoProductos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel13.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Cant");
+        EncabezadoProductos.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 30));
+
+        jLabel14.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("Unidad");
+        EncabezadoProductos.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 110, 30));
+
+        jLabel15.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("Clave");
+        EncabezadoProductos.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 120, 30));
+
+        jLabel7.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Descripción");
+        EncabezadoProductos.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 350, 30));
+
+        jLabel16.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("Obj impuestos");
+        EncabezadoProductos.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 160, 30));
+
+        jLabel17.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("Precio");
+        EncabezadoProductos.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 0, 120, 30));
+
+        jLabel12.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Importe");
+        EncabezadoProductos.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 0, 120, 30));
+
+        jPanel1.add(EncabezadoProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 650, 1040, 30));
+
+        contenedorProductos.setBackground(new java.awt.Color(255, 255, 255));
+        contenedorProductos.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(198, 54, 55), 1, true));
+        contenedorProductos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        unidad.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        unidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        unidad.setText("Unidad");
+        contenedorProductos.add(unidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 110, 120));
+
+        jLabel10.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Clave");
+        contenedorProductos.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 120, 120));
+
+        descripcion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        descripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        descripcion.setText("Descripción");
+        contenedorProductos.add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 350, 120));
+
+        jLabel11.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("No objeto de impuesto");
+        contenedorProductos.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 160, 120));
+
+        precio.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        precio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        precio.setText("$1,710.00");
+        contenedorProductos.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 0, 120, 120));
+
+        importe.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        importe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        importe.setText("$1,710.00");
+        contenedorProductos.add(importe, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 0, 120, 120));
+
+        curp_alumno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        curp_alumno.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        curp_alumno.setText("RACA031202HGRMSNA2");
+        contenedorProductos.add(curp_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 190, 40));
+
+        cantidad2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cantidad2.setText("1.00");
+        contenedorProductos.add(cantidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 120));
+
+        curp_alumno1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        curp_alumno1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        curp_alumno1.setText("12PPR0395H");
+        contenedorProductos.add(curp_alumno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 200, 40));
+
+        cantidad4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad4.setText("Clave del centro de trabajo");
+        contenedorProductos.add(cantidad4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 200, 40));
+
+        nivel_escolar.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        nivel_escolar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        nivel_escolar.setText("Primaria");
+        contenedorProductos.add(nivel_escolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 200, 40));
+
+        cantidad5.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad5.setText("Nivel educativo");
+        contenedorProductos.add(cantidad5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 200, 40));
+
+        nombre_alumno.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        nombre_alumno.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        nombre_alumno.setText("Angel Ramirez Castro");
+        contenedorProductos.add(nombre_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 200, 320, 40));
+
+        cantidad6.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad6.setText("Nombre");
+        contenedorProductos.add(cantidad6, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 160, 320, 40));
+
+        cantidad1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        cantidad1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cantidad1.setText("Alumno");
+        contenedorProductos.add(cantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 100, 40));
+
+        cantidad7.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cantidad7.setText("CURP");
+        contenedorProductos.add(cantidad7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 60, 40));
+
+        jPanel1.add(contenedorProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 680, 1040, 240));
+
+        contenedorPagos.setBackground(new java.awt.Color(255, 255, 255));
+        contenedorPagos.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(198, 54, 55), 1, true));
+        contenedorPagos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        precio_texto.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        precio_texto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        precio_texto.setText("(MIL SETECIENTOS DIEZ MXN 00/100)");
+        contenedorPagos.add(precio_texto, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 470, 40));
+
+        forma_pago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        forma_pago.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        forma_pago.setText("PUE Pago en una sola exhibicion");
+        contenedorPagos.add(forma_pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 400, 40));
+
+        cantidad8.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad8.setText("Método de pago:");
+        contenedorPagos.add(cantidad8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 160, 40));
+
+        forma_pago1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        forma_pago1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        forma_pago1.setText("03 Transferencia electrónica de fondos");
+        contenedorPagos.add(forma_pago1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 400, 40));
+
+        forma_pago2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        forma_pago2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        forma_pago2.setText("I ingreso");
+        contenedorPagos.add(forma_pago2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 400, 40));
+
+        cantidad10.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad10.setText("Tipo de comprobante:");
+        contenedorPagos.add(cantidad10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 160, 40));
+
+        forma_pago3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        forma_pago3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        contenedorPagos.add(forma_pago3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 400, 40));
+
+        cantidad11.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad11.setText("Condiciones de pago:");
+        contenedorPagos.add(cantidad11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 160, 40));
+
+        forma_pago4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        forma_pago4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        forma_pago4.setText("MXN Peso Mexicano");
+        contenedorPagos.add(forma_pago4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 160, 40));
+
+        cantidad12.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad12.setText("Tipo de camio:");
+        contenedorPagos.add(cantidad12, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 210, 110, 40));
+
+        cantidad13.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad13.setText("Moneda:");
+        contenedorPagos.add(cantidad13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 160, 40));
+
+        cantidad14.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cantidad14.setText("Forma de pago:");
+        contenedorPagos.add(cantidad14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 160, 40));
+
+        jPanel1.add(contenedorPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 920, 690, 260));
+
+        contenedorSubTotal.setBackground(new java.awt.Color(255, 255, 255));
+        contenedorSubTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(198, 54, 55)));
+        contenedorSubTotal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        subtotal.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        subtotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        subtotal.setText("$1,710.00");
+        contenedorSubTotal.add(subtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 130, 40));
+
+        cantidad15.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        cantidad15.setText("Subtotal:");
+        contenedorSubTotal.add(cantidad15, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 40));
+
+        descuento.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        descuento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        descuento.setText("$0.00");
+        contenedorSubTotal.add(descuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 130, 40));
+
+        cantidad17.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        cantidad17.setText("Descuento:");
+        contenedorSubTotal.add(cantidad17, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 90, 40));
+
+        jPanel1.add(contenedorSubTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 920, 350, 210));
+
+        contenedorTotal.setBackground(new java.awt.Color(198, 54, 55));
+        contenedorTotal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("$1,710.00");
+        contenedorTotal.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 230, 50));
+
+        jLabel8.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("TOTAL:");
+        contenedorTotal.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 70, 40));
+
+        jPanel1.add(contenedorTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 1130, 350, 50));
+
+        encabezadoCadenaSat.setBackground(new java.awt.Color(198, 54, 55));
+        encabezadoCadenaSat.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel19.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Cadena original del complemento de certificacion digital del SAT:");
+        encabezadoCadenaSat.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 40));
+
+        jPanel1.add(encabezadoCadenaSat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 1240, 1040, 40));
+
+        contenedorCadenaSat.setBackground(new java.awt.Color(255, 255, 255));
+        contenedorCadenaSat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(198, 54, 55)));
+        contenedorCadenaSat.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(contenedorCadenaSat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 1280, 1040, 130));
+
+        jPanel3.setBackground(new java.awt.Color(198, 54, 55));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel21.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("Sello original del CFDI:");
+        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 40));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 1420, 710, 40));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(198, 55, 54)));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 708, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 102, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 1460, 710, -1));
+
+        jPanel5.setBackground(new java.awt.Color(198, 54, 55));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel18.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setText("Sello del SAT:");
+        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 40));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 1580, 710, 40));
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(198, 55, 54)));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 708, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 1620, -1, -1));
+
+        jButton1.setText("jButton1");
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 1950, -1, -1));
+
+        jButton2.setText("jButton2");
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 1940, -1, -1));
+
+        jButton3.setText("jButton3");
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 1940, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Nota: hasta no confirmar la generación de la factura, este documento no tiene ninguna validez");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1110, 40));
+
+        jLabel5.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Nota: hasta no confirmar la generación de la factura, este documento no tiene ninguna validez");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1720, 1110, 70));
+
+        jLabel20.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Nota: hasta no confirmar la generación de la factura, este documento no tiene ninguna validez");
+        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1180, 1110, 60));
+
+        jLabel22.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("Nota: hasta no confirmar la generación de la factura, este documento no tiene ninguna validez");
+        jPanel1.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 580, 1110, 70));
+
+        jLabel23.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("Nota: hasta no confirmar la generación de la factura, este documento no tiene ninguna validez");
+        jPanel1.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 1110, 40));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -333,7 +756,7 @@ public class ModeloFactura extends JDialog {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1094, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1994, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -343,11 +766,11 @@ public class ModeloFactura extends JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1120, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
         );
 
         pack();
@@ -392,47 +815,110 @@ public class ModeloFactura extends JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel EncabezadoProductos;
     private javax.swing.JLabel Tituloregimen_padre;
+    private javax.swing.JLabel cantidad1;
+    private javax.swing.JLabel cantidad10;
+    private javax.swing.JLabel cantidad11;
+    private javax.swing.JLabel cantidad12;
+    private javax.swing.JLabel cantidad13;
+    private javax.swing.JLabel cantidad14;
+    private javax.swing.JLabel cantidad15;
+    private javax.swing.JLabel cantidad17;
+    private javax.swing.JLabel cantidad2;
+    private javax.swing.JLabel cantidad4;
+    private javax.swing.JLabel cantidad5;
+    private javax.swing.JLabel cantidad6;
+    private javax.swing.JLabel cantidad7;
+    private javax.swing.JLabel cantidad8;
     private javax.swing.JLabel certificadoEmisor2;
     private javax.swing.JLabel certificadoSAT;
+    private javax.swing.JPanel contenedorCadenaSat;
+    private javax.swing.JPanel contenedorPagos;
+    private javax.swing.JPanel contenedorProductos;
+    private javax.swing.JPanel contenedorSubTotal;
+    private javax.swing.JPanel contenedorTotal;
     private paneles.PanelRound contenedor_datosFiscales;
     private paneles.PanelRound contenedor_receptor;
     private javax.swing.JTextField cp_Expedicion1;
+    private javax.swing.JLabel curp_alumno;
+    private javax.swing.JLabel curp_alumno1;
+    private javax.swing.JLabel descripcion;
+    private javax.swing.JLabel descuento;
     private javax.swing.JLabel domicilio_fiscalPadre;
+    private javax.swing.JPanel encabezadoCadenaSat;
     private paneles.PanelRound encabezado_Receptor;
-    private paneles.PanelRound encabezado_datosFiscales;
+    private paneles.PanelRound encabezado_datosFiscales1;
     private javax.swing.JLabel exportacion;
     private javax.swing.JTextField fechaHoraEmision;
     private javax.swing.JTextField fechaHoraEmison;
     private javax.swing.JLabel folioSat;
+    private javax.swing.JLabel forma_pago;
+    private javax.swing.JLabel forma_pago1;
+    private javax.swing.JLabel forma_pago2;
+    private javax.swing.JLabel forma_pago3;
+    private javax.swing.JLabel forma_pago4;
+    private javax.swing.JLabel importe;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel logo_lb;
+    private javax.swing.JLabel nivel_escolar;
     private javax.swing.JLabel no_factura;
+    private javax.swing.JLabel nombre_alumno;
     private javax.swing.JLabel nombre_emisor;
     private javax.swing.JLabel nombre_escuela;
     private javax.swing.JLabel nombre_escuela1;
     private javax.swing.JLabel nombre_padre;
+    private javax.swing.JLabel precio;
+    private javax.swing.JLabel precio_texto;
     private javax.swing.JLabel regimen_padre;
     private javax.swing.JLabel rfc_emisor;
     private javax.swing.JLabel rfc_emisor1;
     private javax.swing.JLabel rfc_padre1;
+    private javax.swing.JLabel subtotal;
     private javax.swing.JLabel titulo_FolioSat2;
     private javax.swing.JLabel titulo_certificadoEmisor;
     private javax.swing.JLabel titulo_certificadoEmisor1;
     private javax.swing.JLabel titulo_cfdi1;
-    private javax.swing.JTextField titulo_codigoPostalExped1;
+    private javax.swing.JTextField titulo_codigoPostalExped2;
     private javax.swing.JLabel titulo_cp2;
     private javax.swing.JLabel titulo_exportación;
     private javax.swing.JTextField titulo_fechaHoraCertificacion;
     private javax.swing.JTextField titulo_fechaHoraEmision1;
     private javax.swing.JLabel titulo_leyenda;
     private javax.swing.JLabel titulo_rfc2;
+    private javax.swing.JLabel unidad;
     private javax.swing.JLabel uso_CFDI2;
     // End of variables declaration//GEN-END:variables
 }
