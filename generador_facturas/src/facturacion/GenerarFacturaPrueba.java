@@ -2,20 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package alumnos;
+package facturacion;
 
-
+import padres.*;
+import alumnos.AltaAlumnos;
+import alumnos.ConsultarAlumnos;
+import alumnos.ModificarAlumno;
+import alumnos.EliminarAlumno;
 import emisor.*;
 import conexion.conexion;
+import direccion.ObtenerDireccion;
 import menu.*;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -24,53 +29,44 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Month;
-import java.time.Period;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 import login.login_window;
-import validacion.Validacion;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import javax.swing.DefaultComboBoxModel;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import padres.AltaPadres;
-import padres.ConsultarPadre;
-import padres.ConsultarPadre;
-import padres.EliminarPadre;
-import padres.ModificarPadre;
 import sesiones.HistorialSesiones;
+import validacion.Validacion;
 
 /**
  *
  * @author ar275
  */
-public class AltaAlumnos extends javax.swing.JFrame {
+public class GenerarFacturaPrueba extends javax.swing.JFrame {
 
-    private String[] grados_preescolar = {"<seleccionar>","Primero","Segundo","Tercero"}; 
-    private String[] grados_primaria = {"<seleccionar>","Primero","Segundo","Tercero","Cuarto","Quinto","Sexto"}; 
-    private String[] grados_secundaria = {"<seleccionar>","Primero","Segundo","Tercero"}; 
-    
-    int edad=0; //almacena la edad del alumno
-    
+    /**
+     * Creates new form MenuPrincipal
+     * 
+     */
     conexion cx = new conexion();
     
-    private String usuario;//Nombre del usuario que inicia sesión
+    //Datos para el inicio de sesion
+    private String usuario;
     LocalDate fechaInicioSesion;
     LocalTime horaInicioSesion;
     
     Validacion valida = new Validacion();//objeto para valdicar los datos
+    
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -78,30 +74,14 @@ public class AltaAlumnos extends javax.swing.JFrame {
     Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
      //Imagen para menu selccionado
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-    Image info_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_info.png"));
     
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
-    String[] tipos = {"Hola","Adios","XD"};
-     public AltaAlumnos() {
+     public GenerarFacturaPrueba() {
         initComponents();
         
-        //etiquetas de informaccion
-        info_nombres.setVisible(false);
-        infoFecha_lb.setVisible(false);
-        info_curp.setVisible(false);
-        //iconos de informacion
-        infoIcon_lb.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));
-        infoIcon_lb2.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb2.getWidth(), infoIcon_lb2.getHeight(), Image.SCALE_SMOOTH)));
-        infoIcon_lb3.setIcon(new ImageIcon(info_img.getScaledInstance(infoIcon_lb.getWidth(), infoIcon_lb.getHeight(), Image.SCALE_SMOOTH)));
         
         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
-        
-        //Imaganes para el menu del usuario
-        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
-        historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
-        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
-        icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
         
         //Menus ocultos por defecto
         menu_padres.setVisible(false);
@@ -120,8 +100,15 @@ public class AltaAlumnos extends javax.swing.JFrame {
         icon_item5.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
         
+        //Imaganes para el menu del usuario
+        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
+        historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
+        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
+        icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
+
+        //iconos de buscar
         Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
-        icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
+        icon_buscarPadre.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscarPadre.getWidth(), icon_buscarPadre.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -188,6 +175,13 @@ public class AltaAlumnos extends javax.swing.JFrame {
         timer.start();
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
+       
+        //Agregar bordes
+        Border bordeInferior = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
+//        nombre_padre.setBorder(bordeInferior);
+//        apellidoPaterno_padre.setBorder(bordeInferior);
+//        apellidoMaterno_padre.setBorder(bordeInferior);
+        
         this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setExtendedState(this.MAXIMIZED_BOTH);
@@ -238,7 +232,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         text_salir = new javax.swing.JLabel();
         btn_cerrarSesion = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         txt_cerrarSesion1 = new javax.swing.JLabel();
         jSeparator17 = new javax.swing.JSeparator();
         cerrar_icon = new javax.swing.JLabel();
@@ -246,6 +240,14 @@ public class AltaAlumnos extends javax.swing.JFrame {
         txt_facturasGeneradas = new javax.swing.JLabel();
         txt_ingresos = new javax.swing.JLabel();
         jSeparator15 = new javax.swing.JSeparator();
+        menu_emisor = new javax.swing.JPanel();
+        txt_editarEmisor = new javax.swing.JLabel();
+        jSeparator14 = new javax.swing.JSeparator();
+        txt_altaEmisor = new javax.swing.JLabel();
+        jSeparator16 = new javax.swing.JSeparator();
+        txt_eliminarEmisor = new javax.swing.JLabel();
+        jSeparator18 = new javax.swing.JSeparator();
+        txt_ConsultarEmisor = new javax.swing.JLabel();
         menu_padres = new javax.swing.JPanel();
         txt_altaPadres = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
@@ -262,58 +264,47 @@ public class AltaAlumnos extends javax.swing.JFrame {
         txt_modificarAlumnos = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
         txt_eliminarAlumno = new javax.swing.JLabel();
-        menu_emisor = new javax.swing.JPanel();
-        txt_editarEmisor = new javax.swing.JLabel();
-        jSeparator14 = new javax.swing.JSeparator();
-        txt_altaEmisor = new javax.swing.JLabel();
-        jSeparator16 = new javax.swing.JSeparator();
-        txt_eliminarEmisor = new javax.swing.JLabel();
-        jSeparator18 = new javax.swing.JSeparator();
-        txt_ConsultarEmisor = new javax.swing.JLabel();
         menu_factura = new javax.swing.JPanel();
         txt_generarFcatura = new javax.swing.JLabel();
         txt_consultarAlmnos1 = new javax.swing.JLabel();
         jSeparator12 = new javax.swing.JSeparator();
-        contenedor = new javax.swing.JPanel();
-        btn_guardarDatos = new paneles.PanelRound();
-        contenedor_btn = new paneles.PanelRound();
-        text_guardarDatos = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        entrada_apellidoMaterno = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        contenedor = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        entrada_apellidoPaterno = new javax.swing.JTextField();
-        nombres_lb = new javax.swing.JLabel();
-        txt_registrarAlumno = new javax.swing.JLabel();
-        entrada_fechaNacimiento = new com.toedter.calendar.JDateChooser();
-        jLabel12 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        rfc_padre = new javax.swing.JTextField();
         txt_nombrePadre = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         apellidoPaterno_padre = new javax.swing.JTextField();
-        apellido_maternoPadre = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        entrada_curp = new javax.swing.JTextField();
+        regimen_padre = new javax.swing.JTextField();
+        icon_buscarPadre = new javax.swing.JLabel();
+        rfc_padre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        curpAlumno = new javax.swing.JComboBox<>();
+        txt_nombrePadre1 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        apellidoPaterno_alumno = new javax.swing.JTextField();
+        apellidoMaterno_alumno = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        nivel_escolar = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        entrada_nivelEscolar = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        entrada_gradoEscolar = new javax.swing.JComboBox<>();
-        entrada_nombres = new javax.swing.JTextField();
-        icon_buscar = new javax.swing.JLabel();
         nombre_padre = new javax.swing.JTextField();
-        infoIcon_lb = new javax.swing.JLabel();
-        info_curp = new javax.swing.JLabel();
-        infoIcon_lb2 = new javax.swing.JLabel();
-        info_nombres = new javax.swing.JLabel();
-        infoIcon_lb3 = new javax.swing.JLabel();
-        infoFecha_lb = new javax.swing.JLabel();
+        txt_nombrePadre2 = new javax.swing.JLabel();
+        apellidoMaterno_padre = new javax.swing.JTextField();
+        domicilio_padre = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        nombre_alumno = new javax.swing.JTextField();
+        txt_nombrePadre3 = new javax.swing.JLabel();
+        txt_nombrePadre4 = new javax.swing.JLabel();
+        grado_escolar = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Registrar alumnos");
-        setMinimumSize(new java.awt.Dimension(1050, 735));
+        setTitle("Instituto Andrés Manuel López Obrador - Registrar padre de familia");
+        setMinimumSize(new java.awt.Dimension(1100, 735));
+        setPreferredSize(new java.awt.Dimension(1050, 640));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -486,7 +477,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
             }
         });
         fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
+        icon_regresarlb.setBounds(50, 110, 60, 60);
 
         menu_salir.setBackground(new java.awt.Color(198, 54, 55));
         menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -562,8 +553,8 @@ public class AltaAlumnos extends javax.swing.JFrame {
         });
         btn_cerrarSesion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
-        btn_cerrarSesion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_cerrarSesion.png"))); // NOI18N
+        btn_cerrarSesion.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 50));
 
         txt_cerrarSesion1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_cerrarSesion1.setForeground(new java.awt.Color(255, 255, 255));
@@ -606,6 +597,62 @@ public class AltaAlumnos extends javax.swing.JFrame {
 
         fondo.add(menu_estadisticas);
         menu_estadisticas.setBounds(600, 100, 200, 90);
+
+        menu_emisor.setBackground(new java.awt.Color(198, 54, 55));
+        menu_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        menu_emisor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txt_editarEmisor.setBackground(new java.awt.Color(255, 255, 255));
+        txt_editarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_editarEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_editarEmisor.setText("Editar emisor");
+        txt_editarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_editarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_editarEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_editarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
+        menu_emisor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
+
+        txt_altaEmisor.setBackground(new java.awt.Color(255, 255, 255));
+        txt_altaEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_altaEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_altaEmisor.setText("Dar de alta emisor");
+        txt_altaEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_altaEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_altaEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_altaEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
+        menu_emisor.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
+
+        txt_eliminarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_eliminarEmisor.setText("Eliminar emisor");
+        txt_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eliminarEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
+        menu_emisor.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
+
+        txt_ConsultarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txt_ConsultarEmisor.setForeground(new java.awt.Color(255, 255, 255));
+        txt_ConsultarEmisor.setText("Consultar Emisor");
+        txt_ConsultarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_ConsultarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_ConsultarEmisorMouseClicked(evt);
+            }
+        });
+        menu_emisor.add(txt_ConsultarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
+
+        fondo.add(menu_emisor);
+        menu_emisor.setBounds(800, 100, 200, 160);
 
         menu_padres.setBackground(new java.awt.Color(198, 54, 55));
         menu_padres.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -717,62 +764,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
         fondo.add(menu_alumnos);
         menu_alumnos.setBounds(200, 100, 200, 160);
 
-        menu_emisor.setBackground(new java.awt.Color(198, 54, 55));
-        menu_emisor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        menu_emisor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txt_editarEmisor.setBackground(new java.awt.Color(255, 255, 255));
-        txt_editarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_editarEmisor.setForeground(new java.awt.Color(255, 255, 255));
-        txt_editarEmisor.setText("Editar emisor");
-        txt_editarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_editarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_editarEmisorMouseClicked(evt);
-            }
-        });
-        menu_emisor.add(txt_editarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 190, 40));
-        menu_emisor.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 150, 10));
-
-        txt_altaEmisor.setBackground(new java.awt.Color(255, 255, 255));
-        txt_altaEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_altaEmisor.setForeground(new java.awt.Color(255, 255, 255));
-        txt_altaEmisor.setText("Dar de alta emisor");
-        txt_altaEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_altaEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_altaEmisorMouseClicked(evt);
-            }
-        });
-        menu_emisor.add(txt_altaEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
-        menu_emisor.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 150, 10));
-
-        txt_eliminarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_eliminarEmisor.setForeground(new java.awt.Color(255, 255, 255));
-        txt_eliminarEmisor.setText("Eliminar emisor");
-        txt_eliminarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_eliminarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_eliminarEmisorMouseClicked(evt);
-            }
-        });
-        menu_emisor.add(txt_eliminarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 190, 40));
-        menu_emisor.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 10));
-
-        txt_ConsultarEmisor.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txt_ConsultarEmisor.setForeground(new java.awt.Color(255, 255, 255));
-        txt_ConsultarEmisor.setText("Consultar Emisor");
-        txt_ConsultarEmisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        txt_ConsultarEmisor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_ConsultarEmisorMouseClicked(evt);
-            }
-        });
-        menu_emisor.add(txt_ConsultarEmisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 40));
-
-        fondo.add(menu_emisor);
-        menu_emisor.setBounds(800, 100, 200, 160);
-
         menu_factura.setBackground(new java.awt.Color(198, 54, 55));
         menu_factura.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         menu_factura.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -796,117 +787,61 @@ public class AltaAlumnos extends javax.swing.JFrame {
         menu_factura.setBounds(400, 100, 200, 90);
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
-        contenedor.setLayout(null);
+        contenedor.setBorder(null);
+        contenedor.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        contenedor.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        btn_guardarDatos.setBackground(new java.awt.Color(0, 0, 0));
-        btn_guardarDatos.setRoundBottomLeft(10);
-        btn_guardarDatos.setRoundBottomRight(10);
-        btn_guardarDatos.setRoundTopLeft(10);
-        btn_guardarDatos.setRoundTopRight(10);
-        btn_guardarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_guardarDatosMouseClicked(evt);
-            }
-        });
-        btn_guardarDatos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1040, 1500));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        contenedor_btn.setBackground(new java.awt.Color(217, 217, 217));
-        contenedor_btn.setRoundBottomLeft(10);
-        contenedor_btn.setRoundBottomRight(10);
-        contenedor_btn.setRoundTopLeft(10);
-        contenedor_btn.setRoundTopRight(10);
-        contenedor_btn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jLabel2.setText("jLabel2");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(481, 1459, -1, -1));
 
-        text_guardarDatos.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        text_guardarDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        text_guardarDatos.setText("Guardar datos del alumno");
-        text_guardarDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        contenedor_btn.add(text_guardarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 30)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Generar factura");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 1040, 50));
 
-        btn_guardarDatos.add(contenedor_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 2, 240, 40));
-
-        contenedor.add(btn_guardarDatos);
-        btn_guardarDatos.setBounds(410, 550, 245, 45);
-
-        jLabel6.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel6.setText("Fecha de nacimiento");
-        contenedor.add(jLabel6);
-        jLabel6.setBounds(50, 420, 180, 40);
-
-        entrada_apellidoMaterno.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                entrada_apellidoMaternoFocusLost(evt);
-            }
-        });
-        entrada_apellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                entrada_apellidoMaternoKeyTyped(evt);
-            }
-        });
-        contenedor.add(entrada_apellidoMaterno);
-        entrada_apellidoMaterno.setBounds(790, 340, 190, 30);
-
-        jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel5.setText("Apellido materno");
-        contenedor.add(jLabel5);
-        jLabel5.setBounds(790, 310, 150, 30);
-
-        jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel3.setText("Apellido paterno");
-        contenedor.add(jLabel3);
-        jLabel3.setBounds(550, 310, 140, 30);
-
-        entrada_apellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                entrada_apellidoPaternoFocusLost(evt);
-            }
-        });
-        entrada_apellidoPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                entrada_apellidoPaternoKeyTyped(evt);
-            }
-        });
-        contenedor.add(entrada_apellidoPaterno);
-        entrada_apellidoPaterno.setBounds(550, 340, 190, 30);
-
-        nombres_lb.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        nombres_lb.setText("Nombre (s)");
-        contenedor.add(nombres_lb);
-        nombres_lb.setBounds(300, 310, 110, 30);
-
-        txt_registrarAlumno.setFont(new java.awt.Font("Roboto Light", 1, 48)); // NOI18N
-        txt_registrarAlumno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_registrarAlumno.setText("Registrar alumno");
-        contenedor.add(txt_registrarAlumno);
-        txt_registrarAlumno.setBounds(200, 30, 630, 60);
-
-        entrada_fechaNacimiento.setDateFormatString("dd MMM y");
-        entrada_fechaNacimiento.setMaxSelectableDate(new java.util.Date(1735628468000L));
-        entrada_fechaNacimiento.setMinSelectableDate(new java.util.Date(1230793268000L));
-        entrada_fechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                entrada_fechaNacimientoPropertyChange(evt);
-            }
-        });
-        contenedor.add(entrada_fechaNacimiento);
-        entrada_fechaNacimiento.setBounds(50, 460, 190, 30);
-
-        jLabel12.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Datos del padre o tutor");
-        contenedor.add(jLabel12);
-        jLabel12.setBounds(30, 120, 220, 30);
+        jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel3.setText("Datos del alumno");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 160, 30));
 
         jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel8.setText("RFC");
-        contenedor.add(jLabel8);
-        jLabel8.setBounds(40, 160, 170, 30);
+        jLabel8.setText("CURP");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 160, 30));
 
-        jLabel11.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel11.setText("Datos del alumno");
-        contenedor.add(jLabel11);
-        jLabel11.setBounds(50, 280, 200, 30);
+        txt_nombrePadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre.setText("Regimen fiscal");
+        jPanel1.add(txt_nombrePadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 150, 30));
+
+        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel13.setText("Apellido paterno");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 130, 150, 30));
+
+        apellidoPaterno_padre.setEditable(false);
+        apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoPaterno_padre.setFocusCycleRoot(true);
+        apellidoPaterno_padre.setFocusable(false);
+        jPanel1.add(apellidoPaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 160, 150, 30));
+
+        jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel14.setText("Domicilio fiscal");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 210, 150, 30));
+
+        regimen_padre.setEditable(false);
+        regimen_padre.setBackground(new java.awt.Color(255, 255, 255));
+        regimen_padre.setFocusable(false);
+        jPanel1.add(regimen_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, 300, 30));
+
+        icon_buscarPadre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btn_buscar3.png"))); // NOI18N
+        icon_buscarPadre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_buscarPadre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarPadreMouseClicked(evt);
+            }
+        });
+        jPanel1.add(icon_buscarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 50, 50));
 
         rfc_padre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -918,181 +853,121 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 rfc_padreKeyTyped(evt);
             }
         });
-        contenedor.add(rfc_padre);
-        rfc_padre.setBounds(40, 190, 170, 30);
+        jPanel1.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 160, 30));
 
-        txt_nombrePadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_nombrePadre.setText("Nombre (s)");
-        contenedor.add(txt_nombrePadre);
-        txt_nombrePadre.setBounds(300, 160, 100, 30);
+        jLabel4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel4.setText("Datos del receptor");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 160, 30));
 
-        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel13.setText("Apellido paterno");
-        contenedor.add(jLabel13);
-        jLabel13.setBounds(550, 160, 140, 30);
+        curpAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        curpAlumno.setEnabled(false);
+        curpAlumno.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                curpAlumnoItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(curpAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 200, 30));
 
-        apellidoPaterno_padre.setEditable(false);
-        apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
-        apellidoPaterno_padre.setFocusCycleRoot(true);
-        apellidoPaterno_padre.setFocusable(false);
-        contenedor.add(apellidoPaterno_padre);
-        apellidoPaterno_padre.setBounds(550, 190, 160, 30);
+        txt_nombrePadre1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre1.setText("Nivel escolar");
+        jPanel1.add(txt_nombrePadre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 410, 180, 30));
 
-        apellido_maternoPadre.setEditable(false);
-        apellido_maternoPadre.setBackground(new java.awt.Color(255, 255, 255));
-        apellido_maternoPadre.setFocusable(false);
-        apellido_maternoPadre.addActionListener(new java.awt.event.ActionListener() {
+        jLabel15.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel15.setText("Apellido paterno");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 330, 150, 30));
+
+        apellidoPaterno_alumno.setEditable(false);
+        apellidoPaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoPaterno_alumno.setFocusCycleRoot(true);
+        apellidoPaterno_alumno.setFocusable(false);
+        jPanel1.add(apellidoPaterno_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 360, 150, 30));
+
+        apellidoMaterno_alumno.setEditable(false);
+        apellidoMaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoMaterno_alumno.setFocusable(false);
+        apellidoMaterno_alumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                apellido_maternoPadreActionPerformed(evt);
+                apellidoMaterno_alumnoActionPerformed(evt);
             }
         });
-        contenedor.add(apellido_maternoPadre);
-        apellido_maternoPadre.setBounds(790, 190, 160, 30);
+        jPanel1.add(apellidoMaterno_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 360, 150, 30));
 
-        jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel14.setText("Apellido materno");
-        contenedor.add(jLabel14);
-        jLabel14.setBounds(790, 160, 160, 30);
+        jLabel16.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel16.setText("Apellido materno");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 330, 150, 30));
 
-        entrada_curp.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                entrada_curpFocusLost(evt);
-            }
-        });
-        entrada_curp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entrada_curpActionPerformed(evt);
-            }
-        });
-        entrada_curp.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                entrada_curpKeyTyped(evt);
-            }
-        });
-        contenedor.add(entrada_curp);
-        entrada_curp.setBounds(50, 340, 180, 30);
+        nivel_escolar.setEditable(false);
+        nivel_escolar.setBackground(new java.awt.Color(255, 255, 255));
+        nivel_escolar.setFocusable(false);
+        jPanel1.add(nivel_escolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 180, 30));
 
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel9.setText("Nivel escolar");
-        contenedor.add(jLabel9);
-        jLabel9.setBounds(540, 430, 120, 30);
-
-        entrada_nivelEscolar.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        entrada_nivelEscolar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>", "Preescolar", "Primaria", "Secundaria" }));
-        entrada_nivelEscolar.setFocusCycleRoot(true);
-        entrada_nivelEscolar.setFocusable(false);
-        entrada_nivelEscolar.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                entrada_nivelEscolarItemStateChanged(evt);
-            }
-        });
-        contenedor.add(entrada_nivelEscolar);
-        entrada_nivelEscolar.setBounds(550, 460, 200, 30);
-
-        jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel7.setText("CURP");
-        contenedor.add(jLabel7);
-        jLabel7.setBounds(50, 310, 60, 30);
-
-        jLabel10.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel10.setText("Grado escolar");
-        contenedor.add(jLabel10);
-        jLabel10.setBounds(790, 430, 160, 30);
-
-        entrada_gradoEscolar.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        entrada_gradoEscolar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
-        entrada_gradoEscolar.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                entrada_gradoEscolarItemStateChanged(evt);
-            }
-        });
-        contenedor.add(entrada_gradoEscolar);
-        entrada_gradoEscolar.setBounds(790, 460, 200, 30);
-
-        entrada_nombres.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                entrada_nombresFocusLost(evt);
-            }
-        });
-        entrada_nombres.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                entrada_nombresKeyTyped(evt);
-            }
-        });
-        contenedor.add(entrada_nombres);
-        entrada_nombres.setBounds(290, 340, 200, 30);
-
-        icon_buscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\ar275\\Documents\\Generador de facturas\\generador-de-facturas\\generador_facturas\\src\\img\\btn_buscar.png")); // NOI18N
-        icon_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_buscarMouseClicked(evt);
-            }
-        });
-        contenedor.add(icon_buscar);
-        icon_buscar.setBounds(210, 180, 50, 50);
+        jLabel9.setText("RFC");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 160, 30));
 
         nombre_padre.setEditable(false);
         nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
         nombre_padre.setFocusable(false);
-        contenedor.add(nombre_padre);
-        nombre_padre.setBounds(300, 190, 160, 30);
+        jPanel1.add(nombre_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, 150, 30));
 
-        infoIcon_lb.setText("jLabel11");
-        infoIcon_lb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        infoIcon_lb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                infoIcon_lbMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                infoIcon_lbMouseExited(evt);
-            }
-        });
-        contenedor.add(infoIcon_lb);
-        infoIcon_lb.setBounds(230, 350, 20, 20);
+        txt_nombrePadre2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre2.setText("Nombre (s)");
+        jPanel1.add(txt_nombrePadre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 150, 30));
 
-        info_curp.setText("La CURP debe ser de 18 caracteres");
-        contenedor.add(info_curp);
-        info_curp.setBounds(50, 370, 220, 20);
-
-        infoIcon_lb2.setText("jLabel11");
-        infoIcon_lb2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        infoIcon_lb2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                infoIcon_lb2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                infoIcon_lb2MouseExited(evt);
+        apellidoMaterno_padre.setEditable(false);
+        apellidoMaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoMaterno_padre.setFocusable(false);
+        apellidoMaterno_padre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apellidoMaterno_padreActionPerformed(evt);
             }
         });
-        contenedor.add(infoIcon_lb2);
-        infoIcon_lb2.setBounds(490, 350, 20, 20);
+        jPanel1.add(apellidoMaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, 150, 30));
 
-        info_nombres.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        info_nombres.setText("Ingrese los nombres separados por espacio");
-        contenedor.add(info_nombres);
-        info_nombres.setBounds(290, 370, 232, 20);
-
-        infoIcon_lb3.setText("jLabel11");
-        infoIcon_lb3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        infoIcon_lb3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                infoIcon_lb3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                infoIcon_lb3MouseExited(evt);
+        domicilio_padre.setEditable(false);
+        domicilio_padre.setBackground(new java.awt.Color(255, 255, 255));
+        domicilio_padre.setFocusable(false);
+        domicilio_padre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                domicilio_padreActionPerformed(evt);
             }
         });
-        contenedor.add(infoIcon_lb3);
-        infoIcon_lb3.setBounds(240, 470, 20, 20);
+        jPanel1.add(domicilio_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 240, 270, 30));
 
-        infoFecha_lb.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        infoFecha_lb.setText("Ej: 02 dic 2003");
-        contenedor.add(infoFecha_lb);
-        infoFecha_lb.setBounds(190, 490, 80, 15);
+        jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel17.setText("Apellido materno");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 130, 150, 30));
+
+        nombre_alumno.setEditable(false);
+        nombre_alumno.setBackground(new java.awt.Color(255, 255, 255));
+        nombre_alumno.setFocusable(false);
+        jPanel1.add(nombre_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 360, 150, 30));
+
+        txt_nombrePadre3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre3.setText("Nombre (s)");
+        jPanel1.add(txt_nombrePadre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 150, 30));
+
+        txt_nombrePadre4.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre4.setText("Grado escolar");
+        jPanel1.add(txt_nombrePadre4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 410, 180, 30));
+
+        grado_escolar.setEditable(false);
+        grado_escolar.setBackground(new java.awt.Color(255, 255, 255));
+        grado_escolar.setFocusable(false);
+        jPanel1.add(grado_escolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 440, 180, 30));
+
+        jButton1.setText("Generar factura");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 1450, -1, -1));
+
+        contenedor.setViewportView(jPanel1);
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 0, 1050, 650);
+        contenedor.setBounds(0, 100, 1050, 600);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -1104,58 +979,81 @@ public class AltaAlumnos extends javax.swing.JFrame {
         this.fechaInicioSesion = fechaInicioSesion;
         this.horaInicioSesion = horaInicioSesion;
         txt_nombreUser.setText(usuario);
-        
         //solo muestra el menu de emisor si el usuario es el director
         if(!"director".equals(this.usuario)){
             btn_emisor.setVisible(false);
         }
     }
     
+    
+
     private void obtenerDatosPadre(String rfc) {
         try {
-            //Seleccionar los datos del emisor
-            String consulta = "SELECT * FROM padre_familia WHERE rfc = ?";
-            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
             ps.setString(1, rfc);
             ResultSet rs = ps.executeQuery();
-            //muestra los datos del padre
-            if (rs.next()) {
+            if (rs.next()) {//si encuentra un fila con el RFC quiere decir que ya existe
+                obtenerDatosAlumno(rfc);
+                cargarDatos(rfc);
                 nombre_padre.setText(rs.getString("nombres"));
                 apellidoPaterno_padre.setText(rs.getString("apellido_paterno"));
-                apellido_maternoPadre.setText(rs.getString("apellido_materno"));
+                apellidoMaterno_padre.setText(rs.getString("apellido_paterno"));
+                regimen_padre.setText(rs.getString("regimen"));
+                domicilio_padre.setText(rs.getString("domicilio_fiscal"));
             } else {
-                JOptionPane.showMessageDialog(null, "El RFC que solicitó no se encuentra registrado", "RFC no encontrado", JOptionPane.WARNING_MESSAGE);
-                nombre_padre.setText("");
-                apellidoPaterno_padre.setText("");
-                apellido_maternoPadre.setText("");
+
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultarPadre.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void obtenerDatosAlumno(String curp) {
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_rfc = "SELECT * FROM alumnos WHERE curp = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
+            ps.setString(1, curp);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {//si encuentra un fila con el RFC quiere decir que ya existe
+                nombre_alumno.setText(rs.getString("nombres"));
+                apellidoPaterno_alumno.setText(rs.getString("apellido_paterno"));
+                apellidoMaterno_alumno.setText(rs.getString("apellido_paterno"));
+                nivel_escolar.setText(rs.getString("nivel_escolaridad"));
+            } else {
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    void limpiarDatos(){//limpiar todos los campos
-        entrada_nombres.setText("");
-        entrada_apellidoPaterno.setText("");
-        entrada_apellidoMaterno.setText("");
-        entrada_curp.setText("");
-        entrada_fechaNacimiento.setDate(null);
-        entrada_nivelEscolar.setSelectedItem("<seleccionar>");
-        entrada_gradoEscolar.setSelectedItem("<seleccionar>");
-        //
-       rfc_padre.setText("");
-       nombre_padre.setText("");
-       apellidoPaterno_padre.setText("");
-       apellido_maternoPadre.setText("");
+    private void cargarDatos(String rfcPadre) {
+        try {
+            curpAlumno.removeAllItems();
+            //Seleccionar los datos del emisor
+            String consulta = "SELECT * FROM alumnos WHERE rfc_padre = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ps.setString(1, rfcPadre);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            while (rs.next()) {
+                curpAlumno.setEnabled(true);
+                curpAlumno.addItem(rs.getString("curp"));
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
         // Mostrar diálogo que pregunta si desea confirmar la salida
         int opcionSeleccionada = JOptionPane.showOptionDialog(
                 null,
-                "¿Desea salir de la aplicación?",
+                "¿Desea salir de la apliación?",
                 "Confirmación de salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,
@@ -1194,121 +1092,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    public boolean existeInfo() {
-        // Retorna true si al menos uno de los campos tiene información que no sea solo espacios
-        return !(entrada_curp.getText().trim().isEmpty()
-                && entrada_nombres.getText().trim().isEmpty()
-                && entrada_apellidoPaterno.getText().trim().isEmpty()
-                && entrada_apellidoMaterno.getText().trim().isEmpty()
-                && entrada_fechaNacimiento.getDate() == null);
-    }
-
-    public boolean fechaValida(){
-        return entrada_fechaNacimiento.getDate() != null;
-    }
-
-    private boolean curp_valida(){
-        //valida la longitud de la curp 
-        if(entrada_curp.getText().length()!=18){
-            JOptionPane.showMessageDialog(null, "El tamaño de la CURP es de 18 caracteres obligatoriamente", "CURP no valida", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        //Valida la curp coincide con los datos
-        Date fechaNacimiento = entrada_fechaNacimiento.getDate();
-        if(valida.verificarCURP(entrada_curp.getText().toUpperCase(), entrada_nombres.getText(), entrada_apellidoPaterno.getText(), entrada_apellidoMaterno.getText(), fechaNacimiento)){
-           
-            //Valida que cumpla con el formato de una CURP
-           String curpPattern = "^[A-Z]{4}\\d{6}[HM][A-Z]{2}[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9][0-9]$";
-           Pattern pattern = Pattern.compile(curpPattern);
-           Matcher matcher = pattern.matcher(entrada_curp.getText().toUpperCase());
-            if(!matcher.matches()){//sino coincide con el formato retorna falso
-                JOptionPane.showMessageDialog(null, "Ingrese una CURP valida, verifique la estructura", "CURP no valido", JOptionPane.WARNING_MESSAGE);
-                return false;
-            }
-            //si cumple con el formato retorna verdadero
-            return true;
-        }
-        //JOptionPane.showMessageDialog(null,"La CURP no coincide con el nombre, apellidos o con la fecha de nacimiento del alumno", "CURP no valida", JOptionPane.WARNING_MESSAGE);
-        return false;
-    }
     
-   public boolean curp_existente(){
-        try {
-            //Prepara la consulta para verificar si existe el RFC
-            String consulta_rfc = "SELECT * FROM alumnos WHERE curp = ?";
-            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
-            ps.setString(1, entrada_curp.getText().toUpperCase());
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){//si encuentra un fila con la curp quiere decir que ya existe
-                return true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;//Retorna falso si no encuentra la curp
-    }
-    
-
-    public void altaAlumno() {
-        try {
-            //Obtener todos los datos de entrada
-            Date fecha_nacimiento = entrada_fechaNacimiento.getDate();
-            java.sql.Date fecha_sql = new java.sql.Date(fecha_nacimiento.getTime());
-            //Crear conexion a la base de datos
-            //Preparar consulta para insertar los datos
-            String query_alta = "INSERT INTO alumnos"
-                    + "(rfc_padre, curp, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, nivel_escolaridad, grado_escolar)"
-                    + "VALUES (?,?,?,?,?,?,?,?)";
-            PreparedStatement ps = cx.conectar().prepareStatement(query_alta);//Creacion de la consulta
-            ps.setString(1, rfc_padre.getText().toUpperCase());
-            ps.setString(2, entrada_curp.getText().toUpperCase());
-            ps.setString(3, valida.formatearNombresApellidos(entrada_nombres.getText()));
-            ps.setString(4, valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()));
-            ps.setString(5, valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()));
-            ps.setDate(6, fecha_sql);
-            ps.setString(7, entrada_nivelEscolar.getSelectedItem().toString());
-            ps.setString(8, entrada_gradoEscolar.getSelectedItem().toString());
-            
-            //Verifica que se realizó el registro
-            int filas_insertadas = ps.executeUpdate();
-            if(filas_insertadas >0){
-                JOptionPane.showMessageDialog(null,"Datos registrados exitosamente", "Registro existoso", JOptionPane.INFORMATION_MESSAGE);
-                return;
-            }else{
-                 JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Hubo un error al registrar los datos, intente otra vez", "Error en el registro", JOptionPane.WARNING_MESSAGE);;
-        }
-    }
-
-    boolean esHijo() {
-        if (!entrada_apellidoPaterno.getText().equals(apellidoPaterno_padre.getText())
-                //&& !entrada_apellidoMaterno.getText().equals(apellido_maternoPadre.getText())
-                //&& !entrada_apellidoPaterno.getText().equals(apellido_maternoPadre.getText())
-                && !entrada_apellidoMaterno.getText().equals(apellidoPaterno_padre.getText())) {
-            JOptionPane.showMessageDialog(null, "Ninguno de los apellidos del padre o madre no coinciden con los del hijo", "Apelidos sin coincidencia", JOptionPane.INFORMATION_MESSAGE);
-            return false;
-        }
-        return true;
-    }
-
-    public boolean rfcPadre_existente() {
-        try {
-            //Prepara la consulta para verificar si existe el RFC
-            String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
-            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
-            ps.setString(1, rfc_padre.getText().toUpperCase());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {//si encuentra un fila con el RFC quiere decir que ya existe
-                return true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;//Retorna falso si no encuentra el RFC
-    }
-
     private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
             Object[] opciones = {"Aceptar", "Cancelar"};
@@ -1551,102 +1335,19 @@ public class AltaAlumnos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menu_userMouseClicked
 
-    private void apellido_maternoPadreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellido_maternoPadreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_apellido_maternoPadreActionPerformed
+    private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
+        
+    }//GEN-LAST:event_nombre_userMouseClicked
 
-    private void btn_guardarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarDatosMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
-            if(!existeInfo()){
-                JOptionPane.showMessageDialog(null, "Ingrese todos los datos del padre de familia", "Todos los datos son obligatorios", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if(!rfcPadre_existente()){
-                JOptionPane.showMessageDialog(null, "El RFC del padre no se encuentra registrado", "RFC no registrado", JOptionPane.WARNING_MESSAGE);
-                rfc_padre.requestFocusInWindow(); //hace focus al elemento
-                return;
-            }
-            if(!valida.nombresValidos(valida.formatearNombresApellidos(entrada_nombres.getText()))){
-                JOptionPane.showMessageDialog(null, "Ingrese un nombre valido", "Nombre no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_nombres.requestFocusInWindow();
-                return;
-            }
-            if(!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()))){
-                JOptionPane.showMessageDialog(null, "Ingrese un apellido paterno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_apellidoPaterno.requestFocusInWindow();
-                return;
-            }
-            if(!valida.apellidoValido(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()))){
-                JOptionPane.showMessageDialog(null, "Ingrese un apellido materno valido", "Apellido no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_apellidoMaterno.requestFocusInWindow();
-                return;
-            }
-            if(!fechaValida()){
-                JOptionPane.showMessageDialog(null, "Ingrese una fecha de nacimiento valida", "Fecha no valido", JOptionPane.WARNING_MESSAGE);
-                entrada_fechaNacimiento.requestFocusInWindow();
-                return;
-            }
-            if (!esHijo()) {
-                //JOptionPane.showMessageDialog(null, "Solo se permiten hijos con los mimos apellidos", "Los apellidos no coinciden", JOptionPane.WARNING_MESSAGE);
-                entrada_apellidoPaterno.requestFocusInWindow();
-                return;
-            }
-            if(!curp_valida()){
-                entrada_curp.requestFocusInWindow();
-                return;
-            }
-            if (curp_existente()) {
-                JOptionPane.showMessageDialog(null, "La CURP ya se encuentra registrada", "CURP existente", JOptionPane.WARNING_MESSAGE);
-                entrada_curp.requestFocusInWindow();
-                return;
-            }
-            if (entrada_nivelEscolar.getSelectedIndex() == 0) { //la opcion 0 es <seleccionar>  
-                JOptionPane.showMessageDialog(null, "Selecione un nivel escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
-                entrada_nivelEscolar.requestFocusInWindow();
-                return;
-            }
-            if (entrada_gradoEscolar.getSelectedIndex() == 0) {//si no selecciona un opcion valida
-                JOptionPane.showMessageDialog(null, "Selecione un grado escolar", "Dato no seleccionado", JOptionPane.WARNING_MESSAGE);
-                entrada_gradoEscolar.requestFocusInWindow();
-                return;
-            }
+    private void btn_historialSesionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historialSesionesMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+
             Object[] opciones = {"Aceptar", "Cancelar"};
             // Si existe información que no ha sido guardada
             // Mostrar diálogo que pregunta si desea confirmar la salida
             int opcionSeleccionada = JOptionPane.showOptionDialog(
                     null,
-                    "¿Está seguro de registrar a un nuevo alumno?",
-                    "Alta de alumnos",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                altaAlumno();
-                limpiarDatos();
-            } else {
-                // regresa
-                return;
-            }
-        }
-    }//GEN-LAST:event_btn_guardarDatosMouseClicked
-  
-    
-    private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
-
-    }//GEN-LAST:event_nombre_userMouseClicked
-
-    private void btn_historialSesionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historialSesionesMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-                        Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                null,
-                "No se guardarán los cambios, ¿Desea salir?",
+                    "No se guardarán los cambios, ¿Desea salir?",
                     "Confirmación de salida",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE,
@@ -1656,7 +1357,7 @@ public class AltaAlumnos extends javax.swing.JFrame {
 
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                HistorialSesiones ventana = new HistorialSesiones();
+                EliminarEmisor ventana = new EliminarEmisor();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1751,216 +1452,6 @@ public class AltaAlumnos extends javax.swing.JFrame {
             menu_user.setBackground(colorbtnNoSeleccionado);
         }
     }//GEN-LAST:event_cerrar_iconMouseClicked
-
-    private void txt_altaPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaPadresMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){            
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "No se guardarán los datos ingresados, ¿Desea salir?",
-                    "Confirmación de salida",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                AltaPadres ventana = new AltaPadres();
-                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-                ventana.setVisible(true);
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }
-        }
-    }//GEN-LAST:event_txt_altaPadresMouseClicked
-
-    private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "No se guardarán los datos ingresados, ¿Desea salir?",
-                    "Confirmación de salida",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadre ventena = new ConsultarPadre();
-                ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-                ventena.setVisible(true);
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }            
-        }
-    }//GEN-LAST:event_txt_consultarPadresMouseClicked
-
-    private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {
-
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "No se guardarán los datos ingresados, ¿Desea salir?",
-                    "Confirmación de salida",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarPadre ventana = new ConsultarPadre();
-                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-                ventana.setVisible(true);
-                this.dispose();
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }
-        }
-    }//GEN-LAST:event_txt_modificarPadresMouseClicked
-
-    private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
-        if (SwingUtilities.isLeftMouseButton(evt)) {
-
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "No se guardarán los datos ingresados, ¿Desea salir?",
-                    "Confirmación de salida",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-
-                EliminarPadre ventana = new EliminarPadre();
-                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-                ventana.setVisible(true);
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }
-        }
-    }//GEN-LAST:event_txt_eliminarPadresMouseClicked
-
-    private void txt_altaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaAlumnosMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            JOptionPane.showMessageDialog(null, "Se encuentra en esa sección", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_txt_altaAlumnosMouseClicked
-
-    private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
-
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "No se guardarán los datos ingresados, ¿Desea salir?",
-                    "Confirmación de salida",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ConsultarAlumnos ventana = new ConsultarAlumnos();
-                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-                ventana.setVisible(true);
-                this.dispose();
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }            
-        }
-    }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
-
-    private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){     
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "No se guardarán los datos ingresados, ¿Desea salir?",
-                    "Confirmación de salida",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                ModificarAlumno ventana = new ModificarAlumno();
-                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
-                ventana.setVisible(true);
-            this.dispose();
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }
-        }
-    }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
-
-    private void txt_eliminarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarAlumnoMouseClicked
-        if(SwingUtilities.isLeftMouseButton(evt)){
-            
-            Object[] opciones = {"Aceptar", "Cancelar"};
-            // Si existe información que no ha sido guardada
-            // Mostrar diálogo que pregunta si desea confirmar la salida
-            int opcionSeleccionada = JOptionPane.showOptionDialog(
-                    null,
-                    "No se guardarán los datos ingresados, ¿Desea salir?",
-                    "Confirmación de salida",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-            // Manejar las opciones seleccionadas
-            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-                EliminarAlumno ventena = new EliminarAlumno();
-                ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);;
-                ventena.setVisible(true);
-                this.dispose();
-            } else {
-                // Evitar que la ventana se cierre
-                return;
-            }
-        }
-    }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
 
     private void txt_editarEmisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_editarEmisorMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
@@ -2077,142 +1568,238 @@ public class AltaAlumnos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_ConsultarEmisorMouseClicked
 
-    private void entrada_fechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_entrada_fechaNacimientoPropertyChange
-        if (entrada_fechaNacimiento.getDate() != null) {//si la fecha de nacimiento no esta vacia
-            LocalDate fechaActual = LocalDate.now();//obtiene la fecha actual
-            //año de nacimiento
-            int anioNacimiento = entrada_fechaNacimiento.getDate().toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate()
-                    .getYear();
-            //año actual
-            int anioActual = fechaActual.getYear();
-            //se calcula restando el año actual menos el año de nacimiento
-            edad = anioActual - anioNacimiento;
-            if (edad < 3) {//si tiene menos de 3 años
-                JOptionPane.showMessageDialog(null, "El alumno no cumple con la edad suficiente para\n"
-                        + "pertenecer a un nivel escolar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                entrada_fechaNacimiento.setDate(null);
+    private void txt_altaPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaPadresMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {//click izquierdo
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                    null,
+                    "No se guardarán los datos ingresados, ¿Desea salir?",
+                    "Confirmación de salida",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+               AltaPadres ventena = new AltaPadres();
+                ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventena.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
                 return;
             }
-            if (edad > 15) {//si tiene mas de 15 años 
-                JOptionPane.showMessageDialog(null, "El alumno rebasa la edad para\n"
-                        + "pertenecer a un nivel escolar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                entrada_fechaNacimiento.setDate(null);
+        }
+    }//GEN-LAST:event_txt_altaPadresMouseClicked
+
+    private void txt_consultarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarPadresMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ConsultarPadre ventena = new ConsultarPadre();
+                ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventena.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
                 return;
             }
-            if (edad >= 3 && edad <= 5) {
-                entrada_nivelEscolar.setSelectedIndex(1);
-                entrada_gradoEscolar.removeAllItems();//elimina los items anterior del grado escolar
-                entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_preescolar));//carga los grados de preescolar
-                entrada_gradoEscolar.setSelectedItem(gradoNivelYEdad(edad, entrada_nivelEscolar.getSelectedItem().toString()));
+        }
+    }//GEN-LAST:event_txt_consultarPadresMouseClicked
+
+    private void txt_modificarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarPadresMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ModificarPadre ventana = new ModificarPadre();
+                ventana.setDatosSesion(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
                 return;
             }
-            if (edad >= 6 && edad <= 11) {
-                entrada_nivelEscolar.setSelectedIndex(2);
-                entrada_gradoEscolar.removeAllItems();//elimina los items anterior del grado escolar
-                entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_primaria));//carga los grados de primaria
-                entrada_gradoEscolar.setSelectedItem(gradoNivelYEdad(edad, entrada_nivelEscolar.getSelectedItem().toString()));
+        }
+    }//GEN-LAST:event_txt_modificarPadresMouseClicked
+
+    private void txt_eliminarPadresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarPadresMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+
+                EliminarPadre ventana = new EliminarPadre();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
                 return;
             }
-            if (edad >= 12 && edad <= 15) {
-                entrada_nivelEscolar.setSelectedIndex(3);
-                entrada_gradoEscolar.removeAllItems();//elimina los items anterior del grado escolar
-                entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_secundaria));//carga los grados de secundaria
-                entrada_gradoEscolar.setSelectedItem(gradoNivelYEdad(edad, entrada_nivelEscolar.getSelectedItem().toString()));
+        }
+    }//GEN-LAST:event_txt_eliminarPadresMouseClicked
+
+    private void txt_altaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_altaAlumnosMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                AltaAlumnos ventana = new AltaAlumnos();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
                 return;
             }
-            System.out.println(edad);
         }
-    }//GEN-LAST:event_entrada_fechaNacimientoPropertyChange
+    }//GEN-LAST:event_txt_altaAlumnosMouseClicked
 
-    private void entrada_nivelEscolarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_entrada_nivelEscolarItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED) {//si selecciona un item verificar
-            String item_seleccionado = (String) evt.getItem();//pasar el item seleaccionado a string
-            if(entrada_nivelEscolar.getSelectedIndex()==0){//caso cuando selecciona el item 0
+    private void txt_consultarAlmnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_consultarAlmnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){//click izquierdo
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los cambios, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ConsultarAlumnos ventana = new ConsultarAlumnos();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
                 return;
             }
-            if (edad >= 3 && edad <= 5 && !item_seleccionado.equals("Preescolar")) {
-                JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
-                        + "deben pertenecer al nivel de preescolar ", "Advertencia", JOptionPane.ERROR_MESSAGE);
-                entrada_nivelEscolar.setSelectedIndex(1);
-            }
-            if(edad >= 6 && edad <= 11 && !item_seleccionado.equals("Primaria")){
-                JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
-                        + "deben pertenecer al nivel de primaria", "Advertencia", JOptionPane.ERROR_MESSAGE);
-                entrada_nivelEscolar.setSelectedIndex(2);
-            }
-            if(edad >= 12 && edad <=15 && !item_seleccionado.equals("Secundaria")){
-                JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
-                        + "deben pertenecer al nivel de secundaria", "Advertencia", JOptionPane.ERROR_MESSAGE);
-                entrada_nivelEscolar.setSelectedIndex(3);
-            }
         }
-    }//GEN-LAST:event_entrada_nivelEscolarItemStateChanged
+    }//GEN-LAST:event_txt_consultarAlmnosMouseClicked
 
-    private void entrada_gradoEscolarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_entrada_gradoEscolarItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED) {//si selecciona un item verificar           
-            if (entrada_gradoEscolar.getSelectedIndex() == 0) {
+    private void txt_modificarAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_modificarAlumnosMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                ModificarAlumno ventana = new ModificarAlumno();
+                ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+                ventana.setVisible(true);
+                this.dispose();
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
                 return;
             }
-            //
-            String nivel_escolar = entrada_nivelEscolar.getSelectedItem().toString();
-            String grado_seleccionado = (String) evt.getItem();//pasar el item seleaccionado a string
-            String gradoReal = gradoNivelYEdad(edad, nivel_escolar);
-            //Si no ha seleccciona el grado correspondiente al real marca un mensaje de error
-            if (!grado_seleccionado.equals(gradoReal)) {
-                JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
-                        + "deben pertenecer al " + gradoReal +" de "+nivel_escolar, "Advertencia", JOptionPane.ERROR_MESSAGE);
-                entrada_gradoEscolar.setSelectedItem(gradoNivelYEdad(edad, entrada_nivelEscolar.getSelectedItem().toString()));
+        }
+    }//GEN-LAST:event_txt_modificarAlumnosMouseClicked
+
+    private void txt_eliminarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eliminarAlumnoMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            // Si existe información que no ha sido guardada
+            // Mostrar diálogo que pregunta si desea confirmar la salida
+            int opcionSeleccionada = JOptionPane.showOptionDialog(
+                null,
+                "No se guardarán los datos ingresados, ¿Desea salir?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
+
+            // Manejar las opciones seleccionadas
+            if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+                EliminarAlumno ventena = new EliminarAlumno();
+                ventena.setDatos(usuario, fechaInicioSesion, horaInicioSesion);;
+                ventena.setVisible(true);
+                this.dispose();
+            } else {
+                // Evitar que la ventana se cierre
+                return;
             }
         }
-    }//GEN-LAST:event_entrada_gradoEscolarItemStateChanged
+    }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
 
-    private void entrada_curpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_curpKeyTyped
-        if(entrada_curp.getText().length()>=18){
-            JOptionPane.showMessageDialog(null, "La CURP debe ser de 18 digitos", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
-    }//GEN-LAST:event_entrada_curpKeyTyped
-
-    private void entrada_apellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoKeyTyped
-        if(entrada_apellidoPaterno.getText().length()>=50){
-            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
-    }//GEN-LAST:event_entrada_apellidoPaternoKeyTyped
-
-    private void entrada_apellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoKeyTyped
-        if(entrada_apellidoMaterno.getText().length()>=50){
-            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
-    }//GEN-LAST:event_entrada_apellidoMaternoKeyTyped
-
-    private void entrada_nombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrada_nombresKeyTyped
-        if(entrada_nombres.getText().length()>=80){
-            JOptionPane.showMessageDialog(null, "Número maximo de cáracteres alcanzados", "Maximo alcanzado", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
-    }//GEN-LAST:event_entrada_nombresKeyTyped
-
-    private void entrada_curpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_curpFocusLost
-        entrada_curp.setText(entrada_curp.getText().toUpperCase());
-    }//GEN-LAST:event_entrada_curpFocusLost
-
-    private void entrada_nombresFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_nombresFocusLost
-        entrada_nombres.setText(valida.formatearNombresApellidos(entrada_nombres.getText()));
-    }//GEN-LAST:event_entrada_nombresFocusLost
-
-    private void entrada_apellidoPaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_apellidoPaternoFocusLost
-        entrada_apellidoPaterno.setText(valida.formatearNombresApellidos(entrada_apellidoPaterno.getText()));
-    }//GEN-LAST:event_entrada_apellidoPaternoFocusLost
-
-    private void entrada_apellidoMaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_apellidoMaternoFocusLost
-        entrada_apellidoMaterno.setText(valida.formatearNombresApellidos(entrada_apellidoMaterno.getText()));
-    }//GEN-LAST:event_entrada_apellidoMaternoFocusLost
-
-    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
+    private void icon_buscarPadreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarPadreMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
             Validacion valida = new Validacion();
             if (rfc_padre.getText().isEmpty()) {
@@ -2230,85 +1817,37 @@ public class AltaAlumnos extends javax.swing.JFrame {
             obtenerDatosPadre(rfc_padre.getText().toUpperCase());
             rfc_padre.setText(rfc_padre.getText().toUpperCase());
         }
-    }//GEN-LAST:event_icon_buscarMouseClicked
+    }//GEN-LAST:event_icon_buscarPadreMouseClicked
 
     private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
-        Validacion valida = new Validacion();
-        if (rfc_padre.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (rfc_padre.getText().length() < 13) {
-            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (!valida.rfc_valido(rfc_padre.getText().toUpperCase())) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        obtenerDatosPadre(rfc_padre.getText().toUpperCase());
-        rfc_padre.setText(rfc_padre.getText().toUpperCase());
+        // TODO add your handling code here:
     }//GEN-LAST:event_rfc_padreActionPerformed
 
     private void rfc_padreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_padreKeyTyped
-        if (rfc_padre.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
-            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_rfc_padreKeyTyped
 
-    private void infoIcon_lbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseEntered
-        info_curp.setVisible(true);
-    }//GEN-LAST:event_infoIcon_lbMouseEntered
-
-    private void infoIcon_lbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lbMouseExited
-        info_curp.setVisible(false);
-    }//GEN-LAST:event_infoIcon_lbMouseExited
-
-    private void infoIcon_lb2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseEntered
-        info_nombres.setVisible(true);
-    }//GEN-LAST:event_infoIcon_lb2MouseEntered
-
-    private void infoIcon_lb2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb2MouseExited
-        info_nombres.setVisible(false);
-    }//GEN-LAST:event_infoIcon_lb2MouseExited
-
-    private void infoIcon_lb3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseEntered
-        infoFecha_lb.setVisible(true);
-    }//GEN-LAST:event_infoIcon_lb3MouseEntered
-
-    private void infoIcon_lb3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoIcon_lb3MouseExited
-        infoFecha_lb.setVisible(false);
-    }//GEN-LAST:event_infoIcon_lb3MouseExited
-
-    private void entrada_curpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrada_curpActionPerformed
+    private void apellidoMaterno_alumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_alumnoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrada_curpActionPerformed
+    }//GEN-LAST:event_apellidoMaterno_alumnoActionPerformed
 
-    private String gradoNivelYEdad(int edad, String nivelSeleccionado) {
-        switch (nivelSeleccionado) {
-            case "Preescolar":
-                if (edad == 3) return "Primero";
-                if (edad == 4) return "Segundo";
-                if (edad == 5) return "Tercero";
-                break;
-            case "Primaria":
-                if (edad == 6) return "Primero";
-                if (edad == 7) return "Segundo";
-                if (edad == 8) return "Tercero";
-                if (edad == 9) return "Cuarto";
-                if (edad == 10) return "Quinto";
-                if (edad == 11) return "Sexto";
-                break;             
-            case "Secundaria":
-                if (edad==12) return "Primero";
-                if (edad == 13) return "Segundo";
-                if (edad == 14 || edad == 15) return "Tercero";
-                break;
-        }
-        return null;
-    }
-    
+    private void apellidoMaterno_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_padreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_apellidoMaterno_padreActionPerformed
+
+    private void domicilio_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_domicilio_padreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_domicilio_padreActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ModeloFactura facturaPrevia= new ModeloFactura((Frame) SwingUtilities.getWindowAncestor(fondo), true);
+        facturaPrevia.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void curpAlumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_curpAlumnoItemStateChanged
+        obtenerDatosAlumno(curpAlumno.getSelectedItem().toString());
+    }//GEN-LAST:event_curpAlumnoItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -2326,14 +1865,22 @@ public class AltaAlumnos extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AltaAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GenerarFacturaPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AltaAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GenerarFacturaPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AltaAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GenerarFacturaPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AltaAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GenerarFacturaPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -2346,40 +1893,36 @@ public class AltaAlumnos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AltaAlumnos().setVisible(true);
+                new GenerarFacturaPrueba().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
+    private javax.swing.JTextField apellidoMaterno_alumno;
+    private javax.swing.JTextField apellidoMaterno_padre;
+    private javax.swing.JTextField apellidoPaterno_alumno;
     private javax.swing.JTextField apellidoPaterno_padre;
-    private javax.swing.JTextField apellido_maternoPadre;
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
-    private paneles.PanelRound btn_guardarDatos;
     private javax.swing.JPanel btn_historialSesiones;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
-    private javax.swing.JPanel contenedor;
-    private paneles.PanelRound contenedor_btn;
+    private javax.swing.JScrollPane contenedor;
     private javax.swing.JPanel contenedor_menu;
-    private javax.swing.JTextField entrada_apellidoMaterno;
-    private javax.swing.JTextField entrada_apellidoPaterno;
-    private javax.swing.JTextField entrada_curp;
-    private com.toedter.calendar.JDateChooser entrada_fechaNacimiento;
-    private javax.swing.JComboBox<String> entrada_gradoEscolar;
-    private javax.swing.JComboBox<String> entrada_nivelEscolar;
-    private javax.swing.JTextField entrada_nombres;
+    private javax.swing.JComboBox<String> curpAlumno;
+    private javax.swing.JTextField domicilio_padre;
     private javax.swing.JPanel fondo;
+    private javax.swing.JTextField grado_escolar;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
-    private javax.swing.JLabel icon_buscar;
+    private javax.swing.JLabel icon_buscarPadre;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
     private javax.swing.JLabel icon_item3;
@@ -2387,24 +1930,20 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
-    private javax.swing.JLabel infoFecha_lb;
-    private javax.swing.JLabel infoIcon_lb;
-    private javax.swing.JLabel infoIcon_lb2;
-    private javax.swing.JLabel infoIcon_lb3;
-    private javax.swing.JLabel info_curp;
-    private javax.swing.JLabel info_nombres;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
@@ -2426,11 +1965,12 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
+    private javax.swing.JTextField nivel_escolar;
+    private javax.swing.JTextField nombre_alumno;
     private javax.swing.JTextField nombre_padre;
     private javax.swing.JPanel nombre_user;
-    private javax.swing.JLabel nombres_lb;
+    private javax.swing.JTextField regimen_padre;
     private javax.swing.JTextField rfc_padre;
-    private javax.swing.JLabel text_guardarDatos;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
@@ -2455,9 +1995,12 @@ public class AltaAlumnos extends javax.swing.JFrame {
     private javax.swing.JLabel txt_modificarAlumnos;
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombrePadre;
+    private javax.swing.JLabel txt_nombrePadre1;
+    private javax.swing.JLabel txt_nombrePadre2;
+    private javax.swing.JLabel txt_nombrePadre3;
+    private javax.swing.JLabel txt_nombrePadre4;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
-    private javax.swing.JLabel txt_registrarAlumno;
     private javax.swing.JLabel user_menuIcon;
     private javax.swing.JLabel user_menuIcon1;
     // End of variables declaration//GEN-END:variables

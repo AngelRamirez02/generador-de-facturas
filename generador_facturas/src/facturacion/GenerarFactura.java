@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.sql.PreparedStatement;
@@ -102,6 +103,9 @@ public class GenerarFactura extends javax.swing.JFrame {
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
         Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
         icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
+        
+        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
+        icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -256,6 +260,17 @@ public class GenerarFactura extends javax.swing.JFrame {
         jSeparator12 = new javax.swing.JSeparator();
         contenedor = new javax.swing.JPanel();
         btn_generarFactura = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        rfc_padre = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txt_nombrePadre = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        apellidoPaterno_padre = new javax.swing.JTextField();
+        apellido_maternoPadre = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        nombre_padre = new javax.swing.JTextField();
+        icon_buscar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar padre de familia");
@@ -432,7 +447,7 @@ public class GenerarFactura extends javax.swing.JFrame {
             }
         });
         fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 120, 60, 60);
+        icon_regresarlb.setBounds(50, 110, 60, 60);
 
         menu_salir.setBackground(new java.awt.Color(198, 54, 55));
         menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -742,7 +757,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         menu_factura.setBounds(400, 100, 200, 90);
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
-        contenedor.setLayout(null);
+        contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btn_generarFactura.setText("Generar factura");
         btn_generarFactura.addActionListener(new java.awt.event.ActionListener() {
@@ -750,11 +765,77 @@ public class GenerarFactura extends javax.swing.JFrame {
                 btn_generarFacturaActionPerformed(evt);
             }
         });
-        contenedor.add(btn_generarFactura);
-        btn_generarFactura.setBounds(210, 620, 130, 30);
+        contenedor.add(btn_generarFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 590, 130, 30));
+
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Generar factura");
+        contenedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1050, 30));
+
+        jLabel2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel2.setText("Datos del receptor");
+        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 170, 30));
+
+        rfc_padre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rfc_padreActionPerformed(evt);
+            }
+        });
+        rfc_padre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rfc_padreKeyTyped(evt);
+            }
+        });
+        contenedor.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 170, 30));
+
+        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel8.setText("RFC");
+        contenedor.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 170, 30));
+
+        txt_nombrePadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre.setText("Nombre (s)");
+        contenedor.add(txt_nombrePadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 160, 30));
+
+        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel13.setText("Apellido paterno");
+        contenedor.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 120, 160, 40));
+
+        apellidoPaterno_padre.setEditable(false);
+        apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoPaterno_padre.setFocusCycleRoot(true);
+        apellidoPaterno_padre.setFocusable(false);
+        contenedor.add(apellidoPaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 160, 160, 30));
+
+        apellido_maternoPadre.setEditable(false);
+        apellido_maternoPadre.setBackground(new java.awt.Color(255, 255, 255));
+        apellido_maternoPadre.setFocusable(false);
+        apellido_maternoPadre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apellido_maternoPadreActionPerformed(evt);
+            }
+        });
+        contenedor.add(apellido_maternoPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, 160, 30));
+
+        jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel14.setText("Apellido materno");
+        contenedor.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 130, 160, 30));
+
+        nombre_padre.setEditable(false);
+        nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
+        nombre_padre.setFocusable(false);
+        contenedor.add(nombre_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, 160, 30));
+
+        icon_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btn_buscar3.png"))); // NOI18N
+        icon_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarMouseClicked(evt);
+            }
+        });
+        contenedor.add(icon_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 50, 50));
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 0, 1050, 730);
+        contenedor.setBounds(0, 100, 1050, 630);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -772,6 +853,25 @@ public class GenerarFactura extends javax.swing.JFrame {
         }
     }
     
+    
+
+    private void obtenerDatosPadre(String rfc) {
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
+            ps.setString(1, rfc);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {//si encuentra un fila con el RFC quiere decir que ya existe
+
+            } else {
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
@@ -816,23 +916,6 @@ public class GenerarFactura extends javax.swing.JFrame {
             this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         }
     }//GEN-LAST:event_formWindowClosing
-
-
-    public boolean rfc_existente(String rfc){
-        try {
-            //Prepara la consulta para verificar si existe el RFC
-            String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
-            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
-            ps.setString(1, rfc);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){//si encuentra un fila con el RFC quiere decir que ya existe
-                return true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;//Retorna falso si no encuentra el RFC
-    }
 
     
     private void icon_regresarlbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_regresarlbMouseClicked
@@ -1546,6 +1629,55 @@ public class GenerarFactura extends javax.swing.JFrame {
        facturaPrevia.setVisible(true);
     }//GEN-LAST:event_btn_generarFacturaActionPerformed
 
+    private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
+        Validacion valida = new Validacion();
+        if (rfc_padre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (rfc_padre.getText().length() < 13) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!valida.rfc_valido(rfc_padre.getText().toUpperCase())) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        obtenerDatosPadre(rfc_padre.getText().toUpperCase());
+        rfc_padre.setText(rfc_padre.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_padreActionPerformed
+
+    private void rfc_padreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_padreKeyTyped
+        if (rfc_padre.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_rfc_padreKeyTyped
+
+    private void apellido_maternoPadreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellido_maternoPadreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_apellido_maternoPadreActionPerformed
+
+    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            Validacion valida = new Validacion();
+            if (rfc_padre.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (rfc_padre.getText().length() < 13) {
+                JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (!valida.rfc_valido(rfc_padre.getText().toUpperCase())) {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            obtenerDatosPadre(rfc_padre.getText().toUpperCase());
+            rfc_padre.setText(rfc_padre.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_icon_buscarMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1590,6 +1722,8 @@ public class GenerarFactura extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
+    private javax.swing.JTextField apellidoPaterno_padre;
+    private javax.swing.JTextField apellido_maternoPadre;
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
@@ -1606,6 +1740,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel icon_buscar;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
     private javax.swing.JLabel icon_item3;
@@ -1613,7 +1748,12 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
@@ -1635,7 +1775,9 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
+    private javax.swing.JTextField nombre_padre;
     private javax.swing.JPanel nombre_user;
+    private javax.swing.JTextField rfc_padre;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
@@ -1659,6 +1801,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel txt_ingresos;
     private javax.swing.JLabel txt_modificarAlumnos;
     private javax.swing.JLabel txt_modificarPadres;
+    private javax.swing.JLabel txt_nombrePadre;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
     private javax.swing.JLabel user_menuIcon;

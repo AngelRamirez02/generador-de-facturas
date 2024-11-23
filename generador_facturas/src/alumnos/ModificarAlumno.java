@@ -965,11 +965,6 @@ public class ModificarAlumno extends javax.swing.JFrame {
                 entrada_nivelEscolarItemStateChanged(evt);
             }
         });
-        entrada_nivelEscolar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entrada_nivelEscolarActionPerformed(evt);
-            }
-        });
         contenedor.add(entrada_nivelEscolar);
         entrada_nivelEscolar.setBounds(540, 470, 200, 30);
 
@@ -985,7 +980,6 @@ public class ModificarAlumno extends javax.swing.JFrame {
 
         entrada_gradoEscolar.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
         entrada_gradoEscolar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
-        entrada_gradoEscolar.setEnabled(false);
         entrada_gradoEscolar.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 entrada_gradoEscolarItemStateChanged(evt);
@@ -1195,7 +1189,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
                 entrada_curp.setText(rs.getString("curp"));
                 entrada_nombres.setText(rs.getString("nombres"));
                 entrada_apellidoPaterno.setText(rs.getString("apellido_paterno"));
-                entrada_apellidoPaterno.setText(rs.getString("apellido_materno"));
+                entrada_apellidoMaterno.setText(rs.getString("apellido_materno"));
                 entrada_fechaNacimiento.setDate(rs.getDate("fecha_nacimiento"));
                 entrada_nivelEscolar.setSelectedItem(rs.getString("nivel_escolaridad"));
                 entrada_gradoEscolar.setSelectedItem(rs.getString("grado_escolar"));
@@ -1487,7 +1481,7 @@ public class ModificarAlumno extends javax.swing.JFrame {
             // Manejar las opciones seleccionadas
             if (opcionSeleccionada == JOptionPane.YES_OPTION) {
                 //Regresa al menu principal
-                ModificarAlumno ventana = new ModificarAlumno();
+                MenuPrincipal ventana = new MenuPrincipal();
                 ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
                 ventana.setVisible(true);
                 this.dispose();
@@ -1755,27 +1749,6 @@ public class ModificarAlumno extends javax.swing.JFrame {
         return false;//Retorna falso si no encuentra el RFC
     }
     
-    private void entrada_nivelEscolarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrada_nivelEscolarActionPerformed
-       //Las opciones de grado escolar solo se pueden seleccionar cuando se elige un nivel escolar
-        if(entrada_nivelEscolar.getSelectedIndex()!=0){
-            entrada_gradoEscolar.setEnabled(true);
-        }else{
-            entrada_gradoEscolar.setEnabled(false);
-        }
-        if(entrada_nivelEscolar.getSelectedIndex()==1){//selecciona preescolar
-            entrada_gradoEscolar.removeAllItems();
-            entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_preescolar));
-        }
-        if(entrada_nivelEscolar.getSelectedIndex()==2){//selecciona preescolar
-            entrada_gradoEscolar.removeAllItems();
-            entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_primaria));
-        }
-        if (entrada_nivelEscolar.getSelectedIndex() == 3) {//selecciona preescolar
-            entrada_gradoEscolar.removeAllItems();
-            entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_secundaria));
-        }
-    }//GEN-LAST:event_entrada_nivelEscolarActionPerformed
-
     private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
 
     }//GEN-LAST:event_nombre_userMouseClicked
@@ -2236,21 +2209,35 @@ public class ModificarAlumno extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "El alumno no cumple con la edad suficiente para\n"
                         + "pertenecer a un nivel escolar", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 entrada_fechaNacimiento.setDate(null);
-                //desactiva para elegir nivel escolar
-                entrada_nivelEscolar.setEnabled(false);
                 return;
             }
             if (edad > 15) {//si tiene mas de 15 años 
                 JOptionPane.showMessageDialog(null, "El alumno rebasa la edad para\n"
                         + "pertenecer a un nivel escolar", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 entrada_fechaNacimiento.setDate(null);
-                //desactiva para elegir grado escolar
-                entrada_nivelEscolar.setEnabled(false);
                 return;
             }
-            //acativa para elegir grado escolar
-            entrada_nivelEscolar.setEnabled(true);
-            entrada_nivelEscolar.setSelectedIndex(0);
+            if (edad >= 3 && edad <= 5) {
+                entrada_nivelEscolar.setSelectedIndex(1);
+                entrada_gradoEscolar.removeAllItems();//elimina los items anterior del grado escolar
+                entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_preescolar));//carga los grados de preescolar
+                entrada_gradoEscolar.setSelectedItem(gradoNivelYEdad(edad, entrada_nivelEscolar.getSelectedItem().toString()));
+                return;
+            }
+            if (edad >= 6 && edad <= 11) {
+                entrada_nivelEscolar.setSelectedIndex(2);
+                entrada_gradoEscolar.removeAllItems();//elimina los items anterior del grado escolar
+                entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_primaria));//carga los grados de primaria
+                entrada_gradoEscolar.setSelectedItem(gradoNivelYEdad(edad, entrada_nivelEscolar.getSelectedItem().toString()));
+                return;
+            }
+            if (edad >= 12 && edad <= 15) {
+                entrada_nivelEscolar.setSelectedIndex(3);
+                entrada_gradoEscolar.removeAllItems();//elimina los items anterior del grado escolar
+                entrada_gradoEscolar.setModel(new DefaultComboBoxModel<>(grados_secundaria));//carga los grados de secundaria
+                entrada_gradoEscolar.setSelectedItem(gradoNivelYEdad(edad, entrada_nivelEscolar.getSelectedItem().toString()));
+                return;
+            }
             System.out.println(edad);
         }
     }//GEN-LAST:event_entrada_fechaNacimientoPropertyChange
@@ -2267,8 +2254,8 @@ public class ModificarAlumno extends javax.swing.JFrame {
             //Si no ha seleccciona el grado correspondiente al real marca un mensaje de error
             if (!grado_seleccionado.equals(gradoReal)) {
                 JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
-                        + "deben pertenecer al " + gradoReal + " de " + nivel_escolar, "Advertencia", JOptionPane.ERROR_MESSAGE);
-                entrada_gradoEscolar.setSelectedIndex(0);
+                        + "deben pertenecer al " + gradoReal +" de "+nivel_escolar, "Advertencia", JOptionPane.ERROR_MESSAGE);
+                entrada_gradoEscolar.setSelectedItem(gradoNivelYEdad(edad, entrada_nivelEscolar.getSelectedItem().toString()));
             }
         }
     }//GEN-LAST:event_entrada_gradoEscolarItemStateChanged
@@ -2276,23 +2263,23 @@ public class ModificarAlumno extends javax.swing.JFrame {
     private void entrada_nivelEscolarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_entrada_nivelEscolarItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {//si selecciona un item verificar
             String item_seleccionado = (String) evt.getItem();//pasar el item seleaccionado a string
-            if(entrada_nivelEscolar.getSelectedIndex()==0){//caso cuando selecciona el item 0
+            if (entrada_nivelEscolar.getSelectedIndex() == 0) {//caso cuando selecciona el item 0
                 return;
             }
             if (edad >= 3 && edad <= 5 && !item_seleccionado.equals("Preescolar")) {
                 JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
                         + "deben pertenecer al nivel de preescolar ", "Advertencia", JOptionPane.ERROR_MESSAGE);
-                entrada_nivelEscolar.setSelectedIndex(0);
+                entrada_nivelEscolar.setSelectedIndex(1);
             }
-            if(edad >= 6 && edad <= 11 && !item_seleccionado.equals("Primaria")){
+            if (edad >= 6 && edad <= 11 && !item_seleccionado.equals("Primaria")) {
                 JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
                         + "deben pertenecer al nivel de primaria", "Advertencia", JOptionPane.ERROR_MESSAGE);
-                entrada_nivelEscolar.setSelectedIndex(0);
+                entrada_nivelEscolar.setSelectedIndex(2);
             }
-            if(edad >= 12 && edad <=15 && !item_seleccionado.equals("Secundaria")){
+            if (edad >= 12 && edad <= 15 && !item_seleccionado.equals("Secundaria")) {
                 JOptionPane.showMessageDialog(null, "Los alumnos de: " + edad + " años "
                         + "deben pertenecer al nivel de secundaria", "Advertencia", JOptionPane.ERROR_MESSAGE);
-                entrada_nivelEscolar.setSelectedIndex(0);
+                entrada_nivelEscolar.setSelectedIndex(3);
             }
         }
     }//GEN-LAST:event_entrada_nivelEscolarItemStateChanged
@@ -2365,15 +2352,15 @@ public class ModificarAlumno extends javax.swing.JFrame {
         if(SwingUtilities.isLeftMouseButton(evt)){
             Validacion valida = new Validacion();
             if(curp_busqueda.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Por favor ingrese una CURP para consultar", "CURP no ingresada", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if(curp_busqueda.getText().length()<18){
-                JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "La CURP debe ser de 18 digitos", "CURP no valida", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if(!valida.curp_valida(curp_busqueda.getText().toUpperCase())){
-                JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Por favor ingrese una CURP valida para consultar", "CURP no valido", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
