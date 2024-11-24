@@ -37,11 +37,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 import login.login_window;
 import sesiones.HistorialSesiones;
 import validacion.Validacion;
@@ -103,9 +105,10 @@ public class GenerarFactura extends javax.swing.JFrame {
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
         Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
         icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
-        
+
+        //iconos de buscar
         Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
-        icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
+        icon_buscarPadre.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscarPadre.getWidth(), icon_buscarPadre.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -172,6 +175,13 @@ public class GenerarFactura extends javax.swing.JFrame {
         timer.start();
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
+       
+        //Agregar bordes
+        Border bordeInferior = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
+//        nombre_padre.setBorder(bordeInferior);
+//        apellidoPaterno_padre.setBorder(bordeInferior);
+//        apellidoMaterno_padre.setBorder(bordeInferior);
+        
         this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setExtendedState(this.MAXIMIZED_BOTH);
@@ -258,23 +268,42 @@ public class GenerarFactura extends javax.swing.JFrame {
         txt_generarFcatura = new javax.swing.JLabel();
         txt_consultarAlmnos1 = new javax.swing.JLabel();
         jSeparator12 = new javax.swing.JSeparator();
-        contenedor = new javax.swing.JPanel();
-        btn_generarFactura = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        contenedor = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        rfc_padre = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txt_nombrePadre = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         apellidoPaterno_padre = new javax.swing.JTextField();
-        apellido_maternoPadre = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
+        regimen_padre = new javax.swing.JTextField();
+        icon_buscarPadre = new javax.swing.JLabel();
+        rfc_padre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        nombres_alumno = new javax.swing.JComboBox<>();
+        txt_nombrePadre1 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        apellidoPaterno_alumno = new javax.swing.JTextField();
+        apellidoMaterno_alumno = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        nivel_escolar = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         nombre_padre = new javax.swing.JTextField();
-        icon_buscar = new javax.swing.JLabel();
+        txt_nombrePadre2 = new javax.swing.JLabel();
+        apellidoMaterno_padre = new javax.swing.JTextField();
+        domicilio_padre = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        curp_alumno = new javax.swing.JTextField();
+        txt_nombrePadre3 = new javax.swing.JLabel();
+        txt_nombrePadre4 = new javax.swing.JLabel();
+        grado_escolar = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar padre de familia");
-        setMinimumSize(new java.awt.Dimension(1050, 735));
+        setMinimumSize(new java.awt.Dimension(1100, 735));
         setSize(new java.awt.Dimension(1050, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -757,24 +786,61 @@ public class GenerarFactura extends javax.swing.JFrame {
         menu_factura.setBounds(400, 100, 200, 90);
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
-        contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        contenedor.setBorder(null);
+        contenedor.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        contenedor.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        btn_generarFactura.setText("Generar factura");
-        btn_generarFactura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_generarFacturaActionPerformed(evt);
-            }
-        });
-        contenedor.add(btn_generarFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 590, 130, 30));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1040, 1500));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        jLabel2.setText("jLabel2");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(481, 1459, -1, -1));
+
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 30)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Generar factura");
-        contenedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1050, 30));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 1040, 50));
 
-        jLabel2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        jLabel2.setText("Datos del receptor");
-        contenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 170, 30));
+        jLabel3.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel3.setText("Datos del alumno");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 190, 30));
+
+        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel8.setText("Nombre (s)");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 160, 30));
+
+        txt_nombrePadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre.setText("Regimen fiscal");
+        jPanel1.add(txt_nombrePadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 150, 30));
+
+        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel13.setText("Apellido paterno");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 130, 150, 30));
+
+        apellidoPaterno_padre.setEditable(false);
+        apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoPaterno_padre.setFocusCycleRoot(true);
+        apellidoPaterno_padre.setFocusable(false);
+        jPanel1.add(apellidoPaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 160, 150, 30));
+
+        jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel14.setText("Domicilio fiscal");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 210, 150, 30));
+
+        regimen_padre.setEditable(false);
+        regimen_padre.setBackground(new java.awt.Color(255, 255, 255));
+        regimen_padre.setFocusable(false);
+        jPanel1.add(regimen_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, 300, 30));
+
+        icon_buscarPadre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btn_buscar3.png"))); // NOI18N
+        icon_buscarPadre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_buscarPadre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarPadreMouseClicked(evt);
+            }
+        });
+        jPanel1.add(icon_buscarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 50, 50));
 
         rfc_padre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -786,56 +852,120 @@ public class GenerarFactura extends javax.swing.JFrame {
                 rfc_padreKeyTyped(evt);
             }
         });
-        contenedor.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 170, 30));
+        jPanel1.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 160, 30));
 
-        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel8.setText("RFC");
-        contenedor.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 170, 30));
+        jLabel4.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel4.setText("Datos del receptor");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 180, 30));
 
-        txt_nombrePadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_nombrePadre.setText("Nombre (s)");
-        contenedor.add(txt_nombrePadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 160, 30));
-
-        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel13.setText("Apellido paterno");
-        contenedor.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 120, 160, 40));
-
-        apellidoPaterno_padre.setEditable(false);
-        apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
-        apellidoPaterno_padre.setFocusCycleRoot(true);
-        apellidoPaterno_padre.setFocusable(false);
-        contenedor.add(apellidoPaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 160, 160, 30));
-
-        apellido_maternoPadre.setEditable(false);
-        apellido_maternoPadre.setBackground(new java.awt.Color(255, 255, 255));
-        apellido_maternoPadre.setFocusable(false);
-        apellido_maternoPadre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                apellido_maternoPadreActionPerformed(evt);
+        nombres_alumno.setEnabled(false);
+        nombres_alumno.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                nombres_alumnoItemStateChanged(evt);
             }
         });
-        contenedor.add(apellido_maternoPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, 160, 30));
+        jPanel1.add(nombres_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 230, 30));
 
-        jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel14.setText("Apellido materno");
-        contenedor.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 130, 160, 30));
+        txt_nombrePadre1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre1.setText("Nivel escolar");
+        jPanel1.add(txt_nombrePadre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 410, 180, 30));
+
+        jLabel15.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel15.setText("Apellido paterno");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 150, 30));
+
+        apellidoPaterno_alumno.setEditable(false);
+        apellidoPaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoPaterno_alumno.setFocusCycleRoot(true);
+        apellidoPaterno_alumno.setFocusable(false);
+        jPanel1.add(apellidoPaterno_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 360, 150, 30));
+
+        apellidoMaterno_alumno.setEditable(false);
+        apellidoMaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoMaterno_alumno.setFocusable(false);
+        apellidoMaterno_alumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apellidoMaterno_alumnoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(apellidoMaterno_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 360, 150, 30));
+
+        jLabel16.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel16.setText("Apellido materno");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 330, 150, 30));
+
+        nivel_escolar.setEditable(false);
+        nivel_escolar.setBackground(new java.awt.Color(255, 255, 255));
+        nivel_escolar.setFocusable(false);
+        jPanel1.add(nivel_escolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 180, 30));
+
+        jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel9.setText("RFC");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 160, 30));
 
         nombre_padre.setEditable(false);
         nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
         nombre_padre.setFocusable(false);
-        contenedor.add(nombre_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, 160, 30));
+        jPanel1.add(nombre_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, 150, 30));
 
-        icon_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btn_buscar3.png"))); // NOI18N
-        icon_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_buscarMouseClicked(evt);
+        txt_nombrePadre2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre2.setText("Nombre (s)");
+        jPanel1.add(txt_nombrePadre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 150, 30));
+
+        apellidoMaterno_padre.setEditable(false);
+        apellidoMaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoMaterno_padre.setFocusable(false);
+        apellidoMaterno_padre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apellidoMaterno_padreActionPerformed(evt);
             }
         });
-        contenedor.add(icon_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 50, 50));
+        jPanel1.add(apellidoMaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, 150, 30));
+
+        domicilio_padre.setEditable(false);
+        domicilio_padre.setBackground(new java.awt.Color(255, 255, 255));
+        domicilio_padre.setFocusable(false);
+        domicilio_padre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                domicilio_padreActionPerformed(evt);
+            }
+        });
+        jPanel1.add(domicilio_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 240, 270, 30));
+
+        jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel17.setText("Apellido materno");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 130, 150, 30));
+
+        curp_alumno.setEditable(false);
+        curp_alumno.setBackground(new java.awt.Color(255, 255, 255));
+        curp_alumno.setFocusable(false);
+        jPanel1.add(curp_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 360, 200, 30));
+
+        txt_nombrePadre3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre3.setText("Curp");
+        jPanel1.add(txt_nombrePadre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 330, 150, 30));
+
+        txt_nombrePadre4.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre4.setText("Grado escolar");
+        jPanel1.add(txt_nombrePadre4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 410, 180, 30));
+
+        grado_escolar.setEditable(false);
+        grado_escolar.setBackground(new java.awt.Color(255, 255, 255));
+        grado_escolar.setFocusable(false);
+        jPanel1.add(grado_escolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 440, 180, 30));
+
+        jButton1.setText("Generar factura");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 1450, -1, -1));
+
+        contenedor.setViewportView(jPanel1);
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 100, 1050, 630);
+        contenedor.setBounds(0, 100, 1050, 600);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -862,16 +992,57 @@ public class GenerarFactura extends javax.swing.JFrame {
             PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
             ps.setString(1, rfc);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {//si encuentra un fila con el RFC quiere decir que ya existe
-
+            if (rs.next()) {
+                nombre_padre.setText(rs.getString("nombres"));
+                apellidoPaterno_padre.setText(rs.getString("apellido_paterno"));
+                apellidoMaterno_padre.setText(rs.getString("apellido_paterno"));
+                regimen_padre.setText(rs.getString("regimen"));
+                domicilio_padre.setText(rs.getString("domicilio_fiscal"));
+                cargarHijos(rfc);
             } else {
-
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    private void obtenerDatosAlumno(String curp) {
+        try {
+            int i=0;
+            String consulta_rfc = "SELECT * FROM alumnos WHERE curp =?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
+            ps.setString(1, curp);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                curp_alumno.setText(rs.getString("curp"));
+                apellidoPaterno_alumno.setText(rs.getString("apellido_paterno"));
+                apellidoMaterno_alumno.setText(rs.getString("apellido_materno"));
+                nivel_escolar.setText(rs.getString("nivel_escolaridad")); 
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void cargarHijos(String rfcPadre) {
+        try {
+            nombres_alumno.removeAllItems();
+            //Seleccionar los datos del emisor
+            String consulta = "SELECT * FROM alumnos WHERE rfc_padre = ?";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta);
+            ps.setString(1, rfcPadre);
+            ResultSet rs = ps.executeQuery();
+            //Arreglo de datos
+            while (rs.next()) {
+                nombres_alumno.setEnabled(true);
+                nombres_alumno.addItem(rs.getString("nombres")+" - \n"+rs.getString("curp"));
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
@@ -1624,41 +1795,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_eliminarAlumnoMouseClicked
 
-    private void btn_generarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarFacturaActionPerformed
-       ModeloFactura facturaPrevia= new ModeloFactura((Frame) SwingUtilities.getWindowAncestor(fondo), true);
-       facturaPrevia.setVisible(true);
-    }//GEN-LAST:event_btn_generarFacturaActionPerformed
-
-    private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
-        Validacion valida = new Validacion();
-        if (rfc_padre.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (rfc_padre.getText().length() < 13) {
-            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (!valida.rfc_valido(rfc_padre.getText().toUpperCase())) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        obtenerDatosPadre(rfc_padre.getText().toUpperCase());
-        rfc_padre.setText(rfc_padre.getText().toUpperCase());
-    }//GEN-LAST:event_rfc_padreActionPerformed
-
-    private void rfc_padreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_padreKeyTyped
-        if (rfc_padre.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
-            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
-    }//GEN-LAST:event_rfc_padreKeyTyped
-
-    private void apellido_maternoPadreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellido_maternoPadreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_apellido_maternoPadreActionPerformed
-
-    private void icon_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarMouseClicked
+    private void icon_buscarPadreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarPadreMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
             Validacion valida = new Validacion();
             if (rfc_padre.getText().isEmpty()) {
@@ -1676,7 +1813,38 @@ public class GenerarFactura extends javax.swing.JFrame {
             obtenerDatosPadre(rfc_padre.getText().toUpperCase());
             rfc_padre.setText(rfc_padre.getText().toUpperCase());
         }
-    }//GEN-LAST:event_icon_buscarMouseClicked
+    }//GEN-LAST:event_icon_buscarPadreMouseClicked
+
+    private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rfc_padreActionPerformed
+
+    private void rfc_padreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_padreKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rfc_padreKeyTyped
+
+    private void apellidoMaterno_alumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_alumnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_apellidoMaterno_alumnoActionPerformed
+
+    private void apellidoMaterno_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_padreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_apellidoMaterno_padreActionPerformed
+
+    private void domicilio_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_domicilio_padreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_domicilio_padreActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ModeloFactura facturaPrevia= new ModeloFactura((Frame) SwingUtilities.getWindowAncestor(fondo), true);
+        facturaPrevia.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void nombres_alumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_nombres_alumnoItemStateChanged
+        String curp[]=nombres_alumno.getSelectedItem().toString().split("-");
+        obtenerDatosAlumno(curp[1].trim());
+
+    }//GEN-LAST:event_nombres_alumnoItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -1711,6 +1879,30 @@ public class GenerarFactura extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1722,25 +1914,29 @@ public class GenerarFactura extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fecha;
+    private javax.swing.JTextField apellidoMaterno_alumno;
+    private javax.swing.JTextField apellidoMaterno_padre;
+    private javax.swing.JTextField apellidoPaterno_alumno;
     private javax.swing.JTextField apellidoPaterno_padre;
-    private javax.swing.JTextField apellido_maternoPadre;
     private javax.swing.JPanel barra_nav;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
-    private javax.swing.JButton btn_generarFactura;
     private javax.swing.JPanel btn_historialSesiones;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JPanel btn_salir;
     private javax.swing.JLabel cerrar_icon;
-    private javax.swing.JPanel contenedor;
+    private javax.swing.JScrollPane contenedor;
     private javax.swing.JPanel contenedor_menu;
+    private javax.swing.JTextField curp_alumno;
+    private javax.swing.JTextField domicilio_padre;
     private javax.swing.JPanel fondo;
+    private javax.swing.JTextField grado_escolar;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
-    private javax.swing.JLabel icon_buscar;
+    private javax.swing.JLabel icon_buscarPadre;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
     private javax.swing.JLabel icon_item3;
@@ -1748,12 +1944,20 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
@@ -1775,8 +1979,11 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
+    private javax.swing.JTextField nivel_escolar;
     private javax.swing.JTextField nombre_padre;
     private javax.swing.JPanel nombre_user;
+    private javax.swing.JComboBox<String> nombres_alumno;
+    private javax.swing.JTextField regimen_padre;
     private javax.swing.JTextField rfc_padre;
     private javax.swing.JLabel text_salir;
     private javax.swing.JLabel txt_ConsultarEmisor;
@@ -1802,6 +2009,10 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel txt_modificarAlumnos;
     private javax.swing.JLabel txt_modificarPadres;
     private javax.swing.JLabel txt_nombrePadre;
+    private javax.swing.JLabel txt_nombrePadre1;
+    private javax.swing.JLabel txt_nombrePadre2;
+    private javax.swing.JLabel txt_nombrePadre3;
+    private javax.swing.JLabel txt_nombrePadre4;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
     private javax.swing.JLabel user_menuIcon;
