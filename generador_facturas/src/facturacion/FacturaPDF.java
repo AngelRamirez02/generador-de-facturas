@@ -313,8 +313,464 @@ public class FacturaPDF {
         tablaReceptorFiscal.addCell(celdaDatosFiscales);
         //agrega al doc la tabla general del receptor y los datos fiscales
         documento.add(tablaReceptorFiscal);
+        
+        //salto de linea para separar la siguiente tabla
+        documento.add(saltoLinea);
+        
+        //tabla desgloce de gastos 
+        PdfPTable tablagastos = new PdfPTable(1);
+        tablagastos.setWidthPercentage(100);
+        
+        //Tabla desgloce de gastos
+        PdfPTable tablaDesgloceGastos = new PdfPTable(7);
+        float[] anchosColumnastablaDesgloceGastos = {5f,10f,10f,30f,15f,15f,15f};
+        tablaDesgloceGastos.setWidths(anchosColumnastablaDesgloceGastos);
+        
+        //Encabezados para la tabla desgloce gastos
+        //Encabezado cantidad
+        Paragraph tituloCantidad = new Paragraph(3);
+        tituloCantidad.add((new Chunk("\n\nCant\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9,BaseColor.WHITE))));
+        tituloCantidad.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaTituloCant = new PdfPCell();
+        celdaTituloCant.addElement(tituloCantidad);
+        celdaTituloCant.setBorder(PdfPCell.NO_BORDER);
+        celdaTituloCant.setBackgroundColor(rojoPersonalizado);
+        tablaDesgloceGastos.addCell(celdaTituloCant);
+       
+        //Encabezado unidad
+        Paragraph tituloUnidad = new Paragraph(3);
+        tituloUnidad.add((new Chunk("\n\nUnidad\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9,BaseColor.WHITE))));
+        tituloUnidad.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaTituloUnidad = new PdfPCell();
+        celdaTituloUnidad.addElement(tituloUnidad);
+        celdaTituloUnidad.setBorder(PdfPCell.NO_BORDER);
+        celdaTituloUnidad.setBackgroundColor(rojoPersonalizado);
+        tablaDesgloceGastos.addCell(celdaTituloUnidad);
+
+        //Encabezado clave
+        Paragraph tituloClave = new Paragraph(3);
+        tituloClave.add((new Chunk("\n\nClave\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9,BaseColor.WHITE))));
+        tituloClave.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaTituloClave = new PdfPCell();
+        celdaTituloClave.addElement(tituloClave);
+        celdaTituloClave.setBorder(PdfPCell.NO_BORDER);
+        celdaTituloClave.setBackgroundColor(rojoPersonalizado);
+        tablaDesgloceGastos.addCell(celdaTituloClave);
+        
+        //Encabezado descrip
+        Paragraph tituloDescrip = new Paragraph(3);
+        tituloDescrip.add((new Chunk("\n\nDescripción\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9,BaseColor.WHITE))));
+        tituloDescrip.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaTituloDescrip = new PdfPCell();
+        celdaTituloDescrip.addElement(tituloDescrip);
+        celdaTituloDescrip.setBorder(PdfPCell.NO_BORDER);
+        celdaTituloDescrip.setBackgroundColor(rojoPersonalizado);
+        tablaDesgloceGastos.addCell(celdaTituloDescrip);
+        
+        //Encabezado ob impuestos
+        Paragraph tituloImpuestos = new Paragraph(3);
+        tituloImpuestos.add((new Chunk("\n\nObj impuestos\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9,BaseColor.WHITE))));
+        tituloImpuestos.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaTituloImpuestos = new PdfPCell();
+        celdaTituloImpuestos.addElement(tituloImpuestos);
+        celdaTituloImpuestos.setBorder(PdfPCell.NO_BORDER);
+        celdaTituloImpuestos.setBackgroundColor(rojoPersonalizado);
+        tablaDesgloceGastos.addCell(celdaTituloImpuestos);
+        
+        //Encabezado precio
+        Paragraph tituloPrecio = new Paragraph(3);
+        tituloPrecio.add((new Chunk("\n\nPrecio\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9,BaseColor.WHITE))));
+        tituloPrecio.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaTituloPrecio = new PdfPCell();
+        celdaTituloPrecio.addElement(tituloPrecio);
+        celdaTituloPrecio.setBorder(PdfPCell.NO_BORDER);
+        celdaTituloPrecio.setBackgroundColor(rojoPersonalizado);
+        tablaDesgloceGastos.addCell(celdaTituloPrecio);
+        
+        //Encabezado importe
+        Paragraph tituloImporte = new Paragraph(3);
+        tituloImporte.add((new Chunk("\n\nImporte\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9,BaseColor.WHITE))));
+        tituloImporte.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaTituloImporte = new PdfPCell();
+        celdaTituloImporte.addElement(tituloImporte);
+        celdaTituloImporte.setBorder(PdfPCell.NO_BORDER);
+        celdaTituloImporte.setBackgroundColor(rojoPersonalizado);
+        tablaDesgloceGastos.addCell(celdaTituloImporte);
+        
+        //------DATOS PARA LA TABLA DE DESGLOCE DE GASTOS-----------
+         //cantidad
+        Paragraph Cantidad = new Paragraph(3);
+        Cantidad.add((new Chunk("1",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Cantidad.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaCant = new PdfPCell();
+        celdaCant.addElement(Cantidad);
+        celdaCant.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celdaCant.setBorder(PdfPCell.NO_BORDER);
+        tablaDesgloceGastos.addCell(celdaCant);
+        
+        //Unidad
+        Paragraph Unidad = new Paragraph(7);
+        Unidad.add((new Chunk("E48 / Unidad de servicio ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Unidad.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaUnidad = new PdfPCell();
+        celdaUnidad.addElement(Unidad);
+        celdaUnidad.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        celdaUnidad.setBorder(PdfPCell.NO_BORDER);
+        tablaDesgloceGastos.addCell(celdaUnidad);
+        
+        //Clave
+        Paragraph Clave = new Paragraph(3);
+        Clave.add((new Chunk("86121503",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Clave.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaClave = new PdfPCell();
+        celdaClave.addElement(Clave);
+        celdaClave.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celdaClave.setBorder(PdfPCell.NO_BORDER);
+        tablaDesgloceGastos.addCell(celdaClave);
+        
+        //Descripcion
+        Paragraph Descripcion = new Paragraph(10);
+        Descripcion.add((new Chunk("PAGO POR CONCEPTO DE COLEGIATURA DEL INSTITUTO HISPANOAMERICANO - MEXICANO,CON CLAVE: 12PPR0395H, "
+                + "CORRESPONDIENTE AL MES DE ABRIL DEL 2024, DEL ALUMNO:ANDRE TORRES VARGAS, "
+                + "QUE CURSA EL SEGUNDO GRADO DE PRIMARIA. "
+                + "CURP:TOVA161217HGRRRNA7.",FontFactory.getFont(FontFactory.HELVETICA,6,BaseColor.BLACK))));
+        Descripcion.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdaDescripcion = new PdfPCell();
+        celdaDescripcion.addElement(Descripcion);
+        celdaDescripcion.setBorder(PdfPCell.NO_BORDER);
+        tablaDesgloceGastos.addCell(celdaDescripcion);
+        
+        //Objeto impuestos
+        Paragraph objImpuestos = new Paragraph(3);
+        objImpuestos.add((new Chunk("No objeto de impuesto",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        objImpuestos.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaObjImpuestos = new PdfPCell();
+        celdaObjImpuestos.addElement(objImpuestos);
+        celdaObjImpuestos.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celdaObjImpuestos.setBorder(PdfPCell.NO_BORDER);
+        tablaDesgloceGastos.addCell(celdaObjImpuestos);
+        
+        //Precio
+        Paragraph Precio = new Paragraph(3);
+        Precio.add((new Chunk("\n\n$1,710.00\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Precio.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaPrecio = new PdfPCell();
+        celdaPrecio.addElement(Precio);
+        celdaPrecio.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celdaPrecio.setBorder(PdfPCell.NO_BORDER);
+        tablaDesgloceGastos.addCell(celdaPrecio);
+        tablaDesgloceGastos.addCell(celdaPrecio);
+        
+        
+        //----------------------------------------------------------
+        
+        //agrega la tabla de desgloces a la tabla de gastos
+        PdfPCell celdaDesgloceGastos = new PdfPCell(tablaDesgloceGastos);
+        celdaDesgloceGastos.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.NO_BORDER | PdfPCell.NO_BORDER);
+        celdaDesgloceGastos.setBorderColor(rojoPersonalizado);
+        
+        //agrega a la tabla de gastos 
+        tablagastos.addCell(celdaDesgloceGastos);
+        
+        //Celda para el titulo de alumno
+        Paragraph tituloAlumno = new Paragraph(3);
+        tituloAlumno.add((new Chunk("\n\n    Alumno\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 7,BaseColor.BLACK))));
+        PdfPCell celdaTituloAlumno = new PdfPCell();
+        celdaTituloAlumno.addElement(tituloAlumno);
+        celdaTituloAlumno.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.NO_BORDER | PdfPCell.NO_BORDER);
+        celdaTituloAlumno.setBorderColor(rojoPersonalizado);
+        tablagastos.addCell(celdaTituloAlumno);
+        
+        //Tabla alumno
+        //Encabezados para la tabla alumno
+        PdfPTable tablaAlumno = new PdfPTable(4);
+        float[] anchosColumnastablaAlumno = {25,25f,25f,25f};
+        
+        //Encabezado paracurp
+        Paragraph tituloCurp = new Paragraph(3);
+        tituloCurp.add((new Chunk("\n\n      CURP\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        tituloCurp.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdaTituloCurp = new PdfPCell();
+        celdaTituloCurp.addElement(tituloCurp);
+        celdaTituloCurp.setBorder(PdfPCell.NO_BORDER);
+        tablaAlumno.addCell(celdaTituloCurp);
+        
+        //Encabezado clave centro trabajo
+        Paragraph tituloCentroTrabajo = new Paragraph(3);
+        tituloCentroTrabajo.add((new Chunk("\n\nCentro de trabajo\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        tituloCentroTrabajo.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdaTituloCentroTrabajo = new PdfPCell();
+        celdaTituloCentroTrabajo.addElement(tituloCentroTrabajo);
+        celdaTituloCentroTrabajo.setBorder(PdfPCell.NO_BORDER);
+        tablaAlumno.addCell(celdaTituloCentroTrabajo);
+
+        //Encabezado Nivel Educativo
+        Paragraph tituloNivelEscolar = new Paragraph(3);
+        tituloNivelEscolar.add((new Chunk("\n\nNivel educativo\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        tituloNivelEscolar.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdaTituloNivelEscolar = new PdfPCell();
+        celdaTituloNivelEscolar.addElement(tituloNivelEscolar);
+        celdaTituloNivelEscolar.setBorder(PdfPCell.NO_BORDER);
+        tablaAlumno.addCell(celdaTituloNivelEscolar);
+        
+        //Encabezado Nombre
+        Paragraph tituloNombre = new Paragraph(3);
+        tituloNombre.add((new Chunk("\n\nNombre\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        tituloNombre.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdaTituloNombre = new PdfPCell();
+        celdaTituloNombre.addElement(tituloNombre);
+        celdaTituloNombre.setBorder(PdfPCell.NO_BORDER);
+        tablaAlumno.addCell(celdaTituloNombre);
+        
+        //-------------SECCCION PARA LLENAR LA TABLA DE ALUMNOS
+        tablaAlumno.addCell(celdaTituloNombre);
+        tablaAlumno.addCell(celdaTituloNombre);
+        tablaAlumno.addCell(celdaTituloNombre);
+        tablaAlumno.addCell(celdaTituloNombre);
+        //-----------------------------------------------------     
+        //Celda para la tabla de alumnos
+        PdfPCell celdaTablaAlumno = new PdfPCell(tablaAlumno);
+        celdaTablaAlumno.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.NO_BORDER | PdfPCell.BOTTOM);
+        celdaTablaAlumno.setBorderColor (rojoPersonalizado);       
+        //Agrega la tabla alumno
+        tablagastos.addCell(celdaTablaAlumno);
+        
+        //Tabla general para los datos pago
+        PdfPTable tablaGeneralPagos = new PdfPTable(2);
+        float[] anchosColumnasTablaPagos = {60f,40f};
+        tablaGeneralPagos.setWidths(anchosColumnasTablaPagos);
              
-        //tabla desgloce de gastos
+        //Tabla para datos pago izq
+        PdfPTable tablaPagos = new PdfPTable(1);
+        //Celdas para la tabla de pagos
+        //Celda para el total en texto
+        Paragraph totalTexto = new Paragraph(3);
+        totalTexto.add(new Chunk("\n\n(MIL SETECIENTOS DIEZ MXN 00/100 )\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 7,BaseColor.BLACK)));
+        PdfPCell celdaTotalTexto = new PdfPCell();
+        celdaTotalTexto.addElement(totalTexto);
+        celdaTotalTexto.setBorder(PdfPCell.NO_BORDER);       
+        //agregar total en texto
+        tablaPagos.addCell(celdaTotalTexto);
+        
+        //Tabla para las formas de pago
+        PdfPTable tablaFormasDePago = new PdfPTable(2);
+        float[] anchosColumnasTablaFormasPagos = {25f,75f};
+        tablaFormasDePago.setWidths(anchosColumnasTablaFormasPagos);
+        
+        //-------FORMA DE PAGO---------------------
+        //Titulos para la tabla de formas de pago
+        Paragraph tituloFormaPago = new Paragraph(3);
+        tituloFormaPago.add(new Chunk("\n\n\nForma de pago: ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaTituloFormaPago = new PdfPCell();
+        celdaTituloFormaPago.addElement(tituloFormaPago);
+        celdaTituloFormaPago.setBorder(PdfPCell.NO_BORDER);
+        tablaFormasDePago.addCell(celdaTituloFormaPago);
+        //datos para la forma de pago
+        Paragraph FormaPago = new Paragraph(3);
+        FormaPago.add(new Chunk("\n\n\n03 Transferencia electrónica de fondos",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaFormaPago = new PdfPCell();
+        celdaFormaPago.addElement(FormaPago);
+        celdaFormaPago.setBorder(PdfPCell.NO_BORDER);
+        tablaFormasDePago.addCell(celdaFormaPago);
+        //-----------------------------------------
+        
+        //-------METODO DE PAGO--------------------
+        //Titulo metodo pago
+        Paragraph tituloMetodoPago = new Paragraph(3);
+        tituloMetodoPago.add(new Chunk("\n\n\nMétodo de pago: ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaTituloMetodoPago = new PdfPCell();
+        celdaTituloMetodoPago.addElement(tituloMetodoPago);
+        celdaTituloMetodoPago.setBorder(PdfPCell.NO_BORDER);
+        tablaFormasDePago.addCell(celdaTituloMetodoPago);
+       
+        //datos para la metodo de pago
+        Paragraph metodoPago = new Paragraph(3);
+        metodoPago.add(new Chunk("\n\n\nPUE Pago en una sola exhibición",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaMetodoPago = new PdfPCell();
+        celdaMetodoPago.addElement(metodoPago);
+        celdaMetodoPago.setBorder(PdfPCell.NO_BORDER);
+        tablaFormasDePago.addCell(celdaMetodoPago);
+        //-----------------------------------------
+        
+        //--------------TIPO DE COMPROBANTE---------------------
+        //Titulo Tipo de comprobante:
+        Paragraph tituloTipoComprobante = new Paragraph(3);
+        tituloTipoComprobante.add(new Chunk("\n\n\nTipo de comprobante:",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaTituloTipoComprobante = new PdfPCell();
+        celdaTituloTipoComprobante.addElement(tituloTipoComprobante);
+        celdaTituloTipoComprobante.setBorder(PdfPCell.NO_BORDER);
+        tablaFormasDePago.addCell(celdaTituloTipoComprobante);
+       
+        //datos para Tipo de comprobante
+        Paragraph tipoComprobante = new Paragraph(3);
+        tipoComprobante.add(new Chunk("\n\n\nI Ingreso",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaTipoComprobante = new PdfPCell();
+        celdaTipoComprobante.addElement(tipoComprobante);
+        celdaTipoComprobante.setBorder(PdfPCell.NO_BORDER);
+        tablaFormasDePago.addCell(celdaTipoComprobante);
+        //-----------------------------------------------------
+        
+        //---------CONDICIONES PAGO------------------------------
+        //Titulo condiciones pago
+        Paragraph tituloCondicionesPago = new Paragraph(3);
+        tituloCondicionesPago.add(new Chunk("\n\n\nCondiciones pago:",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaTituloCondicionesPago= new PdfPCell();
+        celdaTituloCondicionesPago.addElement(tituloCondicionesPago);
+        celdaTituloCondicionesPago.setBorder(PdfPCell.NO_BORDER);
+        tablaFormasDePago.addCell(celdaTituloCondicionesPago);
+       
+        //datos para Tipo de comprobante
+        Paragraph condicionesPago = new Paragraph(3);
+        condicionesPago.add(new Chunk("\n\n\n  ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaCondicionesPago = new PdfPCell();
+        celdaCondicionesPago.addElement(condicionesPago);
+        celdaCondicionesPago.setBorder(PdfPCell.NO_BORDER);
+        tablaFormasDePago.addCell(celdaCondicionesPago);
+        //--------------------------------------------------
+        
+        //---------------MONEDA---------------------------
+        PdfPTable tablaMoneda = new PdfPTable(4);//Tabla para el tipo de moneda y cambio
+         float[] anchosColumnasTablaMoneda = {25f,30f,25f,20f};
+         tablaMoneda.setWidths(anchosColumnasTablaMoneda);
+        //Titulo tipo moneda
+        Paragraph tituloMoneda = new Paragraph((float) 2.5);
+        tituloMoneda.add(new Chunk("\n\n\nMoneda:",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaTituloMoneda = new PdfPCell();
+        celdaTituloMoneda.addElement(tituloMoneda);
+        celdaTituloMoneda.setBorder(PdfPCell.NO_BORDER);
+        tablaMoneda.addCell(celdaTituloMoneda);
+        
+        //Moneda
+        Paragraph moneda = new Paragraph((float) 2.5);
+        moneda.add(new Chunk("\n\n\nMXN Peso Mexicano",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaMoneda = new PdfPCell();
+        celdaMoneda.addElement(moneda);
+        celdaMoneda.setBorder(PdfPCell.NO_BORDER);
+        tablaMoneda.addCell(celdaMoneda);
+        
+        //Titulo Tipo Cambio
+        Paragraph tituloTipoCambio = new Paragraph((float) 2.5);
+        tituloTipoCambio.add(new Chunk("\n\n\nTipo cambio:",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaTituloTipoCambio = new PdfPCell();
+        celdaTituloTipoCambio.addElement(tituloTipoCambio);
+        celdaTituloTipoCambio.setBorder(PdfPCell.NO_BORDER);
+        tablaMoneda.addCell(celdaTituloTipoCambio);
+        
+        //Tipo cambio
+        Paragraph tipoCambio = new Paragraph((float) 2.5);
+        moneda.add(new Chunk("\n\n\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        PdfPCell celdaTipoCambio = new PdfPCell();
+        celdaTipoCambio.addElement(tipoCambio);
+        celdaTipoCambio.setBorder(PdfPCell.NO_BORDER);
+        tablaMoneda.addCell(celdaTipoCambio);
+        //-----------------------------------------------
+        
+        //Agregar tabla de datos de pago
+        PdfPCell celdaDatosFormasDePago = new PdfPCell(tablaFormasDePago);
+        celdaDatosFormasDePago.setBorder(PdfPCell.NO_BORDER);
+        tablaPagos.addCell(celdaDatosFormasDePago);
+        
+        //agregar tabla moneda a tabla datos de gastos
+        PdfPCell celdaTablaMoneda = new PdfPCell(tablaMoneda);
+        celdaTablaMoneda.setBorder(PdfPCell.NO_BORDER);
+        tablaPagos.addCell(celdaTablaMoneda);
+        
+        //------------TABLA DERECHA PARA TOTALES-------------------
+        //TABLA DERECHA PARA SUBTOTAL, descuento Y TOTALES
+        PdfPTable tablaTotalesGeneral = new PdfPTable(1);
+        
+        //Tabla de subtotal y descuento
+        PdfPTable tablaTotales = new PdfPTable(2);
+        //Titulo subtotal
+        Paragraph tituloSubtotal = new Paragraph(3);
+        tituloSubtotal.add(new Chunk("\n\n\n\n\nSubtotal:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8,BaseColor.BLACK)));
+        tituloSubtotal.setAlignment(Element.ALIGN_RIGHT);
+        PdfPCell celdaTituloSubTotal = new PdfPCell();
+        celdaTituloSubTotal.addElement(tituloSubtotal);
+        celdaTituloSubTotal.setBorder(PdfPCell.NO_BORDER);
+        tablaTotales.addCell(celdaTituloSubTotal);
+        
+        //subtotal
+        Paragraph subtotal = new Paragraph(3);
+        subtotal.add(new Chunk("\n\n\n$1,710.00",FontFactory.getFont(FontFactory.HELVETICA, 10,BaseColor.BLACK)));
+        subtotal.setAlignment(Element.ALIGN_RIGHT);
+        PdfPCell celdaSubTotal = new PdfPCell();
+        celdaSubTotal.addElement(subtotal);
+        celdaSubTotal.setBorder(PdfPCell.NO_BORDER);
+        tablaTotales.addCell(celdaSubTotal);
+        
+        //Titulo descuento
+        Paragraph tituloDescuento = new Paragraph(3);
+        tituloDescuento.add(new Chunk("\n\n\nDescuento:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8,BaseColor.BLACK)));
+        tituloDescuento.setAlignment(Element.ALIGN_RIGHT);
+        PdfPCell celdaTituloDescuento = new PdfPCell();
+        celdaTituloDescuento.addElement(tituloDescuento);
+        celdaTituloDescuento.setBorder(PdfPCell.NO_BORDER);
+        tablaTotales.addCell(celdaTituloDescuento);
+        
+        //Descuento
+        Paragraph Descuento = new Paragraph(3);
+        Descuento.add(new Chunk("\n\n\n$0.00",FontFactory.getFont(FontFactory.HELVETICA, 10,BaseColor.BLACK)));
+        Descuento.setAlignment(Element.ALIGN_RIGHT);
+        PdfPCell celdaDescuento = new PdfPCell();
+        celdaDescuento.addElement(Descuento);
+        celdaDescuento.setBorder(PdfPCell.NO_BORDER);
+        tablaTotales.addCell(celdaDescuento);
+        
+        //Agregar tabla de subtotal y descuentos
+        PdfPCell celdaTablaSubtotalDescuento = new PdfPCell(tablaTotales);
+        celdaTablaSubtotalDescuento.setBorder(PdfPCell.NO_BORDER);
+        celdaTablaSubtotalDescuento.setFixedHeight(110f);
+        tablaTotalesGeneral.addCell(celdaTablaSubtotalDescuento);
+        
+        //----------TABLA TOTAL------------------
+        //TABLA TOTAL
+        PdfPTable tablaTotal = new PdfPTable(2);
+        //Titulo Total
+        Paragraph tituloTotal = new Paragraph(3);
+        tituloTotal.add(new Chunk("\n\nTotal:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
+        tituloTotal.setAlignment(Element.ALIGN_RIGHT);
+        PdfPCell celdaTituloTotal = new PdfPCell();
+        celdaTituloTotal.addElement(tituloTotal);
+        celdaTituloTotal.setBorder(PdfPCell.NO_BORDER); 
+        tablaTotal.addCell(celdaTituloTotal);
+
+        //Total
+        Paragraph Total = new Paragraph(3);
+        Total.add(new Chunk("\n\n$1,710.00",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
+        Total.setAlignment(Element.ALIGN_RIGHT);
+        PdfPCell celdaTotal = new PdfPCell();
+        celdaTotal.addElement(Total);
+        celdaTotal.setBorder(PdfPCell.NO_BORDER); 
+        tablaTotal.addCell(celdaTotal);
+
+        
+        //Agregar tabla de total
+        PdfPCell celdaTablaTotal = new PdfPCell(tablaTotal);
+        celdaTablaTotal.setBackgroundColor(rojoPersonalizado);
+        celdaTablaTotal.setBorder(PdfPCell.NO_BORDER);
+        tablaTotalesGeneral.addCell(celdaTablaTotal);
+        //----------------------------------------------------    
+        
+        //agregar celdas a la tabla general de gastos
+        //Tabla izq
+        PdfPCell celdaTablaPagosIzq = new PdfPCell(tablaPagos);
+        celdaTablaPagosIzq.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.NO_BORDER | PdfPCell.BOTTOM);
+        celdaTablaPagosIzq.setBorderColor(rojoPersonalizado);
+        tablaGeneralPagos.addCell(celdaTablaPagosIzq);
+        //Tabla derecha
+        PdfPCell celdaTablaTotalesDer = new PdfPCell(tablaTotalesGeneral);
+        celdaTablaTotalesDer.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.NO_BORDER | PdfPCell.BOTTOM);
+        celdaTablaTotalesDer.setBorderColor(rojoPersonalizado);
+        tablaGeneralPagos.addCell(celdaTablaTotalesDer);
+        
+        //agregar tabla pagos a la tabla general
+        PdfPCell celdaTablaPagos = new PdfPCell(tablaGeneralPagos);
+        celdaTablaPagos.setBorder(PdfPCell.NO_BORDER);
+        tablagastos.addCell(celdaTablaPagos);
+        
+        //agregar tabla de gastos al documento
+        documento.add(tablagastos);
         
         // Cerrar el documento
         documento.close();
