@@ -2,6 +2,7 @@ package facturacion;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import correo.Correo;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -434,7 +435,7 @@ public class FacturaPDF {
                 + "CORRESPONDIENTE AL MES DE ABRIL DEL 2024, DEL ALUMNO:ANDRE TORRES VARGAS, "
                 + "QUE CURSA EL SEGUNDO GRADO DE PRIMARIA. "
                 + "CURP:TOVA161217HGRRRNA7.",FontFactory.getFont(FontFactory.HELVETICA,6,BaseColor.BLACK))));
-        Descripcion.setAlignment(Element.ALIGN_LEFT);
+        Descripcion.setAlignment(Element.ALIGN_JUSTIFIED);
         PdfPCell celdaDescripcion = new PdfPCell();
         celdaDescripcion.addElement(Descripcion);
         celdaDescripcion.setBorder(PdfPCell.NO_BORDER);
@@ -772,8 +773,47 @@ public class FacturaPDF {
         //agregar tabla de gastos al documento
         documento.add(tablagastos);
         
+        //agregar parrafo para salto de linea
+        documento.add(saltoLinea);
+        documento.add(saltoLinea);
+
+        //Tbla cadena original del complemento de certificación digital del SAT:
+        PdfPTable tablaCertificacionSat = new PdfPTable(1);
+        tablaCertificacionSat.setWidthPercentage(100);
+        
+        //Encabezado para tabla del sello certificacion SAT
+        Paragraph tituloSelloSat = new Paragraph(8);
+        tituloSelloSat.add(new Chunk("Cadena original del complemento de certificación digital del SAT:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
+        PdfPCell celdaTituloCertificacionSat = new PdfPCell();
+        celdaTituloCertificacionSat.addElement(tituloSelloSat);
+        celdaTituloCertificacionSat.setBackgroundColor(rojoPersonalizado);
+        celdaTituloCertificacionSat.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
+        celdaTituloCertificacionSat.setBorderColor(rojoPersonalizado);
+        tablaCertificacionSat.addCell(celdaTituloCertificacionSat);
+               
+        //-----PARRAFO PARA CERTIFICACION SAT
+        Paragraph selloCertificacionSat = new Paragraph(8);
+        selloCertificacionSat.add(new Chunk("||1.1|7733d569-d3e7-4084-a167-51ab5b1337f6|2024-04-\n"
+                + "09T17:51:29|LSO1306189R5|dglic9wNF/56oKI9zW1dVGLIUHfvCX7TI1+N0R02pLEtamzPj8OaeAd7mxARWmVZX82jIhsJIX54eRqcFH/sG9U3ZWucfwB45A+bX/PT121OCkVg9"
+                + "V8kzulapH3X8rXknZuooGDhz8w3oAX11dw137Y/RS/j7fFT8E/sR/71xt43eVIfxJPdMBtQXhNZYzszaelBgokFyvV4fUVXIKajCauw3LlEj8FOrHXwwsTNk0IFSNmZrH6KuLe+zHorQa"
+                + "gJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyVeBuUlcpbeaHZ/NE4rpV47fz+4kg5ESpnyUjFmkMDk8t00l5DQ5A==|00001000000509846663||", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK)));
+        PdfPCell celdaCertificacionSat = new PdfPCell();
+        celdaCertificacionSat.addElement(selloCertificacionSat);
+        celdaCertificacionSat.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
+        celdaCertificacionSat.setBorderColor(rojoPersonalizado);
+        
+        //agregar el sello a la tabla
+        tablaCertificacionSat.addCell(celdaCertificacionSat);
+
+        //agregarTabla al documento
+        documento.add(tablaCertificacionSat);
+        
         // Cerrar el documento
         documento.close();
+        
+//        Correo enviarCorreo = new Correo("", rutaArchivo);
+//        enviarCorreo.envioDeCorreos();
+//        
         // Abrir el archivo generado
         File path = new File(rutaArchivo);
         if (path.exists()) {
