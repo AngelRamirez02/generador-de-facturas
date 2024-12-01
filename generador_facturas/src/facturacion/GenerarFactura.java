@@ -30,6 +30,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -41,6 +42,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.Border;
@@ -54,10 +56,7 @@ import validacion.Validacion;
  */
 public class GenerarFactura extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuPrincipal
-     * 
-     */
+    ArrayList <Alumno> hijos = new ArrayList<Alumno>();
     conexion cx = new conexion();
     
     //Datos para el inicio de sesion
@@ -109,6 +108,16 @@ public class GenerarFactura extends javax.swing.JFrame {
         //iconos de buscar
         Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
         icon_buscarPadre.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscarPadre.getWidth(), icon_buscarPadre.getHeight(), Image.SCALE_SMOOTH)));
+        
+        //Iconos para opciones de factura
+        Image icon_opFactura = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_factura.png"));
+        iconFac_lb.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
+        iconFac_lb1.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
+        iconFac_lb2.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
+        iconFac_lb3.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
+        iconFac_lb4.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
+        iconFac_lb5.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
+        
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -176,11 +185,9 @@ public class GenerarFactura extends javax.swing.JFrame {
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
        
-        //Agregar bordes
-        Border bordeInferior = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
-//        nombre_padre.setBorder(bordeInferior);
-//        apellidoPaterno_padre.setBorder(bordeInferior);
-//        apellidoMaterno_padre.setBorder(bordeInferior);
+        // Ajustar la velocidad de desplazamiento
+        JScrollBar verticalBar = contenedor.getVerticalScrollBar();
+        verticalBar.setUnitIncrement(16);
         
         this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
@@ -218,7 +225,6 @@ public class GenerarFactura extends javax.swing.JFrame {
         icon_item5 = new javax.swing.JLabel();
         menu_user = new javax.swing.JPanel();
         user_menuIcon = new javax.swing.JLabel();
-        icon_regresarlb = new javax.swing.JLabel();
         menu_salir = new javax.swing.JPanel();
         nombre_user = new javax.swing.JPanel();
         user_menuIcon1 = new javax.swing.JLabel();
@@ -270,10 +276,12 @@ public class GenerarFactura extends javax.swing.JFrame {
         jSeparator12 = new javax.swing.JSeparator();
         contenedor = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        icon_regresarlb = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        btn_previsualizar = new javax.swing.JButton();
+        panelRound1 = new paneles.PanelRound();
+        lb_comprobante = new javax.swing.JLabel();
+        panelRound2 = new paneles.PanelRound();
         txt_nombrePadre = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         apellidoPaterno_padre = new javax.swing.JTextField();
@@ -281,7 +289,41 @@ public class GenerarFactura extends javax.swing.JFrame {
         regimen_padre = new javax.swing.JTextField();
         icon_buscarPadre = new javax.swing.JLabel();
         rfc_padre = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        nombre_padre = new javax.swing.JTextField();
+        txt_nombrePadre2 = new javax.swing.JLabel();
+        apellidoMaterno_padre = new javax.swing.JTextField();
+        domicilio_padre = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        titulo_correoPadre = new javax.swing.JLabel();
+        correo_padre = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        usoCFDI = new javax.swing.JTextField();
+        panelRound3 = new paneles.PanelRound();
+        lb_comprobante1 = new javax.swing.JLabel();
+        panelRound4 = new paneles.PanelRound();
+        titulo_tipoFactura1 = new javax.swing.JLabel();
+        regimen_emisor1 = new javax.swing.JLabel();
+        titulo_regimenEmisor1 = new javax.swing.JLabel();
+        tipo_factura2 = new javax.swing.JLabel();
+        titulo_cpEmision1 = new javax.swing.JLabel();
+        regimen_emisor3 = new javax.swing.JLabel();
+        titulo_formaPago1 = new javax.swing.JLabel();
+        formaPago1 = new javax.swing.JComboBox<>();
+        titulo_metodoPago1 = new javax.swing.JLabel();
+        metodoPago1 = new javax.swing.JComboBox<>();
+        tituloMoneda1 = new javax.swing.JLabel();
+        tipo_factura3 = new javax.swing.JLabel();
+        iconFac_lb = new javax.swing.JLabel();
+        iconFac_lb1 = new javax.swing.JLabel();
+        iconFac_lb2 = new javax.swing.JLabel();
+        iconFac_lb3 = new javax.swing.JLabel();
+        iconFac_lb4 = new javax.swing.JLabel();
+        iconFac_lb5 = new javax.swing.JLabel();
+        panelRound5 = new paneles.PanelRound();
+        lb_comprobante2 = new javax.swing.JLabel();
+        panelRound6 = new paneles.PanelRound();
+        jLabel8 = new javax.swing.JLabel();
         nombres_alumno = new javax.swing.JComboBox<>();
         txt_nombrePadre1 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -289,22 +331,48 @@ public class GenerarFactura extends javax.swing.JFrame {
         apellidoMaterno_alumno = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         nivel_escolar = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        nombre_padre = new javax.swing.JTextField();
-        txt_nombrePadre2 = new javax.swing.JLabel();
-        apellidoMaterno_padre = new javax.swing.JTextField();
-        domicilio_padre = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
         curp_alumno = new javax.swing.JTextField();
         txt_nombrePadre3 = new javax.swing.JLabel();
         txt_nombrePadre4 = new javax.swing.JLabel();
         grado_escolar = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        servicio = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        cantidad = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        unidad = new javax.swing.JTextField();
+        obj_impuestos = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        precio = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        clave = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        importe = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        descuento = new javax.swing.JTextField();
+        btn_agregar = new javax.swing.JButton();
+        panelRound7 = new paneles.PanelRound();
+        lb_comprobante3 = new javax.swing.JLabel();
+        panelRound8 = new paneles.PanelRound();
+        apellido_maternoPadre = new javax.swing.JTextField();
+        titulo_apellidoMaterno1 = new javax.swing.JTextField();
+        apellido_maternoPadre1 = new javax.swing.JTextField();
+        apellido_maternoPadre2 = new javax.swing.JTextField();
+        apellido_maternoPadre3 = new javax.swing.JTextField();
+        btn_eliminar = new javax.swing.JButton();
+        titulo_apellidoMaterno4 = new javax.swing.JTextField();
+        titulo_apellidoMaterno5 = new javax.swing.JTextField();
+        titulo_apellidoMaterno6 = new javax.swing.JTextField();
+        btn_previsualizar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar padre de familia");
-        setMinimumSize(new java.awt.Dimension(1100, 735));
-        setSize(new java.awt.Dimension(1050, 735));
+        setMinimumSize(new java.awt.Dimension(1250, 735));
+        setSize(new java.awt.Dimension(1200, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -466,17 +534,6 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         fondo.add(barra_nav);
         barra_nav.setBounds(0, 0, 1050, 100);
-
-        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
-        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                icon_regresarlbMouseClicked(evt);
-            }
-        });
-        fondo.add(icon_regresarlb);
-        icon_regresarlb.setBounds(50, 110, 60, 60);
 
         menu_salir.setBackground(new java.awt.Color(198, 54, 55));
         menu_salir.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -791,47 +848,69 @@ public class GenerarFactura extends javax.swing.JFrame {
         contenedor.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1040, 1500));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1040, 2100));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(481, 1459, -1, -1));
+        icon_regresarlb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icon_regresarlb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_regresar.png"))); // NOI18N
+        icon_regresarlb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_regresarlb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_regresarlbMouseClicked(evt);
+            }
+        });
+        jPanel1.add(icon_regresarlb, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 60, 60));
 
         jLabel1.setFont(new java.awt.Font("Roboto", 0, 30)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Generar factura");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 1040, 50));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 1190, 50));
 
-        jLabel3.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel3.setText("Datos del alumno");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 190, 30));
+        btn_previsualizar.setBackground(new java.awt.Color(0, 153, 255));
+        btn_previsualizar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_previsualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_previsualizar.setText("Sellar y enviar por correo");
+        btn_previsualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_previsualizarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_previsualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 2010, 210, 40));
 
-        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel8.setText("Nombre (s)");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 160, 30));
+        panelRound1.setRoundBottomLeft(50);
+        panelRound1.setRoundBottomRight(50);
+        panelRound1.setRoundTopLeft(50);
+        panelRound1.setRoundTopRight(50);
+        panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lb_comprobante.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_comprobante.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_comprobante.setText("Datos del cliente");
+        panelRound1.add(lb_comprobante, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 210, 30));
+
+        panelRound2.setBackground(new java.awt.Color(255, 255, 255));
+        panelRound2.setRoundBottomLeft(50);
+        panelRound2.setRoundBottomRight(50);
+        panelRound2.setRoundTopLeft(50);
+        panelRound2.setRoundTopRight(50);
 
         txt_nombrePadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombrePadre.setText("Regimen fiscal");
-        jPanel1.add(txt_nombrePadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 150, 30));
 
         jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel13.setText("Apellido paterno");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 130, 150, 30));
 
         apellidoPaterno_padre.setEditable(false);
         apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
         apellidoPaterno_padre.setFocusCycleRoot(true);
         apellidoPaterno_padre.setFocusable(false);
-        jPanel1.add(apellidoPaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 160, 150, 30));
 
         jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel14.setText("Domicilio fiscal");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 210, 150, 30));
 
         regimen_padre.setEditable(false);
         regimen_padre.setBackground(new java.awt.Color(255, 255, 255));
         regimen_padre.setFocusable(false);
-        jPanel1.add(regimen_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, 300, 30));
 
         icon_buscarPadre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btn_buscar3.png"))); // NOI18N
         icon_buscarPadre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -840,7 +919,6 @@ public class GenerarFactura extends javax.swing.JFrame {
                 icon_buscarPadreMouseClicked(evt);
             }
         });
-        jPanel1.add(icon_buscarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 50, 50));
 
         rfc_padre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -852,65 +930,16 @@ public class GenerarFactura extends javax.swing.JFrame {
                 rfc_padreKeyTyped(evt);
             }
         });
-        jPanel1.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 160, 30));
-
-        jLabel4.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel4.setText("Datos del receptor");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 180, 30));
-
-        nombres_alumno.setEnabled(false);
-        nombres_alumno.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                nombres_alumnoItemStateChanged(evt);
-            }
-        });
-        jPanel1.add(nombres_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 230, 30));
-
-        txt_nombrePadre1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        txt_nombrePadre1.setText("Nivel escolar");
-        jPanel1.add(txt_nombrePadre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 410, 180, 30));
-
-        jLabel15.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel15.setText("Apellido paterno");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 150, 30));
-
-        apellidoPaterno_alumno.setEditable(false);
-        apellidoPaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
-        apellidoPaterno_alumno.setFocusCycleRoot(true);
-        apellidoPaterno_alumno.setFocusable(false);
-        jPanel1.add(apellidoPaterno_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 360, 150, 30));
-
-        apellidoMaterno_alumno.setEditable(false);
-        apellidoMaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
-        apellidoMaterno_alumno.setFocusable(false);
-        apellidoMaterno_alumno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                apellidoMaterno_alumnoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(apellidoMaterno_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 360, 150, 30));
-
-        jLabel16.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        jLabel16.setText("Apellido materno");
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 330, 150, 30));
-
-        nivel_escolar.setEditable(false);
-        nivel_escolar.setBackground(new java.awt.Color(255, 255, 255));
-        nivel_escolar.setFocusable(false);
-        jPanel1.add(nivel_escolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 180, 30));
 
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel9.setText("RFC");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 160, 30));
 
         nombre_padre.setEditable(false);
         nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
         nombre_padre.setFocusable(false);
-        jPanel1.add(nombre_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, 150, 30));
 
         txt_nombrePadre2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombrePadre2.setText("Nombre (s)");
-        jPanel1.add(txt_nombrePadre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 150, 30));
 
         apellidoMaterno_padre.setEditable(false);
         apellidoMaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
@@ -920,7 +949,6 @@ public class GenerarFactura extends javax.swing.JFrame {
                 apellidoMaterno_padreActionPerformed(evt);
             }
         });
-        jPanel1.add(apellidoMaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, 150, 30));
 
         domicilio_padre.setEditable(false);
         domicilio_padre.setBackground(new java.awt.Color(255, 255, 255));
@@ -930,42 +958,665 @@ public class GenerarFactura extends javax.swing.JFrame {
                 domicilio_padreActionPerformed(evt);
             }
         });
-        jPanel1.add(domicilio_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 240, 270, 30));
 
         jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel17.setText("Apellido materno");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 130, 150, 30));
+
+        titulo_correoPadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_correoPadre.setText("Correo");
+
+        correo_padre.setEditable(false);
+        correo_padre.setBackground(new java.awt.Color(255, 255, 255));
+        correo_padre.setFocusable(false);
+
+        jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel6.setText("Uso de CFDI");
+
+        usoCFDI.setEditable(false);
+        usoCFDI.setBackground(new java.awt.Color(255, 255, 255));
+        usoCFDI.setFocusable(false);
+
+        javax.swing.GroupLayout panelRound2Layout = new javax.swing.GroupLayout(panelRound2);
+        panelRound2.setLayout(panelRound2Layout);
+        panelRound2Layout.setHorizontalGroup(
+            panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound2Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rfc_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(icon_buscarPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_nombrePadre2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nombre_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(100, 100, 100)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(apellidoPaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(80, 80, 80)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(apellidoMaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addGap(310, 310, 310)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_nombrePadre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(regimen_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(domicilio_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(83, 83, 83)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(correo_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(usoCFDI, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(titulo_correoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(100, Short.MAX_VALUE))
+        );
+        panelRound2Layout.setVerticalGroup(
+            panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound2Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(rfc_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(icon_buscarPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addComponent(txt_nombrePadre2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(nombre_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(apellidoPaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(apellidoMaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_nombrePadre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(regimen_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(usoCFDI, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(titulo_correoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(correo_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(domicilio_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelRound1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 270));
+
+        jPanel1.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 1160, 340));
+
+        panelRound3.setRoundBottomLeft(50);
+        panelRound3.setRoundBottomRight(50);
+        panelRound3.setRoundTopLeft(50);
+        panelRound3.setRoundTopRight(50);
+        panelRound3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lb_comprobante1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_comprobante1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_comprobante1.setText("Comprobante");
+        panelRound3.add(lb_comprobante1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 210, 30));
+
+        panelRound4.setBackground(new java.awt.Color(255, 255, 255));
+        panelRound4.setRoundBottomLeft(50);
+        panelRound4.setRoundBottomRight(50);
+        panelRound4.setRoundTopLeft(50);
+        panelRound4.setRoundTopRight(50);
+
+        titulo_tipoFactura1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_tipoFactura1.setText("Tipo de factura");
+
+        regimen_emisor1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        regimen_emisor1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        regimen_emisor1.setText("39890");
+
+        titulo_regimenEmisor1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_regimenEmisor1.setText("Regimen");
+
+        tipo_factura2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tipo_factura2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        tipo_factura2.setText("Peso Mexicano");
+
+        titulo_cpEmision1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_cpEmision1.setText("Código postal");
+
+        regimen_emisor3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        regimen_emisor3.setText("Persona Física con Actividad Empresarial (Clave 612)");
+
+        titulo_formaPago1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_formaPago1.setText("Forma de pago");
+
+        formaPago1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        formaPago1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01. Efectivo", "02. Cheque nominativo", "03. Transferencia electrónica de fondos", "04. Tarjeta de crédito" }));
+
+        titulo_metodoPago1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_metodoPago1.setText("Método de pago");
+
+        metodoPago1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        metodoPago1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PUE (Pago en una sola exhibición)", "PPD (Pago en parcialidades o diferido)" }));
+
+        tituloMoneda1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        tituloMoneda1.setText("Moneda");
+
+        tipo_factura3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tipo_factura3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        tipo_factura3.setText("Ingreso");
+
+        iconFac_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+
+        iconFac_lb1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+
+        iconFac_lb2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+
+        iconFac_lb3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+
+        iconFac_lb4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+
+        iconFac_lb5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelRound4Layout = new javax.swing.GroupLayout(panelRound4);
+        panelRound4.setLayout(panelRound4Layout);
+        panelRound4Layout.setHorizontalGroup(
+            panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound4Layout.createSequentialGroup()
+                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound4Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(iconFac_lb1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(titulo_regimenEmisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(276, 276, 276)
+                        .addComponent(iconFac_lb, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(titulo_cpEmision1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(168, 168, 168)
+                        .addComponent(iconFac_lb2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(titulo_tipoFactura1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound4Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(regimen_emisor3, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)
+                        .addComponent(regimen_emisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(201, 201, 201)
+                        .addComponent(tipo_factura3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound4Layout.createSequentialGroup()
+                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelRound4Layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(formaPago1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(170, 170, 170)
+                                .addComponent(metodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(80, 80, 80))
+                            .addGroup(panelRound4Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(iconFac_lb5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(titulo_formaPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(137, 137, 137)
+                                .addComponent(iconFac_lb4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(titulo_metodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(iconFac_lb3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tituloMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelRound4Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(tipo_factura2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(59, 59, 59))
+        );
+        panelRound4Layout.setVerticalGroup(
+            panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound4Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iconFac_lb1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(iconFac_lb, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(titulo_cpEmision1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(iconFac_lb2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(titulo_tipoFactura1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(titulo_regimenEmisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(regimen_emisor3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(regimen_emisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipo_factura3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound4Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(titulo_metodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(iconFac_lb4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(iconFac_lb5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tituloMoneda1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(iconFac_lb3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(titulo_formaPago1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(6, 6, 6)
+                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tipo_factura2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelRound4Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(formaPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(metodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+        );
+
+        panelRound3.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 260));
+
+        jPanel1.add(panelRound3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1160, 340));
+
+        panelRound5.setRoundBottomLeft(50);
+        panelRound5.setRoundBottomRight(50);
+        panelRound5.setRoundTopLeft(50);
+        panelRound5.setRoundTopRight(50);
+        panelRound5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lb_comprobante2.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_comprobante2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_comprobante2.setText("Servicio");
+        panelRound5.add(lb_comprobante2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 160, 30));
+
+        panelRound6.setBackground(new java.awt.Color(255, 255, 255));
+        panelRound6.setRoundBottomLeft(50);
+        panelRound6.setRoundBottomRight(50);
+        panelRound6.setRoundTopLeft(50);
+        panelRound6.setRoundTopRight(50);
+
+        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel8.setText("Nombre (s)");
+
+        nombres_alumno.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        nombres_alumno.setEnabled(false);
+        nombres_alumno.setRequestFocusEnabled(false);
+        nombres_alumno.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                nombres_alumnoItemStateChanged(evt);
+            }
+        });
+
+        txt_nombrePadre1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        txt_nombrePadre1.setText("Nivel escolar");
+
+        jLabel15.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel15.setText("Apellido paterno");
+
+        apellidoPaterno_alumno.setEditable(false);
+        apellidoPaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoPaterno_alumno.setFocusCycleRoot(true);
+        apellidoPaterno_alumno.setFocusable(false);
+
+        apellidoMaterno_alumno.setEditable(false);
+        apellidoMaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
+        apellidoMaterno_alumno.setFocusable(false);
+        apellidoMaterno_alumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apellidoMaterno_alumnoActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        jLabel16.setText("Apellido materno");
+
+        nivel_escolar.setEditable(false);
+        nivel_escolar.setBackground(new java.awt.Color(255, 255, 255));
+        nivel_escolar.setFocusable(false);
 
         curp_alumno.setEditable(false);
         curp_alumno.setBackground(new java.awt.Color(255, 255, 255));
         curp_alumno.setFocusable(false);
-        jPanel1.add(curp_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 360, 200, 30));
 
         txt_nombrePadre3.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombrePadre3.setText("Curp");
-        jPanel1.add(txt_nombrePadre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 330, 150, 30));
 
         txt_nombrePadre4.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombrePadre4.setText("Grado escolar");
-        jPanel1.add(txt_nombrePadre4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 410, 180, 30));
 
         grado_escolar.setEditable(false);
         grado_escolar.setBackground(new java.awt.Color(255, 255, 255));
         grado_escolar.setFocusable(false);
-        jPanel1.add(grado_escolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 440, 180, 30));
 
-        jButton1.setText("Generar factura");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel3.setText("Seleccionar hijo");
+
+        servicio.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        servicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pago de colegiatura", "Pago de servicio de transporte escolar" }));
+
+        jLabel5.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel5.setText("Seleccionar servicio");
+
+        jLabel7.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel7.setText("Objeto de impuestos");
+
+        jLabel10.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel10.setText("Unidad");
+
+        jLabel11.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel11.setText("Precio");
+
+        jLabel12.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel12.setText("Cantidad");
+
+        jLabel19.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel19.setText("Precio");
+
+        jLabel20.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel20.setText("Rutas");
+
+        jComboBox1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zocalo - Coloso" }));
+
+        jLabel21.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel21.setText("Clave");
+
+        jLabel22.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel22.setText("Descuento");
+
+        btn_agregar.setBackground(new java.awt.Color(0, 0, 204));
+        btn_agregar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_agregar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_agregar.setText("Agregar");
+        btn_agregar.setBorder(null);
+
+        javax.swing.GroupLayout panelRound6Layout = new javax.swing.GroupLayout(panelRound6);
+        panelRound6.setLayout(panelRound6Layout);
+        panelRound6Layout.setHorizontalGroup(
+            panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound6Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound6Layout.createSequentialGroup()
+                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelRound6Layout.createSequentialGroup()
+                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(nombres_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelRound6Layout.createSequentialGroup()
+                                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
+                                                .addGap(150, 150, 150)
+                                                .addComponent(apellidoPaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(80, 80, 80)
+                                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(apellidoMaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(60, 60, 60))
+                                            .addGroup(panelRound6Layout.createSequentialGroup()
+                                                .addGap(140, 140, 140)
+                                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txt_nombrePadre1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(nivel_escolar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(60, 60, 60)
+                                                .addComponent(txt_nombrePadre4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(curp_alumno, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                            .addComponent(txt_nombrePadre3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(panelRound6Layout.createSequentialGroup()
+                                        .addGap(380, 380, 380)
+                                        .addComponent(grado_escolar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(panelRound6Layout.createSequentialGroup()
+                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 79, Short.MAX_VALUE)
+                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelRound6Layout.createSequentialGroup()
+                                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(importe, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(62, 62, 62)
+                                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(panelRound6Layout.createSequentialGroup()
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(62, 62, 62)
+                                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelRound6Layout.createSequentialGroup()
+                                        .addComponent(unidad, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(62, 62, 62)
+                                        .addComponent(clave, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelRound6Layout.createSequentialGroup()
+                                        .addGap(41, 41, 41)
+                                        .addComponent(obj_impuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelRound6Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(18, 18, 18))
+                    .addGroup(panelRound6Layout.createSequentialGroup()
+                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(servicio, javax.swing.GroupLayout.Alignment.LEADING, 0, 346, Short.MAX_VALUE))
+                        .addGap(317, 317, 317)
+                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelRound6Layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
+                                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(87, 87, 87))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(450, 450, 450))
+        );
+        panelRound6Layout.setVerticalGroup(
+            panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txt_nombrePadre3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombres_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apellidoPaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apellidoMaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(curp_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_nombrePadre1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nombrePadre4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(grado_escolar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nivel_escolar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(servicio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(56, 56, 56)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(unidad, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(obj_impuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clave, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound6Layout.createSequentialGroup()
+                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(importe, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelRound6Layout.createSequentialGroup()
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+        );
+
+        panelRound5.add(panelRound6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1120, 700));
+
+        jPanel1.add(panelRound5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 850, 1160, 770));
+
+        panelRound7.setRoundBottomLeft(50);
+        panelRound7.setRoundBottomRight(50);
+        panelRound7.setRoundTopLeft(50);
+        panelRound7.setRoundTopRight(50);
+        panelRound7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lb_comprobante3.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        lb_comprobante3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_comprobante3.setText("Totales");
+        panelRound7.add(lb_comprobante3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, 30));
+
+        panelRound8.setBackground(new java.awt.Color(255, 255, 255));
+        panelRound8.setRoundBottomLeft(50);
+        panelRound8.setRoundBottomRight(50);
+        panelRound8.setRoundTopLeft(50);
+        panelRound8.setRoundTopRight(50);
+        panelRound8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        apellido_maternoPadre.setEditable(false);
+        apellido_maternoPadre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_maternoPadre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_maternoPadre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        apellido_maternoPadre.setFocusable(false);
+        panelRound8.add(apellido_maternoPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, 210, 40));
+
+        titulo_apellidoMaterno1.setEditable(false);
+        titulo_apellidoMaterno1.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoMaterno1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoMaterno1.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoMaterno1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        titulo_apellidoMaterno1.setText("Total");
+        titulo_apellidoMaterno1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        titulo_apellidoMaterno1.setFocusable(false);
+        titulo_apellidoMaterno1.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        panelRound8.add(titulo_apellidoMaterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 30, 210, 40));
+
+        apellido_maternoPadre1.setEditable(false);
+        apellido_maternoPadre1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_maternoPadre1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_maternoPadre1.setText("1");
+        apellido_maternoPadre1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        apellido_maternoPadre1.setFocusable(false);
+        panelRound8.add(apellido_maternoPadre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 220, 40));
+
+        apellido_maternoPadre2.setEditable(false);
+        apellido_maternoPadre2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_maternoPadre2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_maternoPadre2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        apellido_maternoPadre2.setFocusable(false);
+        panelRound8.add(apellido_maternoPadre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 230, 40));
+
+        apellido_maternoPadre3.setEditable(false);
+        apellido_maternoPadre3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        apellido_maternoPadre3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        apellido_maternoPadre3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        apellido_maternoPadre3.setFocusable(false);
+        panelRound8.add(apellido_maternoPadre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, 230, 40));
+
+        btn_eliminar.setBackground(new java.awt.Color(255, 0, 0));
+        btn_eliminar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.setBorder(null);
+        panelRound8.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 150, 173, 45));
+
+        titulo_apellidoMaterno4.setEditable(false);
+        titulo_apellidoMaterno4.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoMaterno4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoMaterno4.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoMaterno4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        titulo_apellidoMaterno4.setText("Subtotal");
+        titulo_apellidoMaterno4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        titulo_apellidoMaterno4.setFocusable(false);
+        titulo_apellidoMaterno4.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        panelRound8.add(titulo_apellidoMaterno4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 220, 40));
+
+        titulo_apellidoMaterno5.setEditable(false);
+        titulo_apellidoMaterno5.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoMaterno5.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoMaterno5.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoMaterno5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        titulo_apellidoMaterno5.setText("Descuento");
+        titulo_apellidoMaterno5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        titulo_apellidoMaterno5.setFocusable(false);
+        titulo_apellidoMaterno5.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        panelRound8.add(titulo_apellidoMaterno5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 230, 40));
+
+        titulo_apellidoMaterno6.setEditable(false);
+        titulo_apellidoMaterno6.setBackground(new java.awt.Color(198, 54, 55));
+        titulo_apellidoMaterno6.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        titulo_apellidoMaterno6.setForeground(new java.awt.Color(255, 255, 255));
+        titulo_apellidoMaterno6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        titulo_apellidoMaterno6.setText("Impuestos");
+        titulo_apellidoMaterno6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        titulo_apellidoMaterno6.setFocusable(false);
+        titulo_apellidoMaterno6.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        panelRound8.add(titulo_apellidoMaterno6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 230, 40));
+
+        panelRound7.add(panelRound8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 210));
+
+        jPanel1.add(panelRound7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1670, 1160, 280));
+
+        btn_previsualizar1.setBackground(new java.awt.Color(0, 153, 255));
+        btn_previsualizar1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_previsualizar1.setForeground(new java.awt.Color(255, 255, 255));
+        btn_previsualizar1.setText("Previsualizar");
+        btn_previsualizar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_previsualizar1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 1450, -1, -1));
+        jPanel1.add(btn_previsualizar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 2010, 210, 40));
 
         contenedor.setViewportView(jPanel1);
 
         fondo.add(contenedor);
-        contenedor.setBounds(0, 100, 1050, 600);
+        contenedor.setBounds(0, 100, 1200, 600);
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
@@ -998,6 +1649,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 apellidoMaterno_padre.setText(rs.getString("apellido_paterno"));
                 regimen_padre.setText(rs.getString("regimen"));
                 domicilio_padre.setText(rs.getString("domicilio_fiscal"));
+                correo_padre.setText(rs.getString("correo_electronico"));
                 cargarHijos(rfc);
             } else {
                 
@@ -1019,7 +1671,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 apellidoPaterno_alumno.setText(rs.getString("apellido_paterno"));
                 apellidoMaterno_alumno.setText(rs.getString("apellido_materno"));
                 nivel_escolar.setText(rs.getString("nivel_escolaridad")); 
-                
+                grado_escolar.setText(rs.getString("grado_escolar"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
@@ -1037,7 +1689,7 @@ public class GenerarFactura extends javax.swing.JFrame {
             //Arreglo de datos
             while (rs.next()) {
                 nombres_alumno.setEnabled(true);
-                nombres_alumno.addItem(rs.getString("nombres")+" - \n"+rs.getString("curp"));
+                nombres_alumno.addItem(rs.getString("nombres")+"                                           - \n"+rs.getString("curp"));
             }
         } catch (SQLException ex) {
             //Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
@@ -1823,10 +2475,6 @@ public class GenerarFactura extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rfc_padreKeyTyped
 
-    private void apellidoMaterno_alumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_alumnoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_apellidoMaterno_alumnoActionPerformed
-
     private void apellidoMaterno_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_padreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_apellidoMaterno_padreActionPerformed
@@ -1835,16 +2483,23 @@ public class GenerarFactura extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_domicilio_padreActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_previsualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_previsualizarActionPerformed
         ModeloFactura facturaPrevia= new ModeloFactura((Frame) SwingUtilities.getWindowAncestor(fondo), true);
         facturaPrevia.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_previsualizarActionPerformed
+
+    private void apellidoMaterno_alumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_alumnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_apellidoMaterno_alumnoActionPerformed
 
     private void nombres_alumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_nombres_alumnoItemStateChanged
         String curp[]=nombres_alumno.getSelectedItem().toString().split("-");
         obtenerDatosAlumno(curp[1].trim());
-
     }//GEN-LAST:event_nombres_alumnoItemStateChanged
+
+    private void btn_previsualizar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_previsualizar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_previsualizar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1918,24 +2573,43 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JTextField apellidoMaterno_padre;
     private javax.swing.JTextField apellidoPaterno_alumno;
     private javax.swing.JTextField apellidoPaterno_padre;
+    private javax.swing.JTextField apellido_maternoPadre;
+    private javax.swing.JTextField apellido_maternoPadre1;
+    private javax.swing.JTextField apellido_maternoPadre2;
+    private javax.swing.JTextField apellido_maternoPadre3;
     private javax.swing.JPanel barra_nav;
+    private javax.swing.JButton btn_agregar;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
+    private javax.swing.JButton btn_eliminar;
     private javax.swing.JPanel btn_emisor;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
     private javax.swing.JPanel btn_historialSesiones;
     private javax.swing.JPanel btn_padres;
+    private javax.swing.JButton btn_previsualizar;
+    private javax.swing.JButton btn_previsualizar1;
     private javax.swing.JPanel btn_salir;
+    private javax.swing.JTextField cantidad;
     private javax.swing.JLabel cerrar_icon;
+    private javax.swing.JTextField clave;
     private javax.swing.JScrollPane contenedor;
     private javax.swing.JPanel contenedor_menu;
+    private javax.swing.JTextField correo_padre;
     private javax.swing.JTextField curp_alumno;
+    private javax.swing.JTextField descuento;
     private javax.swing.JTextField domicilio_padre;
     private javax.swing.JPanel fondo;
+    private javax.swing.JComboBox<String> formaPago1;
     private javax.swing.JTextField grado_escolar;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
+    private javax.swing.JLabel iconFac_lb;
+    private javax.swing.JLabel iconFac_lb1;
+    private javax.swing.JLabel iconFac_lb2;
+    private javax.swing.JLabel iconFac_lb3;
+    private javax.swing.JLabel iconFac_lb4;
+    private javax.swing.JLabel iconFac_lb5;
     private javax.swing.JLabel icon_buscarPadre;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
@@ -1944,17 +2618,26 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField importe;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -1972,6 +2655,10 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JLabel lb_comprobante;
+    private javax.swing.JLabel lb_comprobante1;
+    private javax.swing.JLabel lb_comprobante2;
+    private javax.swing.JLabel lb_comprobante3;
     private javax.swing.JPanel menu_alumnos;
     private javax.swing.JPanel menu_emisor;
     private javax.swing.JPanel menu_estadisticas;
@@ -1979,13 +2666,40 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
+    private javax.swing.JComboBox<String> metodoPago1;
     private javax.swing.JTextField nivel_escolar;
     private javax.swing.JTextField nombre_padre;
     private javax.swing.JPanel nombre_user;
     private javax.swing.JComboBox<String> nombres_alumno;
+    private javax.swing.JTextField obj_impuestos;
+    private paneles.PanelRound panelRound1;
+    private paneles.PanelRound panelRound2;
+    private paneles.PanelRound panelRound3;
+    private paneles.PanelRound panelRound4;
+    private paneles.PanelRound panelRound5;
+    private paneles.PanelRound panelRound6;
+    private paneles.PanelRound panelRound7;
+    private paneles.PanelRound panelRound8;
+    private javax.swing.JTextField precio;
+    private javax.swing.JLabel regimen_emisor1;
+    private javax.swing.JLabel regimen_emisor3;
     private javax.swing.JTextField regimen_padre;
     private javax.swing.JTextField rfc_padre;
+    private javax.swing.JComboBox<String> servicio;
     private javax.swing.JLabel text_salir;
+    private javax.swing.JLabel tipo_factura2;
+    private javax.swing.JLabel tipo_factura3;
+    private javax.swing.JLabel tituloMoneda1;
+    private javax.swing.JTextField titulo_apellidoMaterno1;
+    private javax.swing.JTextField titulo_apellidoMaterno4;
+    private javax.swing.JTextField titulo_apellidoMaterno5;
+    private javax.swing.JTextField titulo_apellidoMaterno6;
+    private javax.swing.JLabel titulo_correoPadre;
+    private javax.swing.JLabel titulo_cpEmision1;
+    private javax.swing.JLabel titulo_formaPago1;
+    private javax.swing.JLabel titulo_metodoPago1;
+    private javax.swing.JLabel titulo_regimenEmisor1;
+    private javax.swing.JLabel titulo_tipoFactura1;
     private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
     private javax.swing.JLabel txt_altaEmisor;
@@ -2015,7 +2729,9 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel txt_nombrePadre4;
     private javax.swing.JLabel txt_nombreUser;
     private javax.swing.JLabel txt_padres;
+    private javax.swing.JTextField unidad;
     private javax.swing.JLabel user_menuIcon;
     private javax.swing.JLabel user_menuIcon1;
+    private javax.swing.JTextField usoCFDI;
     // End of variables declaration//GEN-END:variables
 }

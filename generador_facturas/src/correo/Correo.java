@@ -59,10 +59,10 @@ private void envioDeMensajes() {
         
         //Cuerpo del mensaje
         BodyPart titulo = new MimeBodyPart();
-        titulo.setContent("<html><h1>Hola Padre</h1></html>", "text/html");
+        titulo.setText("Titulo del correo");
         
         BodyPart contenido = new MimeBodyPart();
-        contenido.setContent("<html><h3>Este será el cuerpo del mensaje</h3></html>", "text/html");
+        contenido.setText("Este será el cuerpo del mensaje");
 
         //Adjuntar el pdf
         BodyPart PdfAdjunto = new MimeBodyPart();

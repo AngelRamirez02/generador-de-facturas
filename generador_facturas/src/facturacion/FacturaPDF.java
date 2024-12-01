@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 public class FacturaPDF {
 
     public void generarFacturaPDF(String ruta) throws FileNotFoundException, DocumentException, IOException {
@@ -782,10 +783,10 @@ public class FacturaPDF {
         tablaCertificacionSat.setWidthPercentage(100);
         
         //Encabezado para tabla del sello certificacion SAT
-        Paragraph tituloSelloSat = new Paragraph(8);
-        tituloSelloSat.add(new Chunk("Cadena original del complemento de certificación digital del SAT:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
+        Paragraph tituloCadenaSat = new Paragraph(8);
+        tituloCadenaSat.add(new Chunk("Cadena original del complemento de certificación digital del SAT:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
         PdfPCell celdaTituloCertificacionSat = new PdfPCell();
-        celdaTituloCertificacionSat.addElement(tituloSelloSat);
+        celdaTituloCertificacionSat.addElement(tituloCadenaSat);
         celdaTituloCertificacionSat.setBackgroundColor(rojoPersonalizado);
         celdaTituloCertificacionSat.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
         celdaTituloCertificacionSat.setBorderColor(rojoPersonalizado);
@@ -796,7 +797,7 @@ public class FacturaPDF {
         selloCertificacionSat.add(new Chunk("||1.1|7733d569-d3e7-4084-a167-51ab5b1337f6|2024-04-\n"
                 + "09T17:51:29|LSO1306189R5|dglic9wNF/56oKI9zW1dVGLIUHfvCX7TI1+N0R02pLEtamzPj8OaeAd7mxARWmVZX82jIhsJIX54eRqcFH/sG9U3ZWucfwB45A+bX/PT121OCkVg9"
                 + "V8kzulapH3X8rXknZuooGDhz8w3oAX11dw137Y/RS/j7fFT8E/sR/71xt43eVIfxJPdMBtQXhNZYzszaelBgokFyvV4fUVXIKajCauw3LlEj8FOrHXwwsTNk0IFSNmZrH6KuLe+zHorQa"
-                + "gJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyVeBuUlcpbeaHZ/NE4rpV47fz+4kg5ESpnyUjFmkMDk8t00l5DQ5A==|00001000000509846663||", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK)));
+                + "gJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyVeBuUlcpbeaHZ/NE4rpV47fz+4kg5ESpnyUjFmkMDk8t00l5DQ5A==|00001000000509846663||", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
         PdfPCell celdaCertificacionSat = new PdfPCell();
         celdaCertificacionSat.addElement(selloCertificacionSat);
         celdaCertificacionSat.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
@@ -808,6 +809,103 @@ public class FacturaPDF {
         //agregarTabla al documento
         documento.add(tablaCertificacionSat);
         
+        Paragraph espaciadoTablas = new Paragraph(3);
+        espaciadoTablas.add(new Chunk("\n ",FontFactory.getFont(FontFactory.HELVETICA, 10,BaseColor.WHITE)));
+        
+        documento.add(espaciadoTablas);
+        
+        //Tabla para los sellos y el QR
+        PdfPTable tablaSellosQr = new PdfPTable(2);
+        float[] anchosColumnasTablaSellosQr= {25f,75f};
+        tablaSellosQr.setWidths(anchosColumnasTablaSellosQr);
+        tablaSellosQr.setWidthPercentage(100);
+        
+        //-------AGREGAR QR
+        Image qr = Image.getInstance("src/img/qr.png");
+        qr.scaleToFit(120, 120);
+        PdfPCell celdaQR = new PdfPCell(qr);
+        celdaQR.setBorder(PdfPCell.NO_BORDER);
+        celdaQR.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celdaQR.setHorizontalAlignment(Element.ALIGN_CENTER);
+        
+        //Agregar QR
+        tablaSellosQr.addCell(celdaQR);
+        
+        //Tabla para sello digital del CFDI:
+        PdfPTable tablaSellos = new PdfPTable(1);
+        
+        //Encabezado para la tabla del sello digital
+        Paragraph tituloSelloDigitalCFDI = new Paragraph(8);
+        tituloSelloDigitalCFDI.add(new Chunk("Sello digital del CFDI:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
+        PdfPCell celdaTituloSelloCFDI = new PdfPCell();
+        celdaTituloSelloCFDI.addElement(tituloSelloDigitalCFDI);
+        celdaTituloSelloCFDI.setBackgroundColor(rojoPersonalizado);
+        celdaTituloSelloCFDI.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
+        celdaTituloSelloCFDI.setBorderColor(rojoPersonalizado);
+        tablaSellos.addCell(celdaTituloSelloCFDI);
+
+        //--------------SELLO CFDI
+        //Encabezado para la tabla del sello digital
+        Paragraph SelloDigitalCFDI = new Paragraph(8);
+        SelloDigitalCFDI.add(new Chunk("dglic9wNF/56oKI9zW1dVGLIUHfvCX7TI1+N0R02pLEtamzPj8OaeAd7mxARWmVZX82jIhsJIX54eRqcFH/sG9U3ZWucfwB45A+bX/PT121"
+                + "OCkVg9V8kzulapH3X8rXknZuooGDhz8w3oAX11dw137Y/RS/j7fFT8E/sR/71xt43eVIfxJPdMBtQXhNZYzszaelBgokFyvV4fUVXIKajCauw3"
+                + "LlEj8FOrHXwwsTNk0IFSNmZrH6KuLe+zHorQagJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyVeBuUlcpbeaHZ/NE4rpV47fz+4kg5ESp"
+                + "nyUjFmkMDk8t00l5DQ5A==", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
+        PdfPCell celdaSelloCFDI = new PdfPCell();
+        celdaSelloCFDI.addElement(SelloDigitalCFDI);
+        celdaSelloCFDI.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
+        celdaSelloCFDI.setBorderColor(rojoPersonalizado);
+        tablaSellos.addCell(celdaSelloCFDI);
+        
+        //Separacion de tablas
+        PdfPCell celdaSeparacion = new PdfPCell(espaciadoTablas);
+        celdaSeparacion.setBorder(PdfPCell.NO_BORDER);
+        celdaSeparacion.setFixedHeight(5f);
+        tablaSellos.addCell(celdaSeparacion);
+
+        //---Encabezado para la tabla Sello del SAT:
+        Paragraph tituloSelloSAT = new Paragraph(8);
+        tituloSelloSAT.add(new Chunk("Sello del SAT:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
+        PdfPCell celdaTituloSelloSAT = new PdfPCell();
+        celdaTituloSelloSAT.addElement(tituloSelloSAT);
+        celdaTituloSelloSAT.setBackgroundColor(rojoPersonalizado);
+        celdaTituloSelloSAT.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
+        celdaTituloSelloSAT.setBorderColor(rojoPersonalizado);
+        tablaSellos.addCell(celdaTituloSelloSAT);
+        
+        
+        //-------SELLO DEL SAT
+        Paragraph SelloSAT = new Paragraph(8);
+        SelloSAT.add(new Chunk("YVrerifx8zku46oN17isFklfFW1Bc2ZfP1oWpkj3VdHGm0FS0A51GErxAkhR34ZccrMyBkg6l/Lwk2N6vVxbbCoFyWJf7EO/oc/5ZowmXRano"
+                + "PRedBOJC1jGdckT+ZT1a7aK5C2AquuY0nMM2FGtyt4su+FBNQ/tod0Uxxok+VT07M1BDvZ4M3XjTvUwfF7r02RYs98es51FJR6E+1Ajouo"
+                + "sWEEsHthO4Ec2jybXILWpHHPZudC5f5LXS284RKJLOgcFumQ06mw9uicCMcYmK9TqMP/mUPapkX6Ry3WDqAKhf7YPfKHChMUfGbfd"
+                + "8gvg5nxmRnNd/dSHyuY1+Vuicg=", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
+        PdfPCell celdaSelloSAT = new PdfPCell();
+        celdaSelloSAT.addElement(SelloSAT);
+        celdaSelloSAT.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
+        celdaSelloSAT.setBorderColor(rojoPersonalizado);
+        tablaSellos.addCell(celdaSelloSAT);
+
+        //Celda para los sellos
+        PdfPCell celdaSellos = new PdfPCell(tablaSellos);
+        celdaSellos.setBorder(PdfPCell.NO_BORDER);
+        tablaSellosQr.addCell(celdaSellos);
+
+        //agregar tabla de sellos al documento
+        documento.add(tablaSellosQr);
+        
+        //Tabla para el pie de pagina
+        PdfPTable tablaPiePagina = new PdfPTable(3);
+        
+        //Celda para el link de la empresa
+        Paragraph paginaEmpresa = new Paragraph(new Chunk("https://mtasolutions.mx/",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.BLACK)));
+        PdfPCell celdaPaginaEmpresa = new PdfPCell(paginaEmpresa);
+        
+        tablaPiePagina.addCell(celdaPaginaEmpresa);
+        tablaPiePagina.addCell(celdaPaginaEmpresa);
+        tablaPiePagina.addCell(celdaPaginaEmpresa);
+        
+        documento.add(tablaPiePagina);
         // Cerrar el documento
         documento.close();
         
