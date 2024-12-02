@@ -73,16 +73,28 @@ public class Emisor {
     public String getDomicilio_fiscal() {
         return domicilio_fiscal;
     }
- 
+    
+    public String getNombreCompletoMayus(){
+        return (nombres+" "+apellido_paterno+" "+apellido_materno).toUpperCase();
+    }
 }
 
 //clase para el receptor
 class Receptor extends Emisor{
     private String correo_electronico;//maneja su correo electronico
+    private String uso_CFDI;
 
-    public Receptor(String correo_electronico, String rfc, String nombres, String apellido_paterno, String apellido_materno, String regimen, String domicilio_fiscal) {
+    public Receptor(String rfc, String nombres, String apellido_paterno, String apellido_materno, String regimen, String domicilio_fiscal,String correo_electronico) {
         super(rfc, nombres, apellido_paterno, apellido_materno, regimen, domicilio_fiscal);
         this.correo_electronico = correo_electronico;
+    }
+
+    public String getUso_CFDI() {
+        return uso_CFDI;
+    }
+
+    public void setUso_CFDI(String uso_CFDI) {
+        this.uso_CFDI = uso_CFDI;
     }
 
     public void setCorreo_electronico(String correo_electronico) {
@@ -92,5 +104,4 @@ class Receptor extends Emisor{
     public String getCorreo_electronico() {
         return correo_electronico;
     }
-
 }

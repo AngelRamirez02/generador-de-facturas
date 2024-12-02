@@ -30,6 +30,10 @@ public class Alumno {
         return curp;
     }
 
+    public String getNombreCompletoMayus(){
+        return (nombres+" "+apellido_paterno+" "+apellido_materno).toUpperCase();
+    }
+    
     public String getNombres() {
         return nombres;
     }

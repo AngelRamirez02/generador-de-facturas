@@ -1317,7 +1317,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JButton" name="btn_previsualizar">
+                <Component class="javax.swing.JButton" name="btn_enviarCorreo">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="99" red="0" type="rgb"/>
@@ -1329,9 +1329,10 @@
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Sellar y enviar por correo"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_previsualizarActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_enviarCorreoActionPerformed"/>
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1593,9 +1594,6 @@
                             </Property>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="apellidoMaterno_padreActionPerformed"/>
-                          </Events>
                         </Component>
                         <Component class="javax.swing.JTextField" name="domicilio_padre">
                           <Properties>
@@ -1605,9 +1603,6 @@
                             </Property>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="domicilio_padreActionPerformed"/>
-                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel17">
                           <Properties>
@@ -1723,30 +1718,30 @@
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                                          <Component id="regimen_emisor3" min="-2" pref="380" max="-2" attributes="0"/>
+                                          <Component id="regimen_emisor" min="-2" pref="380" max="-2" attributes="0"/>
                                           <EmptySpace min="70" pref="70" max="-2" attributes="0"/>
-                                          <Component id="regimen_emisor1" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <Component id="cp_expedicion" min="-2" pref="150" max="-2" attributes="0"/>
                                           <EmptySpace min="201" pref="201" max="-2" attributes="0"/>
-                                          <Component id="tipo_factura3" min="-2" pref="220" max="-2" attributes="0"/>
+                                          <Component id="tipo_factura" min="-2" pref="220" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                                                  <Component id="formaPago1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="formaPago" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
-                                                  <Component id="metodoPago1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="metodoPago" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                                                   <Component id="iconFac_lb5" min="-2" pref="27" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="titulo_formaPago1" min="-2" pref="280" max="-2" attributes="0"/>
+                                                  <Component id="titulo_formaPago" min="-2" pref="280" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                                                   <Component id="iconFac_lb4" min="-2" pref="27" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="titulo_metodoPago1" min="-2" pref="200" max="-2" attributes="0"/>
+                                                  <Component id="titulo_metodoPago" min="-2" pref="200" max="-2" attributes="0"/>
                                                   <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="iconFac_lb3" min="-2" pref="27" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
@@ -1756,7 +1751,7 @@
                                               <Component id="tituloMoneda1" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                                  <Component id="tipo_factura2" min="-2" pref="200" max="-2" attributes="0"/>
+                                                  <Component id="moneda" min="-2" pref="200" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -1779,15 +1774,15 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="regimen_emisor3" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="regimen_emisor1" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="tipo_factura3" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="regimen_emisor" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="cp_expedicion" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="tipo_factura" min="-2" pref="36" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="titulo_metodoPago1" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                                              <Component id="titulo_metodoPago" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                                   <Component id="iconFac_lb4" min="-2" pref="25" max="-2" attributes="0"/>
                                                   <Component id="iconFac_lb5" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
@@ -1799,18 +1794,18 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="iconFac_lb3" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
-                                              <Component id="titulo_formaPago1" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
+                                              <Component id="titulo_formaPago" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="tipo_factura2" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="moneda" min="-2" pref="36" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="formaPago1" min="-2" pref="35" max="-2" attributes="0"/>
-                                              <Component id="metodoPago1" min="-2" pref="35" max="-2" attributes="0"/>
+                                              <Component id="formaPago" min="-2" pref="35" max="-2" attributes="0"/>
+                                              <Component id="metodoPago" min="-2" pref="35" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -1827,7 +1822,7 @@
                             <Property name="text" type="java.lang.String" value="Tipo de factura"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="regimen_emisor1">
+                        <Component class="javax.swing.JLabel" name="cp_expedicion">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
@@ -1844,7 +1839,7 @@
                             <Property name="text" type="java.lang.String" value="Regimen"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="tipo_factura2">
+                        <Component class="javax.swing.JLabel" name="moneda">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
@@ -1861,7 +1856,7 @@
                             <Property name="text" type="java.lang.String" value="C&#xf3;digo postal"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="regimen_emisor3">
+                        <Component class="javax.swing.JLabel" name="regimen_emisor">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
@@ -1869,7 +1864,7 @@
                             <Property name="text" type="java.lang.String" value="Persona F&#xed;sica con Actividad Empresarial (Clave 612)"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="titulo_formaPago1">
+                        <Component class="javax.swing.JLabel" name="titulo_formaPago">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto Light" size="18" style="1"/>
@@ -1877,7 +1872,7 @@
                             <Property name="text" type="java.lang.String" value="Forma de pago"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="formaPago1">
+                        <Component class="javax.swing.JComboBox" name="formaPago">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
@@ -1895,7 +1890,7 @@
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="titulo_metodoPago1">
+                        <Component class="javax.swing.JLabel" name="titulo_metodoPago">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto Light" size="18" style="1"/>
@@ -1903,7 +1898,7 @@
                             <Property name="text" type="java.lang.String" value="M&#xe9;todo de pago"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="metodoPago1">
+                        <Component class="javax.swing.JComboBox" name="metodoPago">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
@@ -1927,13 +1922,13 @@
                             <Property name="text" type="java.lang.String" value="Moneda"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="tipo_factura3">
+                        <Component class="javax.swing.JLabel" name="tipo_factura">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
                             </Property>
                             <Property name="horizontalAlignment" type="int" value="2"/>
-                            <Property name="text" type="java.lang.String" value="Ingreso"/>
+                            <Property name="text" type="java.lang.String" value="I Ingreso"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="iconFac_lb">
@@ -2084,18 +2079,18 @@
                                                       <Component id="cantidad" min="-2" pref="208" max="-2" attributes="0"/>
                                                       <Component id="jLabel11" min="-2" pref="208" max="-2" attributes="0"/>
                                                       <Component id="jLabel12" min="-2" pref="208" max="-2" attributes="0"/>
-                                                      <Component id="precio" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                                                      <Component id="campo_precioUnitario" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace min="0" pref="79" max="32767" attributes="0"/>
                                                   <Group type="103" groupAlignment="1" attributes="0">
                                                       <Group type="102" attributes="0">
                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="importe" min="-2" pref="208" max="-2" attributes="0"/>
+                                                              <Component id="campo_importe" min="-2" pref="208" max="-2" attributes="0"/>
                                                               <Component id="jLabel19" min="-2" pref="208" max="-2" attributes="0"/>
                                                           </Group>
                                                           <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="descuento" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                                                              <Component id="campoDescuento" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
                                                               <Component id="jLabel22" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
@@ -2132,11 +2127,11 @@
                                           <EmptySpace min="-2" pref="317" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" attributes="0">
-                                                  <Component id="jComboBox1" min="-2" pref="289" max="-2" attributes="0"/>
+                                                  <Component id="rutas" min="-2" pref="289" max="-2" attributes="0"/>
                                                   <EmptySpace max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="jLabel20" max="32767" attributes="0"/>
+                                                  <Component id="titulo_rutas" max="32767" attributes="0"/>
                                                   <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -2183,12 +2178,12 @@
                                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel5" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                                      <Component id="jLabel20" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Component id="titulo_rutas" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="servicio" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                                      <Component id="jComboBox1" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                      <Component id="rutas" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -2213,14 +2208,14 @@
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="precio" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                                              <Component id="importe" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                              <Component id="campo_precioUnitario" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                              <Component id="campo_importe" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="jLabel22" min="-2" pref="40" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="descuento" min="-2" pref="37" max="-2" attributes="0"/>
+                                          <Component id="campoDescuento" min="-2" pref="37" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace pref="57" max="32767" attributes="0"/>
@@ -2291,9 +2286,6 @@
                             </Property>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="apellidoMaterno_alumnoActionPerformed"/>
-                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel16">
                           <Properties>
@@ -2366,6 +2358,9 @@
                               </StringArray>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="servicioItemStateChanged"/>
+                          </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
@@ -2395,18 +2390,42 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="cantidad">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                            </Property>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                            <Property name="focusable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel11">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="18" style="1"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Precio"/>
+                            <Property name="text" type="java.lang.String" value="Precio unitario"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="unidad">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                            </Property>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                            <Property name="focusable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="obj_impuestos">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                            </Property>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                            <Property name="focusable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel12">
                           <Properties>
@@ -2416,19 +2435,34 @@
                             <Property name="text" type="java.lang.String" value="Cantidad"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="precio">
+                        <Component class="javax.swing.JTextField" name="campo_precioUnitario">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                            </Property>
+                            <Property name="focusable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel19">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="18" style="1"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Precio"/>
+                            <Property name="text" type="java.lang.String" value="Importe"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="clave">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                            </Property>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                            <Property name="focusable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel20">
+                        <Component class="javax.swing.JLabel" name="titulo_rutas">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="18" style="1"/>
@@ -2436,7 +2470,7 @@
                             <Property name="text" type="java.lang.String" value="Rutas"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="jComboBox1">
+                        <Component class="javax.swing.JComboBox" name="rutas">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
@@ -2451,7 +2485,14 @@
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="importe">
+                        <Component class="javax.swing.JTextField" name="campo_importe">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                            </Property>
+                            <Property name="focusable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel21">
                           <Properties>
@@ -2469,7 +2510,7 @@
                             <Property name="text" type="java.lang.String" value="Descuento"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="descuento">
+                        <Component class="javax.swing.JTextField" name="campoDescuento">
                         </Component>
                         <Component class="javax.swing.JButton" name="btn_agregar">
                           <Properties>
@@ -2487,6 +2528,9 @@
                               <Border info="null"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_agregarActionPerformed"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -2543,7 +2587,7 @@
                         <Property name="useNullLayout" type="boolean" value="false"/>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JTextField" name="apellido_maternoPadre">
+                        <Component class="javax.swing.JTextField" name="campo_total">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -2565,7 +2609,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="titulo_apellidoMaterno1">
+                        <Component class="javax.swing.JTextField" name="tituloTotal">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -2597,7 +2641,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="apellido_maternoPadre1">
+                        <Component class="javax.swing.JTextField" name="subTotal">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -2620,7 +2664,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="apellido_maternoPadre2">
+                        <Component class="javax.swing.JTextField" name="descuento_totales">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -2642,7 +2686,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="apellido_maternoPadre3">
+                        <Component class="javax.swing.JTextField" name="impuestos_total">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -2680,13 +2724,16 @@
                               <Border info="null"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_eliminarActionPerformed"/>
+                          </Events>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                               <AbsoluteConstraints x="460" y="150" width="173" height="45"/>
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="titulo_apellidoMaterno4">
+                        <Component class="javax.swing.JTextField" name="tituloSubtotal">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -2718,7 +2765,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="titulo_apellidoMaterno5">
+                        <Component class="javax.swing.JTextField" name="tituloDescuento">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -2750,7 +2797,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="titulo_apellidoMaterno6">
+                        <Component class="javax.swing.JTextField" name="tituloImpuestos">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -2786,7 +2833,7 @@
                     </Container>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="btn_previsualizar1">
+                <Component class="javax.swing.JButton" name="btn_previsualizar">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="99" red="0" type="rgb"/>
@@ -2798,9 +2845,10 @@
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Previsualizar"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_previsualizar1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_previsualizarActionPerformed"/>
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

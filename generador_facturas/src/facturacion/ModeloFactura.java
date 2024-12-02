@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JScrollBar;
 
 /**
  *
@@ -16,39 +17,83 @@ import javax.swing.JDialog;
  */
 public class ModeloFactura extends JDialog {
 
-    /**
-     * Creates new form ModeloFactura
-     */
-    public ModeloFactura(Frame FramePadre, boolean modal) {
+    Receptor receptor;
+     Alumno alumno ;
+    Factura factura;
+    public ModeloFactura(Frame FramePadre, boolean modal,Receptor recep, Alumno alum, Factura fact) {
         super(FramePadre, modal);  // Establece la ventana como modal
         // Establece el comportamiento de cierre adecuado
         initComponents();
-
+        //Objetos para rellenar la factura
+        alumno = alum;
+        receptor = recep;
+        factura = fact;
+        
+        //Objeto para pasar de numeros a letras
+        NumeroALetras numLetra = new NumeroALetras();
+        
         //Personalizar el tamaño del logo
         Image logo_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
-        
+        //----------DATOS PARA EL EMSISOR------------------------
         //etiqueta para el rfc del emisor
-        rfc_emisor.setText("<html>Régimen fiscal: 612 personas físicas con actividades empresariales y profesionales</html>");
+        regimen_emisor.setText("<html>Régimen fiscal: 612 personas físicas con actividades empresariales y profesionales</html>");
+        //-------------------------------------------------------
         
+
+        //--------DATOS PARA EL EMISOR--------------------------
+        //Nombre del padre
+        nombre_padre.setText(receptor.getNombreCompletoMayus());
+        rfc_padre.setText(receptor.getRfc());
+        
+        domicilio_fiscalPadre.setText(receptor.getDomicilio_fiscal());
         //regimen padre
-        regimen_padre.setText("<html>612 Personas Físicas con Actividades Empresariales y Profesionales </html>");
+        regimen_padre.setText("<html>"+receptor.getRegimen()+"</html>");
         
+        //-----------DATOS PARA LA DESCRIPCION DEL SERVICIO
+        //Cantidad
+        cantidad.setText(factura.getCantidad());
+        //unidad
+        unidad.setText(factura.getUnidad());
+        //clavae
+        clave.setText(factura.getClave());
+        //Obj impuestos
+        obj_impuestos.setText(factura.getObj_impuestos());
+        //Precio
+        precio.setText("$"+factura.getPrecio_unitario());
+        //Importe
+        importe.setText("$"+factura.getImporte());
         //unidad del producto
-        unidad.setText("<html><center>E48/<br>Unidad de servicio</center></html>");
+        unidad.setText("<html>"+factura.getUnidad()+"</html>");
  
         //descricion del producto
-        descripcion.setText("<html><center><br><br>PAGO POR CONCEPTO DE COLEGIATURA DEL"
-                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: 12PPR0395H, CORRESPONDIENTE AL MES DE AGOSTO DEL 2024, "
-                + "DEL ALUMNO MANUEL NAVARRETE MARCOS, QUE CURSA EL SEGUNDO GRADO DE PRIMARIA. CURP: NAMM031120HGRVRNA5</center>.</htm>");
+        descripcion.setText("<html><center><br>"+factura.getDescripcion()+"</center></htm>");
         
+        //Datos del alumno
+        curp_alumno.setText(alumno.getCurp());
+        nivel_escolar.setText(alumno.getNivel_escolar());
+        nombre_alumno.setText(alumno.getNombreCompletoMayus());
+        
+        //--------DATOS PARA FORMA DE PAGO
+        precio_texto.setText(numLetra.convertirNumero(factura.getTotal()));
+        System.out.println(factura.getTotal());
+        forma_pago.setText(factura.getForma_pago());
+        metodo_pago.setText(factura.getMetodo_pago());
+        tipo_comprobante.setText(factura.getTipo_comprobante());
+        
+
+        //-----Subtotales
+        subtotal.setText("$"+factura.getSubtotal());
+        descuento.setText("$"+factura.getDescuento());
+        total.setText("$"+factura.getTotal());
+        
+        // Ajustar la velocidad de desplazamiento
+        JScrollBar verticalBar = contenedor.getVerticalScrollBar();
+        verticalBar.setUnitIncrement(16);
         //aparece en el centro de la pantalla
         this.setLocationRelativeTo(null);
     }
     
-    public void setDatos(){
-        
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,34 +105,34 @@ public class ModeloFactura extends JDialog {
     private void initComponents() {
 
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        contenedor = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         logo_lb = new javax.swing.JLabel();
         nombre_escuela = new javax.swing.JLabel();
         nombre_escuela1 = new javax.swing.JLabel();
         nombre_emisor = new javax.swing.JLabel();
-        rfc_emisor1 = new javax.swing.JLabel();
         rfc_emisor = new javax.swing.JLabel();
+        regimen_emisor = new javax.swing.JLabel();
         fechaHoraEmision = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         no_factura = new javax.swing.JLabel();
         titulo_fechaHoraEmision1 = new javax.swing.JTextField();
         fechaHoraEmison = new javax.swing.JTextField();
         titulo_fechaHoraCertificacion = new javax.swing.JTextField();
-        cp_Expedicion1 = new javax.swing.JTextField();
+        cp_Expedicion = new javax.swing.JTextField();
         encabezado_Receptor = new paneles.PanelRound();
         jLabel1 = new javax.swing.JLabel();
         contenedor_receptor = new paneles.PanelRound();
         nombre_padre = new javax.swing.JLabel();
         Tituloregimen_padre = new javax.swing.JLabel();
         domicilio_fiscalPadre = new javax.swing.JLabel();
-        rfc_padre1 = new javax.swing.JLabel();
+        rfc_padre = new javax.swing.JLabel();
         titulo_cfdi1 = new javax.swing.JLabel();
         titulo_cp2 = new javax.swing.JLabel();
         regimen_padre = new javax.swing.JLabel();
         titulo_rfc2 = new javax.swing.JLabel();
-        uso_CFDI2 = new javax.swing.JLabel();
+        uso_CFDI = new javax.swing.JLabel();
         contenedor_datosFiscales = new paneles.PanelRound();
         titulo_certificadoEmisor = new javax.swing.JLabel();
         certificadoSAT = new javax.swing.JLabel();
@@ -111,31 +156,31 @@ public class ModeloFactura extends JDialog {
         jLabel12 = new javax.swing.JLabel();
         contenedorProductos = new javax.swing.JPanel();
         unidad = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        clave = new javax.swing.JLabel();
         descripcion = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        obj_impuestos = new javax.swing.JLabel();
         precio = new javax.swing.JLabel();
         importe = new javax.swing.JLabel();
         curp_alumno = new javax.swing.JLabel();
-        cantidad2 = new javax.swing.JLabel();
-        curp_alumno1 = new javax.swing.JLabel();
+        cantidad = new javax.swing.JLabel();
+        clave_centroTrabajo = new javax.swing.JLabel();
         cantidad4 = new javax.swing.JLabel();
         nivel_escolar = new javax.swing.JLabel();
         cantidad5 = new javax.swing.JLabel();
         nombre_alumno = new javax.swing.JLabel();
         cantidad6 = new javax.swing.JLabel();
         cantidad1 = new javax.swing.JLabel();
-        cantidad7 = new javax.swing.JLabel();
+        titulo_curp = new javax.swing.JLabel();
         contenedorPagos = new javax.swing.JPanel();
         precio_texto = new javax.swing.JLabel();
-        forma_pago = new javax.swing.JLabel();
+        metodo_pago = new javax.swing.JLabel();
         cantidad8 = new javax.swing.JLabel();
-        forma_pago1 = new javax.swing.JLabel();
-        forma_pago2 = new javax.swing.JLabel();
+        forma_pago = new javax.swing.JLabel();
+        tipo_comprobante = new javax.swing.JLabel();
         cantidad10 = new javax.swing.JLabel();
         forma_pago3 = new javax.swing.JLabel();
         cantidad11 = new javax.swing.JLabel();
-        forma_pago4 = new javax.swing.JLabel();
+        moneda = new javax.swing.JLabel();
         cantidad12 = new javax.swing.JLabel();
         cantidad13 = new javax.swing.JLabel();
         cantidad14 = new javax.swing.JLabel();
@@ -145,7 +190,7 @@ public class ModeloFactura extends JDialog {
         descuento = new javax.swing.JLabel();
         cantidad17 = new javax.swing.JLabel();
         contenedorTotal = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        total = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         encabezadoCadenaSat = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
@@ -177,8 +222,8 @@ public class ModeloFactura extends JDialog {
         setPreferredSize(new java.awt.Dimension(1120, 730));
         setResizable(false);
 
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        contenedor.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        contenedor.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(1000, 2000));
@@ -209,14 +254,14 @@ public class ModeloFactura extends JDialog {
         nombre_emisor.setText("Carolina Astudillo Hernández");
         jPanel1.add(nombre_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 240, 30));
 
-        rfc_emisor1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        rfc_emisor1.setText("RFC: AUHC670504FFF");
-        jPanel1.add(rfc_emisor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 180, 30));
+        rfc_emisor.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        rfc_emisor.setText("RFC: AUHC670504FFF");
+        jPanel1.add(rfc_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 180, 30));
 
-        rfc_emisor.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        rfc_emisor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rfc_emisor.setText("Regimen emisor");
-        jPanel1.add(rfc_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 420, 40));
+        regimen_emisor.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        regimen_emisor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        regimen_emisor.setText("Regimen emisor");
+        jPanel1.add(regimen_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 420, 40));
 
         fechaHoraEmision.setEditable(false);
         fechaHoraEmision.setBackground(new java.awt.Color(255, 255, 255));
@@ -267,14 +312,14 @@ public class ModeloFactura extends JDialog {
         titulo_fechaHoraCertificacion.setFocusable(false);
         jPanel1.add(titulo_fechaHoraCertificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 130, 260, 30));
 
-        cp_Expedicion1.setEditable(false);
-        cp_Expedicion1.setBackground(new java.awt.Color(255, 255, 255));
-        cp_Expedicion1.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
-        cp_Expedicion1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        cp_Expedicion1.setText("  Fecha y hora de emisión");
-        cp_Expedicion1.setBorder(null);
-        cp_Expedicion1.setFocusable(false);
-        jPanel1.add(cp_Expedicion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 220, 260, 30));
+        cp_Expedicion.setEditable(false);
+        cp_Expedicion.setBackground(new java.awt.Color(255, 255, 255));
+        cp_Expedicion.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
+        cp_Expedicion.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        cp_Expedicion.setText("  Fecha y hora de emisión");
+        cp_Expedicion.setBorder(null);
+        cp_Expedicion.setFocusable(false);
+        jPanel1.add(cp_Expedicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 220, 260, 30));
 
         encabezado_Receptor.setBackground(new java.awt.Color(198, 54, 55));
         encabezado_Receptor.setRoundTopLeft(20);
@@ -308,9 +353,9 @@ public class ModeloFactura extends JDialog {
         domicilio_fiscalPadre.setText("39890");
         contenedor_receptor.add(domicilio_fiscalPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 330, 30));
 
-        rfc_padre1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        rfc_padre1.setText("RACA031202FDD");
-        contenedor_receptor.add(rfc_padre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 330, 30));
+        rfc_padre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        rfc_padre.setText("RACA031202FDD");
+        contenedor_receptor.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 330, 30));
 
         titulo_cfdi1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         titulo_cfdi1.setText("Uso CDFI:");
@@ -328,9 +373,9 @@ public class ModeloFactura extends JDialog {
         titulo_rfc2.setText("RFC:");
         contenedor_receptor.add(titulo_rfc2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 50, 30));
 
-        uso_CFDI2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        uso_CFDI2.setText("D10 Pagos por servicios educativos (Colegiatura)");
-        contenedor_receptor.add(uso_CFDI2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 330, 30));
+        uso_CFDI.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        uso_CFDI.setText("D10 Pagos por servicios educativos (Colegiatura)");
+        contenedor_receptor.add(uso_CFDI, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 330, 30));
 
         jPanel1.add(contenedor_receptor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 490, 250));
 
@@ -457,20 +502,20 @@ public class ModeloFactura extends JDialog {
         unidad.setText("Unidad");
         contenedorProductos.add(unidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 110, 120));
 
-        jLabel10.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Clave");
-        contenedorProductos.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 120, 120));
+        clave.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        clave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        clave.setText("Clave");
+        contenedorProductos.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 120, 120));
 
         descripcion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         descripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         descripcion.setText("Descripción");
-        contenedorProductos.add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 350, 120));
+        contenedorProductos.add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 350, 140));
 
-        jLabel11.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("No objeto de impuesto");
-        contenedorProductos.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 160, 120));
+        obj_impuestos.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        obj_impuestos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        obj_impuestos.setText("No objeto de impuesto");
+        contenedorProductos.add(obj_impuestos, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 160, 120));
 
         precio.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         precio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -487,15 +532,15 @@ public class ModeloFactura extends JDialog {
         curp_alumno.setText("RACA031202HGRMSNA2");
         contenedorProductos.add(curp_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 190, 40));
 
-        cantidad2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        cantidad2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cantidad2.setText("1.00");
-        contenedorProductos.add(cantidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 120));
+        cantidad.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cantidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cantidad.setText("1.00");
+        contenedorProductos.add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 120));
 
-        curp_alumno1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        curp_alumno1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        curp_alumno1.setText("12PPR0395H");
-        contenedorProductos.add(curp_alumno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 200, 40));
+        clave_centroTrabajo.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        clave_centroTrabajo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        clave_centroTrabajo.setText("12PPR0395H");
+        contenedorProductos.add(clave_centroTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 200, 40));
 
         cantidad4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cantidad4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -527,10 +572,10 @@ public class ModeloFactura extends JDialog {
         cantidad1.setText("Alumno");
         contenedorProductos.add(cantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 100, 40));
 
-        cantidad7.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        cantidad7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cantidad7.setText("CURP");
-        contenedorProductos.add(cantidad7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 60, 40));
+        titulo_curp.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        titulo_curp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titulo_curp.setText("CURP");
+        contenedorProductos.add(titulo_curp, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 60, 40));
 
         jPanel1.add(contenedorProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 680, 1040, 240));
 
@@ -543,25 +588,25 @@ public class ModeloFactura extends JDialog {
         precio_texto.setText("(MIL SETECIENTOS DIEZ MXN 00/100)");
         contenedorPagos.add(precio_texto, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 470, 40));
 
-        forma_pago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        forma_pago.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        forma_pago.setText("PUE Pago en una sola exhibicion");
-        contenedorPagos.add(forma_pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 400, 40));
+        metodo_pago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        metodo_pago.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        metodo_pago.setText("PUE Pago en una sola exhibicion");
+        contenedorPagos.add(metodo_pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 400, 40));
 
         cantidad8.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cantidad8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         cantidad8.setText("Método de pago:");
         contenedorPagos.add(cantidad8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 160, 40));
 
-        forma_pago1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        forma_pago1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        forma_pago1.setText("03 Transferencia electrónica de fondos");
-        contenedorPagos.add(forma_pago1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 400, 40));
+        forma_pago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        forma_pago.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        forma_pago.setText("03 Transferencia electrónica de fondos");
+        contenedorPagos.add(forma_pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 400, 40));
 
-        forma_pago2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        forma_pago2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        forma_pago2.setText("I ingreso");
-        contenedorPagos.add(forma_pago2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 400, 40));
+        tipo_comprobante.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tipo_comprobante.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        tipo_comprobante.setText("I ingreso");
+        contenedorPagos.add(tipo_comprobante, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 400, 40));
 
         cantidad10.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cantidad10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -577,10 +622,10 @@ public class ModeloFactura extends JDialog {
         cantidad11.setText("Condiciones de pago:");
         contenedorPagos.add(cantidad11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 160, 40));
 
-        forma_pago4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        forma_pago4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        forma_pago4.setText("MXN Peso Mexicano");
-        contenedorPagos.add(forma_pago4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 160, 40));
+        moneda.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        moneda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        moneda.setText("MXN Peso Mexicano");
+        contenedorPagos.add(moneda, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 160, 40));
 
         cantidad12.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cantidad12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -628,11 +673,11 @@ public class ModeloFactura extends JDialog {
         contenedorTotal.setBackground(new java.awt.Color(198, 54, 55));
         contenedorTotal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("$1,710.00");
-        contenedorTotal.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 230, 50));
+        total.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        total.setForeground(new java.awt.Color(255, 255, 255));
+        total.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        total.setText("$1,710.00");
+        contenedorTotal.add(total, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 230, 50));
 
         jLabel8.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -770,17 +815,17 @@ public class ModeloFactura extends JDialog {
                 .addContainerGap())
         );
 
-        jScrollPane2.setViewportView(jPanel2);
+        contenedor.setViewportView(jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1120, Short.MAX_VALUE)
+            .addComponent(contenedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1120, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
+            .addComponent(contenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
         );
 
         pack();
@@ -823,7 +868,7 @@ public class ModeloFactura extends JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModeloFactura(null, true).setVisible(true);
+                new ModeloFactura(null, true,null,null,null).setVisible(true);
             }
         });
     }
@@ -831,6 +876,7 @@ public class ModeloFactura extends JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel EncabezadoProductos;
     private javax.swing.JLabel Tituloregimen_padre;
+    private javax.swing.JLabel cantidad;
     private javax.swing.JLabel cantidad1;
     private javax.swing.JLabel cantidad10;
     private javax.swing.JLabel cantidad11;
@@ -839,14 +885,15 @@ public class ModeloFactura extends JDialog {
     private javax.swing.JLabel cantidad14;
     private javax.swing.JLabel cantidad15;
     private javax.swing.JLabel cantidad17;
-    private javax.swing.JLabel cantidad2;
     private javax.swing.JLabel cantidad4;
     private javax.swing.JLabel cantidad5;
     private javax.swing.JLabel cantidad6;
-    private javax.swing.JLabel cantidad7;
     private javax.swing.JLabel cantidad8;
     private javax.swing.JLabel certificadoEmisor2;
     private javax.swing.JLabel certificadoSAT;
+    private javax.swing.JLabel clave;
+    private javax.swing.JLabel clave_centroTrabajo;
+    private javax.swing.JScrollPane contenedor;
     private javax.swing.JPanel contenedorCadenaSat;
     private javax.swing.JPanel contenedorPagos;
     private javax.swing.JPanel contenedorProductos;
@@ -854,9 +901,8 @@ public class ModeloFactura extends JDialog {
     private javax.swing.JPanel contenedorTotal;
     private paneles.PanelRound contenedor_datosFiscales;
     private paneles.PanelRound contenedor_receptor;
-    private javax.swing.JTextField cp_Expedicion1;
+    private javax.swing.JTextField cp_Expedicion;
     private javax.swing.JLabel curp_alumno;
-    private javax.swing.JLabel curp_alumno1;
     private javax.swing.JLabel descripcion;
     private javax.swing.JLabel descuento;
     private javax.swing.JLabel domicilio_fiscalPadre;
@@ -868,16 +914,11 @@ public class ModeloFactura extends JDialog {
     private javax.swing.JTextField fechaHoraEmison;
     private javax.swing.JLabel folioSat;
     private javax.swing.JLabel forma_pago;
-    private javax.swing.JLabel forma_pago1;
-    private javax.swing.JLabel forma_pago2;
     private javax.swing.JLabel forma_pago3;
-    private javax.swing.JLabel forma_pago4;
     private javax.swing.JLabel importe;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -894,7 +935,6 @@ public class ModeloFactura extends JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -904,8 +944,9 @@ public class ModeloFactura extends JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel logo_lb;
+    private javax.swing.JLabel metodo_pago;
+    private javax.swing.JLabel moneda;
     private javax.swing.JLabel nivel_escolar;
     private javax.swing.JLabel no_factura;
     private javax.swing.JLabel nombre_alumno;
@@ -913,25 +954,29 @@ public class ModeloFactura extends JDialog {
     private javax.swing.JLabel nombre_escuela;
     private javax.swing.JLabel nombre_escuela1;
     private javax.swing.JLabel nombre_padre;
+    private javax.swing.JLabel obj_impuestos;
     private javax.swing.JLabel precio;
     private javax.swing.JLabel precio_texto;
+    private javax.swing.JLabel regimen_emisor;
     private javax.swing.JLabel regimen_padre;
     private javax.swing.JLabel rfc_emisor;
-    private javax.swing.JLabel rfc_emisor1;
-    private javax.swing.JLabel rfc_padre1;
+    private javax.swing.JLabel rfc_padre;
     private javax.swing.JLabel subtotal;
+    private javax.swing.JLabel tipo_comprobante;
     private javax.swing.JLabel titulo_FolioSat2;
     private javax.swing.JLabel titulo_certificadoEmisor;
     private javax.swing.JLabel titulo_certificadoEmisor1;
     private javax.swing.JLabel titulo_cfdi1;
     private javax.swing.JTextField titulo_codigoPostalExped2;
     private javax.swing.JLabel titulo_cp2;
+    private javax.swing.JLabel titulo_curp;
     private javax.swing.JLabel titulo_exportación;
     private javax.swing.JTextField titulo_fechaHoraCertificacion;
     private javax.swing.JTextField titulo_fechaHoraEmision1;
     private javax.swing.JLabel titulo_leyenda;
     private javax.swing.JLabel titulo_rfc2;
+    private javax.swing.JLabel total;
     private javax.swing.JLabel unidad;
-    private javax.swing.JLabel uso_CFDI2;
+    private javax.swing.JLabel uso_CFDI;
     // End of variables declaration//GEN-END:variables
 }

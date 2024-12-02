@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -56,14 +57,29 @@ import validacion.Validacion;
  */
 public class GenerarFactura extends javax.swing.JFrame {
 
-    ArrayList <Alumno> hijos = new ArrayList<Alumno>();
+    //Objeto para la conexion
     conexion cx = new conexion();
+    
+    //Objetos para recpetor y alumno
+    Receptor receptor;
+    Alumno alumno;
+    //Objeto para la factura
+    Factura factura;
+    
+    //Deescripcion
+    String descripcion="";
+    
+    //-------VARIABLES PARA LOS PRECIOS
+    double precio=0;
+    double importe=0;
+    double impuestos = 0;
+    double descuento=0;
+    double subtotal=0;
     
     //Datos para el inicio de sesion
     private String usuario;
     LocalDate fechaInicioSesion;
-    LocalTime horaInicioSesion;
-    
+    LocalTime horaInicioSesion;    
     Validacion valida = new Validacion();//objeto para valdicar los datos
     
     //Colores para los botones seleccionados y no
@@ -73,12 +89,10 @@ public class GenerarFactura extends javax.swing.JFrame {
     Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
      //Imagen para menu selccionado
     Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-    
     Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
     
      public GenerarFactura() {
         initComponents();
-        
         
         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
         
@@ -184,7 +198,11 @@ public class GenerarFactura extends javax.swing.JFrame {
         timer.start();
         txt_nombreUser.setText(usuario);
         menu_salir.setVisible(false);//por defecto el menu de salir no es visible
-       
+
+         //ocultar rutas por defecto
+         titulo_rutas.setVisible(false);
+         rutas.setVisible(false);
+
         // Ajustar la velocidad de desplazamiento
         JScrollBar verticalBar = contenedor.getVerticalScrollBar();
         verticalBar.setUnitIncrement(16);
@@ -278,7 +296,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         icon_regresarlb = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        btn_previsualizar = new javax.swing.JButton();
+        btn_enviarCorreo = new javax.swing.JButton();
         panelRound1 = new paneles.PanelRound();
         lb_comprobante = new javax.swing.JLabel();
         panelRound2 = new paneles.PanelRound();
@@ -303,17 +321,17 @@ public class GenerarFactura extends javax.swing.JFrame {
         lb_comprobante1 = new javax.swing.JLabel();
         panelRound4 = new paneles.PanelRound();
         titulo_tipoFactura1 = new javax.swing.JLabel();
-        regimen_emisor1 = new javax.swing.JLabel();
+        cp_expedicion = new javax.swing.JLabel();
         titulo_regimenEmisor1 = new javax.swing.JLabel();
-        tipo_factura2 = new javax.swing.JLabel();
+        moneda = new javax.swing.JLabel();
         titulo_cpEmision1 = new javax.swing.JLabel();
-        regimen_emisor3 = new javax.swing.JLabel();
-        titulo_formaPago1 = new javax.swing.JLabel();
-        formaPago1 = new javax.swing.JComboBox<>();
-        titulo_metodoPago1 = new javax.swing.JLabel();
-        metodoPago1 = new javax.swing.JComboBox<>();
+        regimen_emisor = new javax.swing.JLabel();
+        titulo_formaPago = new javax.swing.JLabel();
+        formaPago = new javax.swing.JComboBox<>();
+        titulo_metodoPago = new javax.swing.JLabel();
+        metodoPago = new javax.swing.JComboBox<>();
         tituloMoneda1 = new javax.swing.JLabel();
-        tipo_factura3 = new javax.swing.JLabel();
+        tipo_factura = new javax.swing.JLabel();
         iconFac_lb = new javax.swing.JLabel();
         iconFac_lb1 = new javax.swing.JLabel();
         iconFac_lb2 = new javax.swing.JLabel();
@@ -345,29 +363,29 @@ public class GenerarFactura extends javax.swing.JFrame {
         unidad = new javax.swing.JTextField();
         obj_impuestos = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        precio = new javax.swing.JTextField();
+        campo_precioUnitario = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         clave = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        importe = new javax.swing.JTextField();
+        titulo_rutas = new javax.swing.JLabel();
+        rutas = new javax.swing.JComboBox<>();
+        campo_importe = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        descuento = new javax.swing.JTextField();
+        campoDescuento = new javax.swing.JTextField();
         btn_agregar = new javax.swing.JButton();
         panelRound7 = new paneles.PanelRound();
         lb_comprobante3 = new javax.swing.JLabel();
         panelRound8 = new paneles.PanelRound();
-        apellido_maternoPadre = new javax.swing.JTextField();
-        titulo_apellidoMaterno1 = new javax.swing.JTextField();
-        apellido_maternoPadre1 = new javax.swing.JTextField();
-        apellido_maternoPadre2 = new javax.swing.JTextField();
-        apellido_maternoPadre3 = new javax.swing.JTextField();
+        campo_total = new javax.swing.JTextField();
+        tituloTotal = new javax.swing.JTextField();
+        subTotal = new javax.swing.JTextField();
+        descuento_totales = new javax.swing.JTextField();
+        impuestos_total = new javax.swing.JTextField();
         btn_eliminar = new javax.swing.JButton();
-        titulo_apellidoMaterno4 = new javax.swing.JTextField();
-        titulo_apellidoMaterno5 = new javax.swing.JTextField();
-        titulo_apellidoMaterno6 = new javax.swing.JTextField();
-        btn_previsualizar1 = new javax.swing.JButton();
+        tituloSubtotal = new javax.swing.JTextField();
+        tituloDescuento = new javax.swing.JTextField();
+        tituloImpuestos = new javax.swing.JTextField();
+        btn_previsualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Instituto Andrés Manuel López Obrador - Registrar padre de familia");
@@ -866,16 +884,17 @@ public class GenerarFactura extends javax.swing.JFrame {
         jLabel1.setText("Generar factura");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 1190, 50));
 
-        btn_previsualizar.setBackground(new java.awt.Color(0, 153, 255));
-        btn_previsualizar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        btn_previsualizar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_previsualizar.setText("Sellar y enviar por correo");
-        btn_previsualizar.addActionListener(new java.awt.event.ActionListener() {
+        btn_enviarCorreo.setBackground(new java.awt.Color(0, 153, 255));
+        btn_enviarCorreo.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_enviarCorreo.setForeground(new java.awt.Color(255, 255, 255));
+        btn_enviarCorreo.setText("Sellar y enviar por correo");
+        btn_enviarCorreo.setEnabled(false);
+        btn_enviarCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_previsualizarActionPerformed(evt);
+                btn_enviarCorreoActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_previsualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 2010, 210, 40));
+        jPanel1.add(btn_enviarCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 2010, 210, 40));
 
         panelRound1.setRoundBottomLeft(50);
         panelRound1.setRoundBottomRight(50);
@@ -944,20 +963,10 @@ public class GenerarFactura extends javax.swing.JFrame {
         apellidoMaterno_padre.setEditable(false);
         apellidoMaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
         apellidoMaterno_padre.setFocusable(false);
-        apellidoMaterno_padre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                apellidoMaterno_padreActionPerformed(evt);
-            }
-        });
 
         domicilio_padre.setEditable(false);
         domicilio_padre.setBackground(new java.awt.Color(255, 255, 255));
         domicilio_padre.setFocusable(false);
-        domicilio_padre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                domicilio_padreActionPerformed(evt);
-            }
-        });
 
         jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel17.setText("Apellido materno");
@@ -1086,41 +1095,41 @@ public class GenerarFactura extends javax.swing.JFrame {
         titulo_tipoFactura1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_tipoFactura1.setText("Tipo de factura");
 
-        regimen_emisor1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        regimen_emisor1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        regimen_emisor1.setText("39890");
+        cp_expedicion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cp_expedicion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cp_expedicion.setText("39890");
 
         titulo_regimenEmisor1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_regimenEmisor1.setText("Regimen");
 
-        tipo_factura2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        tipo_factura2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        tipo_factura2.setText("Peso Mexicano");
+        moneda.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        moneda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        moneda.setText("Peso Mexicano");
 
         titulo_cpEmision1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_cpEmision1.setText("Código postal");
 
-        regimen_emisor3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        regimen_emisor3.setText("Persona Física con Actividad Empresarial (Clave 612)");
+        regimen_emisor.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        regimen_emisor.setText("Persona Física con Actividad Empresarial (Clave 612)");
 
-        titulo_formaPago1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        titulo_formaPago1.setText("Forma de pago");
+        titulo_formaPago.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_formaPago.setText("Forma de pago");
 
-        formaPago1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        formaPago1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01. Efectivo", "02. Cheque nominativo", "03. Transferencia electrónica de fondos", "04. Tarjeta de crédito" }));
+        formaPago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        formaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01. Efectivo", "02. Cheque nominativo", "03. Transferencia electrónica de fondos", "04. Tarjeta de crédito" }));
 
-        titulo_metodoPago1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        titulo_metodoPago1.setText("Método de pago");
+        titulo_metodoPago.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_metodoPago.setText("Método de pago");
 
-        metodoPago1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        metodoPago1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PUE (Pago en una sola exhibición)", "PPD (Pago en parcialidades o diferido)" }));
+        metodoPago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PUE (Pago en una sola exhibición)", "PPD (Pago en parcialidades o diferido)" }));
 
         tituloMoneda1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         tituloMoneda1.setText("Moneda");
 
-        tipo_factura3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        tipo_factura3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        tipo_factura3.setText("Ingreso");
+        tipo_factura.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tipo_factura.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        tipo_factura.setText("I Ingreso");
 
         iconFac_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
 
@@ -1155,28 +1164,28 @@ public class GenerarFactura extends javax.swing.JFrame {
                         .addComponent(titulo_tipoFactura1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelRound4Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(regimen_emisor3, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(regimen_emisor, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(70, 70, 70)
-                        .addComponent(regimen_emisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cp_expedicion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(201, 201, 201)
-                        .addComponent(tipo_factura3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tipo_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelRound4Layout.createSequentialGroup()
                         .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelRound4Layout.createSequentialGroup()
                                 .addGap(50, 50, 50)
-                                .addComponent(formaPago1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(formaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(170, 170, 170)
-                                .addComponent(metodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(80, 80, 80))
                             .addGroup(panelRound4Layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
                                 .addComponent(iconFac_lb5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(titulo_formaPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(titulo_formaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(137, 137, 137)
                                 .addComponent(iconFac_lb4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(titulo_metodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(titulo_metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(iconFac_lb3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
@@ -1184,7 +1193,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                             .addComponent(tituloMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelRound4Layout.createSequentialGroup()
                                 .addGap(4, 4, 4)
-                                .addComponent(tipo_factura2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(59, 59, 59))
         );
         panelRound4Layout.setVerticalGroup(
@@ -1200,14 +1209,14 @@ public class GenerarFactura extends javax.swing.JFrame {
                     .addComponent(titulo_regimenEmisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(regimen_emisor3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(regimen_emisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tipo_factura3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(regimen_emisor, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cp_expedicion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipo_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRound4Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
                         .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(titulo_metodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(titulo_metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(iconFac_lb4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(iconFac_lb5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1216,15 +1225,15 @@ public class GenerarFactura extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(iconFac_lb3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(titulo_formaPago1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(titulo_formaPago, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(6, 6, 6)
                 .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tipo_factura2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelRound4Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(formaPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(metodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(formaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
 
         panelRound3.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 260));
@@ -1274,11 +1283,6 @@ public class GenerarFactura extends javax.swing.JFrame {
         apellidoMaterno_alumno.setEditable(false);
         apellidoMaterno_alumno.setBackground(new java.awt.Color(255, 255, 255));
         apellidoMaterno_alumno.setFocusable(false);
-        apellidoMaterno_alumno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                apellidoMaterno_alumnoActionPerformed(evt);
-            }
-        });
 
         jLabel16.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel16.setText("Apellido materno");
@@ -1306,6 +1310,11 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         servicio.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         servicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pago de colegiatura", "Pago de servicio de transporte escolar" }));
+        servicio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                servicioItemStateChanged(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel5.setText("Seleccionar servicio");
@@ -1316,20 +1325,48 @@ public class GenerarFactura extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel10.setText("Unidad");
 
+        cantidad.setEditable(false);
+        cantidad.setBackground(new java.awt.Color(204, 204, 204));
+        cantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        cantidad.setFocusable(false);
+
         jLabel11.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel11.setText("Precio");
+        jLabel11.setText("Precio unitario");
+
+        unidad.setEditable(false);
+        unidad.setBackground(new java.awt.Color(204, 204, 204));
+        unidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        unidad.setFocusable(false);
+
+        obj_impuestos.setEditable(false);
+        obj_impuestos.setBackground(new java.awt.Color(204, 204, 204));
+        obj_impuestos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        obj_impuestos.setFocusable(false);
 
         jLabel12.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel12.setText("Cantidad");
 
+        campo_precioUnitario.setEditable(false);
+        campo_precioUnitario.setBackground(new java.awt.Color(204, 204, 204));
+        campo_precioUnitario.setFocusable(false);
+
         jLabel19.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel19.setText("Precio");
+        jLabel19.setText("Importe");
 
-        jLabel20.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel20.setText("Rutas");
+        clave.setEditable(false);
+        clave.setBackground(new java.awt.Color(204, 204, 204));
+        clave.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        clave.setFocusable(false);
 
-        jComboBox1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zocalo - Coloso" }));
+        titulo_rutas.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        titulo_rutas.setText("Rutas");
+
+        rutas.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        rutas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zocalo - Coloso" }));
+
+        campo_importe.setEditable(false);
+        campo_importe.setBackground(new java.awt.Color(204, 204, 204));
+        campo_importe.setFocusable(false);
 
         jLabel21.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel21.setText("Clave");
@@ -1342,6 +1379,11 @@ public class GenerarFactura extends javax.swing.JFrame {
         btn_agregar.setForeground(new java.awt.Color(255, 255, 255));
         btn_agregar.setText("Agregar");
         btn_agregar.setBorder(null);
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound6Layout = new javax.swing.GroupLayout(panelRound6);
         panelRound6.setLayout(panelRound6Layout);
@@ -1388,16 +1430,16 @@ public class GenerarFactura extends javax.swing.JFrame {
                                     .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(campo_precioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 79, Short.MAX_VALUE)
                                 .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(panelRound6Layout.createSequentialGroup()
                                         .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(importe, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(campo_importe, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(62, 62, 62)
                                         .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(campoDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(panelRound6Layout.createSequentialGroup()
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1422,10 +1464,10 @@ public class GenerarFactura extends javax.swing.JFrame {
                         .addGap(317, 317, 317)
                         .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelRound6Layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rutas, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
-                                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(titulo_rutas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(87, 87, 87))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1460,11 +1502,11 @@ public class GenerarFactura extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(titulo_rutas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(servicio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rutas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(56, 56, 56)
                 .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1485,12 +1527,12 @@ public class GenerarFactura extends javax.swing.JFrame {
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(importe, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(campo_precioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campo_importe, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelRound6Layout.createSequentialGroup()
                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -1518,100 +1560,106 @@ public class GenerarFactura extends javax.swing.JFrame {
         panelRound8.setRoundTopRight(50);
         panelRound8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        apellido_maternoPadre.setEditable(false);
-        apellido_maternoPadre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        apellido_maternoPadre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        apellido_maternoPadre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        apellido_maternoPadre.setFocusable(false);
-        panelRound8.add(apellido_maternoPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, 210, 40));
+        campo_total.setEditable(false);
+        campo_total.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        campo_total.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campo_total.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        campo_total.setFocusable(false);
+        panelRound8.add(campo_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, 210, 40));
 
-        titulo_apellidoMaterno1.setEditable(false);
-        titulo_apellidoMaterno1.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_apellidoMaterno1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_apellidoMaterno1.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_apellidoMaterno1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        titulo_apellidoMaterno1.setText("Total");
-        titulo_apellidoMaterno1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        titulo_apellidoMaterno1.setFocusable(false);
-        titulo_apellidoMaterno1.setMargin(new java.awt.Insets(10, 6, 2, 6));
-        panelRound8.add(titulo_apellidoMaterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 30, 210, 40));
+        tituloTotal.setEditable(false);
+        tituloTotal.setBackground(new java.awt.Color(198, 54, 55));
+        tituloTotal.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        tituloTotal.setForeground(new java.awt.Color(255, 255, 255));
+        tituloTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tituloTotal.setText("Total");
+        tituloTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        tituloTotal.setFocusable(false);
+        tituloTotal.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        panelRound8.add(tituloTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 30, 210, 40));
 
-        apellido_maternoPadre1.setEditable(false);
-        apellido_maternoPadre1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        apellido_maternoPadre1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        apellido_maternoPadre1.setText("1");
-        apellido_maternoPadre1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        apellido_maternoPadre1.setFocusable(false);
-        panelRound8.add(apellido_maternoPadre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 220, 40));
+        subTotal.setEditable(false);
+        subTotal.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        subTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        subTotal.setText("1");
+        subTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        subTotal.setFocusable(false);
+        panelRound8.add(subTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 220, 40));
 
-        apellido_maternoPadre2.setEditable(false);
-        apellido_maternoPadre2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        apellido_maternoPadre2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        apellido_maternoPadre2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        apellido_maternoPadre2.setFocusable(false);
-        panelRound8.add(apellido_maternoPadre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 230, 40));
+        descuento_totales.setEditable(false);
+        descuento_totales.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        descuento_totales.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        descuento_totales.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        descuento_totales.setFocusable(false);
+        panelRound8.add(descuento_totales, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 230, 40));
 
-        apellido_maternoPadre3.setEditable(false);
-        apellido_maternoPadre3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        apellido_maternoPadre3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        apellido_maternoPadre3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        apellido_maternoPadre3.setFocusable(false);
-        panelRound8.add(apellido_maternoPadre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, 230, 40));
+        impuestos_total.setEditable(false);
+        impuestos_total.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        impuestos_total.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        impuestos_total.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        impuestos_total.setFocusable(false);
+        panelRound8.add(impuestos_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, 230, 40));
 
         btn_eliminar.setBackground(new java.awt.Color(255, 0, 0));
         btn_eliminar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setBorder(null);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
         panelRound8.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 150, 173, 45));
 
-        titulo_apellidoMaterno4.setEditable(false);
-        titulo_apellidoMaterno4.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_apellidoMaterno4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_apellidoMaterno4.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_apellidoMaterno4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        titulo_apellidoMaterno4.setText("Subtotal");
-        titulo_apellidoMaterno4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        titulo_apellidoMaterno4.setFocusable(false);
-        titulo_apellidoMaterno4.setMargin(new java.awt.Insets(10, 6, 2, 6));
-        panelRound8.add(titulo_apellidoMaterno4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 220, 40));
+        tituloSubtotal.setEditable(false);
+        tituloSubtotal.setBackground(new java.awt.Color(198, 54, 55));
+        tituloSubtotal.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        tituloSubtotal.setForeground(new java.awt.Color(255, 255, 255));
+        tituloSubtotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tituloSubtotal.setText("Subtotal");
+        tituloSubtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        tituloSubtotal.setFocusable(false);
+        tituloSubtotal.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        panelRound8.add(tituloSubtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 220, 40));
 
-        titulo_apellidoMaterno5.setEditable(false);
-        titulo_apellidoMaterno5.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_apellidoMaterno5.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_apellidoMaterno5.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_apellidoMaterno5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        titulo_apellidoMaterno5.setText("Descuento");
-        titulo_apellidoMaterno5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        titulo_apellidoMaterno5.setFocusable(false);
-        titulo_apellidoMaterno5.setMargin(new java.awt.Insets(10, 6, 2, 6));
-        panelRound8.add(titulo_apellidoMaterno5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 230, 40));
+        tituloDescuento.setEditable(false);
+        tituloDescuento.setBackground(new java.awt.Color(198, 54, 55));
+        tituloDescuento.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        tituloDescuento.setForeground(new java.awt.Color(255, 255, 255));
+        tituloDescuento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tituloDescuento.setText("Descuento");
+        tituloDescuento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        tituloDescuento.setFocusable(false);
+        tituloDescuento.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        panelRound8.add(tituloDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 230, 40));
 
-        titulo_apellidoMaterno6.setEditable(false);
-        titulo_apellidoMaterno6.setBackground(new java.awt.Color(198, 54, 55));
-        titulo_apellidoMaterno6.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        titulo_apellidoMaterno6.setForeground(new java.awt.Color(255, 255, 255));
-        titulo_apellidoMaterno6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        titulo_apellidoMaterno6.setText("Impuestos");
-        titulo_apellidoMaterno6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        titulo_apellidoMaterno6.setFocusable(false);
-        titulo_apellidoMaterno6.setMargin(new java.awt.Insets(10, 6, 2, 6));
-        panelRound8.add(titulo_apellidoMaterno6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 230, 40));
+        tituloImpuestos.setEditable(false);
+        tituloImpuestos.setBackground(new java.awt.Color(198, 54, 55));
+        tituloImpuestos.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        tituloImpuestos.setForeground(new java.awt.Color(255, 255, 255));
+        tituloImpuestos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tituloImpuestos.setText("Impuestos");
+        tituloImpuestos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        tituloImpuestos.setFocusable(false);
+        tituloImpuestos.setMargin(new java.awt.Insets(10, 6, 2, 6));
+        panelRound8.add(tituloImpuestos, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 230, 40));
 
         panelRound7.add(panelRound8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 210));
 
         jPanel1.add(panelRound7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1670, 1160, 280));
 
-        btn_previsualizar1.setBackground(new java.awt.Color(0, 153, 255));
-        btn_previsualizar1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        btn_previsualizar1.setForeground(new java.awt.Color(255, 255, 255));
-        btn_previsualizar1.setText("Previsualizar");
-        btn_previsualizar1.addActionListener(new java.awt.event.ActionListener() {
+        btn_previsualizar.setBackground(new java.awt.Color(0, 153, 255));
+        btn_previsualizar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btn_previsualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_previsualizar.setText("Previsualizar");
+        btn_previsualizar.setEnabled(false);
+        btn_previsualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_previsualizar1ActionPerformed(evt);
+                btn_previsualizarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_previsualizar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 2010, 210, 40));
+        jPanel1.add(btn_previsualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 2010, 210, 40));
 
         contenedor.setViewportView(jPanel1);
 
@@ -1646,7 +1694,7 @@ public class GenerarFactura extends javax.swing.JFrame {
             if (rs.next()) {
                 nombre_padre.setText(rs.getString("nombres"));
                 apellidoPaterno_padre.setText(rs.getString("apellido_paterno"));
-                apellidoMaterno_padre.setText(rs.getString("apellido_paterno"));
+                apellidoMaterno_padre.setText(rs.getString("apellido_materno"));
                 regimen_padre.setText(rs.getString("regimen"));
                 domicilio_padre.setText(rs.getString("domicilio_fiscal"));
                 correo_padre.setText(rs.getString("correo_electronico"));
@@ -1672,6 +1720,8 @@ public class GenerarFactura extends javax.swing.JFrame {
                 apellidoMaterno_alumno.setText(rs.getString("apellido_materno"));
                 nivel_escolar.setText(rs.getString("nivel_escolaridad")); 
                 grado_escolar.setText(rs.getString("grado_escolar"));
+                alumno = new Alumno(rs.getString("curp"),rs.getString("nombres"),rs.getString("apellido_paterno"),rs.getString("apellido_materno"),
+                        rs.getString("nivel_escolaridad"), rs.getString("grado_escolar"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
@@ -1695,6 +1745,42 @@ public class GenerarFactura extends javax.swing.JFrame {
             //Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void obtenerCostosColegiatura(){
+        //obtener titulos
+        cantidad.setText("1");
+        unidad.setText("E48 / Unidad de servicio");
+        clave.setText("861221500");
+        obj_impuestos.setText("No objeto de impuestos");
+        //generar escripcion
+        descripcion = "PAGO POR CONCEPTO DE COLEGIATURA DEL"
+                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: 12PPR0395H, CORRESPONDIENTE AL MES DE AGOSTO DEL 2024, "
+                + "DEL ALUMNO " + alumno.getNombreCompletoMayus() + ", QUE CURSA EL " + alumno.getGrado_escolar().toUpperCase() + " GRADO DE "
+                + alumno.getNivel_escolar().toUpperCase() + ". CURP: " + alumno.getCurp() + ".";
+                
+        //Obtener precios para colegiaturas
+        switch (alumno.getNivel_escolar()) {
+            case "Preescolar":
+                precio = 2000.00;
+                importe=2000.00;
+                campo_precioUnitario.setText("$"+precio);
+                campo_importe.setText("$"+importe);
+                break;
+            case "Primaria":
+                precio = 2500.00;
+                importe=2500.0;
+                campo_precioUnitario.setText("$"+precio);
+                campo_importe.setText("$"+importe);
+                break;
+            case "Secundaria":
+                precio=3500.00;
+                importe=3500.00;
+                campo_precioUnitario.setText("$"+precio);
+                campo_importe.setText("$"+importe);
+                break;
+        }
+    }
+    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
@@ -2475,31 +2561,101 @@ public class GenerarFactura extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rfc_padreKeyTyped
 
-    private void apellidoMaterno_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_padreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_apellidoMaterno_padreActionPerformed
-
-    private void domicilio_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_domicilio_padreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_domicilio_padreActionPerformed
-
-    private void btn_previsualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_previsualizarActionPerformed
-        ModeloFactura facturaPrevia= new ModeloFactura((Frame) SwingUtilities.getWindowAncestor(fondo), true);
-        facturaPrevia.setVisible(true);
-    }//GEN-LAST:event_btn_previsualizarActionPerformed
-
-    private void apellidoMaterno_alumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaterno_alumnoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_apellidoMaterno_alumnoActionPerformed
+    private void btn_enviarCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarCorreoActionPerformed
+        
+    }//GEN-LAST:event_btn_enviarCorreoActionPerformed
 
     private void nombres_alumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_nombres_alumnoItemStateChanged
         String curp[]=nombres_alumno.getSelectedItem().toString().split("-");
         obtenerDatosAlumno(curp[1].trim());
+        
+        //cargar el dato de la colegiatura
+        if(servicio.getSelectedItem().toString().equals("Pago de colegiatura")){
+            obtenerCostosColegiatura();
+        }
     }//GEN-LAST:event_nombres_alumnoItemStateChanged
 
-    private void btn_previsualizar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_previsualizar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_previsualizar1ActionPerformed
+    private void btn_previsualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_previsualizarActionPerformed
+        //Funcion para previsualizar la factura
+      
+        //Previsualizar el modelo
+        ModeloFactura facturaPrevia = new ModeloFactura((Frame) SwingUtilities.getWindowAncestor(fondo), true, receptor, alumno,factura);
+        facturaPrevia.setVisible(true);
+    }//GEN-LAST:event_btn_previsualizarActionPerformed
+
+    private void servicioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_servicioItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) { //si selecciona un item verificar    
+            //Obtener el item seleccionado
+            if (servicio.getSelectedIndex() == 0) {
+                //Ocultar las rutas
+                titulo_rutas.setVisible(false);
+                rutas.setVisible(false);
+                obtenerCostosColegiatura();
+                return;
+            }
+            if(servicio.getSelectedIndex()==1){
+                //Mostrar las rutas
+                titulo_rutas.setVisible(true);
+                rutas.setVisible(true);
+                return;
+            }
+        }
+    }//GEN-LAST:event_servicioItemStateChanged
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        if(descuento > importe){
+           JOptionPane.showMessageDialog(null, "El descuento no puede ser mayor al precio del servicio", "Error", JOptionPane.WARNING_MESSAGE); 
+           return;
+        }
+        
+        //Crear objetto para el receptor
+        receptor = new Receptor(rfc_padre.getText(), nombre_padre.getText(), apellidoPaterno_padre.getText(), apellidoMaterno_padre.getText(), regimen_padre.getText(),
+                domicilio_padre.getText(), correo_padre.getText());
+
+        //Crear el objeto para la factura
+        factura = new Factura(formaPago.getSelectedItem().toString(), metodoPago.getSelectedItem().toString(), tipo_factura.getText(),
+        cantidad.getText(), unidad.getText(), clave.getText(), descripcion, obj_impuestos.getText(), precio, importe,impuestos,descuento);
+       
+        //Bloquear ingresar datos padre
+        rfc_padre.setEnabled(false);
+        icon_buscarPadre.setVisible(false);
+        //bloquear ingresar datos servicios
+        nombres_alumno.setEnabled(false);
+        campoDescuento.setEnabled(false);
+        servicio.setEnabled(false);
+        
+        //Llenar la tabla de totales
+        subTotal.setText("$"+factura.getSubtotal());
+        descuento_totales.setText("$"+factura.getDescuento());
+        impuestos_total.setText("$"+factura.getImpuesto());
+        campo_total.setText("$"+factura.getTotal());
+
+        //habilitar los botones de visualizar y enviar por correo
+        btn_previsualizar.setEnabled(true);
+        btn_enviarCorreo.setEnabled(true);
+        
+        //bloquear boton de agregar
+        btn_agregar.setEnabled(false);
+        //Habilitar boton eliminar
+        btn_eliminar.setEnabled(true);
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        //habilitar ingresar datos padre
+        rfc_padre.setEnabled(true);
+        icon_buscarPadre.setVisible(true);
+        //habilitar ingresar datos servicios
+        nombres_alumno.setEnabled(true);
+        campoDescuento.setEnabled(true);
+        servicio.setEnabled(true);
+        
+        //deshabilitar los botones de visualizar y enviar por correo
+        btn_previsualizar.setEnabled(false);
+        btn_enviarCorreo.setEnabled(false);  
+        
+        btn_agregar.setEnabled(true);
+        btn_eliminar.setEnabled(false);
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2573,34 +2729,35 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JTextField apellidoMaterno_padre;
     private javax.swing.JTextField apellidoPaterno_alumno;
     private javax.swing.JTextField apellidoPaterno_padre;
-    private javax.swing.JTextField apellido_maternoPadre;
-    private javax.swing.JTextField apellido_maternoPadre1;
-    private javax.swing.JTextField apellido_maternoPadre2;
-    private javax.swing.JTextField apellido_maternoPadre3;
     private javax.swing.JPanel barra_nav;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JPanel btn_alumnos;
     private javax.swing.JPanel btn_cerrarSesion;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JPanel btn_emisor;
+    private javax.swing.JButton btn_enviarCorreo;
     private javax.swing.JPanel btn_estadisticas;
     private javax.swing.JPanel btn_facturas;
     private javax.swing.JPanel btn_historialSesiones;
     private javax.swing.JPanel btn_padres;
     private javax.swing.JButton btn_previsualizar;
-    private javax.swing.JButton btn_previsualizar1;
     private javax.swing.JPanel btn_salir;
+    private javax.swing.JTextField campoDescuento;
+    private javax.swing.JTextField campo_importe;
+    private javax.swing.JTextField campo_precioUnitario;
+    private javax.swing.JTextField campo_total;
     private javax.swing.JTextField cantidad;
     private javax.swing.JLabel cerrar_icon;
     private javax.swing.JTextField clave;
     private javax.swing.JScrollPane contenedor;
     private javax.swing.JPanel contenedor_menu;
     private javax.swing.JTextField correo_padre;
+    private javax.swing.JLabel cp_expedicion;
     private javax.swing.JTextField curp_alumno;
-    private javax.swing.JTextField descuento;
+    private javax.swing.JTextField descuento_totales;
     private javax.swing.JTextField domicilio_padre;
     private javax.swing.JPanel fondo;
-    private javax.swing.JComboBox<String> formaPago1;
+    private javax.swing.JComboBox<String> formaPago;
     private javax.swing.JTextField grado_escolar;
     private javax.swing.JLabel historial_lb;
     private javax.swing.JLabel hora_lb;
@@ -2618,8 +2775,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel icon_item5;
     private javax.swing.JLabel icon_regresarlb;
     private javax.swing.JLabel icon_salir;
-    private javax.swing.JTextField importe;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextField impuestos_total;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2631,7 +2787,6 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
@@ -2666,7 +2821,8 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
-    private javax.swing.JComboBox<String> metodoPago1;
+    private javax.swing.JComboBox<String> metodoPago;
+    private javax.swing.JLabel moneda;
     private javax.swing.JTextField nivel_escolar;
     private javax.swing.JTextField nombre_padre;
     private javax.swing.JPanel nombre_user;
@@ -2680,25 +2836,25 @@ public class GenerarFactura extends javax.swing.JFrame {
     private paneles.PanelRound panelRound6;
     private paneles.PanelRound panelRound7;
     private paneles.PanelRound panelRound8;
-    private javax.swing.JTextField precio;
-    private javax.swing.JLabel regimen_emisor1;
-    private javax.swing.JLabel regimen_emisor3;
+    private javax.swing.JLabel regimen_emisor;
     private javax.swing.JTextField regimen_padre;
     private javax.swing.JTextField rfc_padre;
+    private javax.swing.JComboBox<String> rutas;
     private javax.swing.JComboBox<String> servicio;
+    private javax.swing.JTextField subTotal;
     private javax.swing.JLabel text_salir;
-    private javax.swing.JLabel tipo_factura2;
-    private javax.swing.JLabel tipo_factura3;
+    private javax.swing.JLabel tipo_factura;
+    private javax.swing.JTextField tituloDescuento;
+    private javax.swing.JTextField tituloImpuestos;
     private javax.swing.JLabel tituloMoneda1;
-    private javax.swing.JTextField titulo_apellidoMaterno1;
-    private javax.swing.JTextField titulo_apellidoMaterno4;
-    private javax.swing.JTextField titulo_apellidoMaterno5;
-    private javax.swing.JTextField titulo_apellidoMaterno6;
+    private javax.swing.JTextField tituloSubtotal;
+    private javax.swing.JTextField tituloTotal;
     private javax.swing.JLabel titulo_correoPadre;
     private javax.swing.JLabel titulo_cpEmision1;
-    private javax.swing.JLabel titulo_formaPago1;
-    private javax.swing.JLabel titulo_metodoPago1;
+    private javax.swing.JLabel titulo_formaPago;
+    private javax.swing.JLabel titulo_metodoPago;
     private javax.swing.JLabel titulo_regimenEmisor1;
+    private javax.swing.JLabel titulo_rutas;
     private javax.swing.JLabel titulo_tipoFactura1;
     private javax.swing.JLabel txt_ConsultarEmisor;
     private javax.swing.JLabel txt_altaAlumnos;
