@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 
 public class FacturaPDF {
 
-    public void generarFacturaPDF(String ruta) throws FileNotFoundException, DocumentException, IOException {
+    public void generarFacturaPDF(String ruta, Receptor receptor, Alumno alumno, Factura factura) throws FileNotFoundException, DocumentException, IOException {
         // Obtener la fecha y hora actual
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         // Definir el formato deseado
@@ -101,7 +101,7 @@ public class FacturaPDF {
         //celda con la fecha y hora de emisision
         PdfPCell celdaFechaHoraEmision = new PdfPCell();
         Paragraph FechaHoraEmision = new Paragraph(6);
-        FechaHoraEmision.add(new Chunk(fechaHoraFormateada,FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 7)));
+        FechaHoraEmision.add(new Chunk(factura.getFechaHoraSellada(),FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 7)));
         celdaFechaHoraEmision.addElement(FechaHoraEmision);
         celdaFechaHoraEmision.setBorder(PdfPCell.NO_BORDER);
         
@@ -116,7 +116,7 @@ public class FacturaPDF {
         //celda con la fecha y hora de certificacion
         PdfPCell celdaFechaHoraCertificacion = new PdfPCell();
         Paragraph FechaHoraCertifacion = new Paragraph(6);
-        FechaHoraCertifacion.add(new Chunk(fechaHoraFormateada,FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 7)));
+        FechaHoraCertifacion.add(new Chunk(factura.getFechaHoraSellada(),FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 7)));
         celdaFechaHoraCertificacion.addElement(FechaHoraCertifacion);
         celdaFechaHoraCertificacion.setBorder(PdfPCell.NO_BORDER);
         
@@ -174,7 +174,7 @@ public class FacturaPDF {
         
         //Parrafo y celda para el nombre del recptor
         Paragraph nombreReceptor = new Paragraph(10);
-        nombreReceptor.add(new Chunk("ANGEL RAMIREZ CASTRO",FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
+        nombreReceptor.add(new Chunk(receptor.getNombreCompletoMayus(),FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
         PdfPCell celdaNombreReceptor = new PdfPCell(nombreReceptor);
         celdaNombreReceptor.setBorder(PdfPCell.NO_BORDER);
         //agrega el nombre del receptor a la tabla del receptor
@@ -190,7 +190,7 @@ public class FacturaPDF {
         PdfPCell celdaTituloRfc = new PdfPCell(tituloRfc);
         celdaTituloRfc.setBorder(PdfPCell.NO_BORDER);
         datosReceptor.addCell(celdaTituloRfc);      
-        Paragraph RfcReceptor = new Paragraph(new Chunk("RACA031202FFF",FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
+        Paragraph RfcReceptor = new Paragraph(new Chunk(receptor.getRfc(),FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
         PdfPCell celdaRfcReceptopr = new PdfPCell(RfcReceptor);
         celdaRfcReceptopr.setBorder(PdfPCell.NO_BORDER);
         datosReceptor.addCell(celdaRfcReceptopr);
@@ -200,7 +200,7 @@ public class FacturaPDF {
         PdfPCell celdaTituloCFDI = new PdfPCell(tituloCFDI);
         celdaTituloCFDI.setBorder(PdfPCell.NO_BORDER);
         datosReceptor.addCell(celdaTituloCFDI);      
-        Paragraph usoCFDI = new Paragraph(new Chunk("D10 Pagos por servicios educativos (colegiaturas)",FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
+        Paragraph usoCFDI = new Paragraph(new Chunk(receptor.getUso_CFDI(),FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
         PdfPCell celdaUsoCFDI = new PdfPCell(usoCFDI);
         celdaUsoCFDI.setBorder(PdfPCell.NO_BORDER);
         datosReceptor.addCell(celdaUsoCFDI);
@@ -210,7 +210,7 @@ public class FacturaPDF {
         PdfPCell celdaTituloDomicilioFiscal = new PdfPCell(tituloDomicilioFiscal);
         celdaTituloDomicilioFiscal.setBorder(PdfPCell.NO_BORDER);
         datosReceptor.addCell(celdaTituloDomicilioFiscal);      
-        Paragraph domicilioFiscal = new Paragraph(new Chunk("39890",FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
+        Paragraph domicilioFiscal = new Paragraph(new Chunk(receptor.getDomicilio_fiscal(),FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
         PdfPCell celdaDomicilioFiscal = new PdfPCell(domicilioFiscal);
         celdaDomicilioFiscal.setBorder(PdfPCell.NO_BORDER);
         datosReceptor.addCell(celdaDomicilioFiscal);
@@ -220,7 +220,7 @@ public class FacturaPDF {
         PdfPCell celdaTituloRegimenFiscal = new PdfPCell(tituloRegimenFiscal);
         celdaTituloRegimenFiscal.setBorder(PdfPCell.NO_BORDER);
         datosReceptor.addCell(celdaTituloRegimenFiscal);      
-        Paragraph regimenFiscal = new Paragraph(new Chunk("612 Personas Físicas con Actividades Empresariales y Profesionales",FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
+        Paragraph regimenFiscal = new Paragraph(new Chunk(receptor.getRegimen(),FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
         PdfPCell celdaRegimenFiscal = new PdfPCell(regimenFiscal);
         celdaRegimenFiscal.setBorder(PdfPCell.NO_BORDER);
         datosReceptor.addCell(celdaRegimenFiscal);
@@ -255,7 +255,7 @@ public class FacturaPDF {
         PdfPCell celdaTituloFolioSAT = new PdfPCell(tituloFolioSAT);
         celdaTituloFolioSAT.setBorder(PdfPCell.NO_BORDER);
         tablaDaTosFiscales.addCell(celdaTituloFolioSAT);
-        Paragraph FolioSAT = new Paragraph(new Chunk("7733D569-D3E7-4084-A167-51AB5B1337F6",FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
+        Paragraph FolioSAT = new Paragraph(new Chunk(factura.getFolioSat(),FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
         PdfPCell celdaFolioSAT = new PdfPCell(FolioSAT);
         celdaFolioSAT.setBorder(PdfPCell.NO_BORDER);
         tablaDaTosFiscales.addCell(celdaFolioSAT);
@@ -265,17 +265,17 @@ public class FacturaPDF {
         PdfPCell celdaTituloNumSerieCertificadoEmisor = new PdfPCell(tituloNumSerieCertificadoEmisor);
         celdaTituloNumSerieCertificadoEmisor.setBorder(PdfPCell.NO_BORDER);
         tablaDaTosFiscales.addCell(celdaTituloNumSerieCertificadoEmisor);
-        Paragraph NumSerieCertificadoEmisor = new Paragraph(new Chunk("00001000000512666708",FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
+        Paragraph NumSerieCertificadoEmisor = new Paragraph(new Chunk(factura.getNumero_serie_certificado_emisor(),FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
         PdfPCell celdaNumSerieCertificadoEmisor = new PdfPCell(NumSerieCertificadoEmisor);
         celdaNumSerieCertificadoEmisor.setBorder(PdfPCell.NO_BORDER);
         tablaDaTosFiscales.addCell(celdaNumSerieCertificadoEmisor);
         
         //Celdas para e Numero serie del certificado SAT
-        Paragraph tituloNumSerieCertificadoSAT= new Paragraph(new Chunk("Numero de serie certificado emisor:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8,BaseColor.BLACK)));
+        Paragraph tituloNumSerieCertificadoSAT= new Paragraph(new Chunk("Numero de serie del certificado SAT:",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8,BaseColor.BLACK)));
         PdfPCell celdaTituloNumSerieCertificadoSAT = new PdfPCell(tituloNumSerieCertificadoSAT);
         celdaTituloNumSerieCertificadoSAT.setBorder(PdfPCell.NO_BORDER);
         tablaDaTosFiscales.addCell(celdaTituloNumSerieCertificadoSAT);
-        Paragraph NumSerieCertificadoSAT = new Paragraph(new Chunk("00001000000509846663",FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
+        Paragraph NumSerieCertificadoSAT = new Paragraph(new Chunk(factura.getNumero_serie_certificado_SAT(),FontFactory.getFont(FontFactory.HELVETICA, 8,BaseColor.BLACK)));
         PdfPCell celdaNumSerieCertificadoSAT = new PdfPCell(NumSerieCertificadoSAT);
         celdaNumSerieCertificadoSAT.setBorder(PdfPCell.NO_BORDER);
         tablaDaTosFiscales.addCell(celdaNumSerieCertificadoEmisor);
@@ -402,7 +402,7 @@ public class FacturaPDF {
         //------DATOS PARA LA TABLA DE DESGLOCE DE GASTOS-----------
          //cantidad
         Paragraph Cantidad = new Paragraph(3);
-        Cantidad.add((new Chunk("1",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Cantidad.add((new Chunk(factura.getCantidad(),FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
         Cantidad.setAlignment(Element.ALIGN_CENTER);
         PdfPCell celdaCant = new PdfPCell();
         celdaCant.addElement(Cantidad);
@@ -412,7 +412,7 @@ public class FacturaPDF {
         
         //Unidad
         Paragraph Unidad = new Paragraph(7);
-        Unidad.add((new Chunk("E48 / Unidad de servicio ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Unidad.add((new Chunk(factura.getUnidad(),FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
         Unidad.setAlignment(Element.ALIGN_CENTER);
         PdfPCell celdaUnidad = new PdfPCell();
         celdaUnidad.addElement(Unidad);
@@ -422,7 +422,7 @@ public class FacturaPDF {
         
         //Clave
         Paragraph Clave = new Paragraph(3);
-        Clave.add((new Chunk("86121503",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Clave.add((new Chunk(factura.getClave(),FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
         Clave.setAlignment(Element.ALIGN_CENTER);
         PdfPCell celdaClave = new PdfPCell();
         celdaClave.addElement(Clave);
@@ -431,12 +431,9 @@ public class FacturaPDF {
         tablaDesgloceGastos.addCell(celdaClave);
         
         //Descripcion
-        Paragraph Descripcion = new Paragraph(10);
-        Descripcion.add((new Chunk("PAGO POR CONCEPTO DE COLEGIATURA DEL INSTITUTO HISPANOAMERICANO - MEXICANO,CON CLAVE: 12PPR0395H, "
-                + "CORRESPONDIENTE AL MES DE ABRIL DEL 2024, DEL ALUMNO:ANDRE TORRES VARGAS, "
-                + "QUE CURSA EL SEGUNDO GRADO DE PRIMARIA. "
-                + "CURP:TOVA161217HGRRRNA7.",FontFactory.getFont(FontFactory.HELVETICA,6,BaseColor.BLACK))));
-        Descripcion.setAlignment(Element.ALIGN_JUSTIFIED);
+        Paragraph Descripcion = new Paragraph(7);
+        Descripcion.add((new Chunk(factura.getDescripcion(),FontFactory.getFont(FontFactory.HELVETICA,6,BaseColor.BLACK))));
+        Descripcion.setAlignment(Element.ALIGN_LEFT);
         PdfPCell celdaDescripcion = new PdfPCell();
         celdaDescripcion.addElement(Descripcion);
         celdaDescripcion.setBorder(PdfPCell.NO_BORDER);
@@ -444,7 +441,7 @@ public class FacturaPDF {
         
         //Objeto impuestos
         Paragraph objImpuestos = new Paragraph(3);
-        objImpuestos.add((new Chunk("No objeto de impuesto",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        objImpuestos.add((new Chunk(factura.getObj_impuestos(),FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
         objImpuestos.setAlignment(Element.ALIGN_CENTER);
         PdfPCell celdaObjImpuestos = new PdfPCell();
         celdaObjImpuestos.addElement(objImpuestos);
@@ -454,14 +451,22 @@ public class FacturaPDF {
         
         //Precio
         Paragraph Precio = new Paragraph(3);
-        Precio.add((new Chunk("\n\n$1,710.00\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Precio.add((new Chunk("\n\n$"+factura.getPrecio_unitario()+"\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
         Precio.setAlignment(Element.ALIGN_CENTER);
         PdfPCell celdaPrecio = new PdfPCell();
         celdaPrecio.addElement(Precio);
         celdaPrecio.setVerticalAlignment(Element.ALIGN_MIDDLE);
         celdaPrecio.setBorder(PdfPCell.NO_BORDER);
         tablaDesgloceGastos.addCell(celdaPrecio);
-        tablaDesgloceGastos.addCell(celdaPrecio);
+        
+        Paragraph Importe = new Paragraph(3);
+        Importe.add((new Chunk("\n\n$"+factura.getImporte()+"\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        Importe.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell celdaImporte = new PdfPCell();
+        celdaImporte.addElement(Importe);
+        celdaImporte.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        celdaImporte.setBorder(PdfPCell.NO_BORDER);
+        tablaDesgloceGastos.addCell(celdaImporte);
         
         
         //----------------------------------------------------------
@@ -525,11 +530,43 @@ public class FacturaPDF {
         tablaAlumno.addCell(celdaTituloNombre);
         
         //-------------SECCCION PARA LLENAR LA TABLA DE ALUMNOS
-        tablaAlumno.addCell(celdaTituloNombre);
-        tablaAlumno.addCell(celdaTituloNombre);
-        tablaAlumno.addCell(celdaTituloNombre);
-        tablaAlumno.addCell(celdaTituloNombre);
+        //CURP
+        Paragraph CURP = new Paragraph(3);
+        CURP.add((new Chunk("\n\n"+alumno.getCurp()+"\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        CURP.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdaCurp = new PdfPCell();
+        celdaCurp.addElement(CURP);
+        celdaCurp.setBorder(PdfPCell.NO_BORDER);
+        tablaAlumno.addCell(celdaCurp);
+        
+        //Centro de trabajo
+        Paragraph centroTrabajo = new Paragraph(3);
+        centroTrabajo.add((new Chunk("\n\n"+"11122221212"+"\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        centroTrabajo.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdacentroTrabajo = new PdfPCell();
+        celdacentroTrabajo.addElement(centroTrabajo);
+        celdacentroTrabajo.setBorder(PdfPCell.NO_BORDER);
+        tablaAlumno.addCell(celdacentroTrabajo);
+        
+        //Nivel educativo
+        Paragraph nivelEducativo = new Paragraph(3);
+        nivelEducativo.add((new Chunk("\n\n"+alumno.getNivel_escolar()+"\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        nivelEducativo.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdaNivelEducativo = new PdfPCell();
+        celdaNivelEducativo.addElement(nivelEducativo);
+        celdaNivelEducativo.setBorder(PdfPCell.NO_BORDER);
+        tablaAlumno.addCell(celdaNivelEducativo);
+        
+        //Nombre
+        Paragraph nombreAlumno = new Paragraph(3);
+        nombreAlumno.add((new Chunk("\n\n"+alumno.getNombreCompletoMayus()+"\n ",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK))));
+        nombreAlumno.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell celdaNombreAlumno = new PdfPCell();
+        celdaNombreAlumno.addElement(nombreAlumno);
+        celdaNombreAlumno.setBorder(PdfPCell.NO_BORDER);
+        tablaAlumno.addCell(celdaNombreAlumno);      
         //-----------------------------------------------------     
+        
         //Celda para la tabla de alumnos
         PdfPCell celdaTablaAlumno = new PdfPCell(tablaAlumno);
         celdaTablaAlumno.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.NO_BORDER | PdfPCell.BOTTOM);
@@ -547,7 +584,7 @@ public class FacturaPDF {
         //Celdas para la tabla de pagos
         //Celda para el total en texto
         Paragraph totalTexto = new Paragraph(3);
-        totalTexto.add(new Chunk("\n\n(MIL SETECIENTOS DIEZ MXN 00/100 )\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 7,BaseColor.BLACK)));
+        totalTexto.add(new Chunk("\n\n( "+factura.getTotal_letras()+" )\n ",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8,BaseColor.BLACK)));
         PdfPCell celdaTotalTexto = new PdfPCell();
         celdaTotalTexto.addElement(totalTexto);
         celdaTotalTexto.setBorder(PdfPCell.NO_BORDER);       
@@ -569,7 +606,7 @@ public class FacturaPDF {
         tablaFormasDePago.addCell(celdaTituloFormaPago);
         //datos para la forma de pago
         Paragraph FormaPago = new Paragraph(3);
-        FormaPago.add(new Chunk("\n\n\n03 Transferencia electrónica de fondos",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        FormaPago.add(new Chunk("\n\n\n"+factura.getForma_pago(),FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
         PdfPCell celdaFormaPago = new PdfPCell();
         celdaFormaPago.addElement(FormaPago);
         celdaFormaPago.setBorder(PdfPCell.NO_BORDER);
@@ -587,7 +624,7 @@ public class FacturaPDF {
        
         //datos para la metodo de pago
         Paragraph metodoPago = new Paragraph(3);
-        metodoPago.add(new Chunk("\n\n\nPUE Pago en una sola exhibición",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        metodoPago.add(new Chunk("\n\n\n"+factura.getMetodo_pago(),FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
         PdfPCell celdaMetodoPago = new PdfPCell();
         celdaMetodoPago.addElement(metodoPago);
         celdaMetodoPago.setBorder(PdfPCell.NO_BORDER);
@@ -605,7 +642,7 @@ public class FacturaPDF {
        
         //datos para Tipo de comprobante
         Paragraph tipoComprobante = new Paragraph(3);
-        tipoComprobante.add(new Chunk("\n\n\nI Ingreso",FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
+        tipoComprobante.add(new Chunk("\n\n\n"+factura.getTipo_comprobante(),FontFactory.getFont(FontFactory.HELVETICA, 7,BaseColor.BLACK)));
         PdfPCell celdaTipoComprobante = new PdfPCell();
         celdaTipoComprobante.addElement(tipoComprobante);
         celdaTipoComprobante.setBorder(PdfPCell.NO_BORDER);
@@ -694,7 +731,7 @@ public class FacturaPDF {
         
         //subtotal
         Paragraph subtotal = new Paragraph(3);
-        subtotal.add(new Chunk("\n\n\n$1,710.00",FontFactory.getFont(FontFactory.HELVETICA, 10,BaseColor.BLACK)));
+        subtotal.add(new Chunk("\n\n\n$"+factura.getSubtotal(),FontFactory.getFont(FontFactory.HELVETICA, 10,BaseColor.BLACK)));
         subtotal.setAlignment(Element.ALIGN_RIGHT);
         PdfPCell celdaSubTotal = new PdfPCell();
         celdaSubTotal.addElement(subtotal);
@@ -712,7 +749,7 @@ public class FacturaPDF {
         
         //Descuento
         Paragraph Descuento = new Paragraph(3);
-        Descuento.add(new Chunk("\n\n\n$0.00",FontFactory.getFont(FontFactory.HELVETICA, 10,BaseColor.BLACK)));
+        Descuento.add(new Chunk("\n\n\n$"+factura.getDescuento(),FontFactory.getFont(FontFactory.HELVETICA, 10,BaseColor.BLACK)));
         Descuento.setAlignment(Element.ALIGN_RIGHT);
         PdfPCell celdaDescuento = new PdfPCell();
         celdaDescuento.addElement(Descuento);
@@ -739,7 +776,7 @@ public class FacturaPDF {
 
         //Total
         Paragraph Total = new Paragraph(3);
-        Total.add(new Chunk("\n\n$1,710.00",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
+        Total.add(new Chunk("\n\n"+factura.getTotal(),FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.WHITE)));
         Total.setAlignment(Element.ALIGN_RIGHT);
         PdfPCell celdaTotal = new PdfPCell();
         celdaTotal.addElement(Total);
@@ -794,10 +831,7 @@ public class FacturaPDF {
                
         //-----PARRAFO PARA CERTIFICACION SAT
         Paragraph selloCertificacionSat = new Paragraph(8);
-        selloCertificacionSat.add(new Chunk("||1.1|7733d569-d3e7-4084-a167-51ab5b1337f6|2024-04-\n"
-                + "09T17:51:29|LSO1306189R5|dglic9wNF/56oKI9zW1dVGLIUHfvCX7TI1+N0R02pLEtamzPj8OaeAd7mxARWmVZX82jIhsJIX54eRqcFH/sG9U3ZWucfwB45A+bX/PT121OCkVg9"
-                + "V8kzulapH3X8rXknZuooGDhz8w3oAX11dw137Y/RS/j7fFT8E/sR/71xt43eVIfxJPdMBtQXhNZYzszaelBgokFyvV4fUVXIKajCauw3LlEj8FOrHXwwsTNk0IFSNmZrH6KuLe+zHorQa"
-                + "gJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyVeBuUlcpbeaHZ/NE4rpV47fz+4kg5ESpnyUjFmkMDk8t00l5DQ5A==|00001000000509846663||", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
+        selloCertificacionSat.add(new Chunk(factura.getCadena_original_complemento_certificacion_digital_SAT(), FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
         PdfPCell celdaCertificacionSat = new PdfPCell();
         celdaCertificacionSat.addElement(selloCertificacionSat);
         celdaCertificacionSat.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
@@ -847,10 +881,7 @@ public class FacturaPDF {
         //--------------SELLO CFDI
         //Encabezado para la tabla del sello digital
         Paragraph SelloDigitalCFDI = new Paragraph(8);
-        SelloDigitalCFDI.add(new Chunk("dglic9wNF/56oKI9zW1dVGLIUHfvCX7TI1+N0R02pLEtamzPj8OaeAd7mxARWmVZX82jIhsJIX54eRqcFH/sG9U3ZWucfwB45A+bX/PT121"
-                + "OCkVg9V8kzulapH3X8rXknZuooGDhz8w3oAX11dw137Y/RS/j7fFT8E/sR/71xt43eVIfxJPdMBtQXhNZYzszaelBgokFyvV4fUVXIKajCauw3"
-                + "LlEj8FOrHXwwsTNk0IFSNmZrH6KuLe+zHorQagJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyVeBuUlcpbeaHZ/NE4rpV47fz+4kg5ESp"
-                + "nyUjFmkMDk8t00l5DQ5A==", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
+        SelloDigitalCFDI.add(new Chunk(factura.getSello_digital_CFDI(), FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
         PdfPCell celdaSelloCFDI = new PdfPCell();
         celdaSelloCFDI.addElement(SelloDigitalCFDI);
         celdaSelloCFDI.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
@@ -876,10 +907,7 @@ public class FacturaPDF {
         
         //-------SELLO DEL SAT
         Paragraph SelloSAT = new Paragraph(8);
-        SelloSAT.add(new Chunk("YVrerifx8zku46oN17isFklfFW1Bc2ZfP1oWpkj3VdHGm0FS0A51GErxAkhR34ZccrMyBkg6l/Lwk2N6vVxbbCoFyWJf7EO/oc/5ZowmXRano"
-                + "PRedBOJC1jGdckT+ZT1a7aK5C2AquuY0nMM2FGtyt4su+FBNQ/tod0Uxxok+VT07M1BDvZ4M3XjTvUwfF7r02RYs98es51FJR6E+1Ajouo"
-                + "sWEEsHthO4Ec2jybXILWpHHPZudC5f5LXS284RKJLOgcFumQ06mw9uicCMcYmK9TqMP/mUPapkX6Ry3WDqAKhf7YPfKHChMUfGbfd"
-                + "8gvg5nxmRnNd/dSHyuY1+Vuicg=", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
+        SelloSAT.add(new Chunk(factura.getSello_SAT(), FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
         PdfPCell celdaSelloSAT = new PdfPCell();
         celdaSelloSAT.addElement(SelloSAT);
         celdaSelloSAT.setBorder(PdfPCell.LEFT | PdfPCell.RIGHT | PdfPCell.TOP | PdfPCell.BOTTOM);
@@ -921,12 +949,12 @@ public class FacturaPDF {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            FacturaPDF pdf = new FacturaPDF();
-            pdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            FacturaPDF pdf = new FacturaPDF();
+//            pdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

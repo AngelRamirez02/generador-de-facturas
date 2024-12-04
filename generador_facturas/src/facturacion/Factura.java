@@ -9,6 +9,7 @@ package facturacion;
  * @author ar275
  */
 public class Factura {
+    private int id_factura;
     private String forma_pago;
     private String metodo_pago;
     private String tipo_comprobante;
@@ -23,12 +24,14 @@ public class Factura {
     private double impuesto;
     private double descuento;
     private double total;
+    private String total_letras;
     private String folioSat;
     private String numero_serie_certificado_emisor;
     private String numero_serie_certificado_SAT;
     private String cadena_original_complemento_certificacion_digital_SAT;
     private String sello_digital_CFDI;
     private String sello_SAT;
+    private String fechaHoraSellada;
 
     public Factura(String forma_pago, String metodo_pago,String tipo_comprobante ,String cantidad, String unidad, String clave, String descripcion, String obj_impuestos, double precio_unitario, double importe, double impuesto, double descuento) {
         this.forma_pago = forma_pago;
@@ -46,13 +49,36 @@ public class Factura {
         obtenerTotal();
     }
 
+    public int getId_factura() {
+        return id_factura;
+    }
+
+    public void setId_factura(int id_factura) {
+        this.id_factura = id_factura;
+    }
+
+    public String getTotal_letras() {
+        return total_letras;
+    }
+
+    
+    public void setFechaHoraSellada(String fechaHoraSellada) {
+        this.fechaHoraSellada = fechaHoraSellada;
+    }
+
+    public String getFechaHoraSellada() {
+        return fechaHoraSellada;
+    }
+    
     public double getTotal() {
         return total;
     }
 
     private void obtenerTotal(){
+        NumeroALetras n = new NumeroALetras();
         subtotal=importe;
         this.total=subtotal+impuesto-descuento;
+        this.total_letras = n.convertirNumero(this.total);
     }
     
     public String getForma_pago() {

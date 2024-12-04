@@ -9,6 +9,7 @@ import alumnos.AltaAlumnos;
 import alumnos.ConsultarAlumnos;
 import alumnos.ModificarAlumno;
 import alumnos.EliminarAlumno;
+import com.itextpdf.text.DocumentException;
 import emisor.*;
 import conexion.conexion;
 import direccion.ObtenerDireccion;
@@ -25,10 +26,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -207,6 +210,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         JScrollBar verticalBar = contenedor.getVerticalScrollBar();
         verticalBar.setUnitIncrement(16);
         
+        
         this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
         this.setExtendedState(this.MAXIMIZED_BOTH);
@@ -316,7 +320,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         titulo_correoPadre = new javax.swing.JLabel();
         correo_padre = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        usoCFDI = new javax.swing.JTextField();
+        uso_cfdi = new javax.swing.JComboBox<>();
         panelRound3 = new paneles.PanelRound();
         lb_comprobante1 = new javax.swing.JLabel();
         panelRound4 = new paneles.PanelRound();
@@ -325,7 +329,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         titulo_regimenEmisor1 = new javax.swing.JLabel();
         moneda = new javax.swing.JLabel();
         titulo_cpEmision1 = new javax.swing.JLabel();
-        regimen_emisor = new javax.swing.JLabel();
+        rfc_emisor = new javax.swing.JLabel();
         titulo_formaPago = new javax.swing.JLabel();
         formaPago = new javax.swing.JComboBox<>();
         titulo_metodoPago = new javax.swing.JLabel();
@@ -338,6 +342,9 @@ public class GenerarFactura extends javax.swing.JFrame {
         iconFac_lb3 = new javax.swing.JLabel();
         iconFac_lb4 = new javax.swing.JLabel();
         iconFac_lb5 = new javax.swing.JLabel();
+        titulo_regimenEmisor2 = new javax.swing.JLabel();
+        iconFac_lb6 = new javax.swing.JLabel();
+        regimen_emisor = new javax.swing.JLabel();
         panelRound5 = new paneles.PanelRound();
         lb_comprobante2 = new javax.swing.JLabel();
         panelRound6 = new paneles.PanelRound();
@@ -894,7 +901,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 btn_enviarCorreoActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_enviarCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 2010, 210, 40));
+        jPanel1.add(btn_enviarCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 2030, 210, 40));
 
         panelRound1.setRoundBottomLeft(50);
         panelRound1.setRoundBottomRight(50);
@@ -981,9 +988,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel6.setText("Uso de CFDI");
 
-        usoCFDI.setEditable(false);
-        usoCFDI.setBackground(new java.awt.Color(255, 255, 255));
-        usoCFDI.setFocusable(false);
+        uso_cfdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
 
         javax.swing.GroupLayout panelRound2Layout = new javax.swing.GroupLayout(panelRound2);
         panelRound2.setLayout(panelRound2Layout);
@@ -993,23 +998,6 @@ public class GenerarFactura extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rfc_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(icon_buscarPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_nombrePadre2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nombre_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(100, 100, 100)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(apellidoPaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(80, 80, 80)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(apellidoMaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelRound2Layout.createSequentialGroup()
                         .addGap(310, 310, 310)
                         .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_nombrePadre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1017,12 +1005,32 @@ public class GenerarFactura extends javax.swing.JFrame {
                             .addComponent(regimen_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(domicilio_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(83, 83, 83)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(correo_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
-                            .addComponent(usoCFDI, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(titulo_correoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(100, Short.MAX_VALUE))
+                            .addComponent(titulo_correoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelRound2Layout.createSequentialGroup()
+                                .addComponent(uso_cfdi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(53, 53, 53)))
+                        .addContainerGap(100, Short.MAX_VALUE))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rfc_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(icon_buscarPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_nombrePadre2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nombre_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(apellidoPaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(apellidoMaterno_padre)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         panelRound2Layout.setVerticalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1041,39 +1049,36 @@ public class GenerarFactura extends javax.swing.JFrame {
                         .addGap(0, 0, 0)
                         .addComponent(nombre_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, 0)
-                        .addComponent(apellidoPaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(apellidoMaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(apellidoPaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(apellidoMaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(10, 10, 10)
                 .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_nombrePadre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(regimen_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(usoCFDI, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(regimen_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(uso_cfdi, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(titulo_correoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(correo_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(domicilio_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(domicilio_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         panelRound1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 270));
 
-        jPanel1.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 1160, 340));
+        jPanel1.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 1160, 340));
 
         panelRound3.setRoundBottomLeft(50);
         panelRound3.setRoundBottomRight(50);
@@ -1091,154 +1096,91 @@ public class GenerarFactura extends javax.swing.JFrame {
         panelRound4.setRoundBottomRight(50);
         panelRound4.setRoundTopLeft(50);
         panelRound4.setRoundTopRight(50);
+        panelRound4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         titulo_tipoFactura1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_tipoFactura1.setText("Tipo de factura");
+        panelRound4.add(titulo_tipoFactura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 220, 25));
 
         cp_expedicion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cp_expedicion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         cp_expedicion.setText("39890");
+        panelRound4.add(cp_expedicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 70, 160, 36));
 
         titulo_regimenEmisor1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
-        titulo_regimenEmisor1.setText("Regimen");
+        titulo_regimenEmisor1.setText("RFC emisor");
+        panelRound4.add(titulo_regimenEmisor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 126, 27));
 
         moneda.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         moneda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         moneda.setText("Peso Mexicano");
+        panelRound4.add(moneda, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 200, 36));
 
         titulo_cpEmision1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_cpEmision1.setText("Código postal");
+        panelRound4.add(titulo_cpEmision1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 160, 25));
 
-        regimen_emisor.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        regimen_emisor.setText("Persona Física con Actividad Empresarial (Clave 612)");
+        rfc_emisor.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        rfc_emisor.setText("RACA031202HGRMSNA2");
+        panelRound4.add(rfc_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 240, 36));
 
         titulo_formaPago.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_formaPago.setText("Forma de pago");
+        panelRound4.add(titulo_formaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 280, 25));
 
         formaPago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        formaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01. Efectivo", "02. Cheque nominativo", "03. Transferencia electrónica de fondos", "04. Tarjeta de crédito" }));
+        formaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01 Efectivo", "02 Transferencia electrónica de fondos" }));
+        panelRound4.add(formaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 180, -1, 35));
 
         titulo_metodoPago.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_metodoPago.setText("Método de pago");
+        panelRound4.add(titulo_metodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 148, 200, 25));
 
         metodoPago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PUE (Pago en una sola exhibición)", "PPD (Pago en parcialidades o diferido)" }));
+        metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PUE (Pago en una sola exhibición)" }));
+        panelRound4.add(metodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 180, -1, 35));
 
         tituloMoneda1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         tituloMoneda1.setText("Moneda");
+        panelRound4.add(tituloMoneda1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 200, 25));
 
         tipo_factura.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tipo_factura.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         tipo_factura.setText("I Ingreso");
+        panelRound4.add(tipo_factura, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 220, 36));
 
         iconFac_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+        panelRound4.add(iconFac_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 40, 27, 25));
 
         iconFac_lb1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+        panelRound4.add(iconFac_lb1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 27, 25));
 
         iconFac_lb2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+        panelRound4.add(iconFac_lb2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 27, 25));
 
         iconFac_lb3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+        panelRound4.add(iconFac_lb3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 27, 25));
 
         iconFac_lb4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+        panelRound4.add(iconFac_lb4, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 150, 27, 25));
 
         iconFac_lb5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+        panelRound4.add(iconFac_lb5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 150, 27, 25));
 
-        javax.swing.GroupLayout panelRound4Layout = new javax.swing.GroupLayout(panelRound4);
-        panelRound4.setLayout(panelRound4Layout);
-        panelRound4Layout.setHorizontalGroup(
-            panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound4Layout.createSequentialGroup()
-                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRound4Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(iconFac_lb1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(titulo_regimenEmisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(276, 276, 276)
-                        .addComponent(iconFac_lb, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(titulo_cpEmision1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(168, 168, 168)
-                        .addComponent(iconFac_lb2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(titulo_tipoFactura1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound4Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(regimen_emisor, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
-                        .addComponent(cp_expedicion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(201, 201, 201)
-                        .addComponent(tipo_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound4Layout.createSequentialGroup()
-                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelRound4Layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(formaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(170, 170, 170)
-                                .addComponent(metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80))
-                            .addGroup(panelRound4Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(iconFac_lb5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(titulo_formaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(137, 137, 137)
-                                .addComponent(iconFac_lb4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(titulo_metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(iconFac_lb3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tituloMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelRound4Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(59, 59, 59))
-        );
-        panelRound4Layout.setVerticalGroup(
-            panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound4Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(iconFac_lb1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(iconFac_lb, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(titulo_cpEmision1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(iconFac_lb2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(titulo_tipoFactura1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(titulo_regimenEmisor1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(regimen_emisor, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cp_expedicion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tipo_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRound4Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(titulo_metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(iconFac_lb4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(iconFac_lb5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tituloMoneda1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(iconFac_lb3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(titulo_formaPago, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(6, 6, 6)
-                .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelRound4Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(formaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(metodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-        );
+        titulo_regimenEmisor2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        titulo_regimenEmisor2.setText("Regimen emisor");
+        panelRound4.add(titulo_regimenEmisor2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 330, 27));
 
-        panelRound3.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 260));
+        iconFac_lb6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
+        panelRound4.add(iconFac_lb6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 27, 25));
 
-        jPanel1.add(panelRound3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1160, 340));
+        regimen_emisor.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        regimen_emisor.setText("Persona Física con Actividad Empresarial (Clave 612)");
+        panelRound4.add(regimen_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, 380, 36));
+
+        panelRound3.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 320));
+
+        jPanel1.add(panelRound3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1160, 390));
 
         panelRound5.setRoundBottomLeft(50);
         panelRound5.setRoundBottomRight(50);
@@ -1401,24 +1343,18 @@ public class GenerarFactura extends javax.swing.JFrame {
                                     .addComponent(nombres_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelRound6Layout.createSequentialGroup()
-                                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
-                                                .addGap(150, 150, 150)
-                                                .addComponent(apellidoPaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(80, 80, 80)
-                                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(apellidoMaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(60, 60, 60))
-                                            .addGroup(panelRound6Layout.createSequentialGroup()
-                                                .addGap(140, 140, 140)
-                                                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txt_nombrePadre1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(nivel_escolar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(60, 60, 60)
-                                                .addComponent(txt_nombrePadre4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addGap(140, 140, 140)
+                                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(apellidoPaterno_alumno)
+                                            .addComponent(txt_nombrePadre1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(nivel_escolar, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                                        .addGap(60, 60, 60)
+                                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txt_nombrePadre4, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                            .addComponent(apellidoMaterno_alumno)
+                                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(30, 30, 30)
                                         .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(curp_alumno, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                             .addComponent(txt_nombrePadre3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -1489,8 +1425,9 @@ public class GenerarFactura extends javax.swing.JFrame {
                 .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nombres_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(apellidoPaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(apellidoMaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(curp_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(curp_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(apellidoMaterno_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20)
                 .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_nombrePadre1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1540,7 +1477,7 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         panelRound5.add(panelRound6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1120, 700));
 
-        jPanel1.add(panelRound5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 850, 1160, 770));
+        jPanel1.add(panelRound5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 920, 1160, 770));
 
         panelRound7.setRoundBottomLeft(50);
         panelRound7.setRoundBottomRight(50);
@@ -1647,7 +1584,7 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         panelRound7.add(panelRound8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 210));
 
-        jPanel1.add(panelRound7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1670, 1160, 280));
+        jPanel1.add(panelRound7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 1720, 1160, 280));
 
         btn_previsualizar.setBackground(new java.awt.Color(0, 153, 255));
         btn_previsualizar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
@@ -1659,7 +1596,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 btn_previsualizarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_previsualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 2010, 210, 40));
+        jPanel1.add(btn_previsualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 2030, 210, 40));
 
         contenedor.setViewportView(jPanel1);
 
@@ -1682,8 +1619,6 @@ public class GenerarFactura extends javax.swing.JFrame {
         }
     }
     
-    
-
     private void obtenerDatosPadre(String rfc) {
         try {
             //Prepara la consulta para verificar si existe el RFC
@@ -1698,6 +1633,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 regimen_padre.setText(rs.getString("regimen"));
                 domicilio_padre.setText(rs.getString("domicilio_fiscal"));
                 correo_padre.setText(rs.getString("correo_electronico"));
+                obtenerUsosCFDI(rs.getString("regimen"));
                 cargarHijos(rfc);
             } else {
                 
@@ -1745,6 +1681,16 @@ public class GenerarFactura extends javax.swing.JFrame {
             //Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    private void obtenerUsosCFDI(String regimen){
+        if(regimen.equalsIgnoreCase("605  Sueldos y Salarios e Ingresos Asimilados a Salarios")){
+            uso_cfdi.removeAllItems();//eliminar las opciones anteriores
+            uso_cfdi.addItem("G03 Gastos en general");
+        }else{
+            uso_cfdi.removeAllItems();//eliminar las opciones anteriores
+            uso_cfdi.addItem("S01 Pagos por servicios educativos");
+            uso_cfdi.addItem("S01 Transporte escolar");
+        }
+    }
     
     private void obtenerCostosColegiatura(){
         //obtener titulos
@@ -1781,6 +1727,88 @@ public class GenerarFactura extends javax.swing.JFrame {
         }
     }
     
+   public void sellarFactura() throws DocumentException, IOException {
+        // Obtener la fecha y hora actual
+        LocalDateTime fechaHoraActual = LocalDateTime.now();
+        // Definir el formato deseado
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a");
+        // Aplicar el formato a la fecha y hora actual
+        String fechaHoraSellada = fechaHoraActual.format(formato);
+        //Añadir la hora en la que se crea la factura
+        factura.setFechaHoraSellada(fechaHoraSellada);
+        validarsellos();//crear los sellos de la factra
+        
+        String sql = "INSERT INTO facturas_generadas (folio_factura, rfc_emisor, rfc_receptor, fecha, forma_pago, metodo_De_Pago, uso_CFDI, cantidad,"
+                + " unidad, clave_producto, descripcion, obj_impuestos, precio_unitario, importe, subtotal, impuestos, descuento, total, folio_sat, "
+                + "num_certificacion_emisor, num_certificacion_SAT, cadena_complemento_certificacion_SAT, sello_SAT, sello_CFDI, usuario_responsable)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        try {
+            PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+            ps.setInt(1, factura.getId_factura());
+            ps.setString(2, "GUVZ670504FFF");
+            ps.setString(3, receptor.getRfc());
+            ps.setString(4, factura.getFechaHoraSellada());
+            ps.setString(5, factura.getForma_pago());
+            ps.setString(6, factura.getMetodo_pago());
+            ps.setString(7, receptor.getUso_CFDI());
+            ps.setString(8, factura.getCantidad());
+            ps.setString(9, factura.getUnidad());
+            ps.setString(10, factura.getClave());
+            ps.setString(11, factura.getDescripcion());
+            ps.setString(12, factura.getObj_impuestos());
+            ps.setDouble(13, factura.getPrecio_unitario());
+            ps.setDouble(14, factura.getImporte());
+            ps.setDouble(15, factura.getSubtotal());
+            ps.setDouble(16, factura.getImpuesto());
+            ps.setDouble(17, factura.getDescuento());
+            ps.setDouble(18, factura.getTotal());
+            ps.setString(19, factura.getFolioSat());
+            ps.setString(20, factura.getNumero_serie_certificado_emisor());
+            ps.setString(21, factura.getNumero_serie_certificado_SAT());
+            ps.setString(22, factura.getCadena_original_complemento_certificacion_digital_SAT());
+            ps.setString(23, factura.getSello_digital_CFDI());
+            ps.setString(24, factura.getSello_SAT());
+            ps.setString(25, "director");
+            
+            // Paso 4: Ejecutar la consulta
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                //crear psdf
+                FacturaPDF facturaPdf = new FacturaPDF();
+                facturaPdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas",receptor,alumno,factura);
+                System.out.println("Factura generada correctamente");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void validarsellos() {
+        //Genera todos los sellos
+        Sellos sello = new Sellos();
+        factura.setFolioSat(sello.generarFolioSAT());
+        factura.setNumero_serie_certificado_emisor(sello.generarNumeroSerieEmisor());
+        factura.setNumero_serie_certificado_SAT(sello.generarNumeroSerieSAT());
+        factura.setCadena_original_complemento_certificacion_digital_SAT(sello.generarCadenaSAT("RACA031202FD1", 
+                factura.getNumero_serie_certificado_emisor(),factura.getFechaHoraSellada()));
+        factura.setSello_digital_CFDI(sello.generarSello());
+        factura.setSello_SAT(sello.generarSello());
+    }
+    
+    private void generarIdFactura() {
+        String sql = "SELECT COUNT(*) AS total FROM facturas_generadas";   //obtener el numero total de facturas   
+        try {
+            PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int id_factura = rs.getInt("total")+1;
+                factura.setId_factura(id_factura);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }  
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
@@ -2562,7 +2590,13 @@ public class GenerarFactura extends javax.swing.JFrame {
     }//GEN-LAST:event_rfc_padreKeyTyped
 
     private void btn_enviarCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarCorreoActionPerformed
-        
+        try {
+            sellarFactura();
+        } catch (DocumentException ex) {
+            Logger.getLogger(GenerarFactura.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GenerarFactura.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_enviarCorreoActionPerformed
 
     private void nombres_alumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_nombres_alumnoItemStateChanged
@@ -2579,7 +2613,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         //Funcion para previsualizar la factura
       
         //Previsualizar el modelo
-        ModeloFactura facturaPrevia = new ModeloFactura((Frame) SwingUtilities.getWindowAncestor(fondo), true, receptor, alumno,factura);
+        ModeloFactura facturaPrevia = new ModeloFactura(this, true, receptor, alumno,factura);
         facturaPrevia.setVisible(true);
     }//GEN-LAST:event_btn_previsualizarActionPerformed
 
@@ -2611,10 +2645,14 @@ public class GenerarFactura extends javax.swing.JFrame {
         //Crear objetto para el receptor
         receptor = new Receptor(rfc_padre.getText(), nombre_padre.getText(), apellidoPaterno_padre.getText(), apellidoMaterno_padre.getText(), regimen_padre.getText(),
                 domicilio_padre.getText(), correo_padre.getText());
-
+       
+        //obtener el uso de CFDI del receptor
+        receptor.setUso_CFDI(uso_cfdi.getSelectedItem().toString());
+        
         //Crear el objeto para la factura
         factura = new Factura(formaPago.getSelectedItem().toString(), metodoPago.getSelectedItem().toString(), tipo_factura.getText(),
         cantidad.getText(), unidad.getText(), clave.getText(), descripcion, obj_impuestos.getText(), precio, importe,impuestos,descuento);
+        generarIdFactura();//se genera el ID de la factura
        
         //Bloquear ingresar datos padre
         rfc_padre.setEnabled(false);
@@ -2767,6 +2805,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel iconFac_lb3;
     private javax.swing.JLabel iconFac_lb4;
     private javax.swing.JLabel iconFac_lb5;
+    private javax.swing.JLabel iconFac_lb6;
     private javax.swing.JLabel icon_buscarPadre;
     private javax.swing.JLabel icon_item;
     private javax.swing.JLabel icon_item2;
@@ -2838,6 +2877,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private paneles.PanelRound panelRound8;
     private javax.swing.JLabel regimen_emisor;
     private javax.swing.JTextField regimen_padre;
+    private javax.swing.JLabel rfc_emisor;
     private javax.swing.JTextField rfc_padre;
     private javax.swing.JComboBox<String> rutas;
     private javax.swing.JComboBox<String> servicio;
@@ -2854,6 +2894,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel titulo_formaPago;
     private javax.swing.JLabel titulo_metodoPago;
     private javax.swing.JLabel titulo_regimenEmisor1;
+    private javax.swing.JLabel titulo_regimenEmisor2;
     private javax.swing.JLabel titulo_rutas;
     private javax.swing.JLabel titulo_tipoFactura1;
     private javax.swing.JLabel txt_ConsultarEmisor;
@@ -2888,6 +2929,6 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JTextField unidad;
     private javax.swing.JLabel user_menuIcon;
     private javax.swing.JLabel user_menuIcon1;
-    private javax.swing.JTextField usoCFDI;
+    private javax.swing.JComboBox<String> uso_cfdi;
     // End of variables declaration//GEN-END:variables
 }

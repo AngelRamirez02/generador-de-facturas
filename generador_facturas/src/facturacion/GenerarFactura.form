@@ -1336,7 +1336,7 @@
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="710" y="2010" width="210" height="40"/>
+                      <AbsoluteConstraints x="710" y="2030" width="210" height="40"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -1349,7 +1349,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="10" y="490" width="1160" height="340"/>
+                      <AbsoluteConstraints x="20" y="540" width="1160" height="340"/>
                     </Constraint>
                   </Constraints>
 
@@ -1393,28 +1393,6 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel9" min="-2" pref="160" max="-2" attributes="0"/>
-                                              <Component id="rfc_padre" min="-2" pref="160" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="icon_buscarPadre" min="-2" pref="50" max="-2" attributes="0"/>
-                                          <EmptySpace min="100" pref="100" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txt_nombrePadre2" min="-2" pref="150" max="-2" attributes="0"/>
-                                              <Component id="nombre_padre" min="-2" pref="150" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="100" pref="100" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel13" min="-2" pref="150" max="-2" attributes="0"/>
-                                              <Component id="apellidoPaterno_padre" min="-2" pref="150" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="80" pref="80" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel17" min="-2" pref="150" max="-2" attributes="0"/>
-                                              <Component id="apellidoMaterno_padre" min="-2" pref="150" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="310" pref="310" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -1424,15 +1402,41 @@
                                               <Component id="domicilio_padre" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="correo_padre" min="-2" pref="300" max="-2" attributes="0"/>
                                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                              <Component id="usoCFDI" min="-2" pref="271" max="-2" attributes="0"/>
                                               <Component id="titulo_correoPadre" min="-2" pref="150" max="-2" attributes="0"/>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="uso_cfdi" max="32767" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
+                                          <EmptySpace pref="100" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel9" min="-2" pref="160" max="-2" attributes="0"/>
+                                              <Component id="rfc_padre" min="-2" pref="160" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="icon_buscarPadre" min="-2" pref="50" max="-2" attributes="0"/>
+                                          <EmptySpace min="100" pref="100" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="txt_nombrePadre2" min="-2" pref="150" max="-2" attributes="0"/>
+                                              <Component id="nombre_padre" min="-2" pref="200" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel13" min="-2" pref="179" max="-2" attributes="0"/>
+                                              <Component id="apellidoPaterno_padre" min="-2" pref="190" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="apellidoMaterno_padre" max="32767" attributes="0"/>
+                                              <Component id="jLabel17" pref="180" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="100" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1456,14 +1460,15 @@
                                           <Component id="nombre_padre" min="-2" pref="30" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="jLabel13" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jLabel13" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jLabel17" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                          <Component id="apellidoPaterno_padre" min="-2" pref="30" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel17" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                          <Component id="apellidoMaterno_padre" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="apellidoPaterno_padre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="apellidoMaterno_padre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
@@ -1471,16 +1476,14 @@
                                       <Component id="txt_nombrePadre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="jLabel6" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="regimen_padre" min="-2" pref="36" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="usoCFDI" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="regimen_padre" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="uso_cfdi" min="-2" pref="36" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="titulo_correoPadre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                               <Component id="jLabel14" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -1488,12 +1491,9 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="correo_padre" min="-2" pref="30" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                                          <Component id="domicilio_padre" min="-2" pref="30" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="domicilio_padre" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="10" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1637,14 +1637,17 @@
                             <Property name="text" type="java.lang.String" value="Uso de CFDI"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="usoCFDI">
+                        <Component class="javax.swing.JComboBox" name="uso_cfdi">
                           <Properties>
-                            <Property name="editable" type="boolean" value="false"/>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                              <StringArray count="1">
+                                <StringItem index="0" value="&lt;seleccionar&gt;"/>
+                              </StringArray>
                             </Property>
-                            <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                          </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1659,7 +1662,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="0" y="120" width="1160" height="340"/>
+                      <AbsoluteConstraints x="0" y="120" width="1160" height="390"/>
                     </Constraint>
                   </Constraints>
 
@@ -1693,125 +1696,12 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="10" y="50" width="1130" height="260"/>
+                          <AbsoluteConstraints x="10" y="50" width="1130" height="320"/>
                         </Constraint>
                       </Constraints>
 
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="17" pref="17" max="-2" attributes="0"/>
-                                          <Component id="iconFac_lb1" min="-2" pref="27" max="-2" attributes="0"/>
-                                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                          <Component id="titulo_regimenEmisor1" min="-2" pref="126" max="-2" attributes="0"/>
-                                          <EmptySpace min="276" pref="276" max="-2" attributes="0"/>
-                                          <Component id="iconFac_lb" min="-2" pref="27" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="titulo_cpEmision1" min="-2" pref="165" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
-                                          <Component id="iconFac_lb2" min="-2" pref="27" max="-2" attributes="0"/>
-                                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                          <Component id="titulo_tipoFactura1" min="-2" pref="220" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                                          <Component id="regimen_emisor" min="-2" pref="380" max="-2" attributes="0"/>
-                                          <EmptySpace min="70" pref="70" max="-2" attributes="0"/>
-                                          <Component id="cp_expedicion" min="-2" pref="150" max="-2" attributes="0"/>
-                                          <EmptySpace min="201" pref="201" max="-2" attributes="0"/>
-                                          <Component id="tipo_factura" min="-2" pref="220" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                                                  <Component id="formaPago" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
-                                                  <Component id="metodoPago" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                                                  <Component id="iconFac_lb5" min="-2" pref="27" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="titulo_formaPago" min="-2" pref="280" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
-                                                  <Component id="iconFac_lb4" min="-2" pref="27" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="titulo_metodoPago" min="-2" pref="200" max="-2" attributes="0"/>
-                                                  <EmptySpace max="32767" attributes="0"/>
-                                                  <Component id="iconFac_lb3" min="-2" pref="27" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="tituloMoneda1" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                                  <Component id="moneda" min="-2" pref="200" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="iconFac_lb1" min="-2" pref="25" max="-2" attributes="0"/>
-                                      <Component id="iconFac_lb" min="-2" pref="25" max="-2" attributes="0"/>
-                                      <Component id="titulo_cpEmision1" min="-2" pref="25" max="-2" attributes="0"/>
-                                      <Component id="iconFac_lb2" min="-2" pref="25" max="-2" attributes="0"/>
-                                      <Component id="titulo_tipoFactura1" min="-2" pref="25" max="-2" attributes="0"/>
-                                      <Component id="titulo_regimenEmisor1" min="-2" pref="27" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="regimen_emisor" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="cp_expedicion" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="tipo_factura" min="-2" pref="36" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="titulo_metodoPago" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="iconFac_lb4" min="-2" pref="25" max="-2" attributes="0"/>
-                                                  <Component id="iconFac_lb5" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
-                                                  <Component id="tituloMoneda1" alignment="1" max="32767" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="iconFac_lb3" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
-                                              <Component id="titulo_formaPago" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="moneda" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="formaPago" min="-2" pref="35" max="-2" attributes="0"/>
-                                              <Component id="metodoPago" min="-2" pref="35" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                        <Property name="useNullLayout" type="boolean" value="false"/>
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="titulo_tipoFactura1">
@@ -1821,6 +1711,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Tipo de factura"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="50" y="130" width="220" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="cp_expedicion">
                           <Properties>
@@ -1830,14 +1725,24 @@
                             <Property name="horizontalAlignment" type="int" value="2"/>
                             <Property name="text" type="java.lang.String" value="39890"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="840" y="70" width="160" height="36"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="titulo_regimenEmisor1">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto Light" size="18" style="1"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Regimen"/>
+                            <Property name="text" type="java.lang.String" value="RFC emisor"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="50" y="50" width="126" height="27"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="moneda">
                           <Properties>
@@ -1847,6 +1752,11 @@
                             <Property name="horizontalAlignment" type="int" value="2"/>
                             <Property name="text" type="java.lang.String" value="Peso Mexicano"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="50" y="270" width="200" height="36"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="titulo_cpEmision1">
                           <Properties>
@@ -1855,14 +1765,24 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="C&#xf3;digo postal"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="840" y="40" width="160" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="regimen_emisor">
+                        <Component class="javax.swing.JLabel" name="rfc_emisor">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Persona F&#xed;sica con Actividad Empresarial (Clave 612)"/>
+                            <Property name="text" type="java.lang.String" value="RACA031202HGRMSNA2"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="50" y="80" width="240" height="36"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="titulo_formaPago">
                           <Properties>
@@ -1871,6 +1791,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Forma de pago"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="390" y="150" width="280" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="formaPago">
                           <Properties>
@@ -1878,17 +1803,20 @@
                               <Font name="Roboto" size="14" style="0"/>
                             </Property>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="4">
-                                <StringItem index="0" value="01. Efectivo"/>
-                                <StringItem index="1" value="02. Cheque nominativo"/>
-                                <StringItem index="2" value="03. Transferencia electr&#xf3;nica de fondos"/>
-                                <StringItem index="3" value="04. Tarjeta de cr&#xe9;dito"/>
+                              <StringArray count="2">
+                                <StringItem index="0" value="01 Efectivo"/>
+                                <StringItem index="1" value="02 Transferencia electr&#xf3;nica de fondos"/>
                               </StringArray>
                             </Property>
                           </Properties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="390" y="180" width="-1" height="35"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="titulo_metodoPago">
                           <Properties>
@@ -1897,6 +1825,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="M&#xe9;todo de pago"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="840" y="148" width="200" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="metodoPago">
                           <Properties>
@@ -1904,15 +1837,19 @@
                               <Font name="Roboto" size="14" style="0"/>
                             </Property>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="2">
+                              <StringArray count="1">
                                 <StringItem index="0" value="PUE (Pago en una sola exhibici&#xf3;n)"/>
-                                <StringItem index="1" value="PPD (Pago en parcialidades o diferido)"/>
                               </StringArray>
                             </Property>
                           </Properties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="840" y="180" width="-1" height="35"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="tituloMoneda1">
                           <Properties>
@@ -1921,6 +1858,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Moneda"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="50" y="240" width="200" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="tipo_factura">
                           <Properties>
@@ -1930,6 +1872,11 @@
                             <Property name="horizontalAlignment" type="int" value="2"/>
                             <Property name="text" type="java.lang.String" value="I Ingreso"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="50" y="160" width="220" height="36"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="iconFac_lb">
                           <Properties>
@@ -1937,6 +1884,11 @@
                               <Image iconType="3" name="/img/icon_factura.png"/>
                             </Property>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="810" y="40" width="27" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="iconFac_lb1">
                           <Properties>
@@ -1944,6 +1896,11 @@
                               <Image iconType="3" name="/img/icon_factura.png"/>
                             </Property>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="20" y="50" width="27" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="iconFac_lb2">
                           <Properties>
@@ -1951,6 +1908,11 @@
                               <Image iconType="3" name="/img/icon_factura.png"/>
                             </Property>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="20" y="130" width="27" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="iconFac_lb3">
                           <Properties>
@@ -1958,6 +1920,11 @@
                               <Image iconType="3" name="/img/icon_factura.png"/>
                             </Property>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="20" y="240" width="27" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="iconFac_lb4">
                           <Properties>
@@ -1965,6 +1932,11 @@
                               <Image iconType="3" name="/img/icon_factura.png"/>
                             </Property>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="810" y="150" width="27" height="25"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="iconFac_lb5">
                           <Properties>
@@ -1972,6 +1944,49 @@
                               <Image iconType="3" name="/img/icon_factura.png"/>
                             </Property>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="360" y="150" width="27" height="25"/>
+                            </Constraint>
+                          </Constraints>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="titulo_regimenEmisor2">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Roboto Light" size="18" style="1"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Regimen emisor"/>
+                          </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="390" y="50" width="330" height="27"/>
+                            </Constraint>
+                          </Constraints>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="iconFac_lb6">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/img/icon_factura.png"/>
+                            </Property>
+                          </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="360" y="50" width="27" height="25"/>
+                            </Constraint>
+                          </Constraints>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="regimen_emisor">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Roboto" size="14" style="0"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Persona F&#xed;sica con Actividad Empresarial (Clave 612)"/>
+                          </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="390" y="80" width="380" height="36"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1986,7 +2001,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="10" y="850" width="1160" height="770"/>
+                      <AbsoluteConstraints x="10" y="920" width="1160" height="770"/>
                     </Constraint>
                   </Constraints>
 
@@ -2040,29 +2055,20 @@
                                                   </Group>
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Group type="102" alignment="0" attributes="0">
-                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Group type="102" alignment="1" attributes="0">
-                                                                  <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
-                                                                  <Component id="apellidoPaterno_alumno" min="-2" pref="150" max="-2" attributes="0"/>
-                                                                  <EmptySpace min="80" pref="80" max="-2" attributes="0"/>
-                                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                                      <Component id="jLabel16" min="-2" pref="150" max="-2" attributes="0"/>
-                                                                      <Component id="apellidoMaterno_alumno" min="-2" pref="150" max="-2" attributes="0"/>
-                                                                  </Group>
-                                                                  <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                                                              </Group>
-                                                              <Group type="102" alignment="0" attributes="0">
-                                                                  <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
-                                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                                      <Component id="txt_nombrePadre1" min="-2" pref="180" max="-2" attributes="0"/>
-                                                                      <Component id="jLabel15" min="-2" pref="150" max="-2" attributes="0"/>
-                                                                      <Component id="nivel_escolar" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
-                                                                  </Group>
-                                                                  <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                                                                  <Component id="txt_nombrePadre4" min="-2" pref="180" max="-2" attributes="0"/>
-                                                                  <EmptySpace max="-2" attributes="0"/>
-                                                              </Group>
+                                                          <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                              <Component id="apellidoPaterno_alumno" max="32767" attributes="0"/>
+                                                              <Component id="txt_nombrePadre1" pref="180" max="32767" attributes="0"/>
+                                                              <Component id="jLabel15" min="-2" pref="150" max="-2" attributes="0"/>
+                                                              <Component id="nivel_escolar" alignment="0" pref="180" max="32767" attributes="0"/>
                                                           </Group>
+                                                          <EmptySpace min="60" pref="60" max="-2" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                              <Component id="txt_nombrePadre4" alignment="0" pref="180" max="32767" attributes="0"/>
+                                                              <Component id="apellidoMaterno_alumno" max="32767" attributes="0"/>
+                                                              <Component id="jLabel16" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                               <Component id="curp_alumno" pref="200" max="32767" attributes="0"/>
                                                               <Component id="txt_nombrePadre3" max="32767" attributes="0"/>
@@ -2162,8 +2168,10 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="nombres_alumno" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="apellidoPaterno_alumno" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="apellidoMaterno_alumno" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="curp_alumno" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="curp_alumno" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <Component id="apellidoMaterno_alumno" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -2545,7 +2553,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="10" y="1670" width="1160" height="280"/>
+                      <AbsoluteConstraints x="10" y="1720" width="1160" height="280"/>
                     </Constraint>
                   </Constraints>
 
@@ -2852,7 +2860,7 @@
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="220" y="2010" width="210" height="40"/>
+                      <AbsoluteConstraints x="220" y="2030" width="210" height="40"/>
                     </Constraint>
                   </Constraints>
                 </Component>
