@@ -27,7 +27,7 @@ public class ModeloFactura extends JDialog {
     Factura factura;
     private GenerarFactura framePadre; // Referencia al JFrame
     
-    public ModeloFactura(GenerarFactura FramePadre, boolean modal,Receptor recep, Alumno alum, Factura fact) {
+    public ModeloFactura(GenerarFactura FramePadre, boolean modal,Emisor emisor,Receptor recep, Alumno alum, Factura fact) {
         super(FramePadre, modal);  // Establece la ventana como modal
         this.framePadre=(GenerarFactura) FramePadre;
         // Establece el comportamiento de cierre adecuado
@@ -48,6 +48,8 @@ public class ModeloFactura extends JDialog {
         regimen_emisor.setText("<html>Régimen fiscal: 612 personas físicas con actividades empresariales y profesionales</html>");
         //-------------------------------------------------------
         
+        //-----NUMERO DE FACTURA------
+        no_factura.setText(""+factura.getId_factura());
 
         //--------DATOS PARA EL EMISOR--------------------------
         //Nombre del padre
@@ -212,6 +214,7 @@ public class ModeloFactura extends JDialog {
         jLabel20 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
 
         jLabel9.setFont(new java.awt.Font("Roboto Black", 1, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 0, 0));
@@ -230,11 +233,11 @@ public class ModeloFactura extends JDialog {
         contenedor.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1000, 2000));
+        jPanel2.setPreferredSize(new java.awt.Dimension(1000, 1900));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMinimumSize(new java.awt.Dimension(1060, 1500));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 2000));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 1900));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logo_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_escuela.png"))); // NOI18N
@@ -726,7 +729,7 @@ public class ModeloFactura extends JDialog {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 1460, 710, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 1460, 710, 110));
 
         jPanel5.setBackground(new java.awt.Color(198, 54, 55));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -759,25 +762,28 @@ public class ModeloFactura extends JDialog {
         btn_sellarFactura.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         btn_sellarFactura.setForeground(new java.awt.Color(255, 255, 255));
         btn_sellarFactura.setText("Sellar y enviar por correo");
+        btn_sellarFactura.setBorder(null);
+        btn_sellarFactura.setBorderPainted(false);
         btn_sellarFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_sellarFacturaActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_sellarFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 1890, 250, 50));
+        jPanel1.add(btn_sellarFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 1810, 250, 50));
 
         jButton2.setBackground(new java.awt.Color(102, 102, 102));
         jButton2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancelar");
         jButton2.setBorder(null);
+        jButton2.setBorderPainted(false);
         jButton2.setFocusable(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 1890, 160, 50));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 1810, 160, 50));
 
         jLabel3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 0, 0));
@@ -809,6 +815,22 @@ public class ModeloFactura extends JDialog {
         jLabel23.setText("Nota: hasta no confirmar la generación de la factura, este documento no tiene ninguna validez");
         jPanel1.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 1110, 40));
 
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(198, 55, 54)));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 708, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 98, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 1620, -1, 100));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -818,7 +840,7 @@ public class ModeloFactura extends JDialog {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1994, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1894, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -886,7 +908,7 @@ public class ModeloFactura extends JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModeloFactura(null, true,null,null,null).setVisible(true);
+                new ModeloFactura(null,true,null,null,null,null).setVisible(true);
             }
         });
     }
@@ -962,6 +984,7 @@ public class ModeloFactura extends JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JLabel logo_lb;
     private javax.swing.JLabel metodo_pago;
     private javax.swing.JLabel moneda;

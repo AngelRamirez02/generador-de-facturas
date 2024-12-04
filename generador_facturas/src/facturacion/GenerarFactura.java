@@ -64,6 +64,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     conexion cx = new conexion();
     
     //Objetos para recpetor y alumno
+    Emisor emisor;
     Receptor receptor;
     Alumno alumno;
     //Objeto para la factura
@@ -134,7 +135,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         iconFac_lb3.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
         iconFac_lb4.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
         iconFac_lb5.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
-        
+        iconFac_lb6.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));        
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
         LocalDate fechaActual = LocalDate.now();
@@ -210,6 +211,8 @@ public class GenerarFactura extends javax.swing.JFrame {
         JScrollBar verticalBar = contenedor.getVerticalScrollBar();
         verticalBar.setUnitIncrement(16);
         
+        //Cargar los datos del emisor
+        cargarEmisor();
         
         this.setIconImage(logo_img);//Agregar logo a ventana;
         this.setLocationRelativeTo(null);//La ventana aparece en el centro
@@ -395,7 +398,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         btn_previsualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Instituto Andrés Manuel López Obrador - Registrar padre de familia");
+        setTitle("Instituto Andrés Manuel López Obrador - Generar Factura");
         setMinimumSize(new java.awt.Dimension(1250, 735));
         setSize(new java.awt.Dimension(1200, 735));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -1518,7 +1521,6 @@ public class GenerarFactura extends javax.swing.JFrame {
         subTotal.setEditable(false);
         subTotal.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         subTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        subTotal.setText("1");
         subTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         subTotal.setFocusable(false);
         panelRound8.add(subTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 220, 40));
@@ -1619,6 +1621,25 @@ public class GenerarFactura extends javax.swing.JFrame {
         }
     }
     
+    private void cargarEmisor() {
+        try {
+            //Prepara la consulta para verificar si existe el RFC
+            String consulta_rfc = "SELECT * FROM emisor";
+            PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                rfc_emisor.setText(rs.getString("rfc"));
+                regimen_emisor.setText(rs.getString("regimen"));
+                emisor = new Emisor(rs.getString("rfc"), rs.getString("nombres"), rs.getString("apellido_paterno"), rs.getString("apellido_materno"), 
+                        rs.getString("regimen"), rs.getString("domicilio_fiscal"));
+            } else {
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void obtenerDatosPadre(String rfc) {
         try {
             //Prepara la consulta para verificar si existe el RFC
@@ -1682,13 +1703,13 @@ public class GenerarFactura extends javax.swing.JFrame {
         }
     }
     private void obtenerUsosCFDI(String regimen){
-        if(regimen.equalsIgnoreCase("605  Sueldos y Salarios e Ingresos Asimilados a Salarios")){
+        if(regimen.equalsIgnoreCase("605 Sueldos y Salarios e Ingresos Asimilados a Salarios")){
             uso_cfdi.removeAllItems();//eliminar las opciones anteriores
             uso_cfdi.addItem("G03 Gastos en general");
         }else{
             uso_cfdi.removeAllItems();//eliminar las opciones anteriores
-            uso_cfdi.addItem("S01 Pagos por servicios educativos");
-            uso_cfdi.addItem("S01 Transporte escolar");
+            uso_cfdi.addItem("D10 Pagos por servicios educativos");
+            uso_cfdi.addItem("D10 Transporte escolar");
         }
     }
     
@@ -1775,7 +1796,7 @@ public class GenerarFactura extends javax.swing.JFrame {
             if (rowsInserted > 0) {
                 //crear psdf
                 FacturaPDF facturaPdf = new FacturaPDF();
-                facturaPdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas",receptor,alumno,factura);
+                facturaPdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas",emisor,receptor,alumno,factura);
                 System.out.println("Factura generada correctamente");
             }
         } catch (SQLException ex) {
@@ -2613,7 +2634,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         //Funcion para previsualizar la factura
       
         //Previsualizar el modelo
-        ModeloFactura facturaPrevia = new ModeloFactura(this, true, receptor, alumno,factura);
+        ModeloFactura facturaPrevia = new ModeloFactura(this, true, emisor,receptor, alumno,factura);
         facturaPrevia.setVisible(true);
     }//GEN-LAST:event_btn_previsualizarActionPerformed
 

@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 
 public class FacturaPDF {
 
-    public void generarFacturaPDF(String ruta, Receptor receptor, Alumno alumno, Factura factura) throws FileNotFoundException, DocumentException, IOException {
+    public void generarFacturaPDF(String ruta,Emisor emisor ,Receptor receptor, Alumno alumno, Factura factura) throws FileNotFoundException, DocumentException, IOException {
         // Obtener la fecha y hora actual
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         // Definir el formato deseado
@@ -53,9 +53,9 @@ public class FacturaPDF {
         // Información del emisor
         Paragraph datosEmisor = new Paragraph(10);
         Font fuenteTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.BLACK);
-        datosEmisor.add(new Chunk("CAROLINA ASTUDILLO HERNANDEZ", fuenteTitulo));
-        datosEmisor.add(new Chunk("\n\nRFC: AUHC670504QA1\n", FontFactory.getFont(FontFactory.HELVETICA, 7)));
-        datosEmisor.add(new Chunk("Régimen fiscal: 612 Personas Físicas con Actividades Empresariales y Profesionales", FontFactory.getFont(FontFactory.HELVETICA, 7)));
+        datosEmisor.add(new Chunk(emisor.getNombreCompletoMayus(), fuenteTitulo));
+        datosEmisor.add(new Chunk("\n\nRFC: "+emisor.getRfc()+"\n", FontFactory.getFont(FontFactory.HELVETICA, 7)));
+        datosEmisor.add(new Chunk("Régimen fiscal: "+emisor.getRegimen(), FontFactory.getFont(FontFactory.HELVETICA, 7)));
 
         PdfPCell celdaEmisor = new PdfPCell();
         celdaEmisor.addElement(datosEmisor);
@@ -64,7 +64,7 @@ public class FacturaPDF {
         encabezado.addCell(celdaEmisor);
         
         //Tipografia para el numero de factura
-        Font fuenteNoFactura = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 7, rojoPersonalizado);
+        Font fuenteNoFactura = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9, rojoPersonalizado);
         PdfPTable noFactura = new PdfPTable(2);//tabla para el numero de factura
         
         //celda para el texto FACTURA
@@ -76,8 +76,8 @@ public class FacturaPDF {
         
         //Celda para el numero de factura
         PdfPCell celdaNoFactura = new PdfPCell();
-        Paragraph txtnofactura = new Paragraph("1",fuenteNoFactura);
-        txtnofactura.setAlignment(Element.ALIGN_RIGHT);
+        Paragraph txtnofactura = new Paragraph(""+factura.getId_factura(),fuenteNoFactura);
+        txtnofactura.setAlignment(Element.ALIGN_LEFT);
         celdaNoFactura.addElement(txtnofactura);
         celdaNoFactura.setBorder(PdfPCell.NO_BORDER);
         

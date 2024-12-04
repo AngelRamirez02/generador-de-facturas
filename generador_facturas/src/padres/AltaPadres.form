@@ -1498,12 +1498,11 @@
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
-                    <StringItem index="0" value="Simplificado de Confianza. "/>
-                    <StringItem index="1" value="612  Persona F&#xed;sica con Actividad Empresarial"/>
-                    <StringItem index="2" value="605  Sueldos y Salarios e Ingresos Asimilados a Salarios"/>
+                    <StringItem index="0" value="626 Simplificado de Confianza. "/>
+                    <StringItem index="1" value="612 Personas F&#xed;sicas con Actividades Empresariales y Profesionales"/>
+                    <StringItem index="2" value="605 Sueldos y Salarios e Ingresos Asimilados a Salarios"/>
                   </StringArray>
                 </Property>
-                <Property name="selectedIndex" type="int" value="1"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
