@@ -1306,7 +1306,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Roboto" size="30" style="0"/>
+                      <Font name="Roboto" size="36" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="Generar factura"/>
@@ -1363,7 +1363,7 @@
                           <Font name="Roboto" size="24" style="1"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
-                        <Property name="text" type="java.lang.String" value="Datos del cliente"/>
+                        <Property name="text" type="java.lang.String" value="Datos del padre"/>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1387,116 +1387,8 @@
                         </Constraint>
                       </Constraints>
 
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="310" pref="310" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txt_nombrePadre" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                                              <Component id="jLabel14" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                                              <Component id="regimen_padre" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
-                                              <Component id="domicilio_padre" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="correo_padre" min="-2" pref="300" max="-2" attributes="0"/>
-                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                              <Component id="titulo_correoPadre" min="-2" pref="150" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="uso_cfdi" max="32767" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace pref="100" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel9" min="-2" pref="160" max="-2" attributes="0"/>
-                                              <Component id="rfc_padre" min="-2" pref="160" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="icon_buscarPadre" min="-2" pref="50" max="-2" attributes="0"/>
-                                          <EmptySpace min="100" pref="100" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txt_nombrePadre2" min="-2" pref="150" max="-2" attributes="0"/>
-                                              <Component id="nombre_padre" min="-2" pref="200" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel13" min="-2" pref="179" max="-2" attributes="0"/>
-                                              <Component id="apellidoPaterno_padre" min="-2" pref="190" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="apellidoMaterno_padre" max="32767" attributes="0"/>
-                                              <Component id="jLabel17" pref="180" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel9" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                          <Component id="rfc_padre" min="-2" pref="30" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                                          <Component id="icon_buscarPadre" min="-2" pref="50" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="txt_nombrePadre2" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                          <Component id="nombre_padre" min="-2" pref="30" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel13" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                              <Component id="jLabel17" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="apellidoPaterno_padre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                              <Component id="apellidoMaterno_padre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="txt_nombrePadre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="regimen_padre" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="uso_cfdi" min="-2" pref="36" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="titulo_correoPadre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                              <Component id="jLabel14" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="correo_padre" min="-2" pref="30" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="domicilio_padre" min="-2" pref="30" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace pref="10" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                        <Property name="useNullLayout" type="boolean" value="false"/>
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="txt_nombrePadre">
@@ -1506,6 +1398,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Regimen fiscal"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="347" y="104" width="150" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel13">
                           <Properties>
@@ -1514,6 +1411,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Apellido paterno"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="597" y="24" width="179" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JTextField" name="apellidoPaterno_padre">
                           <Properties>
@@ -1524,6 +1426,11 @@
                             <Property name="focusCycleRoot" type="boolean" value="true"/>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="597" y="54" width="190" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel14">
                           <Properties>
@@ -1532,6 +1439,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Domicilio fiscal"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="347" y="194" width="150" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JTextField" name="regimen_padre">
                           <Properties>
@@ -1541,6 +1453,11 @@
                             </Property>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="347" y="140" width="300" height="36"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="icon_buscarPadre">
                           <Properties>
@@ -1554,12 +1471,22 @@
                           <Events>
                             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="icon_buscarPadreMouseClicked"/>
                           </Events>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="197" y="44" width="50" height="50"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JTextField" name="rfc_padre">
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rfc_padreActionPerformed"/>
                             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="rfc_padreKeyTyped"/>
                           </Events>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="37" y="54" width="160" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel9">
                           <Properties>
@@ -1568,6 +1495,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="RFC"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="37" y="24" width="160" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JTextField" name="nombre_padre">
                           <Properties>
@@ -1577,6 +1509,11 @@
                             </Property>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="347" y="54" width="200" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="txt_nombrePadre2">
                           <Properties>
@@ -1585,6 +1522,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Nombre (s)"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="347" y="24" width="150" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JTextField" name="apellidoMaterno_padre">
                           <Properties>
@@ -1594,6 +1536,11 @@
                             </Property>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="868" y="54" width="180" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JTextField" name="domicilio_padre">
                           <Properties>
@@ -1603,6 +1550,11 @@
                             </Property>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="347" y="230" width="150" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel17">
                           <Properties>
@@ -1611,6 +1563,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Apellido materno"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="868" y="24" width="180" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="titulo_correoPadre">
                           <Properties>
@@ -1619,6 +1576,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Correo"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="730" y="194" width="150" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JTextField" name="correo_padre">
                           <Properties>
@@ -1628,6 +1590,11 @@
                             </Property>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="730" y="230" width="300" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel6">
                           <Properties>
@@ -1636,6 +1603,11 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Uso de CFDI"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="730" y="104" width="-1" height="30"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="uso_cfdi">
                           <Properties>
@@ -1648,6 +1620,11 @@
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="730" y="140" width="247" height="36"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1713,21 +1690,21 @@
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="50" y="130" width="220" height="25"/>
+                              <AbsoluteConstraints x="50" y="150" width="220" height="25"/>
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="cp_expedicion">
+                        <Component class="javax.swing.JLabel" name="metodoPago">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Roboto" size="14" style="0"/>
                             </Property>
                             <Property name="horizontalAlignment" type="int" value="2"/>
-                            <Property name="text" type="java.lang.String" value="39890"/>
+                            <Property name="text" type="java.lang.String" value="PUE (Pago en una solo exhibici&#xf3;n)"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="840" y="70" width="160" height="36"/>
+                              <AbsoluteConstraints x="840" y="180" width="240" height="36"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -1831,26 +1808,6 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="metodoPago">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Roboto" size="14" style="0"/>
-                            </Property>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="1">
-                                <StringItem index="0" value="PUE (Pago en una sola exhibici&#xf3;n)"/>
-                              </StringArray>
-                            </Property>
-                          </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                          </AuxValues>
-                          <Constraints>
-                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="840" y="180" width="-1" height="35"/>
-                            </Constraint>
-                          </Constraints>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="tituloMoneda1">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1874,7 +1831,7 @@
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="50" y="160" width="220" height="36"/>
+                              <AbsoluteConstraints x="50" y="180" width="220" height="36"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -1910,7 +1867,7 @@
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="20" y="130" width="27" height="25"/>
+                              <AbsoluteConstraints x="20" y="150" width="27" height="25"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -1985,6 +1942,20 @@
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                               <AbsoluteConstraints x="390" y="80" width="380" height="36"/>
+                            </Constraint>
+                          </Constraints>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="cp_expedicion1">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Roboto" size="14" style="0"/>
+                            </Property>
+                            <Property name="horizontalAlignment" type="int" value="2"/>
+                            <Property name="text" type="java.lang.String" value="39890"/>
+                          </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="840" y="70" width="160" height="36"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -2094,11 +2065,7 @@
                                                               <Component id="campo_importe" min="-2" pref="208" max="-2" attributes="0"/>
                                                               <Component id="jLabel19" min="-2" pref="208" max="-2" attributes="0"/>
                                                           </Group>
-                                                          <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="campoDescuento" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
-                                                              <Component id="jLabel22" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
-                                                          </Group>
+                                                          <EmptySpace min="-2" pref="270" max="-2" attributes="0"/>
                                                       </Group>
                                                       <Group type="102" attributes="0">
                                                           <Component id="jLabel10" min="-2" pref="208" max="-2" attributes="0"/>
@@ -2208,23 +2175,14 @@
                                       <Component id="clave" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel11" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                                              <Component id="jLabel19" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="campo_precioUnitario" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                                              <Component id="campo_importe" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel22" min="-2" pref="40" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="campoDescuento" min="-2" pref="37" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel11" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Component id="jLabel19" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="campo_precioUnitario" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                      <Component id="campo_importe" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace pref="57" max="32767" attributes="0"/>
                                   <Component id="btn_agregar" min="-2" pref="45" max="-2" attributes="0"/>
@@ -2484,11 +2442,16 @@
                               <Font name="Roboto" size="14" style="0"/>
                             </Property>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="1">
-                                <StringItem index="0" value="Zocalo - Coloso"/>
+                              <StringArray count="3">
+                                <StringItem index="0" value="Calzada - Centro -Ruta corta"/>
+                                <StringItem index="1" value="Calzada - Costera - Ruta media"/>
+                                <StringItem index="2" value="Calzada - Coloso - Ruta Larga"/>
                               </StringArray>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="rutasItemStateChanged"/>
+                          </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
@@ -2509,16 +2472,6 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Clave"/>
                           </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel22">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Roboto" size="18" style="1"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Descuento"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="campoDescuento">
                         </Component>
                         <Component class="javax.swing.JButton" name="btn_agregar">
                           <Properties>

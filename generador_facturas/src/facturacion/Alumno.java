@@ -16,6 +16,7 @@ public class Alumno {
     private String apellido_materno;
     private String nivel_escolar;
     private String grado_escolar;
+    private String clave_escuela;
 
     public Alumno(String curp, String nombres, String apellido_paterno, String apellido_materno, String nivel_escolar, String grado_escolar) {
         this.curp = curp;
@@ -30,10 +31,10 @@ public class Alumno {
         return curp;
     }
 
-    public String getNombreCompletoMayus(){
-        return (nombres+" "+apellido_paterno+" "+apellido_materno).toUpperCase();
+    public String getNombreCompletoMayus() {
+        return (nombres + " " + apellido_paterno + " " + apellido_materno).toUpperCase();
     }
-    
+
     public String getNombres() {
         return nombres;
     }
@@ -52,6 +53,14 @@ public class Alumno {
 
     public String getGrado_escolar() {
         return grado_escolar;
+    }
+
+    public String getClave_escuela() {
+        return clave_escuela;
+    }
+
+    public void setClave_escuela(String clave_escuela) {
+        this.clave_escuela = clave_escuela;
     }
 
     public void setCurp(String curp) {

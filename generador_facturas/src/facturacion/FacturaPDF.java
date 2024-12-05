@@ -929,11 +929,11 @@ public class FacturaPDF {
         Paragraph paginaEmpresa = new Paragraph(new Chunk("https://mtasolutions.mx/",FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10,BaseColor.BLACK)));
         PdfPCell celdaPaginaEmpresa = new PdfPCell(paginaEmpresa);
         
-        tablaPiePagina.addCell(celdaPaginaEmpresa);
-        tablaPiePagina.addCell(celdaPaginaEmpresa);
-        tablaPiePagina.addCell(celdaPaginaEmpresa);
-        
-        documento.add(tablaPiePagina);
+//        tablaPiePagina.addCell(celdaPaginaEmpresa);
+//        tablaPiePagina.addCell(celdaPaginaEmpresa);
+//        tablaPiePagina.addCell(celdaPaginaEmpresa);
+//        
+//        documento.add(tablaPiePagina);
         // Cerrar el documento
         documento.close();
         

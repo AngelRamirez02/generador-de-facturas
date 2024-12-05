@@ -909,7 +909,7 @@ public class AltaPadres extends javax.swing.JFrame {
         entrada_cp.setBounds(680, 300, 160, 27);
 
         entrada_regimen.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
-        entrada_regimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "626 Simplificado de Confianza. ", "612 Personas Físicas con Actividades Empresariales y Profesionales", "605 Sueldos y Salarios e Ingresos Asimilados a Salarios" }));
+        entrada_regimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "612 Personas Físicas con Actividades Empresariales y Profesionales", "605 Sueldos y Salarios e Ingresos Asimilados a Salarios", "626 Simplificado de Confianza" }));
         contenedor.add(entrada_regimen);
         entrada_regimen.setBounds(680, 490, 360, 30);
 

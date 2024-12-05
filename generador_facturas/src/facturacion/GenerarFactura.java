@@ -328,7 +328,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         lb_comprobante1 = new javax.swing.JLabel();
         panelRound4 = new paneles.PanelRound();
         titulo_tipoFactura1 = new javax.swing.JLabel();
-        cp_expedicion = new javax.swing.JLabel();
+        metodoPago = new javax.swing.JLabel();
         titulo_regimenEmisor1 = new javax.swing.JLabel();
         moneda = new javax.swing.JLabel();
         titulo_cpEmision1 = new javax.swing.JLabel();
@@ -336,7 +336,6 @@ public class GenerarFactura extends javax.swing.JFrame {
         titulo_formaPago = new javax.swing.JLabel();
         formaPago = new javax.swing.JComboBox<>();
         titulo_metodoPago = new javax.swing.JLabel();
-        metodoPago = new javax.swing.JComboBox<>();
         tituloMoneda1 = new javax.swing.JLabel();
         tipo_factura = new javax.swing.JLabel();
         iconFac_lb = new javax.swing.JLabel();
@@ -348,6 +347,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         titulo_regimenEmisor2 = new javax.swing.JLabel();
         iconFac_lb6 = new javax.swing.JLabel();
         regimen_emisor = new javax.swing.JLabel();
+        cp_expedicion1 = new javax.swing.JLabel();
         panelRound5 = new paneles.PanelRound();
         lb_comprobante2 = new javax.swing.JLabel();
         panelRound6 = new paneles.PanelRound();
@@ -380,8 +380,6 @@ public class GenerarFactura extends javax.swing.JFrame {
         rutas = new javax.swing.JComboBox<>();
         campo_importe = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        campoDescuento = new javax.swing.JTextField();
         btn_agregar = new javax.swing.JButton();
         panelRound7 = new paneles.PanelRound();
         lb_comprobante3 = new javax.swing.JLabel();
@@ -889,7 +887,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         });
         jPanel1.add(icon_regresarlb, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 60, 60));
 
-        jLabel1.setFont(new java.awt.Font("Roboto", 0, 30)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Generar factura");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 1190, 50));
@@ -914,7 +912,7 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         lb_comprobante.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         lb_comprobante.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_comprobante.setText("Datos del cliente");
+        lb_comprobante.setText("Datos del padre");
         panelRound1.add(lb_comprobante, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 210, 30));
 
         panelRound2.setBackground(new java.awt.Color(255, 255, 255));
@@ -922,24 +920,30 @@ public class GenerarFactura extends javax.swing.JFrame {
         panelRound2.setRoundBottomRight(50);
         panelRound2.setRoundTopLeft(50);
         panelRound2.setRoundTopRight(50);
+        panelRound2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_nombrePadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombrePadre.setText("Regimen fiscal");
+        panelRound2.add(txt_nombrePadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 104, 150, 30));
 
         jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel13.setText("Apellido paterno");
+        panelRound2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(597, 24, 179, 30));
 
         apellidoPaterno_padre.setEditable(false);
         apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
         apellidoPaterno_padre.setFocusCycleRoot(true);
         apellidoPaterno_padre.setFocusable(false);
+        panelRound2.add(apellidoPaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(597, 54, 190, 30));
 
         jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel14.setText("Domicilio fiscal");
+        panelRound2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 194, 150, 30));
 
         regimen_padre.setEditable(false);
         regimen_padre.setBackground(new java.awt.Color(255, 255, 255));
         regimen_padre.setFocusable(false);
+        panelRound2.add(regimen_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 140, 300, 36));
 
         icon_buscarPadre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btn_buscar3.png"))); // NOI18N
         icon_buscarPadre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -948,6 +952,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 icon_buscarPadreMouseClicked(evt);
             }
         });
+        panelRound2.add(icon_buscarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 44, 50, 50));
 
         rfc_padre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -959,125 +964,50 @@ public class GenerarFactura extends javax.swing.JFrame {
                 rfc_padreKeyTyped(evt);
             }
         });
+        panelRound2.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 54, 160, 30));
 
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel9.setText("RFC");
+        panelRound2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 24, 160, 30));
 
         nombre_padre.setEditable(false);
         nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
         nombre_padre.setFocusable(false);
+        panelRound2.add(nombre_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 54, 200, 30));
 
         txt_nombrePadre2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombrePadre2.setText("Nombre (s)");
+        panelRound2.add(txt_nombrePadre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 24, 150, 30));
 
         apellidoMaterno_padre.setEditable(false);
         apellidoMaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
         apellidoMaterno_padre.setFocusable(false);
+        panelRound2.add(apellidoMaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(868, 54, 180, 30));
 
         domicilio_padre.setEditable(false);
         domicilio_padre.setBackground(new java.awt.Color(255, 255, 255));
         domicilio_padre.setFocusable(false);
+        panelRound2.add(domicilio_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 230, 150, 30));
 
         jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel17.setText("Apellido materno");
+        panelRound2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(868, 24, 180, 30));
 
         titulo_correoPadre.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_correoPadre.setText("Correo");
+        panelRound2.add(titulo_correoPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 194, 150, 30));
 
         correo_padre.setEditable(false);
         correo_padre.setBackground(new java.awt.Color(255, 255, 255));
         correo_padre.setFocusable(false);
+        panelRound2.add(correo_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 230, 300, 30));
 
         jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel6.setText("Uso de CFDI");
+        panelRound2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 104, -1, 30));
 
         uso_cfdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
-
-        javax.swing.GroupLayout panelRound2Layout = new javax.swing.GroupLayout(panelRound2);
-        panelRound2.setLayout(panelRound2Layout);
-        panelRound2Layout.setHorizontalGroup(
-            panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound2Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGap(310, 310, 310)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_nombrePadre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(regimen_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(domicilio_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(83, 83, 83)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(correo_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(titulo_correoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelRound2Layout.createSequentialGroup()
-                                .addComponent(uso_cfdi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(53, 53, 53)))
-                        .addContainerGap(100, Short.MAX_VALUE))
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rfc_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(icon_buscarPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_nombrePadre2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nombre_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(apellidoPaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(apellidoMaterno_padre)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        panelRound2Layout.setVerticalGroup(
-            panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(rfc_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(icon_buscarPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addComponent(txt_nombrePadre2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(nombre_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(apellidoPaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(apellidoMaterno_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(10, 10, 10)
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_nombrePadre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(regimen_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(uso_cfdi, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(titulo_correoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(correo_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(domicilio_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
-        );
+        panelRound2.add(uso_cfdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 140, 247, 36));
 
         panelRound1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 270));
 
@@ -1103,12 +1033,12 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         titulo_tipoFactura1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_tipoFactura1.setText("Tipo de factura");
-        panelRound4.add(titulo_tipoFactura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 220, 25));
+        panelRound4.add(titulo_tipoFactura1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 220, 25));
 
-        cp_expedicion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        cp_expedicion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        cp_expedicion.setText("39890");
-        panelRound4.add(cp_expedicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 70, 160, 36));
+        metodoPago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        metodoPago.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        metodoPago.setText("PUE (Pago en una solo exhibición)");
+        panelRound4.add(metodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 180, 240, 36));
 
         titulo_regimenEmisor1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         titulo_regimenEmisor1.setText("RFC emisor");
@@ -1139,10 +1069,6 @@ public class GenerarFactura extends javax.swing.JFrame {
         titulo_metodoPago.setText("Método de pago");
         panelRound4.add(titulo_metodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 148, 200, 25));
 
-        metodoPago.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        metodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PUE (Pago en una sola exhibición)" }));
-        panelRound4.add(metodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 180, -1, 35));
-
         tituloMoneda1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         tituloMoneda1.setText("Moneda");
         panelRound4.add(tituloMoneda1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 200, 25));
@@ -1150,7 +1076,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         tipo_factura.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tipo_factura.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         tipo_factura.setText("I Ingreso");
-        panelRound4.add(tipo_factura, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 220, 36));
+        panelRound4.add(tipo_factura, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 220, 36));
 
         iconFac_lb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
         panelRound4.add(iconFac_lb, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 40, 27, 25));
@@ -1159,7 +1085,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         panelRound4.add(iconFac_lb1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 27, 25));
 
         iconFac_lb2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
-        panelRound4.add(iconFac_lb2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 27, 25));
+        panelRound4.add(iconFac_lb2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 27, 25));
 
         iconFac_lb3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icon_factura.png"))); // NOI18N
         panelRound4.add(iconFac_lb3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 27, 25));
@@ -1180,6 +1106,11 @@ public class GenerarFactura extends javax.swing.JFrame {
         regimen_emisor.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         regimen_emisor.setText("Persona Física con Actividad Empresarial (Clave 612)");
         panelRound4.add(regimen_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, 380, 36));
+
+        cp_expedicion1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cp_expedicion1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cp_expedicion1.setText("39890");
+        panelRound4.add(cp_expedicion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 70, 160, 36));
 
         panelRound3.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 320));
 
@@ -1307,7 +1238,12 @@ public class GenerarFactura extends javax.swing.JFrame {
         titulo_rutas.setText("Rutas");
 
         rutas.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        rutas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zocalo - Coloso" }));
+        rutas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Calzada - Centro -Ruta corta", "Calzada - Costera - Ruta media", "Calzada - Coloso - Ruta Larga" }));
+        rutas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rutasItemStateChanged(evt);
+            }
+        });
 
         campo_importe.setEditable(false);
         campo_importe.setBackground(new java.awt.Color(204, 204, 204));
@@ -1315,9 +1251,6 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         jLabel21.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel21.setText("Clave");
-
-        jLabel22.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel22.setText("Descuento");
 
         btn_agregar.setBackground(new java.awt.Color(0, 0, 204));
         btn_agregar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
@@ -1376,10 +1309,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                                         .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(campo_importe, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(62, 62, 62)
-                                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(campoDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(270, 270, 270))
                                     .addGroup(panelRound6Layout.createSequentialGroup()
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(62, 62, 62)
@@ -1460,19 +1390,13 @@ public class GenerarFactura extends javax.swing.JFrame {
                     .addComponent(obj_impuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clave, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRound6Layout.createSequentialGroup()
-                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(campo_precioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campo_importe, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelRound6Layout.createSequentialGroup()
-                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campo_precioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campo_importe, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -1679,6 +1603,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 grado_escolar.setText(rs.getString("grado_escolar"));
                 alumno = new Alumno(rs.getString("curp"),rs.getString("nombres"),rs.getString("apellido_paterno"),rs.getString("apellido_materno"),
                         rs.getString("nivel_escolaridad"), rs.getString("grado_escolar"));
+                alumno.setClave_escuela(obtenerClaveEscuela(alumno.getNivel_escolar()));
             }
         } catch (SQLException ex) {
             Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
@@ -1703,14 +1628,30 @@ public class GenerarFactura extends javax.swing.JFrame {
         }
     }
     private void obtenerUsosCFDI(String regimen){
-        if(regimen.equalsIgnoreCase("605 Sueldos y Salarios e Ingresos Asimilados a Salarios")){
+        if(regimen.equalsIgnoreCase("626 Simplificado de Confianza")){
             uso_cfdi.removeAllItems();//eliminar las opciones anteriores
             uso_cfdi.addItem("G03 Gastos en general");
         }else{
             uso_cfdi.removeAllItems();//eliminar las opciones anteriores
             uso_cfdi.addItem("D10 Pagos por servicios educativos");
-            uso_cfdi.addItem("D10 Transporte escolar");
+            uso_cfdi.addItem("D08 Transporte escolar");
         }
+    }
+    
+    private String obtenerClaveEscuela(String nivelEscolar){
+        String claveAlumno="";
+        switch (nivelEscolar) {
+            case "Preescolar":
+                claveAlumno="123456789";
+                break;
+            case "Primaria":
+                claveAlumno="1234567891";
+                break;
+            case "Secundaria":
+                claveAlumno="123456782";
+                break;
+        }
+        return claveAlumno;
     }
     
     private void obtenerCostosColegiatura(){
@@ -1721,7 +1662,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         obj_impuestos.setText("No objeto de impuestos");
         //generar escripcion
         descripcion = "PAGO POR CONCEPTO DE COLEGIATURA DEL"
-                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: 12PPR0395H, CORRESPONDIENTE AL MES DE AGOSTO DEL 2024, "
+                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: "+alumno.getClave_escuela()+" CORRESPONDIENTE AL MES DE AGOSTO DEL 2024, "
                 + "DEL ALUMNO " + alumno.getNombreCompletoMayus() + ", QUE CURSA EL " + alumno.getGrado_escolar().toUpperCase() + " GRADO DE "
                 + alumno.getNivel_escolar().toUpperCase() + ". CURP: " + alumno.getCurp() + ".";
                 
@@ -1748,6 +1689,44 @@ public class GenerarFactura extends javax.swing.JFrame {
         }
     }
     
+    private void obtenerCostosTransporte() {
+        //obtener titulos
+        cantidad.setText("1");
+        unidad.setText("E48 / Unidad de servicio");
+        clave.setText("861221500");
+        obj_impuestos.setText("Objeto de impuestos");
+        //generar escripcion
+        descripcion = "PAGO POR CONCEPTO DE SERVICIO DE TRANSPORTE DEL"
+                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: " + alumno.getClave_escuela() + " CORRESPONDIENTE AL MES DE AGOSTO DEL 2024, "
+                + "DEL ALUMNO " + alumno.getNombreCompletoMayus() + ", QUE CURSA EL " + alumno.getGrado_escolar().toUpperCase() + " GRADO DE "
+                + alumno.getNivel_escolar().toUpperCase() + ". CURP: " + alumno.getCurp() + ".";
+
+        if (rutas.getSelectedIndex() == 0) {
+            precio = 600.00;
+            importe = 600.00;
+            campo_precioUnitario.setText("$" + precio);
+            campo_importe.setText("$" + importe);
+            impuestos=importe*0.16;
+            return;
+        }
+        if (rutas.getSelectedIndex() == 1) {
+            precio = 1000.00;
+            importe = 1000.00;
+            campo_precioUnitario.setText("$" + precio);
+            campo_importe.setText("$" + importe);
+            impuestos=importe*0.16;
+            return;
+        }
+        if (rutas.getSelectedIndex() == 2) {
+            precio = 1600.00;
+            importe = 1600.00;
+            campo_precioUnitario.setText("$" + precio);
+            campo_importe.setText("$" + importe);
+            impuestos=importe*0.16;
+            return;
+        }
+    }
+
    public void sellarFactura() throws DocumentException, IOException {
         // Obtener la fecha y hora actual
         LocalDateTime fechaHoraActual = LocalDateTime.now();
@@ -2613,6 +2592,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private void btn_enviarCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarCorreoActionPerformed
         try {
             sellarFactura();
+             JOptionPane.showMessageDialog(null, "La factura ha sido generada correctamente", "Factura generada", JOptionPane.INFORMATION_MESSAGE);
         } catch (DocumentException ex) {
             Logger.getLogger(GenerarFactura.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -2652,6 +2632,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 //Mostrar las rutas
                 titulo_rutas.setVisible(true);
                 rutas.setVisible(true);
+                obtenerCostosTransporte();
                 return;
             }
         }
@@ -2671,7 +2652,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         receptor.setUso_CFDI(uso_cfdi.getSelectedItem().toString());
         
         //Crear el objeto para la factura
-        factura = new Factura(formaPago.getSelectedItem().toString(), metodoPago.getSelectedItem().toString(), tipo_factura.getText(),
+        factura = new Factura(formaPago.getSelectedItem().toString(), metodoPago.getText().toString(), tipo_factura.getText(),
         cantidad.getText(), unidad.getText(), clave.getText(), descripcion, obj_impuestos.getText(), precio, importe,impuestos,descuento);
         generarIdFactura();//se genera el ID de la factura
        
@@ -2680,8 +2661,9 @@ public class GenerarFactura extends javax.swing.JFrame {
         icon_buscarPadre.setVisible(false);
         //bloquear ingresar datos servicios
         nombres_alumno.setEnabled(false);
-        campoDescuento.setEnabled(false);
+        //campoDescuento.setEnabled(false);
         servicio.setEnabled(false);
+        rutas.setEnabled(false);
         
         //Llenar la tabla de totales
         subTotal.setText("$"+factura.getSubtotal());
@@ -2705,8 +2687,9 @@ public class GenerarFactura extends javax.swing.JFrame {
         icon_buscarPadre.setVisible(true);
         //habilitar ingresar datos servicios
         nombres_alumno.setEnabled(true);
-        campoDescuento.setEnabled(true);
+        //campoDescuento.setEnabled(true);
         servicio.setEnabled(true);
+        rutas.setEnabled(true);
         
         //deshabilitar los botones de visualizar y enviar por correo
         btn_previsualizar.setEnabled(false);
@@ -2715,6 +2698,12 @@ public class GenerarFactura extends javax.swing.JFrame {
         btn_agregar.setEnabled(true);
         btn_eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void rutasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rutasItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) { //si selecciona un item verificar  
+            obtenerCostosTransporte();
+        }
+    }//GEN-LAST:event_rutasItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -2801,7 +2790,6 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JPanel btn_padres;
     private javax.swing.JButton btn_previsualizar;
     private javax.swing.JPanel btn_salir;
-    private javax.swing.JTextField campoDescuento;
     private javax.swing.JTextField campo_importe;
     private javax.swing.JTextField campo_precioUnitario;
     private javax.swing.JTextField campo_total;
@@ -2811,7 +2799,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JScrollPane contenedor;
     private javax.swing.JPanel contenedor_menu;
     private javax.swing.JTextField correo_padre;
-    private javax.swing.JLabel cp_expedicion;
+    private javax.swing.JLabel cp_expedicion1;
     private javax.swing.JTextField curp_alumno;
     private javax.swing.JTextField descuento_totales;
     private javax.swing.JTextField domicilio_padre;
@@ -2848,7 +2836,6 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2881,7 +2868,7 @@ public class GenerarFactura extends javax.swing.JFrame {
     private javax.swing.JPanel menu_padres;
     private javax.swing.JPanel menu_salir;
     private javax.swing.JPanel menu_user;
-    private javax.swing.JComboBox<String> metodoPago;
+    private javax.swing.JLabel metodoPago;
     private javax.swing.JLabel moneda;
     private javax.swing.JTextField nivel_escolar;
     private javax.swing.JTextField nombre_padre;

@@ -22,18 +22,20 @@ import javax.swing.JScrollBar;
  */
 public class ModeloFactura extends JDialog {
 
+    Emisor emisor;
     Receptor receptor;
-     Alumno alumno ;
+    Alumno alumno ;
     Factura factura;
     private GenerarFactura framePadre; // Referencia al JFrame
     
-    public ModeloFactura(GenerarFactura FramePadre, boolean modal,Emisor emisor,Receptor recep, Alumno alum, Factura fact) {
+    public ModeloFactura(GenerarFactura FramePadre, boolean modal,Emisor emi,Receptor recep, Alumno alum, Factura fact) {
         super(FramePadre, modal);  // Establece la ventana como modal
         this.framePadre=(GenerarFactura) FramePadre;
         // Establece el comportamiento de cierre adecuado
         initComponents();
         //Objetos para rellenar la factura
         alumno = alum;
+        emisor=emi;
         receptor = recep;
         factura = fact;
         
@@ -43,9 +45,13 @@ public class ModeloFactura extends JDialog {
         //Personalizar el tamaño del logo
         Image logo_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
+        
         //----------DATOS PARA EL EMSISOR------------------------
+        nombre_emisor.setText(emisor.getNombreCompletoMayus());
+        //Rfc
+        rfc_emisor.setText("RFC: "+emisor.getRfc());
         //etiqueta para el rfc del emisor
-        regimen_emisor.setText("<html>Régimen fiscal: 612 personas físicas con actividades empresariales y profesionales</html>");
+        regimen_emisor.setText("<html>Regimen: "+emisor.getRegimen()+"</html>");
         //-------------------------------------------------------
         
         //-----NUMERO DE FACTURA------
@@ -83,6 +89,7 @@ public class ModeloFactura extends JDialog {
         
         //Datos del alumno
         curp_alumno.setText(alumno.getCurp());
+        clave_centroTrabajo.setText(alumno.getClave_escuela());
         nivel_escolar.setText(alumno.getNivel_escolar());
         nombre_alumno.setText(alumno.getNombreCompletoMayus());
         
@@ -226,7 +233,6 @@ public class ModeloFactura extends JDialog {
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(2147483647, 700));
         setMinimumSize(new java.awt.Dimension(700, 735));
-        setPreferredSize(new java.awt.Dimension(1120, 730));
         setResizable(false);
 
         contenedor.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -259,14 +265,14 @@ public class ModeloFactura extends JDialog {
 
         nombre_emisor.setFont(new java.awt.Font("Roboto Black", 0, 18)); // NOI18N
         nombre_emisor.setText("Carolina Astudillo Hernández");
-        jPanel1.add(nombre_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 240, 30));
+        jPanel1.add(nombre_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 400, 30));
 
         rfc_emisor.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         rfc_emisor.setText("RFC: AUHC670504FFF");
         jPanel1.add(rfc_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 180, 30));
 
         regimen_emisor.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        regimen_emisor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        regimen_emisor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         regimen_emisor.setText("Regimen emisor");
         jPanel1.add(regimen_emisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 420, 40));
 
