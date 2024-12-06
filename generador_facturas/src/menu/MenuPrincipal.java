@@ -13,6 +13,7 @@ import emisor.AltaEmisor;
 import emisor.ConsultarEmisor;
 import emisor.ModificarEmisor;
 import emisor.EliminarEmisor;
+import facturacion.GenerarFactura;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -627,6 +628,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txt_generarFcatura.setForeground(new java.awt.Color(255, 255, 255));
         txt_generarFcatura.setText("Generar factura");
         txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_generarFcatura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_generarFcaturaMouseClicked(evt);
+            }
+        });
         menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
 
         txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
@@ -1226,6 +1232,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_txt_altaAlumnosMouseClicked
+
+    private void txt_generarFcaturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_generarFcaturaMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            GenerarFactura ventana = new GenerarFactura();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_generarFcaturaMouseClicked
 
     /**
      * @param args the command line arguments
