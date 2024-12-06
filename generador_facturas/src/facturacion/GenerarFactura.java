@@ -86,6 +86,9 @@ public class GenerarFactura extends javax.swing.JFrame {
     LocalTime horaInicioSesion;    
     Validacion valida = new Validacion();//objeto para valdicar los datos
     
+    String mesEnLetras;
+    int anioActual;
+    
     //Colores para los botones seleccionados y no
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
@@ -144,6 +147,11 @@ public class GenerarFactura extends javax.swing.JFrame {
         // Formatear la fecha en español
         String fechaFormateada = fechaActual.format(formatoEspanol);
         Fecha.setText(fechaFormateada);//Mostar hora
+         // Formato para mostrar el mes en letras
+        DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM");
+        mesEnLetras = fechaActual.format(formatoMes);       
+        // Obtiene el año actual
+        anioActual = fechaActual.getYear();
         
         //Cuando el usuario arrasta para agrandar la ventana
         this.addComponentListener(new ComponentAdapter() {
@@ -182,7 +190,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 menu_salir.setLocation(barra_nav.getWidth()-menu_salir.getWidth(), menu_salir.getLocation().y);//menu salir responsive
                 //alinear submenus 
                 menu_padres.setLocation(contenedor_menu.getLocation().x, menu_alumnos.getLocation().y);
-                 menu_alumnos.setLocation(menu_padres.getLocation().x+120, menu_alumnos.getLocation().y);
+                menu_alumnos.setLocation(menu_padres.getLocation().x+120, menu_alumnos.getLocation().y);
                 menu_factura.setLocation(menu_alumnos.getLocation().x+120, menu_factura.getLocation().y);
                 menu_emisor.setLocation(menu_estadisticas.getLocation().x+120, menu_emisor.getLocation().y);
             }
@@ -566,11 +574,6 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         nombre_user.setBackground(new java.awt.Color(198, 54, 55));
         nombre_user.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        nombre_user.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nombre_userMouseClicked(evt);
-            }
-        });
         nombre_user.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         user_menuIcon1.setBackground(new java.awt.Color(0, 0, 0));
@@ -954,6 +957,11 @@ public class GenerarFactura extends javax.swing.JFrame {
         });
         panelRound2.add(icon_buscarPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 44, 50, 50));
 
+        rfc_padre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                rfc_padreFocusLost(evt);
+            }
+        });
         rfc_padre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rfc_padreActionPerformed(evt);
@@ -987,7 +995,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         domicilio_padre.setEditable(false);
         domicilio_padre.setBackground(new java.awt.Color(255, 255, 255));
         domicilio_padre.setFocusable(false);
-        panelRound2.add(domicilio_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 230, 150, 30));
+        panelRound2.add(domicilio_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 220, 150, 40));
 
         jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel17.setText("Apellido materno");
@@ -1000,13 +1008,19 @@ public class GenerarFactura extends javax.swing.JFrame {
         correo_padre.setEditable(false);
         correo_padre.setBackground(new java.awt.Color(255, 255, 255));
         correo_padre.setFocusable(false);
-        panelRound2.add(correo_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 230, 300, 30));
+        panelRound2.add(correo_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 220, 300, 40));
 
         jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel6.setText("Uso de CFDI");
         panelRound2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 104, -1, 30));
 
         uso_cfdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<seleccionar>" }));
+        uso_cfdi.setEnabled(false);
+        uso_cfdi.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                uso_cfdiItemStateChanged(evt);
+            }
+        });
         panelRound2.add(uso_cfdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 140, 247, 36));
 
         panelRound1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 270));
@@ -1186,6 +1200,7 @@ public class GenerarFactura extends javax.swing.JFrame {
 
         servicio.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         servicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pago de colegiatura", "Pago de servicio de transporte escolar" }));
+        servicio.setEnabled(false);
         servicio.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 servicioItemStateChanged(evt);
@@ -1257,6 +1272,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         btn_agregar.setForeground(new java.awt.Color(255, 255, 255));
         btn_agregar.setText("Agregar");
         btn_agregar.setBorder(null);
+        btn_agregar.setEnabled(false);
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_agregarActionPerformed(evt);
@@ -1468,6 +1484,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setBorder(null);
+        btn_eliminar.setEnabled(false);
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_eliminarActionPerformed(evt);
@@ -1570,18 +1587,32 @@ public class GenerarFactura extends javax.swing.JFrame {
             String consulta_rfc = "SELECT * FROM padre_familia WHERE rfc = ?";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
             ps.setString(1, rfc);
+            
             ResultSet rs = ps.executeQuery();
+            
             if (rs.next()) {
+                //llenar los campos
                 nombre_padre.setText(rs.getString("nombres"));
                 apellidoPaterno_padre.setText(rs.getString("apellido_paterno"));
                 apellidoMaterno_padre.setText(rs.getString("apellido_materno"));
                 regimen_padre.setText(rs.getString("regimen"));
                 domicilio_padre.setText(rs.getString("domicilio_fiscal"));
                 correo_padre.setText(rs.getString("correo_electronico"));
+                //obtener los posibles usos de CFDI
                 obtenerUsosCFDI(rs.getString("regimen"));
+                //carga los hijos del padre
                 cargarHijos(rfc);
-            } else {
+                //habilita los demas botones
+                btn_agregar.setEnabled(true);
+                uso_cfdi.setEnabled(true);
                 
+                //Crear objetto para el receptor
+                receptor = new Receptor(rfc, rs.getString("nombres"), rs.getString("apellido_materno"),rs.getString("apellido_materno"), 
+                        rs.getString("regimen"), rs.getString("domicilio_fiscal"), rs.getString("correo_electronico"));
+            } else {
+                JOptionPane.showMessageDialog(null, "El RFEC del padre que busca no se encuentra registrado", 
+                        "Padre no registrado", JOptionPane.WARNING_MESSAGE);
+                LimpiarCampos();
             }
         } catch (SQLException ex) {
             Logger.getLogger(AltaEmisorPrim.class.getName()).log(Level.SEVERE, null, ex);
@@ -1594,13 +1625,18 @@ public class GenerarFactura extends javax.swing.JFrame {
             String consulta_rfc = "SELECT * FROM alumnos WHERE curp =?";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta_rfc);
             ps.setString(1, curp);
+            
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            
+            if(rs.next()) {
+                //llena los campos
                 curp_alumno.setText(rs.getString("curp"));
                 apellidoPaterno_alumno.setText(rs.getString("apellido_paterno"));
                 apellidoMaterno_alumno.setText(rs.getString("apellido_materno"));
                 nivel_escolar.setText(rs.getString("nivel_escolaridad")); 
                 grado_escolar.setText(rs.getString("grado_escolar"));
+                
+                //crea el objeto alumno
                 alumno = new Alumno(rs.getString("curp"),rs.getString("nombres"),rs.getString("apellido_paterno"),rs.getString("apellido_materno"),
                         rs.getString("nivel_escolaridad"), rs.getString("grado_escolar"));
                 alumno.setClave_escuela(obtenerClaveEscuela(alumno.getNivel_escolar()));
@@ -1613,20 +1649,34 @@ public class GenerarFactura extends javax.swing.JFrame {
     private void cargarHijos(String rfcPadre) {
         try {
             nombres_alumno.removeAllItems();
-            //Seleccionar los datos del emisor
+// Seleccionar los datos del emisor
             String consulta = "SELECT * FROM alumnos WHERE rfc_padre = ?";
             PreparedStatement ps = cx.conectar().prepareStatement(consulta);
             ps.setString(1, rfcPadre);
             ResultSet rs = ps.executeQuery();
-            //Arreglo de datos
-            while (rs.next()) {
-                nombres_alumno.setEnabled(true);
-                nombres_alumno.addItem(rs.getString("nombres")+"                                           - \n"+rs.getString("curp"));
+
+        // Verificar si hay resultados
+            if (!rs.next()) { // Si no hay filas en el resultado
+                JOptionPane.showMessageDialog(null,
+                        "El padre seleccionado no cuenta con ningún hijo registrado\n"
+                        + "Registre un nuevo alumno en Alumnos > Dar de alta alumno",
+                        "Sin hijos registrados",
+                        JOptionPane.WARNING_MESSAGE);
+                btn_agregar.setEnabled(false);
+                return;
             }
+            // Procesar los datos si se encontraron
+            do {
+                btn_agregar.setEnabled(true);
+                nombres_alumno.setEnabled(true);
+                nombres_alumno.addItem(rs.getString("nombres") + "                                           - \n" + rs.getString("curp"));
+            } while (rs.next());
+
         } catch (SQLException ex) {
-            //Logger.getLogger(EliminarPadre.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenerarFactura.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
     private void obtenerUsosCFDI(String regimen){
         if(regimen.equalsIgnoreCase("626 Simplificado de Confianza")){
             uso_cfdi.removeAllItems();//eliminar las opciones anteriores
@@ -1662,8 +1712,8 @@ public class GenerarFactura extends javax.swing.JFrame {
         obj_impuestos.setText("No objeto de impuestos");
         //generar escripcion
         descripcion = "PAGO POR CONCEPTO DE COLEGIATURA DEL"
-                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: "+alumno.getClave_escuela()+" CORRESPONDIENTE AL MES DE AGOSTO DEL 2024, "
-                + "DEL ALUMNO " + alumno.getNombreCompletoMayus() + ", QUE CURSA EL " + alumno.getGrado_escolar().toUpperCase() + " GRADO DE "
+                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: "+alumno.getClave_escuela()+" CORRESPONDIENTE AL MES DE "+mesEnLetras.toUpperCase()+
+                " DEL "+anioActual+", DEL ALUMNO " + alumno.getNombreCompletoMayus() + ", QUE CURSA EL " + alumno.getGrado_escolar().toUpperCase() + " GRADO DE "
                 + alumno.getNivel_escolar().toUpperCase() + ". CURP: " + alumno.getCurp() + ".";
                 
         //Obtener precios para colegiaturas
@@ -1690,15 +1740,16 @@ public class GenerarFactura extends javax.swing.JFrame {
     }
     
     private void obtenerCostosTransporte() {
+        String rutas_descrip[]=rutas.getSelectedItem().toString().split("-");
         //obtener titulos
         cantidad.setText("1");
         unidad.setText("E48 / Unidad de servicio");
         clave.setText("861221500");
-        obj_impuestos.setText("Objeto de impuestos");
+        obj_impuestos.setText("No objeto de impuestos");
         //generar escripcion
-        descripcion = "PAGO POR CONCEPTO DE SERVICIO DE TRANSPORTE DEL"
-                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: " + alumno.getClave_escuela() + " CORRESPONDIENTE AL MES DE AGOSTO DEL 2024, "
-                + "DEL ALUMNO " + alumno.getNombreCompletoMayus() + ", QUE CURSA EL " + alumno.getGrado_escolar().toUpperCase() + " GRADO DE "
+        descripcion = "PAGO POR CONCEPTO DE SERVICIO DE TRANSPORTE DE LA RUTA: "+rutas_descrip[0].toUpperCase()+" A "+rutas_descrip[1].toUpperCase()+", DEL "
+                + "INSTITUTO ANDRÉS MANUEL LÓPEZ OBRADOR, CON CLAVE: " + alumno.getClave_escuela() + " CORRESPONDIENTE AL MES DE "+mesEnLetras.toUpperCase()
+                + "DEL "+anioActual+", DEL ALUMNO " + alumno.getNombreCompletoMayus() + ", QUE CURSA EL " + alumno.getGrado_escolar().toUpperCase() + " GRADO DE "
                 + alumno.getNivel_escolar().toUpperCase() + ". CURP: " + alumno.getCurp() + ".";
 
         if (rutas.getSelectedIndex() == 0) {
@@ -1706,7 +1757,6 @@ public class GenerarFactura extends javax.swing.JFrame {
             importe = 600.00;
             campo_precioUnitario.setText("$" + precio);
             campo_importe.setText("$" + importe);
-            impuestos=importe*0.16;
             return;
         }
         if (rutas.getSelectedIndex() == 1) {
@@ -1714,7 +1764,6 @@ public class GenerarFactura extends javax.swing.JFrame {
             importe = 1000.00;
             campo_precioUnitario.setText("$" + precio);
             campo_importe.setText("$" + importe);
-            impuestos=importe*0.16;
             return;
         }
         if (rutas.getSelectedIndex() == 2) {
@@ -1722,7 +1771,6 @@ public class GenerarFactura extends javax.swing.JFrame {
             importe = 1600.00;
             campo_precioUnitario.setText("$" + precio);
             campo_importe.setText("$" + importe);
-            impuestos=importe*0.16;
             return;
         }
     }
@@ -1745,7 +1793,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         try {
             PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
             ps.setInt(1, factura.getId_factura());
-            ps.setString(2, "GUVZ670504FFF");
+            ps.setString(2, emisor.getRfc());
             ps.setString(3, receptor.getRfc());
             ps.setString(4, factura.getFechaHoraSellada());
             ps.setString(5, factura.getForma_pago());
@@ -1769,19 +1817,21 @@ public class GenerarFactura extends javax.swing.JFrame {
             ps.setString(23, factura.getSello_digital_CFDI());
             ps.setString(24, factura.getSello_SAT());
             ps.setString(25, "director");
-            
-            // Paso 4: Ejecutar la consulta
+
+            // Ejecutar la consulta
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
                 //crear psdf
                 FacturaPDF facturaPdf = new FacturaPDF();
-                facturaPdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas",emisor,receptor,alumno,factura);
-                System.out.println("Factura generada correctamente");
+                facturaPdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas", emisor, receptor, alumno, factura);
+                limpiarTotales();
+                LimpiarCampos();
+                JOptionPane.showMessageDialog(null, "La factura ha sido generada correctamente", "Factura generada", JOptionPane.INFORMATION_MESSAGE);
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void validarsellos() {
@@ -1790,8 +1840,8 @@ public class GenerarFactura extends javax.swing.JFrame {
         factura.setFolioSat(sello.generarFolioSAT());
         factura.setNumero_serie_certificado_emisor(sello.generarNumeroSerieEmisor());
         factura.setNumero_serie_certificado_SAT(sello.generarNumeroSerieSAT());
-        factura.setCadena_original_complemento_certificacion_digital_SAT(sello.generarCadenaSAT("RACA031202FD1", 
-                factura.getNumero_serie_certificado_emisor(),factura.getFechaHoraSellada()));
+        factura.setCadena_original_complemento_certificacion_digital_SAT(sello.generarCadenaSAT(emisor.getRfc(), 
+        factura.getNumero_serie_certificado_emisor(),factura.getFechaHoraSellada()));
         factura.setSello_digital_CFDI(sello.generarSello());
         factura.setSello_SAT(sello.generarSello());
     }
@@ -1808,7 +1858,59 @@ public class GenerarFactura extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }  
+    } 
+    
+    private void limpiarTotales(){
+        subTotal.setText("");
+        descuento_totales.setText("");
+        impuestos_total.setText("");
+        campo_total.setText("");
+    }
+    
+    private void LimpiarCampos(){
+        //deshabilita el boton de agregar
+       btn_agregar.setEnabled(false); 
+       btn_eliminar.setEnabled(false);
+       //limpiar campos del padre
+       rfc_padre.setText("");
+       nombre_padre.setText("");
+       apellidoPaterno_padre.setText("");
+       apellidoMaterno_padre.setText("");
+       regimen_padre.setText("");
+       uso_cfdi.removeAllItems();
+       uso_cfdi.addItem("<seleccionar>");
+       uso_cfdi.setEnabled(false);
+       domicilio_padre.setText("");
+       correo_padre.setText("");
+       
+       //limpiar campos del servicio
+       nombres_alumno.setEnabled(false);
+       nombres_alumno.removeAllItems();
+       apellidoPaterno_alumno.setText("");
+       apellidoMaterno_alumno.setText("");
+       curp_alumno.setText("");
+       nivel_escolar.setText("");
+       grado_escolar.setText("");
+       servicio.setEnabled(false);
+       servicio.setSelectedIndex(0);
+       rutas.setEnabled(true);
+       rutas.setVisible(false);    
+       cantidad.setText("");
+       unidad.setText("");
+       clave.setText("");
+       obj_impuestos.setText("");
+       campo_precioUnitario.setText("");
+       campo_importe.setText("");
+       
+        //habilitar para buscar a un nuevo padre
+       rfc_padre.setEnabled(true);
+       icon_buscarPadre.setVisible(true);
+       
+       //deshabilitar botones para generar y visualizar factura
+       btn_previsualizar.setEnabled(false);
+       btn_enviarCorreo.setEnabled(false);
+    }
+    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Object[] opciones = {"Aceptar", "Cancelar"};
         // Si existe información que no ha sido guardada
@@ -2096,10 +2198,6 @@ public class GenerarFactura extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_menu_userMouseClicked
-
-    private void nombre_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombre_userMouseClicked
-        
-    }//GEN-LAST:event_nombre_userMouseClicked
 
     private void btn_historialSesionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historialSesionesMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
@@ -2582,17 +2680,34 @@ public class GenerarFactura extends javax.swing.JFrame {
     }//GEN-LAST:event_icon_buscarPadreMouseClicked
 
     private void rfc_padreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rfc_padreActionPerformed
-        // TODO add your handling code here:
+        Validacion valida = new Validacion();
+        if (rfc_padre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC para consultar", "RFC no ingresado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (rfc_padre.getText().length() < 13) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!valida.rfc_valido(rfc_padre.getText().toUpperCase())) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un RFC valido para consultar", "RFC no valido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        obtenerDatosPadre(rfc_padre.getText().toUpperCase());
+        rfc_padre.setText(rfc_padre.getText().toUpperCase());
     }//GEN-LAST:event_rfc_padreActionPerformed
 
     private void rfc_padreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_padreKeyTyped
-        // TODO add your handling code here:
+        if (rfc_padre.getText().length() >= 13 && evt.getKeyChar() != KeyEvent.VK_ENTER) {
+            JOptionPane.showMessageDialog(null, "El RFC debe ser de 13 digitos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
     }//GEN-LAST:event_rfc_padreKeyTyped
 
     private void btn_enviarCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarCorreoActionPerformed
         try {
             sellarFactura();
-             JOptionPane.showMessageDialog(null, "La factura ha sido generada correctamente", "Factura generada", JOptionPane.INFORMATION_MESSAGE);
         } catch (DocumentException ex) {
             Logger.getLogger(GenerarFactura.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -2601,12 +2716,14 @@ public class GenerarFactura extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_enviarCorreoActionPerformed
 
     private void nombres_alumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_nombres_alumnoItemStateChanged
-        String curp[]=nombres_alumno.getSelectedItem().toString().split("-");
-        obtenerDatosAlumno(curp[1].trim());
-        
-        //cargar el dato de la colegiatura
-        if(servicio.getSelectedItem().toString().equals("Pago de colegiatura")){
-            obtenerCostosColegiatura();
+        if (evt.getStateChange() == ItemEvent.SELECTED) { //si selecciona un item verificar    
+            String curp[] = nombres_alumno.getSelectedItem().toString().split("-");
+            obtenerDatosAlumno(curp[1].trim());
+
+            //cargar el dato de la colegiatura
+            if (servicio.getSelectedItem().toString().equals("Pago de colegiatura")) {
+                obtenerCostosColegiatura();
+            }
         }
     }//GEN-LAST:event_nombres_alumnoItemStateChanged
 
@@ -2643,10 +2760,6 @@ public class GenerarFactura extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "El descuento no puede ser mayor al precio del servicio", "Error", JOptionPane.WARNING_MESSAGE); 
            return;
         }
-        
-        //Crear objetto para el receptor
-        receptor = new Receptor(rfc_padre.getText(), nombre_padre.getText(), apellidoPaterno_padre.getText(), apellidoMaterno_padre.getText(), regimen_padre.getText(),
-                domicilio_padre.getText(), correo_padre.getText());
        
         //obtener el uso de CFDI del receptor
         receptor.setUso_CFDI(uso_cfdi.getSelectedItem().toString());
@@ -2659,6 +2772,8 @@ public class GenerarFactura extends javax.swing.JFrame {
         //Bloquear ingresar datos padre
         rfc_padre.setEnabled(false);
         icon_buscarPadre.setVisible(false);
+        uso_cfdi.setEnabled(false);
+        
         //bloquear ingresar datos servicios
         nombres_alumno.setEnabled(false);
         //campoDescuento.setEnabled(false);
@@ -2685,6 +2800,8 @@ public class GenerarFactura extends javax.swing.JFrame {
         //habilitar ingresar datos padre
         rfc_padre.setEnabled(true);
         icon_buscarPadre.setVisible(true);
+        uso_cfdi.setEnabled(true);
+        
         //habilitar ingresar datos servicios
         nombres_alumno.setEnabled(true);
         //campoDescuento.setEnabled(true);
@@ -2695,8 +2812,13 @@ public class GenerarFactura extends javax.swing.JFrame {
         btn_previsualizar.setEnabled(false);
         btn_enviarCorreo.setEnabled(false);  
         
+        //habilitar boton de agregar
         btn_agregar.setEnabled(true);
+        //deshabilitar boton de eliminar
         btn_eliminar.setEnabled(false);
+        
+        //limpiar los campos de totales
+        limpiarTotales();
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void rutasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rutasItemStateChanged
@@ -2704,6 +2826,26 @@ public class GenerarFactura extends javax.swing.JFrame {
             obtenerCostosTransporte();
         }
     }//GEN-LAST:event_rutasItemStateChanged
+
+    private void uso_cfdiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_uso_cfdiItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) { //si selecciona un item verificar    
+            if (uso_cfdi.getSelectedItem().toString().equalsIgnoreCase("D10 Pagos por servicios educativos")) {
+                servicio.setSelectedIndex(0);
+                servicio.setEnabled(false);
+                return;
+            }
+            if (uso_cfdi.getSelectedItem().toString().equalsIgnoreCase("D08 Transporte escolar")) {
+                servicio.setSelectedIndex(1);
+                servicio.setEnabled(false);
+                return;
+            }
+            servicio.setEnabled(true);
+        }
+    }//GEN-LAST:event_uso_cfdiItemStateChanged
+
+    private void rfc_padreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rfc_padreFocusLost
+        rfc_padre.setText(rfc_padre.getText().toUpperCase());
+    }//GEN-LAST:event_rfc_padreFocusLost
 
     /**
      * @param args the command line arguments

@@ -85,7 +85,7 @@ public class ModeloFactura extends JDialog {
         unidad.setText("<html>"+factura.getUnidad()+"</html>");
  
         //descricion del producto
-        descripcion.setText("<html><center><br>"+factura.getDescripcion()+"</center></htm>");
+        descripcion.setText("<html><br>"+factura.getDescripcion()+"</htm>");
         
         //Datos del alumno
         curp_alumno.setText(alumno.getCurp());
@@ -516,7 +516,7 @@ public class ModeloFactura extends JDialog {
         contenedorProductos.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, 120, 120));
 
         descripcion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        descripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        descripcion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         descripcion.setText("Descripción");
         contenedorProductos.add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 350, 140));
 
