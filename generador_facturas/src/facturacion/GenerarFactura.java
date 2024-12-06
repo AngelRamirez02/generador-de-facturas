@@ -937,7 +937,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         apellidoPaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
         apellidoPaterno_padre.setFocusCycleRoot(true);
         apellidoPaterno_padre.setFocusable(false);
-        panelRound2.add(apellidoPaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(597, 54, 190, 30));
+        panelRound2.add(apellidoPaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(597, 54, 190, 36));
 
         jLabel14.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel14.setText("Domicilio fiscal");
@@ -972,7 +972,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 rfc_padreKeyTyped(evt);
             }
         });
-        panelRound2.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 54, 160, 30));
+        panelRound2.add(rfc_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 54, 160, 36));
 
         jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel9.setText("RFC");
@@ -981,7 +981,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         nombre_padre.setEditable(false);
         nombre_padre.setBackground(new java.awt.Color(255, 255, 255));
         nombre_padre.setFocusable(false);
-        panelRound2.add(nombre_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 54, 200, 30));
+        panelRound2.add(nombre_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 54, 200, 36));
 
         txt_nombrePadre2.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         txt_nombrePadre2.setText("Nombre (s)");
@@ -990,12 +990,12 @@ public class GenerarFactura extends javax.swing.JFrame {
         apellidoMaterno_padre.setEditable(false);
         apellidoMaterno_padre.setBackground(new java.awt.Color(255, 255, 255));
         apellidoMaterno_padre.setFocusable(false);
-        panelRound2.add(apellidoMaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(868, 54, 180, 30));
+        panelRound2.add(apellidoMaterno_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(868, 54, 180, 36));
 
         domicilio_padre.setEditable(false);
         domicilio_padre.setBackground(new java.awt.Color(255, 255, 255));
         domicilio_padre.setFocusable(false);
-        panelRound2.add(domicilio_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 220, 150, 40));
+        panelRound2.add(domicilio_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 150, 36));
 
         jLabel17.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
         jLabel17.setText("Apellido materno");
@@ -1008,7 +1008,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         correo_padre.setEditable(false);
         correo_padre.setBackground(new java.awt.Color(255, 255, 255));
         correo_padre.setFocusable(false);
-        panelRound2.add(correo_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 220, 300, 40));
+        panelRound2.add(correo_padre, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 230, 300, 36));
 
         jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel6.setText("Uso de CFDI");
@@ -1023,9 +1023,9 @@ public class GenerarFactura extends javax.swing.JFrame {
         });
         panelRound2.add(uso_cfdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 140, 247, 36));
 
-        panelRound1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 270));
+        panelRound1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 1130, 280));
 
-        jPanel1.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 1160, 340));
+        jPanel1.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 1160, 350));
 
         panelRound3.setRoundBottomLeft(50);
         panelRound3.setRoundBottomRight(50);
@@ -1607,7 +1607,7 @@ public class GenerarFactura extends javax.swing.JFrame {
                 uso_cfdi.setEnabled(true);
                 
                 //Crear objetto para el receptor
-                receptor = new Receptor(rfc, rs.getString("nombres"), rs.getString("apellido_materno"),rs.getString("apellido_materno"), 
+                receptor = new Receptor(rfc, rs.getString("nombres"), rs.getString("apellido_paterno"),rs.getString("apellido_materno"), 
                         rs.getString("regimen"), rs.getString("domicilio_fiscal"), rs.getString("correo_electronico"));
             } else {
                 JOptionPane.showMessageDialog(null, "El RFEC del padre que busca no se encuentra registrado", 

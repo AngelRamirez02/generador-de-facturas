@@ -937,9 +937,18 @@ public class FacturaPDF {
         // Cerrar el documento
         documento.close();
         
-//        Correo enviarCorreo = new Correo("", rutaArchivo);
-//        enviarCorreo.envioDeCorreos();
-//        
+        String mensaje="";
+        if(factura.getDescripcion().contains("COLEGIATURA")){
+            mensaje="el pago de la colegiatura correspondiente mes de ";
+        }
+        else if(factura.getDescripcion().contains("TRANSPORTE")){
+            mensaje="el pago de servicios de transporte correspondiente al mes de ";
+        }
+        
+        //Enviar el correo al padre
+        Correo enviarCorreo = new Correo("chinoguapo222@gmail.com", rutaArchivo);
+        enviarCorreo.envioDeCorreos(receptor.getApellido_paterno(),mensaje);
+        
         // Abrir el archivo generado
         File path = new File(rutaArchivo);
         if (path.exists()) {
