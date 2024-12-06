@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class FacturaSAT {
 
-    public String generarFacturaPdfSAT(String ruta) throws FileNotFoundException, DocumentException, IOException {
+    public String generarFacturaPdfSAT(String ruta, Factura factura, Emisor emisor, Receptor receptor) throws FileNotFoundException, DocumentException, IOException {
         // Obtener la fecha y hora actual
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         // Definir el formato deseado
@@ -63,7 +63,7 @@ public class FacturaSAT {
         celdaTituloRFcEmisor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaTituloRFcEmisor);
         
-        Paragraph rfcEmisor = new Paragraph("RACA031202FD9", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph rfcEmisor = new Paragraph(emisor.getRfc(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaRFcEmisor = new PdfPCell(rfcEmisor);
         celdaRFcEmisor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaRFcEmisor);
@@ -74,7 +74,7 @@ public class FacturaSAT {
         celdaTituloNombreEmisor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaTituloNombreEmisor);
         
-        Paragraph nombreEmisor = new Paragraph("Ramirez Castro Angel", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph nombreEmisor = new Paragraph(emisor.getNombreCompletoMayus(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaNombreEmisor = new PdfPCell(nombreEmisor);
         celdaNombreEmisor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaNombreEmisor);
@@ -86,7 +86,7 @@ public class FacturaSAT {
         celdaTituloFolio.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaTituloFolio);
         
-        Paragraph folio = new Paragraph("1", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph folio = new Paragraph(""+factura.getId_factura(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaFolio = new PdfPCell(folio);
         celdaFolio.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaFolio);
@@ -97,7 +97,7 @@ public class FacturaSAT {
         celdaTituloRFcReceptor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaTituloRFcReceptor);
         
-        Paragraph rfcReceptor = new Paragraph("RACA031202FD9", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph rfcReceptor = new Paragraph(receptor.getRfc(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaRfcReceptor= new PdfPCell(rfcReceptor);
         celdaRfcReceptor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaRfcReceptor);
@@ -108,7 +108,7 @@ public class FacturaSAT {
         celdaTituloNombreReceptor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaTituloNombreReceptor);
         
-        Paragraph NombreReceptor = new Paragraph("RACA031202FD9", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph NombreReceptor = new Paragraph(receptor.getNombreCompletoMayus(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaNombreReceptor= new PdfPCell(NombreReceptor);
         celdaNombreReceptor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaNombreReceptor);
@@ -119,7 +119,7 @@ public class FacturaSAT {
         celdaTituloCpReceptor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaTituloCpReceptor);
         
-        Paragraph cpReceptor= new Paragraph("39890", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph cpReceptor= new Paragraph(receptor.getDomicilio_fiscal(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaCpReceptor = new PdfPCell(cpReceptor);
         celdaCpReceptor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaCpReceptor);
@@ -130,7 +130,7 @@ public class FacturaSAT {
         celdaTituloRegimenReceptor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaTituloRFcReceptor);
         
-        Paragraph RegimenReceptor = new Paragraph("HUEVOOOOS", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph RegimenReceptor = new Paragraph(receptor.getRegimen(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaRegimenReceptor = new PdfPCell(RegimenReceptor);
         celdaRegimenReceptor.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaRegimenReceptor);
@@ -141,7 +141,7 @@ public class FacturaSAT {
         celdaTituloUsoCFDI.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaTituloUsoCFDI);
         
-        Paragraph usoCFDI = new Paragraph("HUEVOOOOS", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph usoCFDI = new Paragraph(receptor.getUso_CFDI(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaUsoCFDI = new PdfPCell(usoCFDI);
         celdaUsoCFDI.setBorder(PdfPCell.NO_BORDER);
         tablaIzq.addCell(celdaUsoCFDI);
@@ -159,7 +159,7 @@ public class FacturaSAT {
         celdaTituloFolioFiscal.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaTituloFolioFiscal);
         
-        Paragraph FolioFiscal = new Paragraph("1010017373782010210", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph FolioFiscal = new Paragraph(factura.getFolioSat(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaFolioFiscal = new PdfPCell(FolioFiscal);
         celdaFolioFiscal.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaFolioFiscal);
@@ -170,7 +170,7 @@ public class FacturaSAT {
         celdaTituloNoCSD.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaTituloNoCSD);
         
-        Paragraph noCSD = new Paragraph("00000000000001", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph noCSD = new Paragraph(factura.getNumero_serie_certificado_emisor(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaNoCSD = new PdfPCell(noCSD);
         celdaNoCSD.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaNoCSD);
@@ -192,7 +192,7 @@ public class FacturaSAT {
         celdaTituloCpFechaExp.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaTituloCpFechaExp);
         
-        Paragraph cpFechaEmision = new Paragraph("39890 1828822", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph cpFechaEmision = new Paragraph("39890 "+factura.getFechaHoraSellada(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaFechaEmison = new PdfPCell(cpFechaEmision);
         celdaFechaEmison.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaFechaEmison);
@@ -203,7 +203,7 @@ public class FacturaSAT {
         celdaTituloEfctComprobante.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaTituloEfctComprobante);
         
-        Paragraph efectComprobante = new Paragraph("Ingreso", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph efectComprobante = new Paragraph(factura.getTipo_comprobante(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaEfectComprobante = new PdfPCell(efectComprobante);
         celdaEfectComprobante.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaEfectComprobante);
@@ -214,7 +214,7 @@ public class FacturaSAT {
         celdaTituloRegimen.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaTituloRegimen);
         
-        Paragraph Regimen = new Paragraph("Personas Físicas con Actividades Empresariales y Profesionales", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph Regimen = new Paragraph(emisor.getRegimen(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaRegimen = new PdfPCell(Regimen);
         celdaRegimen.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaRegimen);
@@ -230,7 +230,7 @@ public class FacturaSAT {
         celdaExportacion.setBorder(PdfPCell.NO_BORDER);
         tablaDer.addCell(celdaExportacion);
         
-         //CELDA PARA AGREGAR A LA TABLA GENERAL
+        //CELDA PARA AGREGAR A LA TABLA GENERAL
         PdfPCell celdaDer = new PdfPCell(tablaDer);
         celdaDer.setBorder(PdfPCell.NO_BORDER);
         tablaDatosGenerales.addCell(celdaDer);
@@ -301,8 +301,16 @@ public class FacturaSAT {
         tablaConceptos.addCell(celdatitulo_obj);
         
         //AGREGA LOS DATOS A LA TABLA
-        //--
-        //--
+        String claves[] = factura.getUnidad().split("/");
+        tablaConceptos.addCell(new Paragraph(factura.getClave(), FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
+        tablaConceptos.addCell(new Paragraph("", FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
+        tablaConceptos.addCell(new Paragraph(factura.getCantidad(), FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
+        tablaConceptos.addCell(new Paragraph(claves[0], FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
+        tablaConceptos.addCell(new Paragraph(claves[1], FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
+        tablaConceptos.addCell(new Paragraph(""+factura.getPrecio_unitario(), FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
+        tablaConceptos.addCell(new Paragraph(""+factura.getImporte(), FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
+        tablaConceptos.addCell(new Paragraph("", FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
+        tablaConceptos.addCell(new Paragraph(factura.getObj_impuestos(), FontFactory.getFont(FontFactory.HELVETICA, 6, BaseColor.BLACK)));
         documento.add(tablaConceptos);
 
         PdfPTable tablaDescrip = new PdfPTable(2);
@@ -316,7 +324,7 @@ public class FacturaSAT {
         celdaTituloDescrip.setBackgroundColor(gris);
         celdaTituloDescrip.setHorizontalAlignment(Element.ALIGN_CENTER);
         
-        Paragraph Descrip = new Paragraph("Descripción", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 6, BaseColor.BLACK));
+        Paragraph Descrip = new Paragraph(factura.getDescripcion(), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 6, BaseColor.BLACK));
         PdfPCell celdaDescrip = new PdfPCell(Descrip);
         celdaDescrip.setHorizontalAlignment(Element.ALIGN_CENTER);
         
@@ -337,7 +345,7 @@ public class FacturaSAT {
         celdaTituloMoneda.setBorder(PdfPCell.NO_BORDER);
         tablaPagosIzq.addCell(celdaTituloMoneda);
         
-        Paragraph Moneda = new Paragraph("Moneda", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph Moneda = new Paragraph("Peso Mexicano", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaMoneda = new PdfPCell(Moneda);
         celdaMoneda.setPaddingTop(15);
         celdaMoneda.setBorder(PdfPCell.NO_BORDER);
@@ -349,7 +357,7 @@ public class FacturaSAT {
         celdaTituloFormaPago.setBorder(PdfPCell.NO_BORDER);
         tablaPagosIzq.addCell(celdaTituloFormaPago);
         
-        Paragraph FormaPago = new Paragraph("Forma de pago:", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph FormaPago = new Paragraph(factura.getForma_pago(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaFormaPago= new PdfPCell(FormaPago);
         celdaFormaPago.setBorder(PdfPCell.NO_BORDER);
         tablaPagosIzq.addCell(celdaFormaPago);
@@ -360,7 +368,7 @@ public class FacturaSAT {
         celdaTituloMetodoPago.setBorder(PdfPCell.NO_BORDER);
         tablaPagosIzq.addCell(celdaTituloMetodoPago);
         
-        Paragraph MetodoPago = new Paragraph("Forma de pago", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph MetodoPago = new Paragraph(factura.getMetodo_pago(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaMetodoPago= new PdfPCell(MetodoPago);
         celdaMetodoPago.setBorder(PdfPCell.NO_BORDER);
         tablaPagosIzq.addCell(celdaMetodoPago);
@@ -379,7 +387,7 @@ public class FacturaSAT {
         celdaTituloSubtotal.setBorder(PdfPCell.NO_BORDER);
         tablaPagosDer.addCell(celdaTituloSubtotal);
         
-        Paragraph Subtotal = new Paragraph("Subtotal", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph Subtotal = new Paragraph(""+factura.getSubtotal(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaSubtotal = new PdfPCell(Subtotal);
         celdaSubtotal.setPaddingTop(15);
         celdaSubtotal.setBorder(PdfPCell.NO_BORDER);
@@ -391,7 +399,7 @@ public class FacturaSAT {
         celdaTituloTotal.setBorder(PdfPCell.NO_BORDER);
         tablaPagosDer.addCell(celdaTituloTotal);
         
-        Paragraph Total = new Paragraph("1111l", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph Total = new Paragraph(""+factura.getTotal(), FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaTotal = new PdfPCell(Total);
         celdaTotal.setBorder(PdfPCell.NO_BORDER);
         tablaPagosDer.addCell(celdaTotal);
@@ -418,9 +426,7 @@ public class FacturaSAT {
 
         //-----PARRAFO PARA CERTIFICACION SAT
         Paragraph selloCFDI = new Paragraph(8);
-        selloCFDI.add(new Chunk("dglic9wNF/56oKI9zW1dVGLIUHfvCX7TI1+N0R02pLEtamzPj8OaeAd7mxARWmVZX82jIhsJIX54eRqcFH/sG9U3ZWucfwB45A+bX/PT121OCkVg9V8kzulapH3X8rXknZuooGDhz8w3oAX11"
-                + "dw137Y/RS/j7fFT8E/sR/71xt43eVIfxJPdMBtQXhNZYzszaelBgokFyvV4fUVXIKajCauw3LlEj8FOrHXwwsTNk0IFSNmZrH6KuLe+zHorQagJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyVe"
-                + "BuUlcpbeaHZ/NE4rpV47fz+4kg5ESpnyUjFmkMDk8t00l5DQ5A==", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
+        selloCFDI.add(new Chunk(factura.getSello_digital_CFDI(), FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
         PdfPCell celdaSelloCFDI = new PdfPCell();
         celdaSelloCFDI.addElement(selloCFDI);
         celdaSelloCFDI.setBorder(PdfPCell.NO_BORDER);
@@ -546,8 +552,8 @@ public class FacturaSAT {
         }
         return ruta;
     }
-    public static void main(String[] args) throws DocumentException, IOException {
-        FacturaSAT f = new FacturaSAT();
-        System.out.println(f.generarFacturaPdfSAT("C:\\Users\\ar275\\Documents\\Generador de facturas"));
-    }
+//    public static void main(String[] args) throws DocumentException, IOException {
+//        FacturaSAT f = new FacturaSAT();
+//        System.out.println(f.generarFacturaPdfSAT("C:\\Users\\ar275\\Documents\\Generador de facturas",null));
+//    }
 }

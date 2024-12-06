@@ -1824,6 +1824,8 @@ public class GenerarFactura extends javax.swing.JFrame {
                 //crear psdf
                 FacturaPDF facturaPdf = new FacturaPDF();
                 facturaPdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas", emisor, receptor, alumno, factura);
+                FacturaSAT facturaSat = new FacturaSAT();
+                facturaSat.generarFacturaPdfSAT("C:\\Users\\ar275\\Documents\\Generador de facturas", factura, emisor, receptor);
                 limpiarTotales();
                 LimpiarCampos();
                 JOptionPane.showMessageDialog(null, "La factura ha sido generada correctamente", "Factura generada", JOptionPane.INFORMATION_MESSAGE);
