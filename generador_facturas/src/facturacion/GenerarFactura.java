@@ -1823,13 +1823,11 @@ public class GenerarFactura extends javax.swing.JFrame {
             if (rowsInserted > 0) {
                 //crear psdf
                 FacturaPDF facturaPdf = new FacturaPDF();
-                facturaPdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas", emisor, receptor, alumno, factura);
-                FacturaSAT facturaSat = new FacturaSAT();
-                facturaSat.generarFacturaPdfSAT("C:\\Users\\ar275\\Documents\\Generador de facturas", factura, emisor, receptor);
+                facturaPdf.generarFacturaPDF(emisor, receptor, alumno, factura);
                 limpiarTotales();
                 LimpiarCampos();
-                JOptionPane.showMessageDialog(null, "La factura ha sido generada correctamente", "Factura generada", JOptionPane.INFORMATION_MESSAGE);
-
+                JOptionPane.showMessageDialog(null, "La factura ha sido generada correctamente\n"
+                        + "Puede encontrar los archivos en la ruta de >>Descargas", "Factura generada correctamente", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);

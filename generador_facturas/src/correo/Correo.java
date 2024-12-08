@@ -32,12 +32,14 @@ public class Correo {
     private String asunto;
     private String contraseña16Digitos;
     private String rutaPdf;
+    private String rutaPdf_SAT;
 
-    public Correo(String destino, String rutaPDF) {
+    public Correo(String destino, String rutaPDF,String rutapdf_sat) {
         this.correoDeOrigen = "amlob.instituto@gmail.com";
         this.correoDeDestino = destino;
         this.contraseña16Digitos = "vvfh vofj yjku htas";
         this.rutaPdf = rutaPDF;
+        this.rutaPdf_SAT=rutapdf_sat;
     }
 
     public void envioDeCorreos(String apellido, String mensaje) {
@@ -138,13 +140,19 @@ public class Correo {
             //Adjuntar el pdf
             BodyPart PdfAdjunto = new MimeBodyPart();
             PdfAdjunto.setDataHandler(new DataHandler(new FileDataSource(rutaPdf)));
-            PdfAdjunto.setFileName("Factura_" + mesEnLetras + "_" + anioActual + ".pdf");
+            PdfAdjunto.setFileName("Factura_" +apellido+ mesEnLetras + "_" + anioActual + ".pdf");
+            
+            //Adjuntar el pdf
+            BodyPart PdfSATadjunto = new MimeBodyPart();
+            PdfSATadjunto.setDataHandler(new DataHandler(new FileDataSource(rutaPdf_SAT)));
+            PdfSATadjunto.setFileName("Factura_" +apellido+ mesEnLetras + "_" + anioActual + "SAT.pdf");
 
             //Crear el cuerpo con el mensaje y archivo
             MimeMultipart m = new MimeMultipart();
             m.addBodyPart(titulo);
             m.addBodyPart(contenido);
             m.addBodyPart(PdfAdjunto);
+            m.addBodyPart(PdfSATadjunto);
 
             MimeMessage mensaje = new MimeMessage(s);
             mensaje.setFrom(new InternetAddress(correoDeOrigen));

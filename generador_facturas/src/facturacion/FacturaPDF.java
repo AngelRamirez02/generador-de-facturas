@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 
 public class FacturaPDF {
 
-    public void generarFacturaPDF(String ruta,Emisor emisor ,Receptor receptor, Alumno alumno, Factura factura) throws FileNotFoundException, DocumentException, IOException {
+    public void generarFacturaPDF(Emisor emisor ,Receptor receptor, Alumno alumno, Factura factura) throws FileNotFoundException, DocumentException, IOException {
         // Obtener la fecha y hora actual
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         // Definir el formato deseado
@@ -22,8 +22,10 @@ public class FacturaPDF {
         // Aplicar el formato a la fecha y hora actual
         String fechaHoraFormateada = fechaHoraActual.format(formato);
 
+        // Obtener la carpeta de Descargas del usuario
+        String rutaDescargas = System.getProperty("user.home") + File.separator + "Downloads";
         // Ruta para guardar el documento
-        String rutaArchivo = ruta + File.separator + "Factura" + ".pdf";
+        String rutaArchivo = rutaDescargas + File.separator + "Factura" + ".pdf";
 
         //color rojo personalizado de la escuela
         BaseColor rojoPersonalizado = new BaseColor(201, 69, 69); // Usando RGB
@@ -964,9 +966,12 @@ public class FacturaPDF {
         else if(factura.getDescripcion().contains("TRANSPORTE")){
             mensaje="el pago de servicios de transporte correspondiente al mes de ";
         }
+        //Genera la factura del SAT
+        FacturaSAT facturaSAT = new FacturaSAT();
+        String ruta_sat = facturaSAT.generarFacturaPdfSAT(factura, emisor, receptor); 
         
         //Enviar el correo al padre
-        Correo enviarCorreo = new Correo("chinoguapo222@gmail.com", rutaArchivo);
+        Correo enviarCorreo = new Correo(receptor.getCorreo_electronico(),rutaArchivo,ruta_sat);
         enviarCorreo.envioDeCorreos(receptor.getApellido_paterno(),mensaje);
         
         // Abrir el archivo generado
@@ -975,15 +980,6 @@ public class FacturaPDF {
             Desktop.getDesktop().open(path);
         } else {
             System.out.println("Error: No se pudo generar el archivo.");
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-            FacturaPDF pdf = new FacturaPDF();
-            pdf.generarFacturaPDF("C:\\Users\\ar275\\Documents\\Generador de facturas",null,null,null,null);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

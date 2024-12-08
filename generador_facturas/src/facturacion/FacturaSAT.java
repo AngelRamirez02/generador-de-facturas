@@ -29,16 +29,12 @@ import java.time.format.DateTimeFormatter;
  */
 public class FacturaSAT {
 
-    public String generarFacturaPdfSAT(String ruta, Factura factura, Emisor emisor, Receptor receptor) throws FileNotFoundException, DocumentException, IOException {
-        // Obtener la fecha y hora actual
-        LocalDateTime fechaHoraActual = LocalDateTime.now();
-        // Definir el formato deseado
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a");
-        // Aplicar el formato a la fecha y hora actual
-        String fechaHoraFormateada = fechaHoraActual.format(formato);
-
+    public String generarFacturaPdfSAT(Factura factura, Emisor emisor, Receptor receptor) throws FileNotFoundException, DocumentException, IOException {
+    
+        // Obtener la carpeta de Descargas del usuario
+        String rutaDescargas = System.getProperty("user.home") + File.separator + "Downloads";
         // Ruta para guardar el documento
-        String rutaArchivo = ruta + File.separator + "Factura_SAT" + ".pdf";
+        String rutaArchivo = rutaDescargas + File.separator + "Factura_SAT" + ".pdf";
 
         //color rojo personalizado de la escuela
         BaseColor gris = new BaseColor(191,191,191); // Usando RGB
@@ -448,9 +444,7 @@ public class FacturaSAT {
 
         //-----PARRAFO PARA CERTIFICACION SAT
         Paragraph selloSAT = new Paragraph(8);
-        selloSAT.add(new Chunk("dglic9wNF/56oKI9zW1dVGLIUHfvCX7TI1+N0R02pLEtamzPj8OaeAd7mxARWmVZX82jIhsJIX54eRqcFH/sG9U3ZWucfwB45A+bX/PT121OCkVg9V8kzulapH3X8rXknZuooGDhz8w3oAX11"
-                + "dw137Y/RS/j7fFT8E/sR/71xt43eVIfxJPdMBtQXhNZYzszaelBgokFyvV4fUVXIKajCauw3LlEj8FOrHXwwsTNk0IFSNmZrH6KuLe+zHorQagJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyVe"
-                + "BuUlcpbeaHZ/NE4rpV47fz+4kg5ESpnyUjFmkMDk8t00l5DQ5A==", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
+        selloSAT.add(new Chunk(factura.getSello_SAT(), FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
         PdfPCell celdaSelloSAT = new PdfPCell();
         celdaSelloSAT.addElement(selloSAT);
         celdaSelloSAT.setBorder(PdfPCell.NO_BORDER);
@@ -488,18 +482,13 @@ public class FacturaSAT {
         tablaSellos.addCell(celdaTituloCadenaSAT);
 
         Paragraph CadenaSAT = new Paragraph(8);
-        CadenaSAT.add(new Chunk("|1.1|7733d569-d3e7-4084-a167-51ab5b1337f6|2024-04-09T17:51:29|LSO1306189R5|dglic9wNF/56oKI9zW1dVGLIUHfvCX7TI1+N0R02pLEtamzPj8Oae\n"
-                + "Ad7mxARWmVZX82jIhsJIX54eRqcFH/sG9U3ZWucfwB45A+bX/PT121OCkVg9V8kzulapH3X8rXknZuooGDhz8w3oAX11dw137Y/RS/j7fFT8E/sR/71xt43e"
-                + "VIfxJPdMBtQXhNZYzszaelBgokFyvV4fUVXIKajCauw3LlEj8FOrHXwwsTNk0IFSNmZrH6KuLe+zHorQagJMLsYaLbcQUVzu5zDeLNEZN4/U8sdqmXmVyV"
-                + "eBuUlcpbeaHZ/NE4rpV47fz+4kg5ESpnyUjFmkMDk8t00l5DQ5A==|00001000000509846663||", FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
+        CadenaSAT.add(new Chunk(factura.getCadena_original_complemento_certificacion_digital_SAT(), FontFactory.getFont(FontFactory.HELVETICA, 7, BaseColor.BLACK)));
         PdfPCell celdaCadenaSAT = new PdfPCell();
         celdaCadenaSAT.addElement(CadenaSAT);
         celdaCadenaSAT.setBorder(PdfPCell.NO_BORDER);
         tablaSellos.addCell(celdaCadenaSAT);
 
         //TABLA PARA FECHA Y HORA Y SERIE SAT
-        
-        
         //Celda para los sellos
         PdfPCell celdaSellos = new PdfPCell(tablaSellos);
         celdaSellos.setBorder(PdfPCell.NO_BORDER);
@@ -550,7 +539,7 @@ public class FacturaSAT {
         } else {
             System.out.println("Error: No se pudo generar el archivo.");
         }
-        return ruta;
+        return rutaArchivo;
     }
 //    public static void main(String[] args) throws DocumentException, IOException {
 //        FacturaSAT f = new FacturaSAT();

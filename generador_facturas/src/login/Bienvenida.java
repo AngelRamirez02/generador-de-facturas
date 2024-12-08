@@ -4,7 +4,6 @@
  */
 package login;
 
-import emisor.*;
 import conexion.conexion;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -33,17 +32,11 @@ import menu.MenuPrincipal;
  * @author ar275
  */
 public class Bienvenida extends javax.swing.JFrame {
-    
-    private String usuario;
-    LocalDate fechaInicioSesion;
-    LocalTime horaInicioSesion;
-    /**
-     * Creates new form PrimerInicio
-     */
+
     public Bienvenida() {
         initComponents();
         //Personalizar el tamaño del logo
-         Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         
          // Formatear la fecha en el formato "dd/MM/yyyy"
@@ -135,11 +128,6 @@ public class Bienvenida extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Instituto Manuel Andres Lopez Obrador - Bienvenida");
         setMinimumSize(new java.awt.Dimension(910, 650));
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         fondo.setBackground(new java.awt.Color(255, 255, 255));
         fondo.setMinimumSize(new java.awt.Dimension(0, 620));
@@ -266,14 +254,7 @@ public class Bienvenida extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    public void setDatos(String usuario, LocalDate fechaInicioSesion, LocalTime horaInicioSesion){
-        this.usuario=usuario;
-        this.fechaInicioSesion = fechaInicioSesion;
-        this.horaInicioSesion = horaInicioSesion;
-    }
-    
-    
+
     private void btn_continuarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_continuarMouseClicked
         if (SwingUtilities.isLeftMouseButton(evt)) {
            login_window ventana = new login_window();
@@ -281,52 +262,6 @@ public class Bienvenida extends javax.swing.JFrame {
            this.dispose();
         }
     }//GEN-LAST:event_btn_continuarMouseClicked
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Object[] opciones = {"Aceptar", "Cancelar"};
-        // Si existe información que no ha sido guardada
-        // Mostrar diálogo que pregunta si desea confirmar la salida
-        int opcionSeleccionada = JOptionPane.showOptionDialog(
-                null,
-                "¿Desea salir de la apliación?",
-                "Confirmación de salida",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                opciones,
-                opciones[1]); // Por defecto, la opción seleccionada es "Cancelar"
-
-        // Manejar las opciones seleccionadas
-        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
-            //Creacion de consulta para el historial de sesione
-            LocalTime horaFinSesion = LocalTime.now();//Hora de salida
-            LocalDate fecha_salida = LocalDate.now();//Fecha de salida
-            String sql = "INSERT INTO historial_sesiones"
-                    + "(usuario, fecha_ingreso, hora_inicioSesion, fecha_salida, hora_FinSesion)"
-                    + "values (?,?,?,?,?)";
-            try {
-                conexion cx = new conexion();
-                PreparedStatement ps = cx.conectar().prepareStatement(sql);//Creacion de la consulta
-                ps.setString(1, usuario);
-                ps.setObject(2, fechaInicioSesion);
-                ps.setObject(3, horaInicioSesion);
-                ps.setObject(4, fecha_salida);
-                ps.setObject(5, horaFinSesion);
-                // Paso 4: Ejecutar la consulta
-                int rowsInserted = ps.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("Historial guardado");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            // Cerrar la aplicación
-            this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        } else {
-            // Evitar que la ventana se cierre
-            this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
-        }
-    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
