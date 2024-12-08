@@ -93,10 +93,10 @@ public class GenerarFactura extends javax.swing.JFrame {
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
-    Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
+    Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_itemMenu.png"));
      //Imagen para menu selccionado
-    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-    Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
+    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_itemSeleccionado.png"));
+    Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_regresar.png"));
     
      public GenerarFactura() {
         initComponents();
@@ -110,7 +110,7 @@ public class GenerarFactura extends javax.swing.JFrame {
         menu_estadisticas.setVisible(false);
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
-        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_escuela.png"));
        
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -121,17 +121,17 @@ public class GenerarFactura extends javax.swing.JFrame {
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
         
         //Imaganes para el menu del usuario
-        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
+        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_historial.png"));
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
-        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
+        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_salir.png"));
         icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
 
         //iconos de buscar
-        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
+        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/btn_buscar3.png"));
         icon_buscarPadre.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscarPadre.getWidth(), icon_buscarPadre.getHeight(), Image.SCALE_SMOOTH)));
         
         //Iconos para opciones de factura
-        Image icon_opFactura = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_factura.png"));
+        Image icon_opFactura = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_factura.png"));
         iconFac_lb.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
         iconFac_lb1.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));
         iconFac_lb2.setIcon(new ImageIcon(icon_opFactura.getScaledInstance(iconFac_lb.getWidth(), iconFac_lb.getHeight(), Image.SCALE_SMOOTH)));

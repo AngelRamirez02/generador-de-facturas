@@ -60,9 +60,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
-    Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
+    Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_itemMenu.png"));
     //Imagen para menu selccionado
-    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
+    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_itemSeleccionado.png"));
     
     public MenuPrincipal() {
         initComponents();
@@ -74,7 +74,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menu_estadisticas.setVisible(false);
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
-        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
        
         //Iconos para botones de menu
@@ -86,9 +86,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor 
         
         //Imaganes para el menu del usuario
-        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
+        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_historial.png"));
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
-        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
+        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_salir.png"));
         icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"

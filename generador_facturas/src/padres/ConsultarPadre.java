@@ -10,6 +10,7 @@ import alumnos.*;
 import com.itextpdf.text.DocumentException;
 import conexion.conexion;
 import emisor.AltaEmisor;
+import facturacion.GenerarFactura;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -72,10 +73,10 @@ public class ConsultarPadre extends javax.swing.JFrame {
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
-    Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
+    Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_itemMenu.png"));
     //Imagen para menu selccionado
-    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-    Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
+    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_itemSeleccionado.png"));
+    Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_regresar.png"));
 
     public ConsultarPadre() {
         initComponents();
@@ -87,11 +88,11 @@ public class ConsultarPadre extends javax.swing.JFrame {
         menu_estadisticas.setVisible(false);
         menu_emisor.setVisible(false);
          //Imagen del logo de la escuela
-        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         
         //Boton de descargar pdf
-        Image descargImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/descarga_icono.png"));
+        Image descargImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/descarga_icono.png"));
         btn_descarga.setIcon(new ImageIcon(descargImg.getScaledInstance(btn_descarga.getWidth(), btn_descarga.getHeight(), Image.SCALE_SMOOTH)));
        
         //Iconos para botones de menu
@@ -105,12 +106,12 @@ public class ConsultarPadre extends javax.swing.JFrame {
         icon_regresarlb.setIcon(new ImageIcon(img_regresar.getScaledInstance(icon_regresarlb.getWidth(), icon_regresarlb.getHeight(), Image.SCALE_SMOOTH)));
         
         //Imaganes para el menu del usuario
-        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
+        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_historial.png"));
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
-        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
+        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_salir.png"));
         icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
         
-        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/btn_buscar3.png"));
+        Image img_buscar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/btn_buscar3.png"));
         icon_buscar.setIcon(new ImageIcon(img_buscar.getScaledInstance(icon_buscar.getWidth(), icon_buscar.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
@@ -599,6 +600,11 @@ public class ConsultarPadre extends javax.swing.JFrame {
         txt_generarFcatura.setForeground(new java.awt.Color(255, 255, 255));
         txt_generarFcatura.setText("Generar factura");
         txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_generarFcatura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_generarFcaturaMouseClicked(evt);
+            }
+        });
         menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
 
         txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
@@ -1859,6 +1865,15 @@ public class ConsultarPadre extends javax.swing.JFrame {
     private void btn_descargaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_descargaMouseExited
         lb_infoDescarga.setVisible(false);
     }//GEN-LAST:event_btn_descargaMouseExited
+
+    private void txt_generarFcaturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_generarFcaturaMouseClicked
+        if(SwingUtilities.isLeftMouseButton(evt)){
+            GenerarFactura ventana = new GenerarFactura();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_generarFcaturaMouseClicked
 
     /**
      * @param args the command line arguments

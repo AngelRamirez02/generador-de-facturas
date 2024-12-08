@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -460,7 +461,10 @@ public class FacturaSAT {
         tablaSellosQr.setWidthPercentage(100);
         
         //-------AGREGAR QR
-        Image qr = Image.getInstance("src/img/qr.png");
+        InputStream is2 = getClass().getResourceAsStream("/img/qr.png");
+        Image qr = Image.getInstance(is2.readAllBytes());
+        is2.close(); // Cierra el InputStream
+        
         qr.scaleToFit(120, 120);
         PdfPCell celdaQR = new PdfPCell(qr);
         celdaQR.setBorder(PdfPCell.NO_BORDER);
@@ -504,7 +508,7 @@ public class FacturaSAT {
         tablaPiePagina.setWidthPercentage(100);
 
         // Celda para el link de la empresa
-        Paragraph paginaEmpresa = new Paragraph("https://mtasolutions.mx/", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
+        Paragraph paginaEmpresa = new Paragraph("", FontFactory.getFont(FontFactory.HELVETICA, 8, BaseColor.BLACK));
         PdfPCell celdaPaginaEmpresa = new PdfPCell(paginaEmpresa);
         celdaPaginaEmpresa.setBorder(PdfPCell.NO_BORDER);
         celdaPaginaEmpresa.setPaddingTop(40);

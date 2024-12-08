@@ -13,6 +13,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class Bienvenida extends javax.swing.JFrame {
     public Bienvenida() {
         initComponents();
         //Personalizar el tamaño del logo
-        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("img/logo_escuela.png"));
+        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         
          // Formatear la fecha en el formato "dd/MM/yyyy"

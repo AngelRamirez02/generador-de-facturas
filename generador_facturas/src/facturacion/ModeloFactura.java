@@ -43,7 +43,7 @@ public class ModeloFactura extends JDialog {
         NumeroALetras numLetra = new NumeroALetras();
         
         //Personalizar el tamaño del logo
-        Image logo_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        Image logo_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         
         //----------DATOS PARA EL EMSISOR------------------------

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -44,8 +45,11 @@ public class FacturaPDF {
         float[] anchosColumnas = {20f, 50f, 30f};
         encabezado.setWidths(anchosColumnas);
 
-        // Agregar imagen
-        Image logo = Image.getInstance("src/img/logo_escuela.png");
+        //Genera la imagen
+        InputStream is = getClass().getResourceAsStream("/img/logo_escuela.png");
+        Image logo = Image.getInstance(is.readAllBytes());
+        is.close(); // Cierra el InputStream
+        
         logo.scaleToFit(80, 80);
         PdfPCell celdaLogo = new PdfPCell(logo);
         celdaLogo.setBorder(PdfPCell.NO_BORDER);
@@ -857,7 +861,11 @@ public class FacturaPDF {
         tablaSellosQr.setWidthPercentage(100);
         
         //-------AGREGAR QR
-        Image qr = Image.getInstance("src/img/qr.png");
+         //Genera la imagen
+        InputStream is2 = getClass().getResourceAsStream("/img/qr.png");
+        Image qr = Image.getInstance(is2.readAllBytes());
+        is2.close(); // Cierra el InputStream
+        
         qr.scaleToFit(120, 120);
         PdfPCell celdaQR = new PdfPCell(qr);
         celdaQR.setBorder(PdfPCell.NO_BORDER);

@@ -52,11 +52,11 @@ public class AltaEmisorPrim extends javax.swing.JFrame {
     
     ObtenerDireccion direc;//clase direccion
     
-    Image menu_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/menu_icon.png"));
+    Image menu_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/menu_icon.png"));
     //Imagen x del menu
-    Image equis_icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/menu_iconx.png"));
-    Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/file.png"));
-    Image info_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_info.png"));
+    Image equis_icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/menu_iconx.png"));
+    Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/file.png"));
+    Image info_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_info.png"));
 
     public AltaEmisorPrim() {
         initComponents();

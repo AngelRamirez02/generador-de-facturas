@@ -39,6 +39,7 @@ import javax.swing.Timer;
 import login.login_window;
 import validacion.Validacion;
 import direccion.ObtenerDireccion;
+import facturacion.GenerarFactura;
 import javax.swing.DefaultComboBoxModel;
 import padres.AltaPadres;
 import padres.ConsultarPadre;
@@ -66,12 +67,12 @@ public class AltaEmisor extends javax.swing.JFrame {
     Color colorbtnSeleccionado = Color.decode("#A91E1F");
     Color colorbtnNoSeleccionado = Color.decode("#C94545");
     //Iconos de item para menu no selccionado
-    Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemMenu.png"));
+    Image icon_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_itemMenu.png"));
      //Imagen para menu selccionado
-    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_itemSeleccionado.png"));
-    Image info_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_info.png"));
+    Image icon_seleccionado = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_itemSeleccionado.png"));
+    Image info_img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_info.png"));
     
-    Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_regresar.png"));
+    Image img_regresar = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_regresar.png"));
     
      public AltaEmisor() {
         initComponents();
@@ -95,7 +96,7 @@ public class AltaEmisor extends javax.swing.JFrame {
         menu_estadisticas.setVisible(false);
         menu_emisor.setVisible(false);
         //Imagen del logo de la escuela
-        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_escuela.png"));
        
         //Iconos para botones de menu
         icon_item.setIcon(new ImageIcon(icon_img.getScaledInstance(icon_item.getWidth(), icon_item.getHeight(), Image.SCALE_SMOOTH)));
@@ -106,9 +107,9 @@ public class AltaEmisor extends javax.swing.JFrame {
         contenedor_menu.setLocation(user_menuIcon.getLocation().x-650, contenedor_menu.getLocation().y);//centrar el contenedor   
         
         //Imaganes para el menu del usuario
-        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_historial.png"));
+        Image icon_historial = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_historial.png"));
         historial_lb.setIcon(new ImageIcon(icon_historial.getScaledInstance(historial_lb.getWidth(), historial_lb.getHeight(), Image.SCALE_SMOOTH)));
-        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_salir.png"));
+        Image icon_salirImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_salir.png"));
         icon_salir.setIcon(new ImageIcon(icon_salirImg.getScaledInstance(icon_salir.getWidth(), icon_salir.getHeight(), Image.SCALE_SMOOTH)));
         
         // Formatear la fecha en el formato "dd/MM/yyyy"
@@ -591,6 +592,11 @@ public class AltaEmisor extends javax.swing.JFrame {
         txt_generarFcatura.setForeground(new java.awt.Color(255, 255, 255));
         txt_generarFcatura.setText("Generar factura");
         txt_generarFcatura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_generarFcatura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_generarFcaturaMouseClicked(evt);
+            }
+        });
         menu_factura.add(txt_generarFcatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 190, 40));
 
         txt_consultarAlmnos1.setBackground(new java.awt.Color(255, 255, 255));
@@ -2211,6 +2217,15 @@ public class AltaEmisor extends javax.swing.JFrame {
     private void entrada_rfcFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrada_rfcFocusLost
         entrada_rfc.setText(entrada_rfc.getText().toUpperCase());
     }//GEN-LAST:event_entrada_rfcFocusLost
+
+    private void txt_generarFcaturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_generarFcaturaMouseClicked
+       if(SwingUtilities.isLeftMouseButton(evt)){
+            GenerarFactura ventana = new GenerarFactura();
+            ventana.setDatos(usuario, fechaInicioSesion, horaInicioSesion);
+            ventana.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_generarFcaturaMouseClicked
 
     /**
      * @param args the command line arguments

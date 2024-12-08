@@ -52,10 +52,10 @@ public class login_window extends javax.swing.JFrame {
     public login_window() {
         initComponents();
         //Modificar el teamño del logo
-        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo_escuela.png"));
+        Image logo_img= Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_escuela.png"));
         logo_lb.setIcon(new ImageIcon(logo_img.getScaledInstance(logo_lb.getWidth(), logo_lb.getHeight(), Image.SCALE_SMOOTH)));
         
-        Image icon_block = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/icon_block.png"));
+        Image icon_block = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon_block.png"));
         img_block.setIcon(new ImageIcon(icon_block.getScaledInstance(img_block.getWidth(), img_block.getHeight(), Image.SCALE_SMOOTH)));
         //Configuracion de bordes para las entradas
         usuario_entrada.setBorder(new CompoundBorder(

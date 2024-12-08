@@ -30,6 +30,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import java.awt.Desktop;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -126,8 +127,10 @@ public class PadresPDF{
         try {
             float[] anchosColumnas = { 20f, 80f }; 
             encabezado.setWidths(anchosColumnas); // Asignar los anchos a las columnas
-            //Creacion de la imagen
-            Image logo = Image.getInstance("src/img/logo_escuela.png");
+             //Genera la imagen
+            InputStream is = getClass().getResourceAsStream("/img/logo_escuela.png");
+            Image logo = Image.getInstance(is.readAllBytes());
+            is.close(); // Cierra el InputStream
             logo.scaleToFit(100, 100);
             //Agrega la imagen a la celda
             PdfPCell celdaLogo = new PdfPCell(logo);
